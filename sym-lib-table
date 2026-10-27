@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "ull-pocket")(type "KiCad")(uri "${KIPRJMOD}/lib/ull-pocket.kicad_sym")(options "")(descr "ull-pocket project symbols"))
+)
