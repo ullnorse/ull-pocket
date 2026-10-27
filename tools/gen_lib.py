@@ -184,8 +184,8 @@ def main():
     # ---------------- ESP32-C6-MINI-1-H4 ----------------
     out.append(ic(
         "ESP32-C6-MINI-1-H4", "U",
-        left=[("8", "EN", "input"), ("23", "IO9", "bidirectional"), ("22", "IO8", "bidirectional"),
-              ("20", "IO15", "bidirectional"), None,
+        left=[("8", "EN", "input"), None, ("23", "IO9", "bidirectional"), None, ("22", "IO8", "bidirectional"),
+              None, ("20", "IO15", "bidirectional"), None,
               ("17", "IO12", "bidirectional"), ("18", "IO13", "bidirectional"), None,
               ("30", "RXD0", "bidirectional"), ("31", "TXD0", "bidirectional")],
         right=[("12", "IO0", "bidirectional"), ("13", "IO1", "bidirectional"), ("5", "IO2", "bidirectional"),
@@ -205,7 +205,7 @@ def main():
     # ---------------- SHT31-DIS-B ----------------
     out.append(ic(
         "SHT31-DIS-B", "U",
-        left=[("1", "SDA", "bidirectional"), ("4", "SCL", "input"), ("2", "ADDR", "input")],
+        left=[("1", "SDA", "bidirectional"), ("4", "SCL", "input"), None, ("2", "ADDR", "input")],
         right=[("3", "ALERT", "output"), ("6", "NRESET", "input")],
         top=[("5", "VDD", "power_in")],
         bottom=[("8,9", "VSS", "power_in"), ("7", "R", "passive")],
@@ -217,7 +217,8 @@ def main():
     # ---------------- BMP585 ----------------
     out.append(ic(
         "BMP585", "U",
-        left=[("2", "SDX", "bidirectional"), ("1", "SCX", "input"), ("7", "CSB", "input"), ("3", "SDO", "bidirectional")],
+        left=[("7", "CSB", "input"), None, ("2", "SDX", "bidirectional"), ("1", "SCX", "input"), None,
+              ("3", "SDO", "passive")],
         right=[("5", "INT", "output")],
         top=[("4", "VDDIO", "power_in"), ("8", "VDD", "power_in")],
         bottom=[("6", "VSSIO/VSS", "power_in")],
@@ -230,8 +231,8 @@ def main():
     # ---------------- LIS3DHTR ----------------
     out.append(ic(
         "LIS3DHTR", "U",
-        left=[("6", "SDA/SDI/SDO", "bidirectional"), ("4", "SCL/SPC", "input"), ("8", "CS", "input"),
-              ("7", "SDO/SA0", "bidirectional")],
+        left=[("8", "CS", "input"), ("7", "SDO/SA0", "passive"), None,
+              ("6", "SDA/SDI/SDO", "bidirectional"), ("4", "SCL/SPC", "input")],
         right=[("11", "INT1", "output"), ("9", "INT2", "output"), ("16", "ADC1", "passive"),
                ("15", "ADC2", "passive"), ("13", "ADC3", "passive")],
         top=[("1", "VDD_IO", "power_in"), ("14", "VDD", "power_in")],
@@ -257,17 +258,17 @@ def main():
     # ---------------- BQ24073RGTR ----------------
     out.append(ic(
         "BQ24073RGTR", "U",
-        left=[("13", "IN", "power_in"), None, ("6", "EN1", "input"), ("5", "EN2", "input"),
+        left=[("13", "IN", "power_in"), None, None, None, ("6", "EN1", "input"), ("5", "EN2", "input"),
               ("4", "~{CE}", "input"), ("15", "TD", "input")],
-        right=[("10,11", "OUT", "power_out"), ("2,3", "BAT", "bidirectional"), None,
-               ("7", "~{PGOOD}", "open_collector"), ("9", "~{CHG}", "open_collector")],
+        right=[("10,11", "OUT", "power_out"), None, None, None, ("2,3", "BAT", "passive"), None, None,
+               None, ("9", "~{CHG}", "open_collector"), ("7", "~{PGOOD}", "open_collector")],
         bottom=[("1", "TS", "passive"), ("16", "ISET", "passive"), ("12", "ILIM", "passive"),
                 ("14", "TMR", "passive"), ("8,17", "VSS", "power_in")],
         fields=F("Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm",
                  "https://www.ti.com/lit/ds/symlink/bq24073.pdf",
                  "BQ24073RGTR", "Texas Instruments", "C15220"),
         desc="1-cell Li-ion charger with power path, 4.4 V OUT regulation, QFN-16",
-        bottom_pitch=2 * G))
+        bottom_pitch=3 * G))
 
     # ---------------- RT9080-33GJ5 ----------------
     out.append(ic(

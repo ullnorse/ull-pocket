@@ -148,7 +148,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -7.62 18.415 0)
+			(at -7.62 20.955 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -159,7 +159,7 @@
 			)
 		)
 		(property "Value" "BMP585"
-			(at -7.62 -18.415 0)
+			(at -7.62 -20.955 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -237,8 +237,8 @@
 		)
 		(symbol "BMP585_0_1"
 			(rectangle
-				(start -7.62 17.78)
-				(end 7.62 -17.78)
+				(start -7.62 20.32)
+				(end 7.62 -20.32)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -250,7 +250,7 @@
 		)
 		(symbol "BMP585_1_1"
 			(pin input line
-				(at -10.16 5.08 0)
+				(at -10.16 2.54 0)
 				(length 2.54)
 				(name "SCX"
 					(effects
@@ -268,7 +268,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -10.16 7.62 0)
+				(at -10.16 5.08 0)
 				(length 2.54)
 				(name "SDX"
 					(effects
@@ -285,8 +285,8 @@
 					)
 				)
 			)
-			(pin bidirectional line
-				(at -10.16 0 0)
+			(pin passive line
+				(at -10.16 -2.54 0)
 				(length 2.54)
 				(name "SDO"
 					(effects
@@ -304,7 +304,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 20.32 270)
+				(at 0 22.86 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
@@ -322,7 +322,7 @@
 				)
 			)
 			(pin output line
-				(at 10.16 7.62 180)
+				(at 10.16 10.16 180)
 				(length 2.54)
 				(name "INT"
 					(effects
@@ -340,7 +340,7 @@
 				)
 			)
 			(pin power_in line
-				(at 5.08 -20.32 90)
+				(at 5.08 -22.86 90)
 				(length 2.54)
 				(name "VSSIO/VSS"
 					(effects
@@ -358,7 +358,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 2.54 0)
+				(at -10.16 10.16 0)
 				(length 2.54)
 				(name "CSB"
 					(effects
@@ -376,7 +376,7 @@
 				)
 			)
 			(pin power_in line
-				(at 5.08 20.32 270)
+				(at 5.08 22.86 270)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -394,7 +394,7 @@
 				)
 			)
 			(pin no_connect line
-				(at -5.08 -15.24 90)
+				(at -5.08 -17.78 90)
 				(length 0)
 				(hide yes)
 				(name "L/M_Pad"
@@ -422,7 +422,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -12.7 15.24 0)
+			(at -17.78 20.32 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -433,7 +433,7 @@
 			)
 		)
 		(property "Value" "BQ24073RGTR"
-			(at -12.7 13.335 0)
+			(at -17.78 18.415 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -511,8 +511,8 @@
 		)
 		(symbol "BQ24073RGTR_0_1"
 			(rectangle
-				(start -12.7 12.7)
-				(end 12.7 -12.7)
+				(start -17.78 17.78)
+				(end 17.78 -17.78)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -524,7 +524,7 @@
 		)
 		(symbol "BQ24073RGTR_1_1"
 			(pin passive line
-				(at -10.16 -15.24 90)
+				(at -15.24 -20.32 90)
 				(length 2.54)
 				(name "TS"
 					(effects
@@ -541,8 +541,8 @@
 					)
 				)
 			)
-			(pin bidirectional line
-				(at 15.24 7.62 180)
+			(pin passive line
+				(at 20.32 5.08 180)
 				(length 2.54)
 				(name "BAT"
 					(effects
@@ -560,7 +560,7 @@
 				)
 			)
 			(pin passive line
-				(at 15.24 7.62 180)
+				(at 20.32 5.08 180)
 				(length 2.54)
 				(hide yes)
 				(name "BAT"
@@ -579,7 +579,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 0 0)
+				(at -20.32 0 0)
 				(length 2.54)
 				(name "~{CE}"
 					(effects
@@ -597,7 +597,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 2.54 0)
+				(at -20.32 2.54 0)
 				(length 2.54)
 				(name "EN2"
 					(effects
@@ -615,7 +615,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 5.08 0)
+				(at -20.32 5.08 0)
 				(length 2.54)
 				(name "EN1"
 					(effects
@@ -633,7 +633,7 @@
 				)
 			)
 			(pin open_collector line
-				(at 15.24 2.54 180)
+				(at 20.32 -7.62 180)
 				(length 2.54)
 				(name "~{PGOOD}"
 					(effects
@@ -651,7 +651,7 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 -15.24 90)
+				(at 15.24 -20.32 90)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -669,7 +669,7 @@
 				)
 			)
 			(pin open_collector line
-				(at 15.24 0 180)
+				(at 20.32 -5.08 180)
 				(length 2.54)
 				(name "~{CHG}"
 					(effects
@@ -687,7 +687,7 @@
 				)
 			)
 			(pin power_out line
-				(at 15.24 10.16 180)
+				(at 20.32 15.24 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -705,7 +705,7 @@
 				)
 			)
 			(pin passive line
-				(at 15.24 10.16 180)
+				(at 20.32 15.24 180)
 				(length 2.54)
 				(hide yes)
 				(name "OUT"
@@ -724,7 +724,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -15.24 90)
+				(at 0 -20.32 90)
 				(length 2.54)
 				(name "ILIM"
 					(effects
@@ -742,7 +742,7 @@
 				)
 			)
 			(pin power_in line
-				(at -15.24 10.16 0)
+				(at -20.32 15.24 0)
 				(length 2.54)
 				(name "IN"
 					(effects
@@ -760,7 +760,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -15.24 90)
+				(at 7.62 -20.32 90)
 				(length 2.54)
 				(name "TMR"
 					(effects
@@ -778,7 +778,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -2.54 0)
+				(at -20.32 -2.54 0)
 				(length 2.54)
 				(name "TD"
 					(effects
@@ -796,7 +796,7 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -15.24 90)
+				(at -7.62 -20.32 90)
 				(length 2.54)
 				(name "ISET"
 					(effects
@@ -814,7 +814,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -15.24 90)
+				(at 15.24 -20.32 90)
 				(length 2.54)
 				(hide yes)
 				(name "VSS"
@@ -1561,7 +1561,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 7.62 0)
+				(at -17.78 0 0)
 				(length 2.54)
 				(name "IO12"
 					(effects
@@ -1579,7 +1579,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 5.08 0)
+				(at -17.78 -2.54 0)
 				(length 2.54)
 				(name "IO13"
 					(effects
@@ -1615,7 +1615,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 12.7 0)
+				(at -17.78 5.08 0)
 				(length 2.54)
 				(name "IO15"
 					(effects
@@ -1652,7 +1652,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 15.24 0)
+				(at -17.78 10.16 0)
 				(length 2.54)
 				(name "IO8"
 					(effects
@@ -1670,7 +1670,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 17.78 0)
+				(at -17.78 15.24 0)
 				(length 2.54)
 				(name "IO9"
 					(effects
@@ -1796,7 +1796,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 0 0)
+				(at -17.78 -7.62 0)
 				(length 2.54)
 				(name "RXD0"
 					(effects
@@ -1814,7 +1814,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 -2.54 0)
+				(at -17.78 -10.16 0)
 				(length 2.54)
 				(name "TXD0"
 					(effects
@@ -3314,7 +3314,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 2.54 0)
+				(at -15.24 -5.08 0)
 				(length 2.54)
 				(name "SCL/SPC"
 					(effects
@@ -3350,7 +3350,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -15.24 5.08 0)
+				(at -15.24 -2.54 0)
 				(length 2.54)
 				(name "SDA/SDI/SDO"
 					(effects
@@ -3367,8 +3367,8 @@
 					)
 				)
 			)
-			(pin bidirectional line
-				(at -15.24 -2.54 0)
+			(pin passive line
+				(at -15.24 2.54 0)
 				(length 2.54)
 				(name "SDO/SA0"
 					(effects
@@ -3386,7 +3386,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 0 0)
+				(at -15.24 5.08 0)
 				(length 2.54)
 				(name "CS"
 					(effects
@@ -4714,7 +4714,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -12.7 10.795 0)
+			(at -12.7 13.335 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4725,7 +4725,7 @@
 			)
 		)
 		(property "Value" "SHT31-DIS-B"
-			(at -12.7 -10.795 0)
+			(at -12.7 -13.335 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4803,8 +4803,8 @@
 		)
 		(symbol "SHT31-DIS-B_0_1"
 			(rectangle
-				(start -12.7 10.16)
-				(end 12.7 -10.16)
+				(start -12.7 12.7)
+				(end 12.7 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -4816,7 +4816,7 @@
 		)
 		(symbol "SHT31-DIS-B_1_1"
 			(pin bidirectional line
-				(at -15.24 2.54 0)
+				(at -15.24 5.08 0)
 				(length 2.54)
 				(name "SDA"
 					(effects
@@ -4852,7 +4852,7 @@
 				)
 			)
 			(pin output line
-				(at 15.24 2.54 180)
+				(at 15.24 5.08 180)
 				(length 2.54)
 				(name "ALERT"
 					(effects
@@ -4870,7 +4870,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 0 0)
+				(at -15.24 2.54 0)
 				(length 2.54)
 				(name "SCL"
 					(effects
@@ -4888,7 +4888,7 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 12.7 270)
+				(at 10.16 15.24 270)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -4906,7 +4906,7 @@
 				)
 			)
 			(pin input line
-				(at 15.24 0 180)
+				(at 15.24 2.54 180)
 				(length 2.54)
 				(name "NRESET"
 					(effects
@@ -4924,7 +4924,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -12.7 90)
+				(at 10.16 -15.24 90)
 				(length 2.54)
 				(name "R"
 					(effects
@@ -4942,7 +4942,7 @@
 				)
 			)
 			(pin power_in line
-				(at 5.08 -12.7 90)
+				(at 5.08 -15.24 90)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -4960,7 +4960,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -12.7 90)
+				(at 5.08 -15.24 90)
 				(length 2.54)
 				(hide yes)
 				(name "VSS"
