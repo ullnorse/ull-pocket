@@ -16,5 +16,5 @@
 | SW1 | Side button | TS24CA (verify side-actuated) | C393942 | 4.6x1.8 | wake button on LP GPIO |
 | Q1 | E-paper boost switch | SI1308EDL-T1-GE3 | C469327 | SOT-323 | per panel reference circuit |
 | D1-D3 | E-paper boost | MBR0530T1G | C82046 | SOD-123 | |
-| L1 | E-paper boost | SLM2012100MIT 10 uH | C2831365 | 0805 | |
+| L1 | E-paper boost | SWPA4018S470MT 47 uH (Isat 570 mA) | C83445 | 4x4x1.8 mm | was SLM2012100MIT 10 uH; GDEY0154D67 reference circuit specifies 47 uH / 500 mA |
 | DISP | E-paper panel | Good Display GDEY0154D67 (SSD1681, 200x200) | — | — | not at LCSC; hand-fit after assembly |

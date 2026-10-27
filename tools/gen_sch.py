@@ -407,7 +407,7 @@ def build():
     cap_down("10u", n_bat)
     # CHG -> LED (K) ; LED (A) -> 1.5k -> VSYS
     p_chg = u6.p("9")
-    x_led = p_chg[0] + 25.4
+    x_led = p_chg[0] + 27.94
     led_c = (x_led, p_chg[1] - G)
     led = Part("LED_Small", nextref("D"), led_c[0], led_c[1], 90, value="RED",
                fields={"Footprint": "LED_SMD:LED_0603_1608Metric", "MPN": "KT-0603R",
@@ -456,7 +456,7 @@ def build():
     wire(n_bn, f_bn)
     pwr("PWR_FLAG", f_bn)
     pin_nc(j2, "MP")
-    note("J2: pin 2 = BAT+, pin 1 = BAT-\\n(verify against cell lead polarity)", (bx + 2.54, by + 26.67))
+    note("J2: pin 2 = BAT+, pin 1 = BAT-\\n(verify cell lead polarity)", (bx + 2.54, by + 26.67))
 
     u5 = ic("MAX17048G+T10", "U5", bx + 27.94, by + 50.8)
     p_vdd = u5.p("3")
@@ -561,9 +561,9 @@ def build():
 
     # ============================ Sensors ==============================
     bx, by = 118.11, 86.36
-    rect(bx, by, bx + 233.68, by + 71.12, C_SNS, "SENSORS (I2C, 3V3)")
+    rect(bx, by, bx + 233.68, by + 68.58, C_SNS, "SENSORS (I2C, 3V3)")
     px = bx + 12.7
-    py = by + 27.94
+    py = by + 22.86
     for i, nm in enumerate(("I2C_SDA", "I2C_SCL")):
         x = px + i * 12.7
         r = res_up("10k", (x, py), "+3V3")
@@ -571,7 +571,7 @@ def build():
         wire(r.p(2), e)
         label(nm, e, "D")
     note("I2C addresses:\\nSHT31 0x44 (ADDR=GND)\\nBMP585 0x46 (SDO=GND)\\nLIS3DH 0x19 (SA0=3V3)\\n"
-         "MAX17048 0x36", (bx + 2.54, by + 50.8))
+         "MAX17048 0x36", (bx + 2.54, by + 43.18))
 
     def top_decouple(part, pins, caps_right, rise=12.7):
         pts = [part.p(p) for p in pins]
@@ -589,7 +589,7 @@ def build():
             xr += 15.24
         return y
 
-    u2 = ic("SHT31-DIS-B", "U2", bx + 66.04, by + 50.8)
+    u2 = ic("SHT31-DIS-B", "U2", bx + 66.04, by + 43.18)
     top_decouple(u2, ["5"], ["100n"])
     stub(u2, "1", "I2C_SDA")
     stub(u2, "4", "I2C_SCL")
@@ -599,7 +599,7 @@ def build():
     pwr("GND", u2.p("8"))
     pwr("GND", u2.p("7"))
 
-    u3 = ic("BMP585", "U3", bx + 129.54, by + 45.72)
+    u3 = ic("BMP585", "U3", bx + 129.54, by + 40.64)
     yn = top_decouple(u3, ["4", "8"], ["100n", "100n"], rise=7.62)
     p_csb = u3.p("7")
     x_b = p_csb[0] - 2.54
@@ -610,7 +610,7 @@ def build():
     stub(u3, "5", "BARO_INT")
     pwr("GND", u3.p("6"))
 
-    u4 = ic("LIS3DHTR", "U4", bx + 196.85, by + 48.26)
+    u4 = ic("LIS3DHTR", "U4", bx + 196.85, by + 43.18)
     yn = top_decouple(u4, ["1", "14"], ["100n", "100n", "10u"], rise=7.62)
     p_cs = u4.p("8")
     p_sa = u4.p("7")
@@ -626,7 +626,7 @@ def build():
     pwr("GND", u4.p("10"))
 
     # ============================ Wake button ==========================
-    bx, by = 118.11, 161.29
+    bx, by = 118.11, 158.75
     rect(bx, by, bx + 66.04, by + 21.59, C_UI, "WAKE BUTTON (side)")
     sw1 = Part("TS24CA", "SW1", bx + 43.18, by + 13.97, 0)
     p1 = sw1.p("1")
@@ -644,8 +644,8 @@ def build():
 
     # ============================ E-paper ==============================
     bx, by = 12.7, 184.15
-    rect(bx, by, bx + 228.6, by + 99.06, C_EPD, "E-PAPER (GDEY0154D67 ref. circuit)")
-    x0, y0 = bx + 15.24, by + 50.8
+    rect(bx, by, bx + 215.9, by + 99.06, C_EPD, "E-PAPER (GDEY0154D67 ref. circuit)")
+    x0, y0 = bx + 15.24, by + 43.18
     pwr("+3V3", (x0, y0))
     cap_down("4u7_25", (x0, y0), side="L")
     l1 = Part("L_Small", "L1", x0 + 10.16, y0, 90, value="47uH",

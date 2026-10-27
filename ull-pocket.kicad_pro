@@ -504,10 +504,82 @@
       {
         "bus_width": 12,
         "line_style": 0,
+        "name": "I2C",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 10,
+        "schematic_color": "rgba(0, 90, 200, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "EPD_SPI",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 11,
+        "schematic_color": "rgba(140, 40, 170, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "EPD_BOOST",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 12,
+        "schematic_color": "rgba(160, 110, 0, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
         "name": "USB",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 1,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 13,
+        "schematic_color": "rgba(0, 140, 80, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "WAKE_IRQ",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 14,
+        "schematic_color": "rgba(0, 140, 140, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "PWR_VBUS",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 15,
+        "schematic_color": "rgba(200, 20, 20, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "PWR_VBAT",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 16,
+        "schematic_color": "rgba(220, 110, 0, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "PWR_VSYS",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 17,
+        "schematic_color": "rgba(190, 60, 110, 1.000)",
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "PWR_3V3",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 18,
+        "schematic_color": "rgba(150, 40, 40, 1.000)",
         "wire_width": 6
       }
     ],
@@ -516,7 +588,108 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "I2C",
+        "pattern": "*I2C_SDA"
+      },
+      {
+        "netclass": "I2C",
+        "pattern": "*I2C_SCL"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_SCK"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_MOSI"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_CS_N"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_DC"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_RST_N"
+      },
+      {
+        "netclass": "EPD_SPI",
+        "pattern": "*EPD_BUSY"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_GDR"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_RESE"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*PREVGH"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*PREVGL"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*Net-(D2-A)"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*Net-(D3-A)"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "*USB_D+"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "*USB_D-"
+      },
+      {
+        "netclass": "WAKE_IRQ",
+        "pattern": "*BTN_N"
+      },
+      {
+        "netclass": "WAKE_IRQ",
+        "pattern": "*ACC_INT1"
+      },
+      {
+        "netclass": "WAKE_IRQ",
+        "pattern": "*BAT_ALRT_N"
+      },
+      {
+        "netclass": "WAKE_IRQ",
+        "pattern": "*USB_PGOOD_N"
+      },
+      {
+        "netclass": "WAKE_IRQ",
+        "pattern": "*BARO_INT"
+      },
+      {
+        "netclass": "PWR_VBUS",
+        "pattern": "VBUS"
+      },
+      {
+        "netclass": "PWR_VBAT",
+        "pattern": "VBAT"
+      },
+      {
+        "netclass": "PWR_VSYS",
+        "pattern": "VSYS"
+      },
+      {
+        "netclass": "PWR_3V3",
+        "pattern": "+3V3"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
