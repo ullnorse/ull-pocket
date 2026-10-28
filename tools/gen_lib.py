@@ -263,7 +263,7 @@ def main():
                None, ("9", "~{CHG}", "open_collector"), ("7", "~{PGOOD}", "open_collector")],
         bottom=[("1", "TS", "passive"), ("16", "ISET", "passive"), ("12", "ILIM", "passive"),
                 ("14", "TMR", "passive"), ("8,17", "VSS", "power_in")],
-        fields=F("Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm",
+        fields=F("Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
                  "https://www.ti.com/lit/ds/symlink/bq24073.pdf",
                  "BQ24073RGTR", "Texas Instruments", "C15220"),
         desc="1-cell Li-ion charger with power path, 4.4 V OUT regulation, QFN-16",
@@ -306,6 +306,17 @@ def main():
                  "FPC-05F-24PH20", "XUNPU", "C2856805"),
         desc="FPC connector 24P 0.5 mm, flip lock, bottom contact; pin names = GDEY0154D67 panel pins",
         bottom_pitch=2 * G))
+
+    # ---------------- PROG: 6-pad pogo programming cluster (no BOM, no placement) ----------------
+    prog = ic(
+        "PROG", "J",
+        right=[("1", "+3V3", "passive"), ("2", "GND", "passive"), ("3", "EN", "passive"),
+              ("4", "IO9/BOOT", "passive"), ("5", "TXD0", "passive"), ("6", "RXD0", "passive")],
+        fields=F("ull-pocket:PogoPads_2x3_P2.54mm_D1.0",
+                 "", "PROG", "-", "-"),
+        desc="Programming pads: 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads; mates with a 2x3 pogo clip or header")
+    prog = prog.replace("(in_bom yes)", "(in_bom no)", 1).replace("(in_pos_files yes)", "(in_pos_files no)", 1)
+    out.append(prog)
 
     # ---------------- TS24CA side switch ----------------
     sw = ('(symbol "TS24CA" (pin_names (offset 1.016) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) '
@@ -383,6 +394,9 @@ def main():
     lib.append(q2)
 
     jst = rename(std("Connector_Generic_MountingPin", "Conn_01x02_MountingPin"), "S2B-PH-SM4-TB")
+    for n in walk(jst):  # drop the body "Mounting" text: it overlaps the MP stub in the schematic
+        if n and n[0] == "symbol":
+            n[:] = [c for c in n if not (isinstance(c, list) and c and c[0] == "text")]
     setprop(jst, "Value", "S2B-PH-SM4-TB")
     setprop(jst, "Footprint", "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal")
     setprop(jst, "Datasheet", "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf")

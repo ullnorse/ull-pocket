@@ -66,7 +66,7 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": "NC", "17": "USB_D-", "18": "USB_D+",
+ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": None, "17": "USB_D-", "18": "USB_D+",
        "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "LED_USER1",
        "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER2", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
@@ -192,8 +192,19 @@ find_part("BTN_N", "+3V3", "100kR")
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
 find_part(net("U1", 8), "+3V3", "10kR")
+find_part(net("U1", 20), "GND", "10kR")          # IO15 strap pull-down
+find_part("EPD_CS_N", "+3V3", "100kR")           # e-paper sleep pull-ups
+find_part("EPD_RST_N", "+3V3", "100kR")
+# programming pogo cluster J4: +3V3, GND, EN, BOOT, TXD0, RXD0; no BOM, no placement
+for pin, nm in ((1, "+3V3"), (2, "GND"), (3, "EN"), (4, "BOOT"), (5, "TXD0"), (6, "RXD0")):
+    expect("J4", pin, nm)
+if flags["J4"] != {"exclude_from_bom", "exclude_from_pos_files"}:
+    bad.append(f"J4 should be excluded from BOM and placement: {flags['J4']}")
+if "PogoPads_2x3_P2.54mm" not in comps["J4"]["fp"]:
+    bad.append("J4 footprint should be the 2x3 pogo pad cluster")
 find_part(net("U1", 8), "GND", "1uF/25V")
 find_part(net("U1", 22), "+3V3", "10kR")
+find_part("+3V3", "GND", "22uF/25V")      # C8 U1 bulk
 find_part("+3V3", "GND", "10uF/10V")
 find_part(net("J1", "A5"), "GND", "5.1kR")
 find_part(net("J1", "B5"), "GND", "5.1kR")
@@ -223,7 +234,7 @@ gate = net("Q2", 1)
 find_part(gate, "VBAT", "100kR")
 if gate in ("GND", "VBAT"):
     bad.append("Q2 gate must be on its own node")
-for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND", "EN", "BOOT", "RXD0", "TXD0"):
+for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND"):
     if not [r for r in comps if r.startswith("TP") and comps[r]["value"] == nm and net(r, 1) == nm]:
         bad.append(f"missing test pad on {nm}")
 for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH", "EPD_PREVGL", "LDO_OUT", "BAT_N"):
@@ -238,7 +249,7 @@ g = [r for r in comps if comps[r]["value"] == "GREEN"][0]
 expect(g, 1, "GND")
 find_part(net(g, 2), "VBUS", "1.5kR")
 # user LEDs: GPIO -> R -> LED -> GND, active high
-for nm, val, col in (("LED_USER1", "1kR", "YELLOW"), ("LED_USER2", "470R", "WHITE")):
+for nm, val, col in (("LED_USER1", "1kR", "YELLOW"), ("LED_USER2", "1kR", "ORANGE")):
     ld = [r for r in comps if comps[r]["value"] == col][0]
     expect(ld, 1, "GND")
     find_part(nm, net(ld, 2), val)
@@ -262,7 +273,7 @@ xnode = x[0] if x else None
 got = {(k, a) for k, a in d.values()}
 if got != {("EPD_PREVGH", sw), ("GND", xnode), (xnode, "EPD_PREVGL")}:
     bad.append(f"boost diodes (K,A) wrong: {got}, sw={sw} x={xnode}")
-find_part(sw, xnode, "4.7uF/25V")
+find_part(sw, xnode, "4.7uF/50V")    # C19
 find_part("EPD_PREVGH", "GND", "1uF/50V")
 find_part("EPD_PREVGL", "GND", "1uF/50V")
 for p in (5, 18, 20, 22, 24):
@@ -272,7 +283,7 @@ same(("J3", 15), ("J3", 16))
 
 # every BOM part has MPN/LCSC/footprint
 for r, c in sorted(comps.items()):
-    if r.startswith("#") or r.startswith("TP"):
+    if r.startswith("#") or r.startswith("TP") or r == "J4":
         continue
     for k in ("MPN", "Manufacturer", "LCSC"):
         if not c.get(k):

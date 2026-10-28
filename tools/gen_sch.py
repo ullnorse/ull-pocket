@@ -64,7 +64,7 @@ ROOT_UUID = None
 
 class Part:
     def __init__(self, lib, ref, x, y, rot=0, value=None, fields=None, fpos=None, in_bom=True,
-                 hide_ref=False, hide_value=False, dnp=False):
+                 hide_ref=False, hide_value=False, dnp=False, in_pos=True):
         x, y = r3(x), r3(y)
         self.lib, self.ref, self.x, self.y, self.rot = lib, ref, x, y, rot
         self.pins = pins_of(lib)
@@ -115,7 +115,7 @@ class Part:
         pins = " ".join(f'(pin "{n}" (uuid "{uid()}"))' for n in dict.fromkeys(allnums))
         bom = "yes" if in_bom else "no"
         dnp_t = "yes" if dnp else "no"
-        pos_t = " (in_pos_files no)" if dnp else ""
+        pos_t = " (in_pos_files no)" if (dnp or not in_pos) else ""
         ITEMS.append(
             f'(symbol (lib_id "ull-pocket:{lib}") (at {fmt(x)} {fmt(y)} {rot}) (unit 1) '
             f'(exclude_from_sim no) (in_bom {bom}) (on_board yes){pos_t} (dnp {dnp_t}) (uuid "{uid()}") '
@@ -248,8 +248,9 @@ PARTS = {
             "MLCC 4.7nF 50V X7R 0402"),
     "1u50": ("1uF/50V", "0603C", "CL10A105KB8NNNC", SEMCO, "C15849", "MLCC 1uF 50V X5R 0603"),
     "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
-    "470": ("470R", "0402R", "0402WGF4700TCE", UNIROYAL, "C25117", "Resistor 470R 1% 0402"),
     "1k": ("1kR", "0402R", "0402WGF1001TCE", UNIROYAL, "C11702", "Resistor 1k 1% 0402"),
+    "22u": ("22uF/25V", "0805C", "CL21A226MAQNNNE", SEMCO, "C45783", "MLCC 22uF 25V X5R 0805"),
+    "4u7_50": ("4.7uF/50V", "0805C", "CL21A475KBQNNNE", SEMCO, "C98192", "MLCC 4.7uF 50V X5R 0805"),
     "4u7_25": ("4.7uF/25V", "0805C", "CL21A475KAQNNNE", SEMCO, "C1779", "MLCC 4.7uF 25V X5R 0805"),
 }
 
@@ -333,13 +334,13 @@ def S(v):
 
 
 # =============================================================== layout
-def hcap_row(pin, name, key, cap_dx=15.24, bus_dx=20.32, txt_dx=22.86):
+def hcap_row(pin, name, key, cap_dx=22.86, bus_dx=30.48):
     """Panel decoupling cap on a J3 pin: wire + net label, horizontal cap, ends on a vertical bus."""
     x, y = pin
     wire(pin, (x + cap_dx - 2.54, y))
-    label(name, (x + 1.27, y), "R")
-    c = C(key, (x + cap_dx, y), "H", fpos={"Reference": (x + txt_dx, y, "left"),
-                                          "Value": (x + txt_dx + 5.08, y, "left")})
+    label(name, (x + 3.81, y), "R")
+    c = C(key, (x + cap_dx, y), "H", fpos={"Reference": (x + cap_dx, y - 1.9, None),
+                                          "Value": (x + cap_dx, y + 1.9, None)})
     wire(c.p(2), (x + bus_dx, y))
     return (x + bus_dx, y)
 
@@ -475,10 +476,13 @@ def build():
     th = Part("Thermistor_NTC_US", "TH1", nt[0], nt[1] + 3.81, 0, value="NTC10k",
               fields={"Footprint": FP["0603R"], "MPN": "SDNT1608X103F3435FTF", "Manufacturer": "Sunlord",
                       "LCSC": "C525660", "Description": "NTC 10k 1% B3435 0603; place under/against the cell"},
-              fpos={"Reference": (nt[0] - 2.0, nt[1] + 2.921, "right"),
-                    "Value": (nt[0] - 2.0, nt[1] + 4.699, "right")})
+              fpos={"Reference": (nt[0] - 3.8, nt[1] + 2.921, "right"),
+                    "Value": (nt[0] - 3.8, nt[1] + 4.699, "right")})
     pwr("GND", th.p(2))
-    res_down("10k", p_ts, dnp=True)
+    r8 = R("10k", (p_ts[0], p_ts[1] + G), "V", "R", dnp=True,
+           fpos={"Reference": (p_ts[0] + 3.4, p_ts[1] + G - 0.889, "left"),
+                 "Value": (p_ts[0] + 3.4, p_ts[1] + G + 0.889, "left")})
+    pwr("GND", r8.p(2))
     res_down("3k3", u6.p("16"))
     res_down("3k3", u6.p("12"))
     pin_nc(u6, "14")
@@ -486,7 +490,7 @@ def build():
     note("ICHG = 890/3.3k = 270 mA\\nUSB500: EN1=1, EN2=0\\n-> IIN <= 500 mA\\n"
          "TS: TH1 10k NTC (B3435), R8 10k DNP\\nCharge window 0.5..50.8 C (see NOTES)\\nTMR open: 5 h timer", (bx + 86.36, by + 56.0))
     # bring-up ground pad
-    gx = (bx + 3.81, by + 60.96)
+    gx = (bx + 3.81, by + 54.61)
     pwr("GND", gx)
     tp("GND", gx)
     gf = add(gx, (1, 0), 7.62)
@@ -568,13 +572,16 @@ def build():
     n_vo = add(p_vo, (1, 0), 7.62)
     wire(p_vo, n_vo)
     cap_down("1u", n_vo)
-    r0 = res_up("0R", n_vo, "+3V3", side="L")
+    r0 = R("0R", (n_vo[0], n_vo[1] - G), "V", "L")
     e_lo = add(n_vo, (1, 0), 2.54)
     wire(n_vo, e_lo)
     label("LDO_OUT", e_lo, "R")
     top = r0.p(1)
-    tp_pt = add(top, (-1, 0), 7.62)
-    wire(top, tp_pt)
+    n3 = add(top, (0, -1), 5.08)
+    wire(top, n3)
+    pwr("+3V3", n3)
+    tp_pt = (top[0] + 7.62, top[1] - 2.54)
+    wire((top[0], tp_pt[1]), tp_pt)
     tp("+3V3", tp_pt)
     pwr("GND", u7.p("2"))
 
@@ -609,7 +616,7 @@ def build():
     ca = add(n33, (1, 0), 7.62)
     cb = add(n33, (-1, 0), 7.62)
     wire(cb, ca)
-    c10 = cap_down("10u", ca, side="R", gnd=False)
+    c10 = cap_down("22u", ca, side="R", gnd=False)
     c01 = cap_down("100n", cb, side="L", gnd=False)
     wire(c01.p(2), c10.p(2))
     pwr("GND", c10.p(2))
@@ -625,37 +632,24 @@ def build():
     wire(m, cm)
     cap_down("1u", cm, side="L")
     label("EN", add(p_en, (-1, 0), 2.54), "L")
-    tp("EN", add(p_en, (-1, 0), 7.62), show=False)
     # IO9 = BOOT strap pad (internal pull-up); IO8 10k pull-up (download boot needs IO8=1)
-    p9 = u1.p("23")
-    e9 = add(p9, (-1, 0), 10.16)
-    wire(p9, e9)
-    label("BOOT", add(p9, (-1, 0), 2.54), "L")
-    tp("BOOT", e9, 90, show=False)
+    stub(u1, "23", "BOOT")
     p8 = u1.p("22")
     n8 = add(p8, (-1, 0), 25.4)
     wire(p8, n8)
     res_up("10k", n8, "+3V3", side="L")
-    pin_nc(u1, "20")
     stub(u1, "17", "USB_D-")
     stub(u1, "18", "USB_D+")
-    for pn, nm in (("30", "RXD0"), ("31", "TXD0")):
-        p = u1.p(pn)
-        e = add(p, (-1, 0), 10.16)
-        wire(p, e)
-        label(nm, add(p, (-1, 0), 2.54), "L")
-        tp(nm, e, 90, show=False)
-    gp = (u1.p("31")[0] - 10.16, u1.p("31")[1] + 10.16)
-    pwr("GND", gp)
-    tp("GND", gp)
+    stub(u1, "30", "RXD0")
+    stub(u1, "31", "TXD0")
     for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
                    ("9", "BARO_INT"), ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("24", "EPD_BUSY"),
                    ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
                    ("29", "EPD_MOSI"), ("10", "LED_USER1"), ("19", "LED_USER2")):
         stub(u1, pn, nm)
-    note("LP GPIO (deep-sleep wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
-         "IO4 BARO_INT\\nIO6/IO7 LP_I2C SDA/SCL\\nIO5/IO14 LED_USER1/2\\nIO8 10k pull-up, IO9 BOOT",
-         (bx + 2.54, by + 60.96))
+    note("LP GPIO (IO0-IO4 wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
+         "IO4 BARO_INT\\nIO5 LED_USER1\\nIO6/7 LP_I2C\\nIO8 10k pull-up",
+         (bx + 2.54, by + 7.0))
 
     # ============================ Sensors ==============================
     bx, by = 118.11, 86.36
@@ -759,7 +753,7 @@ def build():
     e_gh = add(n_gh, (1, 0), 7.62)
     wire(n_gh, e_gh)
     label("EPD_PREVGH", e_gh, "R")
-    c3 = C("4u7_25", (sw[0], sw[1] - 7.62), "V", side="L")
+    c3 = C("4u7_50", (sw[0], sw[1] - 7.62), "V", side="L")
     wire(sw, c3.p(2))
     nx = add(c3.p(1), (0, -1), 5.08)
     wire(c3.p(1), nx)
@@ -785,7 +779,7 @@ def build():
     stub(j3, 2, "EPD_GDR")
     stub(j3, 3, "EPD_RESE")
     hcap_row(P(5), "EPD_VSH2", "1u50")
-    g5 = (P(5)[0] + 20.32, P(5)[1])
+    g5 = (P(5)[0] + 30.48, P(5)[1])
     pwr("GND", g5)
     # BS = GND: long stub so the ground symbol clears the signal labels below
     wire(P(8), (P(8)[0] + 19.05, P(8)[1]))
@@ -800,7 +794,7 @@ def build():
     wire(P(16), (x15 + 2.54, P(16)[1]), (x15 + 2.54, P(15)[1]))
     cap_down("1u50", (x15 + 7.62, P(15)[1]), side="R")
     # VSS(17) + panel caps on a ground bus
-    bus_top = (P(17)[0] + 20.32, P(17)[1])
+    bus_top = (P(17)[0] + 30.48, P(17)[1])
     wire(P(17), bus_top)
     hcap_row(P(18), "EPD_VDD", "1u50")
     hcap_row(P(20), "EPD_VSH1", "1u50")
@@ -819,62 +813,47 @@ def build():
     # ============================ Notes ================================
     bx, by = 159.38, 181.61
     rect(bx, by, 407.67, by + 68.58, C_UI, "NOTES")
-    note("GPIO MAP (ESP32-C6-MINI-1)\\n"
-         "IO0  BAT_ALRT_N  (LP wake)\\n"
-         "IO1  USB_PGOOD_N (LP wake)\\n"
-         "IO2  BTN_N       (LP wake)\\n"
-         "IO3  ACC_INT1    (LP wake)\\n"
-         "IO4  BARO_INT    (LP wake)\\n"
-         "IO5  LED_USER1   (LP, blink)\\n"
-         "IO6  I2C_SDA     (LP_I2C)\\n"
-         "IO7  I2C_SCL     (LP_I2C)\\n"
-         "IO8  strap, 10k pull-up\\n"
-         "IO9  BOOT pad (strap)", (bx + 2.54, by + 9.0))
-    note("\\n"
-         "IO12 USB_D-\\n"
-         "IO13 USB_D+\\n"
-         "IO14 LED_USER2\\n"
-         "IO15 unused (strap)\\n"
-         "IO18 EPD_BUSY\\n"
-         "IO19 EPD_RST_N\\n"
-         "IO20 EPD_DC\\n"
-         "IO21 EPD_CS_N\\n"
-         "IO22 EPD_SCK\\n"
-         "IO23 EPD_MOSI\\n"
-         "EN, RXD0, TXD0, GND: test pads", (bx + 60.96, by + 9.0))
+    NS = 1.65
+    c1, c2, c3 = bx + 2.54, bx + 85.0, bx + 167.0
+    note("WAKE POLARITY (ext1, one level)\\n"
+         "ACC_INT1, BARO_INT: active-high by default.\\n"
+         "BTN_N, BAT_ALRT_N, USB_PGOOD_N: active-low.\\n"
+         "Set LIS3DH INT_POLARITY and BMP585 int_pol\\n"
+         "to active-low so one ext1 level wakes all.", (c1, by + 10.0), NS)
+    note("PROGRAMMING (J4 pads)\\n"
+         "+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\\n"
+         "2x3 pads at 2.54 mm: pogo clip or header.\\n"
+         "Hold BOOT low, pulse EN for download mode.", (c1, by + 31.0), NS)
     note("FIRMWARE\\n"
-         "Set the MAX17048 VALRT / cutoff and the brownout\\n"
-         "level to about 3.5 V: the RT9080 LDO drops out\\n"
-         "below that and the cell must not be run lower.",
-         (bx + 2.54, by + 36.0))
+         "Set the MAX17048 VALRT / cutoff and the\\n"
+         "brownout level to about 3.5 V: the RT9080\\n"
+         "drops out below that.", (c1, by + 50.0), NS)
     note("BRING-UP\\n"
-         "0R link between LDO_OUT and +3V3: replace it with\\n"
-         "an ammeter to measure sleep current.\\n"
-         "Test pads: VBUS, VBAT, VSYS, +3V3, GND.",
-         (bx + 2.54, by + 50.0))
-    x3 = bx + 120.65
-    note("LEDS (all about 1-2 mA)\\n"
-         "D5 green: VBUS - 1.5k - LED, (5.0-2.8)/1.5k = 1.5 mA.\\n"
-         "   Lit with USB present, 0 mA on battery.\\n"
-         "D1 red CHG: VSYS - 1.5k - LED - CHG, 1.3-1.7 mA\\n"
-         "   (VSYS 3.7-4.4 V, Vf 1.8 V), only while charging.\\n"
-         "D6 yellow IO5 (LP GPIO): 1k, (3.3-1.95)/1k = 1.35 mA.\\n"
-         "D7 white IO14: 470R, (3.3-2.7)/470 = 1.3 mA.\\n"
-         "No addressable LEDs: their idle current drains the cell.",
-         (x3, by + 9.0))
-    note("BATTERY TEMPERATURE (TS)\\n"
-         "TH1 10k NTC, B3435 (103AT type), in 0603. Place under or\\n"
-         "against the cell. R8 10k (DNP) in parallel is the fallback.\\n"
-         "BQ24073 sources 75 uA into TS: trips at 0.30 V (4.0k)\\n"
-         "and 2.1 V (28k) -> charging only from 0.5 C to 50.8 C\\n"
-         "(resumes below 47.9 C and above 3.9 C). Fixed 10k = 25 C.\\n"
-         "The bias flows only while VBUS is present.",
-         (x3, by + 33.0))
+         "Sleep current: replace R13 (0R, LDO_OUT to\\n"
+         "+3V3) with an ammeter. Include the e-paper\\n"
+         "boost path in the measurement.\\n"
+         "Test pads: VBUS, VBAT, VSYS, +3V3, GND.", (c2, by + 10.0), NS)
     note("BATTERY\\n"
-         "Q2 (AO3400A) in the BAT- lead blocks a reversed\\n"
-         "cell. MAX17048 and BQ24073 see system GND.\\n"
-         "Mark + and - on the J2 silkscreen.",
-         (bx + 2.54, by + 59.0))
+         "Q2 (AO3400A) in the BAT- lead blocks a\\n"
+         "reversed cell. MAX17048 and BQ24073 see\\n"
+         "system GND. Mark + and - on the J2 silk.", (c2, by + 31.0), NS)
+    note("PULL-UPS / PULL-DOWNS\\n"
+         "EPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\\n"
+         "panel idle while the MCU sleeps.\\n"
+         "IO15: 10k to GND (strap).", (c2, by + 50.0), NS)
+    note("LEDS (about 1-1.5 mA)\\n"
+         "D5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\\n"
+         "   Lit with USB present, 0 on battery.\\n"
+         "D1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\\n"
+         "D6 yellow IO5: 1k, (3.3-2.1)/1k = 1.2 mA.\\n"
+         "D7 orange IO14: 1k, (3.3-2.0)/1k = 1.3 mA.\\n"
+         "No addressable LEDs: idle current.", (c3, by + 10.0), NS)
+    note("BATTERY TEMPERATURE (TS)\\n"
+         "TH1 10k NTC B3435 (0603): place against the\\n"
+         "cell. R8 10k (DNP) is the fallback.\\n"
+         "75 uA bias trips at 0.30 V and 2.1 V:\\n"
+         "charging 0.5..50.8 C (resume < 47.9, > 3.9 C).\\n"
+         "Bias flows only while VBUS is present.", (c3, by + 37.0), NS)
 
     # ============================ Indicator LEDs (added rev 0.3, appended to keep refs stable) =====
     led_f = lambda col, fp, mpn, mfr, lcsc: {  # noqa: E731
@@ -886,7 +865,7 @@ def build():
         lc = (x, r.p(2)[1] + G)
         d = Part("LED_Small", nextref("D"), lc[0], lc[1], 90, value=col,
                  fields=led_f(col.lower(), fp, mpn, mfr, lcsc),
-                 fpos={"Reference": (x + 1.524, lc[1] - 0.889, "left"), "Value": (x + 1.524, lc[1] + 0.889, "left")})
+                 fpos={"Reference": (x + 2.8, lc[1] - 0.889, "left"), "Value": (x + 2.8, lc[1] + 0.889, "left")})
         pwr("GND", d.p("1"))
         return r, d
 
@@ -905,15 +884,37 @@ def build():
     ux, uy = 353.06, 121.92
     rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LEDS")
     for i, (nm, rk, col, fp, mpn, mfr, lcsc) in enumerate((
-            ("LED_USER1", "1k", "YELLOW", "LED_SMD:LED_0805_2012Metric", "KT-0805Y", "Hubei KENTO Elec", "C2296"),
-            ("LED_USER2", "470", "WHITE", "LED_SMD:LED_0603_1608Metric", "KT-0603W", "Hubei KENTO Elec", "C2290"))):
+            ("LED_USER1", "1k", "YELLOW", "LED_SMD:LED_0603_1608Metric", "LTST-C190KSKT", "Lite-On", "C125095"),
+            ("LED_USER2", "1k", "ORANGE", "LED_SMD:LED_0603_1608Metric", "LTST-C191KFKT", "Lite-On", "C160478"))):
         x = ux + 12.7 + i * 25.4
         yt = uy + 15.24
         r, d = led_chain(x, yt, rk, col, fp, mpn, mfr, lcsc, None)
         e = add(r.p(1), (0, -1), G)
         wire(r.p(1), e)
         label(nm, e, "R")
-    note("IO5 -> 1k -> yellow: ~1.3 mA\\nIO14 -> 470R -> white: ~1.3 mA\\nGPIO high = on, 3.3 V", (ux + 2.54, uy + 38.1))
+    note("IO5 -> 1k -> yellow: 1.2 mA\\nIO14 -> 1k -> orange: 1.3 mA\\nGPIO high = on, 3.3 V", (ux + 2.54, uy + 38.1))
+
+    # ============================ rev 0.4 additions (appended so existing refs stay stable) =====
+    mx, my = 12.7, 86.36   # MCU box origin
+    # programming pogo cluster J4: +3V3, GND, EN, IO9/BOOT, TXD0, RXD0 (no BOM, no placement)
+    j4 = Part("PROG", "J4", 25.4, 157.48, 0, in_bom=False, in_pos=False)
+    pin_pwr(j4, "1", "+3V3", 10.16)
+    pin_pwr(j4, "2", "GND", 10.16)
+    for pn, nm in (("3", "EN"), ("4", "BOOT"), ("5", "TXD0"), ("6", "RXD0")):
+        stub(j4, pn, nm)
+    # IO15 strap: 10k pull-down (horizontal, left of the USB labels)
+    p15 = u1.p("20")
+    xr = p15[0] - 17.78
+    wire(p15, (xr, p15[1]))
+    r15 = R("10k", (xr - 2.54, p15[1]), "H", fpos={"Reference": (xr - 0.8, p15[1] + 2.286, None),
+                                                 "Value": (xr - 0.8, p15[1] + 4.064, None)})
+    pwr("GND", r15.p(2) if r15.p(2)[0] < r15.p(1)[0] else r15.p(1))
+    # e-paper sleep pull-ups on CS# and RST# (right of the J3 labels)
+    for n, xo, side in ((10, 24.13, "R"), (12, 36.83, "L")):
+        pt = P(n)
+        e = (pt[0] + xo, pt[1])
+        wire((pt[0] + G, pt[1]), e)
+        res_up("100k", e, "+3V3", side=side)
 
 
 def main():
@@ -956,8 +957,8 @@ def main():
             f'(uuid "{ROOT_UUID}") (paper "A3") ')
     tb = dump(find(t, "title_block"))
     tb = tb.replace('">>TITLE<<"', '"ull-pocket: pocket environment meter"').replace(
-        '">>REVISION<<"', '"0.3"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
-    tb = tb.replace('(rev "0.3")', '(date "2026-10-28") (rev "0.3")')
+        '">>REVISION<<"', '"0.4"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+    tb = tb.replace('(rev "0.4")', '(date "2026-10-28") (rev "0.4")')
     body = "\n".join(ITEMS)
     tail = ('(sheet_instances (path "/" (page "1"))) (embedded_fonts no) '
             + dump(find(t, "embedded_files")) + ")")

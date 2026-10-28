@@ -1,0 +1,123 @@
+(footprint "PogoPads_2x3_P2.54mm_D1.0"
+	(version 20260901)
+	(generator "pcbnew")
+	(generator_version "10.99")
+	(layer "F.Cu")
+	(descr "Programming pads, 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads (pogo clip or 2x3 header)")
+	(property "Reference" "REF**"
+		(at 1.27 -2.4 0)
+		(layer "F.SilkS")
+		(uuid "1e99804c-fbb6-50a1-8022-1a16fae873cb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "PogoPads_2x3_P2.54mm_D1.0"
+		(at 1.27 7.5 0)
+		(layer "F.Fab")
+		(uuid "b84fe3a1-8026-55d0-a434-020738c9cd7c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c7e499d2-d968-5711-bdcb-5eba66980adc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9fa7a6fb-50f9-5795-bd47-3b701441a25c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd exclude_from_pos_files exclude_from_bom)
+	(fp_rect
+		(start -1.27 -1.27)
+		(end 3.81 6.35)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "4bece52e-fa5b-5ed4-bb54-5d2c7fb703ca")
+	)
+	(fp_rect
+		(start -1.77 -1.77)
+		(end 4.31 6.85)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "1ba3691a-bb30-58bb-b4bb-db1324b94d0b")
+	)
+	(fp_text user "1"
+		(at -2.3 0 0)
+		(layer "F.SilkS")
+		(uuid "dafc0570-17df-52c3-9a47-553dee077255")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd circle
+		(at 0 0)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "b88519d6-c0d1-5fd1-bb9a-59e0a3a1ae07")
+	)
+	(pad "2" smd circle
+		(at 2.54 0)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "b42f2f3e-b75b-5de2-bdb4-a2b249e6f1bf")
+	)
+	(pad "3" smd circle
+		(at 0 2.54)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "b051a2bc-ed86-523b-a62c-aa1c45705f73")
+	)
+	(pad "4" smd circle
+		(at 2.54 2.54)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "9cb3241a-1033-5038-88cf-3dbc97df5a63")
+	)
+	(pad "5" smd circle
+		(at 0 5.08)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "a90e5515-407e-5c69-8360-d192ffb4543c")
+	)
+	(pad "6" smd circle
+		(at 2.54 5.08)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "d1290457-d929-508a-a5ed-3f740380a33b")
+	)
+)
