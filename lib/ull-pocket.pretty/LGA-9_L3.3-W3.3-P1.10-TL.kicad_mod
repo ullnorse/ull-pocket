@@ -232,6 +232,17 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "6958bf50-500d-45bc-ab52-2926268862b5")
 	)
+	(fp_rect
+		(start -1.67 -1.67)
+		(end 1.67 1.67)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Mask")
+		(uuid "7c2e9a41-3b5d-4f08-a6c1-0d94e5b27f13")
+	)
 	(zone
 		(net 0)
 		(net_name "")

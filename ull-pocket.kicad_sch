@@ -7,7 +7,7 @@
 	(title_block
 		(title "ull-pocket: pocket environment meter")
 		(date "2026-10-28")
-		(rev "0.4")
+		(rev "0.5")
 		(company "American Embedded")
 		(comment 1 "ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper")
 	)
@@ -8058,7 +8058,7 @@
 		)
 		(uuid "e8627db4-406d-53e5-b47e-fb2dba7a639e")
 	)
-	(text "USER LEDS"
+	(text "USER LED / SPARE GPIO"
 		(exclude_from_sim no)
 		(at 354.33 123.19 0)
 		(effects
@@ -8122,7 +8122,7 @@
 		)
 		(uuid "38fb95b3-6a8e-5638-8f92-fb1e102f622f")
 	)
-	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nIO15: 10k to GND (strap)."
+	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nIO15: 10k to +3V3 (strap). If JTAG_SEL is\nburned, selects USB Serial/JTAG, not pad JTAG."
 		(exclude_from_sim no)
 		(at 244.38 231.61 0)
 		(effects
@@ -8147,9 +8147,9 @@
 		)
 		(uuid "475c7771-f85a-56d2-a951-33df6c161099")
 	)
-	(text "PROGRAMMING (J4 pads)\n+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\n2x3 pads at 2.54 mm: pogo clip or header.\nHold BOOT low, pulse EN for download mode."
+	(text "PROGRAMMING (J4 pads)\n+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\n2x3 pads at 2.54 mm: pogo clip or header.\nHold BOOT low, pulse EN for download mode.\nPin 1 (+3V3) is sense/reference only: do not\nfeed 3.3 V with no battery fitted (RT9080\nback-feed)."
 		(exclude_from_sim no)
-		(at 161.92 212.61 0)
+		(at 161.92 208.61 0)
 		(effects
 			(font
 				(size 1.65 1.65)
@@ -8158,9 +8158,9 @@
 		)
 		(uuid "49127a2f-4122-53ba-a24e-952bf8b00c50")
 	)
-	(text "U3 pin 9 (marking\narea) is not a pad.\nKeepout rule area\nis in the footprint."
+	(text "U3 pin 9 (marking\narea) is not a pad.\nKeepout and F.Mask\nopening: footprint.\nLayout: only each\npad's own trace may\nenter the band under\nthe body."
 		(exclude_from_sim no)
-		(at 230.11 162.36 0)
+		(at 216.11 148.36 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8169,7 +8169,7 @@
 		)
 		(uuid "4a3ee895-25de-5330-b27a-0499dc51498e")
 	)
-	(text "LP GPIO (IO0-IO4 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 LED_USER1\nIO6/7 LP_I2C\nIO8 10k pull-up"
+	(text "LP GPIO (IO0-IO4 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 LED_USER\nIO6/7 LP_I2C\nIO8 10k pull-up"
 		(exclude_from_sim no)
 		(at 15.24 93.36 0)
 		(effects
@@ -8230,6 +8230,17 @@
 		)
 		(uuid "80b9b413-073b-5858-989a-61aaae2da513")
 	)
+	(text "IO5 -> 130R -> blue: 1.5 mA\nGPIO high = on, 3.3 V\nSilk: PWR, CHG, USR"
+		(exclude_from_sim no)
+		(at 355.6 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "882fdacc-e333-51cc-b000-5379d6408a63")
+	)
 	(text "BATTERY\nQ2 (AO3400A) in the BAT- lead blocks a\nreversed cell. MAX17048 and BQ24073 see\nsystem GND. Mark + and - on the J2 silk."
 		(exclude_from_sim no)
 		(at 244.38 212.61 0)
@@ -8266,6 +8277,17 @@
 		)
 		(uuid "ac85f584-a1a8-507e-985b-0774d94bc9b4")
 	)
+	(text "IO14: spare GPIO,\ntest pad only"
+		(exclude_from_sim no)
+		(at 381 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "b106a20a-9920-59e3-8f94-1ac906398930")
+	)
 	(text "J3 pin n = panel pin n (straight FPC). FPC-05F-24PH20 is\nbottom-contact: panel FPC contacts face the PCB. VERIFY."
 		(exclude_from_sim no)
 		(at 15.24 275.59 0)
@@ -8288,7 +8310,7 @@
 		)
 		(uuid "c8c763e0-101a-5486-83d6-9eaef5f9c3fb")
 	)
-	(text "LEDS (about 1-1.5 mA)\nD5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\nD6 yellow IO5: 1k, (3.3-2.1)/1k = 1.2 mA.\nD7 orange IO14: 1k, (3.3-2.0)/1k = 1.3 mA.\nNo addressable LEDs: idle current."
+	(text "LEDS (about 1.3-1.5 mA)\nD5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\nD6 blue IO5: 130R, (3.3-3.1)/130 = 1.5 mA.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
 		(exclude_from_sim no)
 		(at 326.38 191.61 0)
 		(effects
@@ -8363,289 +8385,284 @@
 		)
 		(uuid "f81a7f5e-9ec9-5ff9-a68b-5f6497efb4b6")
 	)
-	(text "IO5 -> 1k -> yellow: 1.2 mA\nIO14 -> 1k -> orange: 1.3 mA\nGPIO high = on, 3.3 V"
-		(exclude_from_sim no)
-		(at 355.6 160.02 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "fd4742d7-6e1b-53ca-a904-3e9e37350fce")
-	)
 	(junction
-		(at 299.72 45.72)
+		(at 35.56 237.49)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "01e521f5-0088-5d62-845d-b96496d16587")
 	)
 	(junction
-		(at 109.22 40.64)
+		(at 48.26 245.11)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "0349ad45-689a-5c25-88c0-c66ab632eff3")
 	)
 	(junction
-		(at 48.26 33.02)
+		(at 339.09 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "05c02fbe-2a76-5adb-b44c-8e6dee15522e")
 	)
 	(junction
-		(at 274.32 30.48)
+		(at 214.63 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "06317d78-5221-5fab-9044-5bc2b09b7b4c")
 	)
 	(junction
-		(at 25.4 227.33)
+		(at 78.74 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "06c26020-5cac-55be-a1a1-582a12337b20")
 	)
 	(junction
-		(at 48.26 212.09)
+		(at 300.99 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "1f724e38-143c-58cb-a2d7-cb89a30e4484")
-	)
-	(junction
-		(at 123.19 224.79)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "20dcaddc-f74f-5888-a459-98fe61d2c5b7")
-	)
-	(junction
-		(at 48.26 227.33)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2424c58b-7f26-5a6f-a55b-7ca85a066e1e")
+		(uuid "0774a246-7b60-546a-aa51-0c8faf3c3728")
 	)
 	(junction
 		(at 257.81 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "2b976119-2f4e-5554-aeaa-846b7f7fee0c")
-	)
-	(junction
-		(at 66.04 33.02)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2db0cdf0-c86e-58f2-8b25-022207b28b3d")
-	)
-	(junction
-		(at 204.47 109.22)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2f249de4-db97-5675-8ae8-3b0f2a745b3a")
-	)
-	(junction
-		(at 55.88 33.02)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "33ca1662-c6db-5945-a15d-af7ad7b9758e")
-	)
-	(junction
-		(at 129.54 45.72)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "397a8fb8-a7ce-5b03-87c8-ca2fe65dc0a2")
-	)
-	(junction
-		(at 300.99 129.54)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "47ff0659-e963-50ba-bdd8-3d37b7d278f4")
-	)
-	(junction
-		(at 320.04 66.04)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4a4fd3bd-33c7-5be8-b39e-a2e8e60dbbdc")
-	)
-	(junction
-		(at 86.36 101.6)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5d793395-30a0-5c92-b0a9-b90b48ceb730")
-	)
-	(junction
-		(at 339.09 109.22)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "728ece19-532e-58cf-9f47-6e6369a400b0")
-	)
-	(junction
-		(at 284.48 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "730a5ca4-0056-51b3-988f-d7d683d9872a")
-	)
-	(junction
-		(at 190.5 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "77852855-724d-5d3b-925e-248159f92bc8")
-	)
-	(junction
-		(at 78.74 101.6)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "794ec10b-8476-5513-9588-b5643c49e263")
-	)
-	(junction
-		(at 25.4 73.66)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7cc31471-b52c-5041-b223-3505f16e2b66")
-	)
-	(junction
-		(at 68.58 201.93)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8e1d8605-8365-5089-9544-852d7dd4907f")
-	)
-	(junction
-		(at 391.16 22.86)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "905c8301-8333-5d27-84a6-36073bd9cfa3")
-	)
-	(junction
-		(at 182.88 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "921d0e3f-69bc-5d62-af89-bbe56f1b4cdc")
-	)
-	(junction
-		(at 25.4 78.74)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "98c6995f-2fb2-5b53-8abf-19f44c2d6c76")
-	)
-	(junction
-		(at 129.54 48.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "991d644d-4a27-50b2-a9dd-ee639ef582f0")
-	)
-	(junction
-		(at 146.05 250.19)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9ca53ba3-c149-5ab4-9a64-6a015451c5eb")
-	)
-	(junction
-		(at 300.99 109.22)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9daa9a3b-746a-5300-9bc3-97c06cdb9a46")
-	)
-	(junction
-		(at 360.68 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a0b94349-9ab0-5c4a-88bf-e9dc85e74726")
-	)
-	(junction
-		(at 109.22 67.31)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a1ca36fc-e96e-59b4-a42d-4c4d1464569e")
-	)
-	(junction
-		(at 146.05 260.35)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a643fa46-62b6-5611-8e46-24ac788332f5")
-	)
-	(junction
-		(at 355.6 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a91d71ea-cd6c-5b97-88ea-d69d756ac172")
-	)
-	(junction
-		(at 93.98 106.68)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ad7675da-f2d3-5bd9-9d84-2843940ae854")
-	)
-	(junction
-		(at 182.88 40.64)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "af13a711-3c1c-531f-b5b6-452bf9a483d0")
-	)
-	(junction
-		(at 118.11 224.79)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b83099dd-81a6-5e8a-b01f-4bb1e2754418")
+		(uuid "0d434407-a86c-525b-a4c7-8d480fb10f7f")
 	)
 	(junction
 		(at 66.04 227.33)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bbe50afe-2820-5eb3-b9b7-0ec6a1ccf66c")
+		(uuid "1f724e38-143c-58cb-a2d7-cb89a30e4484")
 	)
 	(junction
-		(at 48.26 245.11)
+		(at 124.46 30.48)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "be41e617-ee94-5d0d-bea3-a3c4121343c0")
+		(uuid "20dcaddc-f74f-5888-a459-98fe61d2c5b7")
 	)
 	(junction
-		(at 370.84 71.12)
+		(at 123.19 224.79)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c75f6f55-bb08-5086-868b-5a8b7729c9a5")
+		(uuid "2424c58b-7f26-5a6f-a55b-7ca85a066e1e")
 	)
 	(junction
-		(at 146.05 240.03)
+		(at 93.98 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c8a0b3fe-5e4c-5ca0-9961-cebe12416c24")
+		(uuid "272763df-c674-5222-889a-de1f3175f81f")
 	)
 	(junction
-		(at 195.58 40.64)
+		(at 129.54 45.72)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c8a5956d-21d0-5e08-bc90-4c53c7640fc5")
+		(uuid "2b976119-2f4e-5554-aeaa-846b7f7fee0c")
 	)
 	(junction
-		(at 252.73 106.68)
+		(at 129.54 48.26)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "ca5e0bb2-ba55-574a-b52c-5f8d73aeb0b3")
-	)
-	(junction
-		(at 271.78 66.04)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "cb6c5cc7-a232-5efe-8820-868a100e65db")
-	)
-	(junction
-		(at 35.56 237.49)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d4b5c672-f7d6-594f-b400-06d3cbbbe291")
-	)
-	(junction
-		(at 391.16 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d8fdf4c4-362f-58e8-a635-2de0164db15f")
+		(uuid "2db0cdf0-c86e-58f2-8b25-022207b28b3d")
 	)
 	(junction
 		(at 43.18 116.84)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "de174434-7365-5581-892c-9c50e1795cca")
+		(uuid "2f249de4-db97-5675-8ae8-3b0f2a745b3a")
+	)
+	(junction
+		(at 109.22 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "33ca1662-c6db-5945-a15d-af7ad7b9758e")
+	)
+	(junction
+		(at 370.84 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "397a8fb8-a7ce-5b03-87c8-ca2fe65dc0a2")
+	)
+	(junction
+		(at 86.36 101.6)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3cb6fad0-3cd6-5297-b3c4-093ede6a87d4")
+	)
+	(junction
+		(at 299.72 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "47ff0659-e963-50ba-bdd8-3d37b7d278f4")
 	)
 	(junction
 		(at 237.49 106.68)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4a4fd3bd-33c7-5be8-b39e-a2e8e60dbbdc")
+	)
+	(junction
+		(at 146.05 260.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5d793395-30a0-5c92-b0a9-b90b48ceb730")
+	)
+	(junction
+		(at 146.05 250.19)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "730a5ca4-0056-51b3-988f-d7d683d9872a")
+	)
+	(junction
+		(at 68.58 201.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "77852855-724d-5d3b-925e-248159f92bc8")
+	)
+	(junction
+		(at 48.26 227.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "794ec10b-8476-5513-9588-b5643c49e263")
+	)
+	(junction
+		(at 55.88 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7cc31471-b52c-5041-b223-3505f16e2b66")
+	)
+	(junction
+		(at 300.99 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8e1d8605-8365-5089-9544-852d7dd4907f")
+	)
+	(junction
+		(at 182.88 40.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "905c8301-8333-5d27-84a6-36073bd9cfa3")
+	)
+	(junction
+		(at 25.4 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "921d0e3f-69bc-5d62-af89-bbe56f1b4cdc")
+	)
+	(junction
+		(at 271.78 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "98c6995f-2fb2-5b53-8abf-19f44c2d6c76")
+	)
+	(junction
+		(at 355.6 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "991d644d-4a27-50b2-a9dd-ee639ef582f0")
+	)
+	(junction
+		(at 326.39 109.22)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9daa9a3b-746a-5300-9bc3-97c06cdb9a46")
+	)
+	(junction
+		(at 182.88 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a0b94349-9ab0-5c4a-88bf-e9dc85e74726")
+	)
+	(junction
+		(at 331.47 109.22)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a1ca36fc-e96e-59b4-a42d-4c4d1464569e")
+	)
+	(junction
+		(at 204.47 109.22)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a643fa46-62b6-5611-8e46-24ac788332f5")
+	)
+	(junction
+		(at 118.11 224.79)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a91d71ea-cd6c-5b97-88ea-d69d756ac172")
+	)
+	(junction
+		(at 391.16 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ad7675da-f2d3-5bd9-9d84-2843940ae854")
+	)
+	(junction
+		(at 146.05 270.51)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b83099dd-81a6-5e8a-b01f-4bb1e2754418")
+	)
+	(junction
+		(at 109.22 40.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bbe50afe-2820-5eb3-b9b7-0ec6a1ccf66c")
+	)
+	(junction
+		(at 252.73 106.68)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "be41e617-ee94-5d0d-bea3-a3c4121343c0")
+	)
+	(junction
+		(at 137.16 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c0f4a89a-4e1b-54f7-9ecf-d37341fecd68")
+	)
+	(junction
+		(at 66.04 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c75f6f55-bb08-5086-868b-5a8b7729c9a5")
+	)
+	(junction
+		(at 274.32 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c8a0b3fe-5e4c-5ca0-9961-cebe12416c24")
+	)
+	(junction
+		(at 48.26 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c8a5956d-21d0-5e08-bc90-4c53c7640fc5")
+	)
+	(junction
+		(at 146.05 240.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ca5e0bb2-ba55-574a-b52c-5f8d73aeb0b3")
+	)
+	(junction
+		(at 195.58 40.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cb6c5cc7-a232-5efe-8820-868a100e65db")
+	)
+	(junction
+		(at 25.4 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d8fdf4c4-362f-58e8-a635-2de0164db15f")
+	)
+	(junction
+		(at 320.04 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "de174434-7365-5581-892c-9c50e1795cca")
+	)
+	(junction
+		(at 284.48 30.48)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e2a0237d-4a80-542a-83df-3539d35abfdf")
@@ -8654,46 +8671,40 @@
 		(at 265.43 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
+		(uuid "e397c229-8065-51e2-8578-edc03102bccf")
+	)
+	(junction
+		(at 360.68 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
 		(uuid "e840b572-9c3a-5574-b5b0-a5239e76d336")
 	)
 	(junction
-		(at 124.46 30.48)
+		(at 391.16 22.86)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e9f2d51c-1ce7-57b6-87e9-f7a7ba2c6fd4")
 	)
 	(junction
-		(at 326.39 109.22)
+		(at 359.41 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "efe41f7c-f36b-5495-8f00-48993bbe4cf9")
 	)
 	(junction
-		(at 146.05 270.51)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f252f6ca-6bf5-51cb-8d1f-c25889007940")
-	)
-	(junction
-		(at 137.16 66.04)
+		(at 25.4 227.33)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f2a42432-7a34-59cc-84cb-b3ce7d42eecc")
 	)
 	(junction
-		(at 331.47 109.22)
+		(at 48.26 212.09)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "f527c4e6-85d3-5877-87ad-9b9b867af80e")
+		(uuid "f6a7da04-2026-5c84-b64e-f3375fd90234")
 	)
 	(junction
-		(at 214.63 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fa9bd3e7-2e2d-58e3-9231-5e31cefc790b")
-	)
-	(junction
-		(at 359.41 109.22)
+		(at 190.5 30.48)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ffb9f894-689c-5102-bd71-491afc1b2d83")
@@ -8830,6 +8841,16 @@
 	)
 	(wire
 		(pts
+			(xy 137.16 214.63) (xy 139.7 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a9d16e9-cdaf-5bfd-8469-296831df3a0d")
+	)
+	(wire
+		(pts
 			(xy 48.26 227.33) (xy 48.26 232.41)
 		)
 		(stroke
@@ -8840,6 +8861,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 137.16) (xy 38.1 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0bd82b7d-d642-5470-b5eb-66e422666bfb")
+	)
+	(wire
+		(pts
 			(xy 63.5 63.5) (xy 60.96 63.5)
 		)
 		(stroke
@@ -8847,16 +8878,6 @@
 			(type default)
 		)
 		(uuid "0bf1c10d-e8e0-5366-91c0-a1aeba58c2d7")
-	)
-	(wire
-		(pts
-			(xy 118.11 217.17) (xy 152.4 217.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0bf51550-eee0-5e82-8ba2-30fa1ed1cacd")
 	)
 	(wire
 		(pts
@@ -8990,6 +9011,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 162.56) (xy 38.1 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17bb69b7-bdb6-598e-84c6-5caa615b9105")
+	)
+	(wire
+		(pts
 			(xy 326.39 109.22) (xy 331.47 109.22)
 		)
 		(stroke
@@ -9037,16 +9068,6 @@
 			(type default)
 		)
 		(uuid "2480a38f-f6fe-541d-8cca-7aa57dc72ea8")
-	)
-	(wire
-		(pts
-			(xy 35.56 157.48) (xy 38.1 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "24a6fc52-25b6-5154-8082-f476bddfa378")
 	)
 	(wire
 		(pts
@@ -9170,16 +9191,6 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 212.09) (xy 139.7 212.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "31927b54-dd3b-599c-8ca9-de43e0a47fda")
-	)
-	(wire
-		(pts
 			(xy 22.86 73.66) (xy 27.94 73.66)
 		)
 		(stroke
@@ -9197,6 +9208,16 @@
 			(type default)
 		)
 		(uuid "32a779d0-057c-589b-bad0-28f574994585")
+	)
+	(wire
+		(pts
+			(xy 35.56 160.02) (xy 38.1 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "34bed3ac-9f49-5e02-972c-27827ed0d33f")
 	)
 	(wire
 		(pts
@@ -9240,16 +9261,6 @@
 	)
 	(wire
 		(pts
-			(xy 391.16 137.16) (xy 391.16 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3c15f869-6cb8-522f-a28b-7df43ff327fa")
-	)
-	(wire
-		(pts
 			(xy 132.08 30.48) (xy 124.46 30.48)
 		)
 		(stroke
@@ -9277,6 +9288,16 @@
 			(type default)
 		)
 		(uuid "4278ed01-b11b-5462-8c41-e15136cbaba3")
+	)
+	(wire
+		(pts
+			(xy 35.56 152.4) (xy 45.72 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "45661fb9-fb12-5361-86af-19293bee069e")
 	)
 	(wire
 		(pts
@@ -9340,6 +9361,16 @@
 	)
 	(wire
 		(pts
+			(xy 118.11 217.17) (xy 152.4 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "555574dd-24d2-5665-9508-e590d22f0d0d")
+	)
+	(wire
+		(pts
 			(xy 91.44 134.62) (xy 93.98 134.62)
 		)
 		(stroke
@@ -9357,16 +9388,6 @@
 			(type default)
 		)
 		(uuid "56a87e7e-76b4-57b4-8de5-2117c98616ca")
-	)
-	(wire
-		(pts
-			(xy 35.56 149.86) (xy 45.72 149.86)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "573c7793-c92f-56db-ab26-b2c89b3c35ed")
 	)
 	(wire
 		(pts
@@ -9420,6 +9441,16 @@
 	)
 	(wire
 		(pts
+			(xy 137.16 212.09) (xy 137.16 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "604b2711-267f-591b-9b14-09f74b0f777c")
+	)
+	(wire
+		(pts
 			(xy 115.57 222.25) (xy 118.11 222.25)
 		)
 		(stroke
@@ -9437,16 +9468,6 @@
 			(type default)
 		)
 		(uuid "60b3e9ed-f036-54bf-8ed1-cba6b12a5312")
-	)
-	(wire
-		(pts
-			(xy 35.56 162.56) (xy 38.1 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6118a366-0c63-5924-a338-203ea57ee180")
 	)
 	(wire
 		(pts
@@ -9640,6 +9661,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 157.48) (xy 38.1 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7fdda100-accf-5da5-bf29-9996efafbd70")
+	)
+	(wire
+		(pts
 			(xy 132.08 48.26) (xy 129.54 48.26)
 		)
 		(stroke
@@ -9750,6 +9781,16 @@
 	)
 	(wire
 		(pts
+			(xy 391.16 142.24) (xy 391.16 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "91ea21ae-8c80-5ead-85f9-0ac48d10eaa6")
+	)
+	(wire
+		(pts
 			(xy 132.08 40.64) (xy 109.22 40.64)
 		)
 		(stroke
@@ -9767,6 +9808,16 @@
 			(type default)
 		)
 		(uuid "92749d62-6794-53bd-899c-af3736007a19")
+	)
+	(wire
+		(pts
+			(xy 35.56 154.94) (xy 38.1 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9278aa02-7c69-56c5-acc2-e0f79993b17d")
 	)
 	(wire
 		(pts
@@ -9920,6 +9971,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 149.86) (xy 45.72 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac65a442-54f6-502d-a9e0-55a164c82e6f")
+	)
+	(wire
+		(pts
 			(xy 91.44 139.7) (xy 93.98 139.7)
 		)
 		(stroke
@@ -9960,7 +10021,7 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 137.16) (xy 38.1 137.16)
+			(xy 118.11 212.09) (xy 137.16 212.09)
 		)
 		(stroke
 			(width 0)
@@ -10450,16 +10511,6 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 154.94) (xy 38.1 154.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f09c1e32-020a-5833-b01f-0f4db2a7166a")
-	)
-	(wire
-		(pts
 			(xy 204.47 109.22) (xy 212.09 109.22)
 		)
 		(stroke
@@ -10520,16 +10571,6 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 152.4) (xy 45.72 152.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f6477da5-4873-52a0-a545-2ab446cf4b40")
-	)
-	(wire
-		(pts
 			(xy 78.74 106.68) (xy 93.98 106.68)
 		)
 		(stroke
@@ -10537,16 +10578,6 @@
 			(type default)
 		)
 		(uuid "f6d28594-6c62-594c-b7cc-2c59e8260177")
-	)
-	(wire
-		(pts
-			(xy 35.56 160.02) (xy 38.1 160.02)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f70acb39-1435-555c-91c1-ae1476f005b8")
 	)
 	(wire
 		(pts
@@ -10788,7 +10819,7 @@
 		)
 		(uuid "4010845e-a296-5a51-84f2-a8593d5a2aad")
 	)
-	(label "LED_USER1"
+	(label "LED_USER"
 		(at 365.76 134.62 0)
 		(effects
 			(font
@@ -10827,26 +10858,6 @@
 			(justify left bottom)
 		)
 		(uuid "4eebd72a-4354-5034-b3a2-a3810595ee44")
-	)
-	(label "EN"
-		(at 38.1 154.94 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "51263760-d22a-51ad-acbe-69edb6b7c817")
-	)
-	(label "RXD0"
-		(at 38.1 162.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "52a72ee9-82d1-5fe4-995d-f0e81204bd2f")
 	)
 	(label "EPD_VCOM"
 		(at 119.38 270.51 0)
@@ -10887,6 +10898,16 @@
 			(justify right bottom)
 		)
 		(uuid "56f30043-e518-5d24-9366-aeb961b3a9e0")
+	)
+	(label "EN"
+		(at 38.1 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "573c7793-c92f-56db-ab26-b2c89b3c35ed")
 	)
 	(label "I2C_SCL"
 		(at 307.34 63.5 0)
@@ -10988,7 +11009,7 @@
 		)
 		(uuid "7f740730-6f8c-5693-852f-192990a5d184")
 	)
-	(label "LED_USER1"
+	(label "LED_USER"
 		(at 93.98 134.62 0)
 		(effects
 			(font
@@ -10997,16 +11018,6 @@
 			(justify left bottom)
 		)
 		(uuid "82163123-07d6-536c-97fe-0e6e1e1c077d")
-	)
-	(label "BOOT"
-		(at 38.1 157.48 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "82e532f9-8a5b-572b-8c32-4545d88e218d")
 	)
 	(label "EN"
 		(at 53.34 121.92 180)
@@ -11088,6 +11099,16 @@
 		)
 		(uuid "93c2faa7-d4d6-5775-991e-0acb01f994ca")
 	)
+	(label "BOOT"
+		(at 38.1 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "98730830-56b6-5f2e-acc8-d5acab8c673c")
+	)
 	(label "EPD_GDR"
 		(at 118.11 191.77 0)
 		(effects
@@ -11128,16 +11149,6 @@
 		)
 		(uuid "9f211d5b-b12f-598b-8d8b-7911b449fcf8")
 	)
-	(label "LED_USER2"
-		(at 391.16 134.62 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a1162e7a-0a98-5323-8aa2-131dc9bcd252")
-	)
 	(label "EPD_BUSY"
 		(at 93.98 147.32 0)
 		(effects
@@ -11147,16 +11158,6 @@
 			(justify left bottom)
 		)
 		(uuid "a3a41fdb-793b-50cf-8c92-d1c027206e40")
-	)
-	(label "TXD0"
-		(at 38.1 160.02 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a3e13594-a8da-5a94-9586-25c14240ee05")
 	)
 	(label "EPD_MOSI"
 		(at 93.98 160.02 0)
@@ -11258,6 +11259,16 @@
 		)
 		(uuid "dd8ec329-c3c0-5b97-b308-a58a6a029221")
 	)
+	(label "RXD0"
+		(at 38.1 162.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "dea809f2-c51d-5ae7-8e63-9078b99efbaa")
+	)
 	(label "EPD_PREVGL"
 		(at 73.66 201.93 0)
 		(effects
@@ -11288,7 +11299,7 @@
 		)
 		(uuid "e47ffa20-ca4a-563b-9665-07cf58287515")
 	)
-	(label "LED_USER2"
+	(label "SPARE_IO14"
 		(at 93.98 144.78 0)
 		(effects
 			(font
@@ -11317,6 +11328,26 @@
 			(justify left bottom)
 		)
 		(uuid "ee7aa4dc-f1f2-5c5f-a107-25b3d3341cdd")
+	)
+	(label "TXD0"
+		(at 38.1 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f6477da5-4873-52a0-a545-2ab446cf4b40")
+	)
+	(label "SPARE_IO14"
+		(at 391.16 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fc708536-5148-503d-8f19-6ab8e72d29e1")
 	)
 	(label "EPD_RESE"
 		(at 53.34 245.11 0)
@@ -11956,84 +11987,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 45.72 152.4 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "0bd82b7d-d642-5470-b5eb-66e422666bfb")
-		(property "Reference" "#PWR089"
-			(at 45.72 158.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 45.72 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 45.72 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 45.72 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "dea809f2-c51d-5ae7-8e63-9078b99efbaa")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR089")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:R_Small_US")
 		(at 261.62 43.18 0)
 		(unit 1)
@@ -12453,6 +12406,120 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "TP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 152.4 214.63 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "121aa42d-16ed-5eff-a5a5-137d5d64e4ae")
+		(property "Reference" "R26"
+			(at 150.876 213.741 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "100kR"
+			(at 150.876 215.519 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 100k 1% 0402"
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1003TCE"
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 152.4 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cbd0a5e8-9f53-57b2-ab74-06ce4cafb285")
+		)
+		(pin "2"
+			(uuid "f68c657b-4913-5c98-8bd2-ab9b1bad5aa1")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R26")
 					(unit 1)
 				)
 			)
@@ -14119,84 +14186,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 391.16 147.32 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2d1f2a2a-2e2d-52d6-8a58-7d699e5f56fb")
-		(property "Reference" "#PWR087"
-			(at 391.16 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 391.16 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 391.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 391.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 391.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "bf64987b-6fc3-5c0a-911a-dfc2bfec7376")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR087")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:AO3400A")
 		(at 271.78 45.72 0)
 		(unit 1)
@@ -14335,7 +14324,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "YELLOW"
+		(property "Value" "BLUE"
 			(at 368.56 145.669 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14368,7 +14357,7 @@
 				)
 			)
 		)
-		(property "Description" "LED yellow"
+		(property "Description" "LED blue"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14390,7 +14379,7 @@
 				)
 			)
 		)
-		(property "MPN" "LTST-C190KSKT"
+		(property "MPN" "KT-0603B"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14401,7 +14390,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Lite-On"
+		(property "Manufacturer" "Hubei KENTO Elec"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14412,7 +14401,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C125095"
+		(property "LCSC" "C2288"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14815,83 +14804,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "C18")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:+3V3")
-		(at 45.72 149.86 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "34bed3ac-9f49-5e02-972c-27827ed0d33f")
-		(property "Reference" "#PWR088"
-			(at 45.72 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 45.72 146.304 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 45.72 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "3.3 V system rail (RT9080 output)"
-			(at 45.72 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "98730830-56b6-5f2e-acc8-d5acab8c673c")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR088")
 					(unit 1)
 				)
 			)
@@ -15432,120 +15344,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:R_Small_US")
-		(at 152.4 214.63 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "3cb6fad0-3cd6-5297-b3c4-093ede6a87d4")
-		(property "Reference" "R26"
-			(at 150.876 213.741 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "100kR"
-			(at 150.876 215.519 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor 100k 1% 0402"
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "0402WGF1003TCE"
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C25741"
-			(at 152.4 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0d434407-a86c-525b-a4c7-8d480fb10f7f")
-		)
-		(pin "2"
-			(uuid "c0f4a89a-4e1b-54f7-9ecf-d37341fecd68")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "R26")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:GND")
 		(at 359.41 114.3 0)
 		(unit 1)
@@ -15809,6 +15607,132 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:PROG")
+		(at 25.4 157.48 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files no)
+		(dnp no)
+		(uuid "3fafb773-466c-587c-ae9f-5daea44824e2")
+		(property "Reference" "J4"
+			(at 17.78 144.78 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "PROG"
+			(at 17.78 146.685 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "ull-pocket:PogoPads_2x3_P2.54mm_D1.0"
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Programming pads: 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads; mates with a 2x3 pogo clip or header"
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "PROG"
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "-"
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "-"
+			(at 25.4 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3c15f869-6cb8-522f-a28b-7df43ff327fa")
+		)
+		(pin "2"
+			(uuid "a1162e7a-0a98-5323-8aa2-131dc9bcd252")
+		)
+		(pin "3"
+			(uuid "fd4742d7-6e1b-53ca-a904-3e9e37350fce")
+		)
+		(pin "4"
+			(uuid "036ae858-56e7-5110-a036-bf1b88ebc3b5")
+		)
+		(pin "5"
+			(uuid "f2a6dddc-861f-51a9-aca6-69b38696c0ce")
+		)
+		(pin "6"
+			(uuid "df72a75b-7e64-5c0d-b3a6-f0d7addf534c")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -17059,6 +16983,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 33.02 137.16 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "52a72ee9-82d1-5fe4-995d-f0e81204bd2f")
+		(property "Reference" "#PWR089"
+			(at 33.02 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 33.02 133.604 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 33.02 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6118a366-0c63-5924-a338-203ea57ee180")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR089")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ull-pocket:GND")
 		(at 373.38 45.72 0)
 		(unit 1)
@@ -17131,6 +17132,84 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "#PWR041")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:GND")
+		(at 45.72 152.4 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "557d59b9-e063-5a4d-be03-0439af841885")
+		(property "Reference" "#PWR088"
+			(at 45.72 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 45.72 156.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 45.72 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 45.72 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cd4753cf-cde9-53cc-8344-917f08dc8f2e")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR088")
 					(unit 1)
 				)
 			)
@@ -18099,131 +18178,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:LED_Small")
-		(at 391.16 144.78 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6e168a8d-4876-5d08-8bdc-4ee0adac6648")
-		(property "Reference" "D7"
-			(at 393.96 143.891 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "ORANGE"
-			(at 393.96 145.669 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "LED orange"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "LTST-C191KFKT"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "Lite-On"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C160478"
-			(at 391.16 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e76a3013-a921-58fb-a4b8-dcd5f2e92856")
-		)
-		(pin "2"
-			(uuid "3460d756-740c-51b4-b186-7f9f9b5c89b8")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "D7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:VBAT")
 		(at 266.7 60.96 0)
 		(unit 1)
@@ -18565,118 +18519,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "#PWR010")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:R_Small_US")
-		(at 35.56 137.16 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "789272cb-2b13-50ee-bcd8-81466b04aa25")
-		(property "Reference" "R24"
-			(at 37.3 139.446 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10kR"
-			(at 37.3 141.224 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor 10k 1% 0402"
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "0402WGF1002TCE"
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C25744"
-			(at 35.56 137.16 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d5e3e799-2086-53d6-8d8a-069b32d80e51")
-		)
-		(pin "2"
-			(uuid "7ba9c869-07d5-55ea-96d6-48b69a3eec1d")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "R24")
 					(unit 1)
 				)
 			)
@@ -19874,6 +19716,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 152.4 212.09 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8993119b-386b-57f3-bf8b-03284c8b8b89")
+		(property "Reference" "#PWR091"
+			(at 152.4 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 152.4 208.534 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 152.4 212.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 212.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 152.4 212.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0bf51550-eee0-5e82-8ba2-30fa1ed1cacd")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR091")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ull-pocket:GND")
 		(at 326.39 152.4 0)
 		(unit 1)
@@ -20440,132 +20359,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:PROG")
-		(at 25.4 157.48 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files no)
-		(dnp no)
-		(uuid "9278aa02-7c69-56c5-acc2-e0f79993b17d")
-		(property "Reference" "J4"
-			(at 17.78 144.78 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "PROG"
-			(at 17.78 146.685 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Footprint" "ull-pocket:PogoPads_2x3_P2.54mm_D1.0"
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Programming pads: 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads; mates with a 2x3 pogo clip or header"
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "PROG"
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "-"
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "-"
-			(at 25.4 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f82128d4-479f-59f1-bb02-452af7dbdf11")
-		)
-		(pin "2"
-			(uuid "f9990757-7de0-5ee4-b628-9231a6585dc1")
-		)
-		(pin "3"
-			(uuid "45661fb9-fb12-5361-86af-19293bee069e")
-		)
-		(pin "4"
-			(uuid "f17a01e2-90a0-5735-8aa2-ba7e308f8d88")
-		)
-		(pin "5"
-			(uuid "cd4753cf-cde9-53cc-8344-917f08dc8f2e")
-		)
-		(pin "6"
-			(uuid "557d59b9-e063-5a4d-be03-0439af841885")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -21374,40 +21167,40 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:R_Small_US")
-		(at 391.16 139.7 0)
+		(lib_id "ull-pocket:TestPoint")
+		(at 391.16 142.24 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9ede9934-244a-55ac-b6e3-4a0f33a10d43")
-		(property "Reference" "R23"
-			(at 392.684 138.811 0)
+		(property "Reference" "TP6"
+			(at 391.16 142.24 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "1kR"
-			(at 392.684 140.589 0)
+		(property "Value" "SPARE_IO14"
+			(at 391.16 136.906 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 391.16 139.7 0)
+		(property "Footprint" "TestPoint:TestPoint_Pad_1.0x1.0mm"
+			(at 391.16 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21418,7 +21211,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 391.16 139.7 0)
+			(at 391.16 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21428,41 +21221,8 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 1k 1% 0402"
-			(at 391.16 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "0402WGF1001TCE"
-			(at 391.16 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 391.16 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C11702"
-			(at 391.16 139.7 0)
+		(property "Description" "Test pad 1.0 mm square, not a BOM part"
+			(at 391.16 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21473,15 +21233,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "c671939b-8627-59b1-8654-0d12241ba701")
-		)
-		(pin "2"
 			(uuid "2be4ec79-c163-5ded-8245-94dbafa648bb")
 		)
 		(instances
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "R23")
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -22219,6 +21976,83 @@
 		)
 	)
 	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 139.7 209.55 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "adc95433-abce-58f2-9d4c-a823cb5f1887")
+		(property "Reference" "#PWR090"
+			(at 139.7 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 139.7 205.994 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 139.7 209.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 139.7 209.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 139.7 209.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "31927b54-dd3b-599c-8ca9-de43e0a47fda")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR090")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ull-pocket:R_Small_US")
 		(at 365.76 139.7 0)
 		(unit 1)
@@ -22240,7 +22074,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1kR"
+		(property "Value" "130R"
 			(at 367.284 140.589 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22273,7 +22107,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 1k 1% 0402"
+		(property "Description" "Resistor 130R 1% 0402"
 			(at 365.76 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -22284,7 +22118,7 @@
 				)
 			)
 		)
-		(property "MPN" "0402WGF1001TCE"
+		(property "MPN" "0402WGF1300TCE"
 			(at 365.76 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -22306,7 +22140,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" "C270649"
 			(at 365.76 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -24287,7 +24121,7 @@
 	)
 	(symbol
 		(lib_id "ull-pocket:R_Small_US")
-		(at 139.7 209.55 0)
+		(at 139.7 212.09 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -24295,9 +24129,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "cbd0a5e8-9f53-57b2-ab74-06ce4cafb285")
+		(uuid "cc342ebc-4746-53b9-a8e1-485ada1fa2b8")
 		(property "Reference" "R25"
-			(at 141.224 208.661 0)
+			(at 141.224 209.931 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -24308,7 +24142,7 @@
 			)
 		)
 		(property "Value" "100kR"
-			(at 141.224 210.439 0)
+			(at 141.224 211.709 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -24319,7 +24153,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24330,7 +24164,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24341,7 +24175,7 @@
 			)
 		)
 		(property "Description" "Resistor 100k 1% 0402"
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24352,7 +24186,7 @@
 			)
 		)
 		(property "MPN" "0402WGF1003TCE"
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24363,7 +24197,7 @@
 			)
 		)
 		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24374,7 +24208,7 @@
 			)
 		)
 		(property "LCSC" "C25741"
-			(at 139.7 209.55 0)
+			(at 139.7 212.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24385,10 +24219,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "4da1804b-9e6c-52b4-a8d2-2c7d035fe4d8")
+			(uuid "789272cb-2b13-50ee-bcd8-81466b04aa25")
 		)
 		(pin "2"
-			(uuid "b3dc9ca2-b668-5124-b2c6-f611f3cf6226")
+			(uuid "d571e13e-4d08-5172-8404-b192d654efc7")
 		)
 		(instances
 			(project "ull-pocket"
@@ -24661,83 +24495,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "U3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:+3V3")
-		(at 139.7 207.01 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "cd9251f1-7bee-5a9e-81d6-0c49ff46995f")
-		(property "Reference" "#PWR091"
-			(at 139.7 210.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 139.7 203.454 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 139.7 207.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 139.7 207.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "3.3 V system rail (RT9080 output)"
-			(at 139.7 207.01 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "121aa42d-16ed-5eff-a5a5-137d5d64e4ae")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR091")
 					(unit 1)
 				)
 			)
@@ -25822,84 +25579,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 33.02 137.16 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "df0b63f0-2d3b-554a-9cc8-4d413e8a5186")
-		(property "Reference" "#PWR090"
-			(at 33.02 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 33.02 140.97 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 33.02 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 33.02 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 33.02 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "cc342ebc-4746-53b9-a8e1-485ada1fa2b8")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR090")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:VSYS")
 		(at 355.6 30.48 0)
 		(unit 1)
@@ -26127,83 +25806,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "#PWR086")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:+3V3")
-		(at 152.4 212.09 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e397c229-8065-51e2-8578-edc03102bccf")
-		(property "Reference" "#PWR092"
-			(at 152.4 215.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 152.4 208.534 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 152.4 212.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 152.4 212.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "3.3 V system rail (RT9080 output)"
-			(at 152.4 212.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "272763df-c674-5222-889a-de1f3175f81f")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR092")
 					(unit 1)
 				)
 			)
@@ -27566,6 +27168,118 @@
 		)
 	)
 	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 35.56 137.16 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f70acb39-1435-555c-91c1-ae1476f005b8")
+		(property "Reference" "R24"
+			(at 37.3 139.446 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10kR"
+			(at 37.3 141.224 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 10k 1% 0402"
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1002TCE"
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
+			(at 35.56 137.16 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "24a6fc52-25b6-5154-8082-f476bddfa378")
+		)
+		(pin "2"
+			(uuid "82e532f9-8a5b-572b-8c32-4545d88e218d")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "ull-pocket:SHT31-DIS-B")
 		(at 194.31 134.62 0)
 		(unit 1)
@@ -27773,6 +27487,83 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "#PWR062")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 45.72 149.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f9990757-7de0-5ee4-b628-9231a6585dc1")
+		(property "Reference" "#PWR087"
+			(at 45.72 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 45.72 146.304 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 45.72 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 45.72 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f82128d4-479f-59f1-bb02-452af7dbdf11")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR087")
 					(unit 1)
 				)
 			)

@@ -248,6 +248,7 @@ PARTS = {
             "MLCC 4.7nF 50V X7R 0402"),
     "1u50": ("1uF/50V", "0603C", "CL10A105KB8NNNC", SEMCO, "C15849", "MLCC 1uF 50V X5R 0603"),
     "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
+    "130R": ("130R", "0402R", "0402WGF1300TCE", UNIROYAL, "C270649", "Resistor 130R 1% 0402"),
     "1k": ("1kR", "0402R", "0402WGF1001TCE", UNIROYAL, "C11702", "Resistor 1k 1% 0402"),
     "22u": ("22uF/25V", "0805C", "CL21A226MAQNNNE", SEMCO, "C45783", "MLCC 22uF 25V X5R 0805"),
     "4u7_50": ("4.7uF/50V", "0805C", "CL21A475KBQNNNE", SEMCO, "C98192", "MLCC 4.7uF 50V X5R 0805"),
@@ -645,10 +646,10 @@ def build():
     for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
                    ("9", "BARO_INT"), ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("24", "EPD_BUSY"),
                    ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
-                   ("29", "EPD_MOSI"), ("10", "LED_USER1"), ("19", "LED_USER2")):
+                   ("29", "EPD_MOSI"), ("10", "LED_USER"), ("19", "SPARE_IO14")):
         stub(u1, pn, nm)
     note("LP GPIO (IO0-IO4 wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
-         "IO4 BARO_INT\\nIO5 LED_USER1\\nIO6/7 LP_I2C\\nIO8 10k pull-up",
+         "IO4 BARO_INT\\nIO5 LED_USER\\nIO6/7 LP_I2C\\nIO8 10k pull-up",
          (bx + 2.54, by + 7.0))
 
     # ============================ Sensors ==============================
@@ -688,7 +689,7 @@ def build():
     stub(u3, "5", "BARO_INT")
     pwr("GND", u3.p("6"))
     # rule area (keepout) is part of the footprint; note here
-    note("U3 pin 9 (marking\\narea) is not a pad.\\nKeepout rule area\\nis in the footprint.", (bx + 112, by + 76))
+    note("U3 pin 9 (marking\\narea) is not a pad.\\nKeepout and F.Mask\\nopening: footprint.\\nLayout: only each\\npad's own trace may\\nenter the band under\\nthe body.", (bx + 98, by + 62))
 
     u4 = ic("LIS3DHTR", "U4", bx + 203.2, by + 48.26)
     y, x0 = rail_caps(u4, ["1", "14"], ["100n", "100n", "10u"], 7.62)
@@ -823,7 +824,10 @@ def build():
     note("PROGRAMMING (J4 pads)\\n"
          "+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\\n"
          "2x3 pads at 2.54 mm: pogo clip or header.\\n"
-         "Hold BOOT low, pulse EN for download mode.", (c1, by + 31.0), NS)
+         "Hold BOOT low, pulse EN for download mode.\\n"
+         "Pin 1 (+3V3) is sense/reference only: do not\\n"
+         "feed 3.3 V with no battery fitted (RT9080\\n"
+         "back-feed).", (c1, by + 27.0), NS)
     note("FIRMWARE\\n"
          "Set the MAX17048 VALRT / cutoff and the\\n"
          "brownout level to about 3.5 V: the RT9080\\n"
@@ -840,13 +844,14 @@ def build():
     note("PULL-UPS / PULL-DOWNS\\n"
          "EPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\\n"
          "panel idle while the MCU sleeps.\\n"
-         "IO15: 10k to GND (strap).", (c2, by + 50.0), NS)
-    note("LEDS (about 1-1.5 mA)\\n"
+         "IO15: 10k to +3V3 (strap). If JTAG_SEL is\\n"
+         "burned, selects USB Serial/JTAG, not pad JTAG.", (c2, by + 50.0), NS)
+    note("LEDS (about 1.3-1.5 mA)\\n"
          "D5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\\n"
          "   Lit with USB present, 0 on battery.\\n"
          "D1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\\n"
-         "D6 yellow IO5: 1k, (3.3-2.1)/1k = 1.2 mA.\\n"
-         "D7 orange IO14: 1k, (3.3-2.0)/1k = 1.3 mA.\\n"
+         "D6 blue IO5: 130R, (3.3-3.1)/130 = 1.5 mA.\\n"
+         "Silkscreen: D5 PWR, D1 CHG, D6 USR.\\n"
          "No addressable LEDs: idle current.", (c3, by + 10.0), NS)
     note("BATTERY TEMPERATURE (TS)\\n"
          "TH1 10k NTC B3435 (0603): place against the\\n"
@@ -880,19 +885,23 @@ def build():
          fpos={"Reference": (xp - 2.7, lcp[1] - 0.889, "right"), "Value": (xp - 2.7, lcp[1] + 0.889, "right")})
     pwr("GND", (xp, lcp[1] + G))
 
-    # user LEDs (GPIO, active high) in a small block in the free corner of the sensor area
+    # user LED (GPIO, active high) + spare-GPIO test pad in a small block in the free corner of the sensor area
     ux, uy = 353.06, 121.92
-    rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LEDS")
-    for i, (nm, rk, col, fp, mpn, mfr, lcsc) in enumerate((
-            ("LED_USER1", "1k", "YELLOW", "LED_SMD:LED_0603_1608Metric", "LTST-C190KSKT", "Lite-On", "C125095"),
-            ("LED_USER2", "1k", "ORANGE", "LED_SMD:LED_0603_1608Metric", "LTST-C191KFKT", "Lite-On", "C160478"))):
-        x = ux + 12.7 + i * 25.4
-        yt = uy + 15.24
-        r, d = led_chain(x, yt, rk, col, fp, mpn, mfr, lcsc, None)
-        e = add(r.p(1), (0, -1), G)
-        wire(r.p(1), e)
-        label(nm, e, "R")
-    note("IO5 -> 1k -> yellow: 1.2 mA\\nIO14 -> 1k -> orange: 1.3 mA\\nGPIO high = on, 3.3 V", (ux + 2.54, uy + 38.1))
+    rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LED / SPARE GPIO")
+    x = ux + 12.7
+    r, d = led_chain(x, uy + 15.24, "130R", "BLUE", "LED_SMD:LED_0603_1608Metric", "KT-0603B", "Hubei KENTO Elec", "C2288", None)
+    e = add(r.p(1), (0, -1), G)
+    wire(r.p(1), e)
+    label("LED_USER", e, "R")
+    REFCOUNT["R"] = REFCOUNT.get("R", 0) + 1   # rev 0.5: R23 retired; keep R24/R25/R26 stable
+    xs = ux + 38.1
+    tp_s = (xs, uy + 20.32)
+    es = (xs, uy + 22.86)
+    wire(tp_s, es)
+    label("SPARE_IO14", es, "R")
+    tp("SPARE_IO14", tp_s, show=False)
+    note("IO5 -> 130R -> blue: 1.5 mA\\nGPIO high = on, 3.3 V\\nSilk: PWR, CHG, USR", (ux + 2.54, uy + 38.1))
+    note("IO14: spare GPIO,\\ntest pad only", (ux + 27.94, uy + 30.48))
 
     # ============================ rev 0.4 additions (appended so existing refs stay stable) =====
     mx, my = 12.7, 86.36   # MCU box origin
@@ -902,18 +911,21 @@ def build():
     pin_pwr(j4, "2", "GND", 10.16)
     for pn, nm in (("3", "EN"), ("4", "BOOT"), ("5", "TXD0"), ("6", "RXD0")):
         stub(j4, pn, nm)
-    # IO15 strap: 10k pull-down (horizontal, left of the USB labels)
+    # IO15 strap: 10k pull-up (horizontal, left of the USB labels)
     p15 = u1.p("20")
     xr = p15[0] - 17.78
     wire(p15, (xr, p15[1]))
     r15 = R("10k", (xr - 2.54, p15[1]), "H", fpos={"Reference": (xr - 0.8, p15[1] + 2.286, None),
                                                  "Value": (xr - 0.8, p15[1] + 4.064, None)})
-    pwr("GND", r15.p(2) if r15.p(2)[0] < r15.p(1)[0] else r15.p(1))
+    pwr("+3V3", r15.p(2) if r15.p(2)[0] < r15.p(1)[0] else r15.p(1))
     # e-paper sleep pull-ups on CS# and RST# (right of the J3 labels)
-    for n, xo, side in ((10, 24.13, "R"), (12, 36.83, "L")):
+    for n, xo, side, dy in ((10, 24.13, "RU", 2.54), (12, 36.83, "L", 0)):
         pt = P(n)
-        e = (pt[0] + xo, pt[1])
-        wire((pt[0] + G, pt[1]), e)
+        e = (pt[0] + xo, pt[1] + dy)
+        if dy:   # R25 sits 2.54 mm lower (its +3V3 arrow clears C21's value): dog-leg down
+            wire((pt[0] + G, pt[1]), (e[0] - 2.54, pt[1]), (e[0] - 2.54, e[1]), e)
+        else:
+            wire((pt[0] + G, pt[1]), e)
         res_up("100k", e, "+3V3", side=side)
 
 
@@ -957,8 +969,8 @@ def main():
             f'(uuid "{ROOT_UUID}") (paper "A3") ')
     tb = dump(find(t, "title_block"))
     tb = tb.replace('">>TITLE<<"', '"ull-pocket: pocket environment meter"').replace(
-        '">>REVISION<<"', '"0.4"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
-    tb = tb.replace('(rev "0.4")', '(date "2026-10-28") (rev "0.4")')
+        '">>REVISION<<"', '"0.5"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+    tb = tb.replace('(rev "0.5")', '(date "2026-10-28") (rev "0.5")')
     body = "\n".join(ITEMS)
     tail = ('(sheet_instances (path "/" (page "1"))) (embedded_fonts no) '
             + dump(find(t, "embedded_files")) + ")")

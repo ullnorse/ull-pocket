@@ -67,8 +67,8 @@ def nc(ref, pin):
 
 # ---------------- ESP32-C6 GPIO map
 ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": None, "17": "USB_D-", "18": "USB_D+",
-       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "LED_USER1",
-       "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER2", "24": "EPD_BUSY", "25": "EPD_RST_N",
+       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "LED_USER",
+       "15": "I2C_SDA", "16": "I2C_SCL", "19": "SPARE_IO14", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
 for pin, nm in ESP.items():
     if nm == "NC":
@@ -81,7 +81,7 @@ for p in (4, 7, 21, 32, 33, 34, 35):
     nc("U1", p)
 # LP-capable checks (GPIO0-7 = pins 12,13,5,6,9,10,15,16)
 LP = {"12": 0, "13": 1, "5": 2, "6": 3, "9": 4, "10": 5, "15": 6, "16": 7}
-for pin in ("5", "6", "9", "10"):  # BTN, ACC INT1, BARO INT, LED_USER1 must be LP GPIO for deep-sleep wake
+for pin in ("5", "6", "9", "10"):  # BTN, ACC INT1, BARO INT, LED_USER must be LP GPIO for deep-sleep wake
     assert pin in LP
 # EN RC
 en = net("U1", 8)
@@ -192,7 +192,7 @@ find_part("BTN_N", "+3V3", "100kR")
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
 find_part(net("U1", 8), "+3V3", "10kR")
-find_part(net("U1", 20), "GND", "10kR")          # IO15 strap pull-down
+find_part(net("U1", 20), "+3V3", "10kR")        # IO15 strap pull-up (JTAG_SEL burned -> USB Serial/JTAG)
 find_part("EPD_CS_N", "+3V3", "100kR")           # e-paper sleep pull-ups
 find_part("EPD_RST_N", "+3V3", "100kR")
 # programming pogo cluster J4: +3V3, GND, EN, BOOT, TXD0, RXD0; no BOM, no placement
@@ -234,7 +234,7 @@ gate = net("Q2", 1)
 find_part(gate, "VBAT", "100kR")
 if gate in ("GND", "VBAT"):
     bad.append("Q2 gate must be on its own node")
-for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND"):
+for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND", "SPARE_IO14"):
     if not [r for r in comps if r.startswith("TP") and comps[r]["value"] == nm and net(r, 1) == nm]:
         bad.append(f"missing test pad on {nm}")
 for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH", "EPD_PREVGL", "LDO_OUT", "BAT_N"):
@@ -248,8 +248,11 @@ find_part(net(led, 2), "VSYS", "1.5kR")
 g = [r for r in comps if comps[r]["value"] == "GREEN"][0]
 expect(g, 1, "GND")
 find_part(net(g, 2), "VBUS", "1.5kR")
-# user LEDs: GPIO -> R -> LED -> GND, active high
-for nm, val, col in (("LED_USER1", "1kR", "YELLOW"), ("LED_USER2", "1kR", "ORANGE")):
+# user LED: GPIO -> R -> LED -> GND, active high; only one user LED (D6), no D7/R23
+assert "D7" not in comps and "R23" not in comps, "D7/R23 retired in rev 0.5"
+assert len([r for r in comps if r.startswith("D") and "LED" in comps[r].get("Description", "")]) == 3
+assert comps["D6"]["LCSC"] == "C2288"
+for nm, val, col in (("LED_USER", "130R", "BLUE"),):
     ld = [r for r in comps if comps[r]["value"] == col][0]
     expect(ld, 1, "GND")
     find_part(nm, net(ld, 2), val)
