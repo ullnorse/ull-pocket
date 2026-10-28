@@ -6,3 +6,4 @@ fp-info-cache
 _autosave-*
 .venv/
 *.kicad_prl
+__pycache__/
