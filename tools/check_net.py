@@ -28,6 +28,11 @@ for c in findall(find(t, "components"), "comp"):
             comps[ref][str(find(f, "name")[1])] = str(f[-1]) if not isinstance(f[-1], list) else ""
 
 bad = []
+# DNP / BOM / placement exclusion flags: empty netlist properties named like the flag
+flags = {}
+for c in findall(find(t, "components"), "comp"):
+    names = {str(find(pp, "name")[1]) for pp in findall(c, "property")}
+    flags[str(find(c, "ref")[1])] = names & {"dnp", "exclude_from_bom", "exclude_from_pos_files"}
 
 
 def net(ref, pin):
@@ -62,8 +67,8 @@ def nc(ref, pin):
 
 # ---------------- ESP32-C6 GPIO map
 ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": "NC", "17": "USB_D-", "18": "USB_D+",
-       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "NC",
-       "15": "I2C_SDA", "16": "I2C_SCL", "19": "NC", "24": "EPD_BUSY", "25": "EPD_RST_N",
+       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "LED_USER1",
+       "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER2", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
 for pin, nm in ESP.items():
     if nm == "NC":
@@ -75,8 +80,8 @@ for p in [2, 11, 14] + list(range(36, 54)):
 for p in (4, 7, 21, 32, 33, 34, 35):
     nc("U1", p)
 # LP-capable checks (GPIO0-7 = pins 12,13,5,6,9,10,15,16)
-LP = {"12": 0, "13": 1, "5": 2, "6": 3, "9": 4, "15": 6, "16": 7}
-for pin in ("5", "6", "9"):  # BTN, ACC INT1, BARO INT must be LP GPIO for deep-sleep wake
+LP = {"12": 0, "13": 1, "5": 2, "6": 3, "9": 4, "10": 5, "15": 6, "16": 7}
+for pin in ("5", "6", "9", "10"):  # BTN, ACC INT1, BARO INT, LED_USER1 must be LP GPIO for deep-sleep wake
     assert pin in LP
 # EN RC
 en = net("U1", 8)
@@ -174,7 +179,7 @@ def two_term(ref):
 
 
 def find_part(a, b, value=None):
-    hits = [r for r in comps if r[0] in "RCLD" and two_term(r) == {a, b}
+    hits = [r for r in comps if r[0] in "RCLDT" and two_term(r) == {a, b}
             and (value is None or comps[r]["value"] == value)]
     if not hits:
         bad.append(f"missing part {value or ''} between {a} and {b}")
@@ -196,7 +201,13 @@ if net("J1", "A5") == net("J1", "B5"):
     bad.append("CC1 and CC2 shorted")
 find_part(net("J1", "SH"), "GND", "1MR")
 find_part(net("J1", "SH"), "GND", "4.7nF/50V")
-find_part(net("U6", 1), "GND", "10kR")      # TS
+ts = net("U6", 1)
+th = find_part(ts, "GND", "NTC10k")[0]
+if comps[th]["LCSC"] != "C525660" or "0603" not in comps[th]["fp"]:
+    bad.append("TH1 should be the Sunlord 0603 NTC C525660")
+fb = find_part(ts, "GND", "10kR")           # DNP fixed-10k fallback in parallel
+if len(fb) != 1 or flags[fb[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"}:
+    bad.append("fallback 10k on TS missing or not DNP + excluded from BOM and placement")
 find_part(net("U6", 16), "GND", "3.3kR")    # ISET
 find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
@@ -222,13 +233,28 @@ for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH
 led = [r for r in comps if comps[r]["value"] == "RED"][0]
 expect(led, 1, net("U6", 9))
 find_part(net(led, 2), "VSYS", "1.5kR")
+# power LED: VBUS -> 1.5k -> green -> GND
+g = [r for r in comps if comps[r]["value"] == "GREEN"][0]
+expect(g, 1, "GND")
+find_part(net(g, 2), "VBUS", "1.5kR")
+# user LEDs: GPIO -> R -> LED -> GND, active high
+for nm, val, col in (("LED_USER1", "1kR", "YELLOW"), ("LED_USER2", "470R", "WHITE")):
+    ld = [r for r in comps if comps[r]["value"] == col][0]
+    expect(ld, 1, "GND")
+    find_part(nm, net(ld, 2), val)
+# no addressable LEDs
+for r, c in comps.items():
+    if "WS2812" in c["value"].upper() or "SK6812" in c["value"].upper():
+        bad.append(f"{r}: addressable LED not allowed")
 # e-paper boost (Good Display reference)
 sw = net("Q1", 3)
 expect("Q1", 1, "EPD_GDR")
 expect("Q1", 2, "EPD_RESE")
 find_part("EPD_GDR", "GND", "1MR")
 find_part("EPD_RESE", "GND", "2.2R")
-find_part("+3V3", sw, "47uH")
+l1 = find_part("+3V3", sw, "47uH")
+if l1 != ["L1"] or comps["L1"]["fp"] != "ull-pocket:IND-SMD_L4.0-W4.0_FNR40XXS" or comps["L1"]["LCSC"] != "C167888":
+    bad.append("L1 should be FNR4030S470MT C167888 with the FNR40XXS footprint")
 find_part("+3V3", "GND", "4.7uF/25V")
 d = {r: (net(r, 1), net(r, 2)) for r in comps if comps[r]["value"] == "MBR0530"}   # (K, A)
 x = [n for k, a in d.values() for n in (k, a) if n not in (sw, "GND", "EPD_PREVGH", "EPD_PREVGL")]

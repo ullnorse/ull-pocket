@@ -64,7 +64,7 @@ ROOT_UUID = None
 
 class Part:
     def __init__(self, lib, ref, x, y, rot=0, value=None, fields=None, fpos=None, in_bom=True,
-                 hide_ref=False, hide_value=False):
+                 hide_ref=False, hide_value=False, dnp=False):
         x, y = r3(x), r3(y)
         self.lib, self.ref, self.x, self.y, self.rot = lib, ref, x, y, rot
         self.pins = pins_of(lib)
@@ -114,9 +114,11 @@ class Part:
                 allnums.append(str(find(n, "number")[1]))
         pins = " ".join(f'(pin "{n}" (uuid "{uid()}"))' for n in dict.fromkeys(allnums))
         bom = "yes" if in_bom else "no"
+        dnp_t = "yes" if dnp else "no"
+        pos_t = " (in_pos_files no)" if dnp else ""
         ITEMS.append(
             f'(symbol (lib_id "ull-pocket:{lib}") (at {fmt(x)} {fmt(y)} {rot}) (unit 1) '
-            f'(exclude_from_sim no) (in_bom {bom}) (on_board yes) (dnp no) (uuid "{uid()}") '
+            f'(exclude_from_sim no) (in_bom {bom}) (on_board yes){pos_t} (dnp {dnp_t}) (uuid "{uid()}") '
             + " ".join(props) + " " + pins
             + f' (instances (project "ull-pocket" (path "/{ROOT_UUID}" (reference "{ref}") (unit 1)))))')
         for n in self.pins:
@@ -246,11 +248,13 @@ PARTS = {
             "MLCC 4.7nF 50V X7R 0402"),
     "1u50": ("1uF/50V", "0603C", "CL10A105KB8NNNC", SEMCO, "C15849", "MLCC 1uF 50V X5R 0603"),
     "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
+    "470": ("470R", "0402R", "0402WGF4700TCE", UNIROYAL, "C25117", "Resistor 470R 1% 0402"),
+    "1k": ("1kR", "0402R", "0402WGF1001TCE", UNIROYAL, "C11702", "Resistor 1k 1% 0402"),
     "4u7_25": ("4.7uF/25V", "0805C", "CL21A475KAQNNNE", SEMCO, "C1779", "MLCC 4.7uF 25V X5R 0805"),
 }
 
 
-def _passive(lib, prefix, key, c, orient, side="R", fpos=None):
+def _passive(lib, prefix, key, c, orient, side="R", fpos=None, dnp=False):
     val, fpk, mpn, mfr, lcsc, desc = PARTS[key]
     rot = 0 if orient == "V" else 90
     ref = nextref(prefix)
@@ -273,11 +277,11 @@ def _passive(lib, prefix, key, c, orient, side="R", fpos=None):
             fpos = {"Reference": (x, y - 3.81, None), "Value": (x, y - 2.286, None)}
     return Part(lib, ref, x, y, rot, value=val,
                 fields={"Footprint": FP[fpk], "MPN": mpn, "Manufacturer": mfr, "LCSC": lcsc,
-                        "Description": desc}, fpos=fpos)
+                        "Description": desc}, fpos=fpos, dnp=dnp, in_bom=not dnp)
 
 
-def R(key, c, orient="V", side="R", fpos=None):
-    return _passive("R_Small_US", "R", key, c, orient, side, fpos)
+def R(key, c, orient="V", side="R", fpos=None, dnp=False):
+    return _passive("R_Small_US", "R", key, c, orient, side, fpos, dnp)
 
 
 def C(key, c, orient="V", side="R", fpos=None):
@@ -292,8 +296,8 @@ def cap_down(key, top, side="R", gnd=True):
     return c
 
 
-def res_down(key, top, side="R", gnd=True):
-    r = R(key, (top[0], top[1] + G), "V", side)
+def res_down(key, top, side="R", gnd=True, dnp=False):
+    r = R(key, (top[0], top[1] + G), "V", side, dnp=dnp)
     if gnd:
         pwr("GND", r.p(2))
     return r
@@ -464,18 +468,28 @@ def build():
     wire(n_pg, e_pg)
     label("USB_PGOOD_N", e_pg, "R")
     # bottom: TS 10k (no NTC), ISET 3.3k, ILIM 3.3k, TMR open (default timers), VSS
-    res_down("10k", u6.p("1"))
+    # TS: 10k NTC (103AT type, B=3435) left of the pin, DNP fixed 10k fallback (R8) in parallel
+    p_ts = u6.p("1")
+    nt = (p_ts[0] - 5.08, p_ts[1])
+    wire(p_ts, nt)
+    th = Part("Thermistor_NTC_US", "TH1", nt[0], nt[1] + 3.81, 0, value="NTC10k",
+              fields={"Footprint": FP["0603R"], "MPN": "SDNT1608X103F3435FTF", "Manufacturer": "Sunlord",
+                      "LCSC": "C525660", "Description": "NTC 10k 1% B3435 0603; place under/against the cell"},
+              fpos={"Reference": (nt[0] - 2.0, nt[1] + 2.921, "right"),
+                    "Value": (nt[0] - 2.0, nt[1] + 4.699, "right")})
+    pwr("GND", th.p(2))
+    res_down("10k", p_ts, dnp=True)
     res_down("3k3", u6.p("16"))
     res_down("3k3", u6.p("12"))
     pin_nc(u6, "14")
     pwr("GND", u6.p("8"))
     note("ICHG = 890/3.3k = 270 mA\\nUSB500: EN1=1, EN2=0\\n-> IIN <= 500 mA\\n"
-         "TS: 10k fixed (no NTC)\\nTMR open: 5 h timer", (bx + 86.36, by + 56.0))
+         "TS: TH1 10k NTC (B3435), R8 10k DNP\\nCharge window 0.5..50.8 C (see NOTES)\\nTMR open: 5 h timer", (bx + 86.36, by + 56.0))
     # bring-up ground pad
-    gx = (bx + 8.89, by + 60.96)
+    gx = (bx + 3.81, by + 60.96)
     pwr("GND", gx)
     tp("GND", gx)
-    gf = add(gx, (1, 0), 10.16)
+    gf = add(gx, (1, 0), 7.62)
     wire(gx, gf)
     pwr("PWR_FLAG", gf)
 
@@ -637,12 +651,10 @@ def build():
     for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
                    ("9", "BARO_INT"), ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("24", "EPD_BUSY"),
                    ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
-                   ("29", "EPD_MOSI")):
+                   ("29", "EPD_MOSI"), ("10", "LED_USER1"), ("19", "LED_USER2")):
         stub(u1, pn, nm)
-    for pn in ("10", "19"):
-        pin_nc(u1, pn)
     note("LP GPIO (deep-sleep wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
-         "IO4 BARO_INT\\nIO6/IO7 LP_I2C SDA/SCL\\nIO5 IO14 IO15 open\\nIO8 10k pull-up, IO9 BOOT",
+         "IO4 BARO_INT\\nIO6/IO7 LP_I2C SDA/SCL\\nIO5/IO14 LED_USER1/2\\nIO8 10k pull-up, IO9 BOOT",
          (bx + 2.54, by + 60.96))
 
     # ============================ Sensors ==============================
@@ -706,9 +718,9 @@ def build():
     pwr("+3V3", (x0, y0))
     cap_down("4u7_25", (x0, y0), side="L")
     l1 = Part("L_Small", "L1", x0 + 10.16, y0, 90, value="47uH",
-              fields={"Footprint": "ull-pocket:IND-SMD_L4.0-W4.0_SWPA4018S", "MPN": "SWPA4018S470MT",
-                      "Manufacturer": "Sunlord", "LCSC": "C83445",
-                      "Description": "Power inductor 47uH 20% Isat 570mA 4x4x1.8mm"},
+              fields={"Footprint": "ull-pocket:IND-SMD_L4.0-W4.0_FNR40XXS", "MPN": "FNR4030S470MT",
+                      "Manufacturer": "cjiang (Changjiang Microelectronics Tech)", "LCSC": "C167888",
+                      "Description": "Power inductor 47uH 20% Isat 1A Irms 800mA 4x4x3mm shielded"},
               fpos={"Reference": (x0 + 10.16, y0 - 2.286, None), "Value": (x0 + 10.16, y0 + 2.286, None)})
     wire((x0, y0), l1.p("1"))
     sw = (x0 + 22.86, y0)
@@ -813,7 +825,7 @@ def build():
          "IO2  BTN_N       (LP wake)\\n"
          "IO3  ACC_INT1    (LP wake)\\n"
          "IO4  BARO_INT    (LP wake)\\n"
-         "IO5  open\\n"
+         "IO5  LED_USER1   (LP, blink)\\n"
          "IO6  I2C_SDA     (LP_I2C)\\n"
          "IO7  I2C_SCL     (LP_I2C)\\n"
          "IO8  strap, 10k pull-up\\n"
@@ -821,8 +833,8 @@ def build():
     note("\\n"
          "IO12 USB_D-\\n"
          "IO13 USB_D+\\n"
-         "IO14 open\\n"
-         "IO15 open\\n"
+         "IO14 LED_USER2\\n"
+         "IO15 unused (strap)\\n"
          "IO18 EPD_BUSY\\n"
          "IO19 EPD_RST_N\\n"
          "IO20 EPD_DC\\n"
@@ -840,11 +852,68 @@ def build():
          "an ammeter to measure sleep current.\\n"
          "Test pads: VBUS, VBAT, VSYS, +3V3, GND.",
          (bx + 2.54, by + 50.0))
+    x3 = bx + 120.65
+    note("LEDS (all about 1-2 mA)\\n"
+         "D5 green: VBUS - 1.5k - LED, (5.0-2.8)/1.5k = 1.5 mA.\\n"
+         "   Lit with USB present, 0 mA on battery.\\n"
+         "D1 red CHG: VSYS - 1.5k - LED - CHG, 1.3-1.7 mA\\n"
+         "   (VSYS 3.7-4.4 V, Vf 1.8 V), only while charging.\\n"
+         "D6 yellow IO5 (LP GPIO): 1k, (3.3-1.95)/1k = 1.35 mA.\\n"
+         "D7 white IO14: 470R, (3.3-2.7)/470 = 1.3 mA.\\n"
+         "No addressable LEDs: their idle current drains the cell.",
+         (x3, by + 9.0))
+    note("BATTERY TEMPERATURE (TS)\\n"
+         "TH1 10k NTC, B3435 (103AT type), in 0603. Place under or\\n"
+         "against the cell. R8 10k (DNP) in parallel is the fallback.\\n"
+         "BQ24073 sources 75 uA into TS: trips at 0.30 V (4.0k)\\n"
+         "and 2.1 V (28k) -> charging only from 0.5 C to 50.8 C\\n"
+         "(resumes below 47.9 C and above 3.9 C). Fixed 10k = 25 C.\\n"
+         "The bias flows only while VBUS is present.",
+         (x3, by + 33.0))
     note("BATTERY\\n"
          "Q2 (AO3400A) in the BAT- lead blocks a reversed\\n"
          "cell. MAX17048 and BQ24073 see system GND.\\n"
          "Mark + and - on the J2 silkscreen.",
          (bx + 2.54, by + 59.0))
+
+    # ============================ Indicator LEDs (added rev 0.3, appended to keep refs stable) =====
+    led_f = lambda col, fp, mpn, mfr, lcsc: {  # noqa: E731
+        "Footprint": fp, "MPN": mpn, "Manufacturer": mfr, "LCSC": lcsc, "Description": f"LED {col}"}
+
+    def led_chain(x, ytop, rkey, col, fp, mpn, mfr, lcsc, top):
+        """vertical: top(pt) -> R -> LED (A up, K down) -> GND. ytop = R pin 1."""
+        r = R(rkey, (x, ytop + G), "V", "R")
+        lc = (x, r.p(2)[1] + G)
+        d = Part("LED_Small", nextref("D"), lc[0], lc[1], 90, value=col,
+                 fields=led_f(col.lower(), fp, mpn, mfr, lcsc),
+                 fpos={"Reference": (x + 1.524, lc[1] - 0.889, "left"), "Value": (x + 1.524, lc[1] + 0.889, "left")})
+        pwr("GND", d.p("1"))
+        return r, d
+
+    # power LED: VBUS -> 1.5k -> green LED -> GND (USB present; zero drain on battery)
+    xp = 91.44
+    rp = R("1k5", (xp, 30.48), "V", "L")
+    pwr("VBUS", rp.p(1))
+    lcp = (xp, rp.p(2)[1] + G)
+    Part("LED_Small", nextref("D"), lcp[0], lcp[1], 90, value="GREEN",
+         fields=led_f("green 0603, USB power present", "LED_SMD:LED_0603_1608Metric", "KT-0603G",
+                      "Hubei KENTO Elec", "C12624"),
+         fpos={"Reference": (xp - 2.7, lcp[1] - 0.889, "right"), "Value": (xp - 2.7, lcp[1] + 0.889, "right")})
+    pwr("GND", (xp, lcp[1] + G))
+
+    # user LEDs (GPIO, active high) in a small block in the free corner of the sensor area
+    ux, uy = 353.06, 121.92
+    rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LEDS")
+    for i, (nm, rk, col, fp, mpn, mfr, lcsc) in enumerate((
+            ("LED_USER1", "1k", "YELLOW", "LED_SMD:LED_0805_2012Metric", "KT-0805Y", "Hubei KENTO Elec", "C2296"),
+            ("LED_USER2", "470", "WHITE", "LED_SMD:LED_0603_1608Metric", "KT-0603W", "Hubei KENTO Elec", "C2290"))):
+        x = ux + 12.7 + i * 25.4
+        yt = uy + 15.24
+        r, d = led_chain(x, yt, rk, col, fp, mpn, mfr, lcsc, None)
+        e = add(r.p(1), (0, -1), G)
+        wire(r.p(1), e)
+        label(nm, e, "R")
+    note("IO5 -> 1k -> yellow: ~1.3 mA\\nIO14 -> 470R -> white: ~1.3 mA\\nGPIO high = on, 3.3 V", (ux + 2.54, uy + 38.1))
 
 
 def main():
@@ -887,8 +956,8 @@ def main():
             f'(uuid "{ROOT_UUID}") (paper "A3") ')
     tb = dump(find(t, "title_block"))
     tb = tb.replace('">>TITLE<<"', '"ull-pocket: pocket environment meter"').replace(
-        '">>REVISION<<"', '"0.2"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
-    tb = tb.replace('(rev "0.2")', '(date "2026-10-28") (rev "0.2")')
+        '">>REVISION<<"', '"0.3"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+    tb = tb.replace('(rev "0.3")', '(date "2026-10-28") (rev "0.3")')
     body = "\n".join(ITEMS)
     tail = ('(sheet_instances (path "/" (page "1"))) (embedded_fonts no) '
             + dump(find(t, "embedded_files")) + ")")

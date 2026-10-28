@@ -335,7 +335,7 @@ def main():
 
     # ---------------- copied standard symbols ----------------
     for libdir, name, new in [("Device", "R_Small_US", None), ("Device", "C_Small", None),
-                              ("Device", "L_Small", None), ("Device", "LED_Small", None),
+                              ("Device", "L_Small", None), ("Device", "LED_Small", None), ("Device", "Thermistor_NTC_US", None),
                               ("Device", "D_Schottky_Small", None), ("Connector", "TestPoint", None),
                               ("power", "GND", None), ("power", "PWR_FLAG", None)]:
         lib.append(std(libdir, name))
