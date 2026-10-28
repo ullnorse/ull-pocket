@@ -232,25 +232,34 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "6958bf50-500d-45bc-ab52-2926268862b5")
 	)
-	(pad "9" smd custom
-		(at 0 0)
-		(size 0.005 0.005)
-		(layers "F.Cu" "F.Mask" "F.Paste")
-		(thermal_bridge_angle 90)
-		(options
-			(clearance outline)
-			(anchor circle)
+	(zone
+		(net 0)
+		(net_name "")
+		(layers "*.Cu")
+		(uuid "5b1a3c52-6f0e-4c0a-9a55-2f1d7c9e4b10")
+		(name "BMP585 keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
 		)
-		(primitives
-			(gr_poly
-				(pts
-					(xy -0.535 -0.315011) (xy -0.315011 -0.535) (xy 0.535 -0.535) (xy 0.535 0.535) (xy -0.535 0.535)
-				)
-				(width 0.1)
-				(fill yes)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy -1.65 -1.65) (xy 1.65 -1.65) (xy 1.65 1.65) (xy -1.65 1.65)
 			)
 		)
-		(uuid "46383415-38ad-4925-a2e0-1f0e31b05534")
 	)
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/LGA-9_L3.3-W3.3-P1.10-TL.step"

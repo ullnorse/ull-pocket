@@ -222,11 +222,10 @@ def main():
         right=[("5", "INT", "output")],
         top=[("4", "VDDIO", "power_in"), ("8", "VDD", "power_in")],
         bottom=[("6", "VSSIO/VSS", "power_in")],
-        nc=[("9", "L/M_Pad")],
         fields=F("ull-pocket:LGA-9_L3.3-W3.3-P1.10-TL",
                  "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp585-ds003.pdf",
                  "BMP585", "Bosch Sensortec", "C18184976"),
-        desc="Barometric pressure sensor, I2C/I3C/SPI, LGA-9", top_pitch=2 * G))
+        desc="Barometric pressure sensor, I2C/I3C/SPI, LGA-9 (pin 9 marking area is not a pad)", top_pitch=2 * G))
 
     # ---------------- LIS3DHTR ----------------
     out.append(ic(
@@ -268,7 +267,7 @@ def main():
                  "https://www.ti.com/lit/ds/symlink/bq24073.pdf",
                  "BQ24073RGTR", "Texas Instruments", "C15220"),
         desc="1-cell Li-ion charger with power path, 4.4 V OUT regulation, QFN-16",
-        bottom_pitch=3 * G))
+        bottom_pitch=4 * G))
 
     # ---------------- RT9080-33GJ5 ----------------
     out.append(ic(
@@ -299,7 +298,8 @@ def main():
              "SCL", "SDA", "VDDIO", "VCI", "VSS", "VDD", "VPP", "VSH1", "VGH", "VSL", "VGL", "VCOM"]
     out.append(ic(
         "FPC-05F-24PH20", "J",
-        right=[(str(i + 1), panel[i], "passive") for i in range(24)],
+        right=[e for i in range(24) for e in ([(str(i + 1), panel[i], "passive")] +
+                                              ([None] if 14 <= i < 23 else []))],
         bottom=[("25", "MP", "passive"), ("26", "MP", "passive")],
         fields=F("ull-pocket:FPC-SMD_24P-P0.50_FPC-05F-24PH20",
                  "https://www.lcsc.com/datasheet/C2856805.pdf",
@@ -367,6 +367,20 @@ def main():
     setprop(q, "Manufacturer", "Vishay")
     setprop(q, "LCSC", "C469327")
     lib.append(q)
+
+    q2 = rename(std("Device", "Q_NMOS"), "AO3400A")
+    setprop(q2, "Value", "AO3400A")
+    for n in walk(q2):
+        if n and n[0] == "pin":
+            num = find(n, "number")
+            num[1] = Q(numap[num[1]])
+    setprop(q2, "Footprint", "Package_TO_SOT_SMD:SOT-23")
+    setprop(q2, "Datasheet", "https://www.lcsc.com/datasheet/lcsc_datasheet_1811081213_Alpha---Omega-Semicon-AO3400A_C20917.pdf")
+    setprop(q2, "Description", "N-MOSFET 30 V 5.7 A, Vgs(max) 12 V, SOT-23 (1=G 2=S 3=D)")
+    setprop(q2, "MPN", "AO3400A")
+    setprop(q2, "Manufacturer", "Alpha & Omega Semicon")
+    setprop(q2, "LCSC", "C20917")
+    lib.append(q2)
 
     jst = rename(std("Connector_Generic_MountingPin", "Conn_01x02_MountingPin"), "S2B-PH-SM4-TB")
     setprop(jst, "Value", "S2B-PH-SM4-TB")

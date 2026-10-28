@@ -61,22 +61,22 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "ESP_EN", "23": None, "22": None, "20": "NC", "17": "USB_D-", "18": "USB_D+",
-       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "NC", "10": "NC",
-       "15": "I2C_SDA", "16": "I2C_SCL", "19": "BARO_INT", "24": "EPD_BUSY", "25": "EPD_RST_N",
+ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": "NC", "17": "USB_D-", "18": "USB_D+",
+       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "NC",
+       "15": "I2C_SDA", "16": "I2C_SCL", "19": "NC", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
 for pin, nm in ESP.items():
     if nm == "NC":
         nc("U1", pin)
-    elif nm and nm != "ESP_EN":
+    elif nm:
         expect("U1", pin, nm)
 for p in [2, 11, 14] + list(range(36, 54)):
     expect("U1", p, "GND")
 for p in (4, 7, 21, 32, 33, 34, 35):
     nc("U1", p)
 # LP-capable checks (GPIO0-7 = pins 12,13,5,6,9,10,15,16)
-LP = {"12": 0, "13": 1, "5": 2, "6": 3, "15": 6, "16": 7}
-for pin in ("5", "6"):  # BTN, ACC INT1 must be LP GPIO for deep-sleep wake
+LP = {"12": 0, "13": 1, "5": 2, "6": 3, "9": 4, "15": 6, "16": 7}
+for pin in ("5", "6", "9"):  # BTN, ACC INT1, BARO INT must be LP GPIO for deep-sleep wake
     assert pin in LP
 # EN RC
 en = net("U1", 8)
@@ -105,7 +105,7 @@ for ref, pins in (("U2", (5,)), ("U3", (4, 8)), ("U4", (1, 14))):
 for ref, pins in (("U2", (8, 9, 7)), ("U3", (6,)), ("U4", (5, 12, 10)), ("U5", (4, 9, 1, 6))):
     for p in pins:
         expect(ref, p, "GND")
-for ref, p in (("U2", 3), ("U2", 6), ("U3", 9), ("U4", 9), ("U4", 13), ("U4", 15), ("U4", 16)):
+for ref, p in (("U2", 3), ("U2", 6), ("U4", 9), ("U4", 13), ("U4", 15), ("U4", 16)):
     nc(ref, p)
 
 # ---------------- fuel gauge
@@ -138,15 +138,21 @@ nc("U6", 14)                    # TMR open: default timers
 expect("U6", 7, "USB_PGOOD_N")
 expect("U7", 1, "VSYS")
 expect("U7", 3, "VSYS")
-expect("U7", 5, "+3V3")
+expect("U7", 5, "LDO_OUT")
 expect("U7", 2, "GND")
 expect("J2", 2, "VBAT")
-expect("J2", 1, "GND")
+expect("J2", 1, "BAT_N")
+nc("J2", "MP")
+assert ("U3", "9") not in pin2net, "BMP585 pin 9 is a marking area, not a pad"
+# reverse-polarity FET: drain = BAT_N, source = GND, gate = VBAT via 100k
+expect("Q2", 3, "BAT_N")
+expect("Q2", 2, "GND")
 
 # ---------------- e-paper FPC pinout (J3 pin n = panel pin n)
 FPC = {1: "NC", 2: "EPD_GDR", 3: "EPD_RESE", 4: "NC", 6: "NC", 7: "NC", 8: "GND", 9: "EPD_BUSY",
        10: "EPD_RST_N", 11: "EPD_DC", 12: "EPD_CS_N", 13: "EPD_SCK", 14: "EPD_MOSI", 15: "+3V3",
-       16: "+3V3", 17: "GND", 19: "NC", 21: "PREVGH", 23: "PREVGL", 25: "GND", 26: "GND"}
+       16: "+3V3", 17: "GND", 19: "NC", 21: "EPD_PREVGH", 23: "EPD_PREVGL", 25: "GND", 26: "GND",
+       5: "EPD_VSH2", 18: "EPD_VDD", 20: "EPD_VSH1", 22: "EPD_VSL", 24: "EPD_VCOM"}
 for p, nm in FPC.items():
     if nm == "NC":
         nc("J3", p)
@@ -195,12 +201,23 @@ find_part(net("U6", 16), "GND", "3.3kR")    # ISET
 find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
 find_part(net("U6", 6), "GND", "100kR")     # EN1 divider bottom
-find_part("VBUS", "GND", "1uF/25V")
+find_part("VBUS", "GND", "1uF/50V")
 find_part("VSYS", "GND", "10uF/10V")
 find_part("VBAT", "GND", "10uF/10V")
 find_part("VBAT", "GND", "100nF/16V")
 find_part("VSYS", "GND", "1uF/25V")
-find_part("+3V3", "GND", "1uF/25V")
+find_part("LDO_OUT", "GND", "1uF/25V")   # C7 on the LDO side of the link
+find_part("LDO_OUT", "+3V3", "0R")        # sleep-current link
+gate = net("Q2", 1)
+find_part(gate, "VBAT", "100kR")
+if gate in ("GND", "VBAT"):
+    bad.append("Q2 gate must be on its own node")
+for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND", "EN", "BOOT", "RXD0", "TXD0"):
+    if not [r for r in comps if r.startswith("TP") and comps[r]["value"] == nm and net(r, 1) == nm]:
+        bad.append(f"missing test pad on {nm}")
+for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH", "EPD_PREVGL", "LDO_OUT", "BAT_N"):
+    if nm not in nets:
+        bad.append(f"net {nm} missing")
 # CHG LED chain: CHG -> LED K, LED A -> 1.5k -> VSYS
 led = [r for r in comps if comps[r]["value"] == "RED"][0]
 expect(led, 1, net("U6", 9))
@@ -214,18 +231,18 @@ find_part("EPD_RESE", "GND", "2.2R")
 find_part("+3V3", sw, "47uH")
 find_part("+3V3", "GND", "4.7uF/25V")
 d = {r: (net(r, 1), net(r, 2)) for r in comps if comps[r]["value"] == "MBR0530"}   # (K, A)
-x = [n for k, a in d.values() for n in (k, a) if n not in (sw, "GND", "PREVGH", "PREVGL")]
+x = [n for k, a in d.values() for n in (k, a) if n not in (sw, "GND", "EPD_PREVGH", "EPD_PREVGL")]
 xnode = x[0] if x else None
-want = {(" PREVGH", sw), ("GND", xnode), (xnode, "PREVGL")}
 got = {(k, a) for k, a in d.values()}
-if got != {("PREVGH", sw), ("GND", xnode), (xnode, "PREVGL")}:
+if got != {("EPD_PREVGH", sw), ("GND", xnode), (xnode, "EPD_PREVGL")}:
     bad.append(f"boost diodes (K,A) wrong: {got}, sw={sw} x={xnode}")
 find_part(sw, xnode, "4.7uF/25V")
-find_part("PREVGH", "GND", "1uF/50V")
-find_part("PREVGL", "GND", "1uF/50V")
+find_part("EPD_PREVGH", "GND", "1uF/50V")
+find_part("EPD_PREVGL", "GND", "1uF/50V")
 for p in (5, 18, 20, 22, 24):
     find_part(net("J3", p), "GND", "1uF/50V")
 find_part("+3V3", "GND", "1uF/50V")   # VCI cap
+same(("J3", 15), ("J3", 16))
 
 # every BOM part has MPN/LCSC/footprint
 for r, c in sorted(comps.items()):

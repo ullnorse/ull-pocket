@@ -13,10 +13,12 @@ rsvg-convert -b white -w 4200 build/review/ull-pocket.svg -o build/review/full.p
 grep -E "^\*\*|violations|Total" build/erc/erc.rpt | tail -3
 # per-subcircuit crops (sheet mm)
 python3 tools/crop.py sub_usb 10 10 104 85
-python3 tools/crop.py sub_charger 103 10 240 85
-python3 tools/crop.py sub_battery 239 10 312 85
-python3 tools/crop.py sub_ldo 311 10 384 58
-python3 tools/crop.py sub_mcu 10 84 117 183
-python3 tools/crop.py sub_sensors 116 84 354 157
-python3 tools/crop.py sub_button 116 156 187 183
-python3 tools/crop.py sub_epaper 10 182 232 286
+python3 tools/crop.py sub_charger 103 10 238 85
+python3 tools/crop.py sub_battery 236 10 342 85
+python3 tools/crop.py sub_ldo 341 10 410 56
+python3 tools/crop.py sub_button 341 55 410 85
+python3 tools/crop.py sub_mcu 10 84 117 180
+python3 tools/crop.py sub_sensors 116 84 265 180
+python3 tools/crop.py sub_sensors2 260 84 410 180
+python3 tools/crop.py sub_epaper 10 180 160 288
+python3 tools/crop.py sub_notes 157 180 410 252

@@ -32,6 +32,8 @@ ALLOW = {
     ("BQ24073RGTR", "17"): ("EP", "VSS"),
     ("TS24CA", "3"): ("3", "MP"), ("TS24CA", "4"): ("4", "MP"),
 }
+# easyeda pins deliberately dropped: BMP585 pin 9 is a laser-marking area under solder resist, not a pad
+REMOVED = {("BMP585", "9")}
 FPC_PANEL = ["NC", "GDR", "RESE", "NC", "VSH2", "TSCL", "TSDA", "BS", "BUSY", "RES#", "D/C#", "CS#",
              "SCL", "SDA", "VDDIO", "VCI", "VSS", "VDD", "VPP", "VSH1", "VGH", "VSL", "VGL", "VCOM"]
 
@@ -66,6 +68,9 @@ def main():
     bad = 0
     for s, e in EEMAP.items():
         a, b = pins_of(ours[s]), pins_of(ee[e])
+        for rs, rn in REMOVED:
+            if rs == s:
+                b.pop(rn, None)
         if set(a) != set(b):
             print(f"FAIL {s}: pin numbers differ: ours-only {set(a)-set(b)} ee-only {set(b)-set(a)}")
             bad += 1

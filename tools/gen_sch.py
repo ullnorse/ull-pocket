@@ -209,7 +209,11 @@ def stub(part, num, name, length=G):
 
 
 def pin_nc(part, num):
-    nc(part.p(num))
+    """No-connect on a pin; a 2.54 mm stub keeps the cross clear of the pin number."""
+    p = part.p(num)
+    e = add(p, part.out(num), G)
+    wire(p, e)
+    nc(e)
 
 
 def pin_pwr(part, num, name, length=G):
@@ -241,17 +245,22 @@ PARTS = {
     "4n7": ("4.7nF/50V", "0402C", "0402B472K500NT", "FH(Guangdong Fenghua Advanced Tech)", "C1538",
             "MLCC 4.7nF 50V X7R 0402"),
     "1u50": ("1uF/50V", "0603C", "CL10A105KB8NNNC", SEMCO, "C15849", "MLCC 1uF 50V X5R 0603"),
+    "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
     "4u7_25": ("4.7uF/25V", "0805C", "CL21A475KAQNNNE", SEMCO, "C1779", "MLCC 4.7uF 25V X5R 0805"),
 }
 
 
-def _passive(lib, prefix, key, c, orient, side="R"):
+def _passive(lib, prefix, key, c, orient, side="R", fpos=None):
     val, fpk, mpn, mfr, lcsc, desc = PARTS[key]
     rot = 0 if orient == "V" else 90
     ref = nextref(prefix)
     x, y = c
-    if orient == "V":
-        if side == "R":
+    if fpos is not None:
+        pass
+    elif orient == "V":
+        if side == "RU":  # texts on the right, raised so a label below the node stays clear
+            fpos = {"Reference": (x + 1.524, y - 2.159, "left"), "Value": (x + 1.524, y - 0.381, "left")}
+        elif side == "R":
             fpos = {"Reference": (x + 1.524, y - 0.889, "left"), "Value": (x + 1.524, y + 0.889, "left")}
         else:
             fpos = {"Reference": (x - 1.524, y - 0.889, "right"), "Value": (x - 1.524, y + 0.889, "right")}
@@ -267,12 +276,12 @@ def _passive(lib, prefix, key, c, orient, side="R"):
                         "Description": desc}, fpos=fpos)
 
 
-def R(key, c, orient="V", side="R"):
-    return _passive("R_Small_US", "R", key, c, orient, side)
+def R(key, c, orient="V", side="R", fpos=None):
+    return _passive("R_Small_US", "R", key, c, orient, side, fpos)
 
 
-def C(key, c, orient="V", side="R"):
-    return _passive("C_Small", "C", key, c, orient, side)
+def C(key, c, orient="V", side="R", fpos=None):
+    return _passive("C_Small", "C", key, c, orient, side, fpos)
 
 
 def cap_down(key, top, side="R", gnd=True):
@@ -300,14 +309,15 @@ def ic(lib, ref, x, y, **kw):
     return Part(lib, ref, x, y, 0, **kw)
 
 
-def tp(name, pt, rot=0):
-    """Test pad. rot 0: pad above the pin point; rot 90: pad to the left. Ref hidden, name shown."""
+def tp(name, pt, rot=0, show=True):
+    """Test pad. rot 0: pad above the pin point; rot 90: pad to the left. Ref hidden."""
     ref = nextref("TP")
     if rot == 0:
         vx = (pt[0], pt[1] - 5.334, None)
     else:
         vx = (pt[0] - 4.826, pt[1], "right")
     return Part("TestPoint", ref, pt[0], pt[1], rot, value=name, in_bom=False, hide_ref=True,
+                hide_value=not show,
                 fields={"Footprint": "TestPoint:TestPoint_Pad_1.0x1.0mm",
                         "Description": "Test pad 1.0 mm square, not a BOM part"},
                 fpos={"Reference": (pt[0], pt[1], None), "Value": vx})
@@ -319,8 +329,35 @@ def S(v):
 
 
 # =============================================================== layout
+def hcap_row(pin, name, key, cap_dx=15.24, bus_dx=20.32, txt_dx=22.86):
+    """Panel decoupling cap on a J3 pin: wire + net label, horizontal cap, ends on a vertical bus."""
+    x, y = pin
+    wire(pin, (x + cap_dx - 2.54, y))
+    label(name, (x + 1.27, y), "R")
+    c = C(key, (x + cap_dx, y), "H", fpos={"Reference": (x + txt_dx, y, "left"),
+                                          "Value": (x + txt_dx + 5.08, y, "left")})
+    wire(c.p(2), (x + bus_dx, y))
+    return (x + bus_dx, y)
+
+
+def rail_caps(part, pins, caps, rise, step=20.32, side="R"):
+    """3V3 rail above the supply pins with caps hanging to the right. Returns (y_rail, x_first_pin)."""
+    pts = [part.p(p) for p in pins]
+    y = pts[0][1] - rise
+    for p in pts:
+        wire(p, (p[0], y))
+    xl, xr = min(p[0] for p in pts), max(p[0] for p in pts)
+    if xl != xr:
+        wire((xl, y), (xr, y))
+    x, prev = xr + 7.62, xr
+    for k in caps:
+        wire((prev, y), (x, y))
+        cap_down(k, (x, y), side)
+        prev, x = x, x + step
+    return y, xl
+
+
 def build():
-    # ------------------------------------------------------------ colours
     C_USB = (0, 132, 80)
     C_PWR = (194, 24, 7)
     C_BAT = (204, 102, 0)
@@ -338,10 +375,10 @@ def build():
     vbn = add(vb, (1, 0), 7.62)
     wire(vb, vbn)
     pwr("VBUS", vbn)
-    vbf = add(vbn, (1, 0), 10.16)
-    wire(vbn, vbf)
-    pwr("PWR_FLAG", vbf)
-    # CC pull-downs: Rd = 5.1k each (sink)
+    vbe = add(vbn, (1, 0), 22.86)
+    wire(vbn, vbe)
+    pwr("PWR_FLAG", add(vbn, (1, 0), 10.16))
+    tp("VBUS", vbe)
     cc1, cc2 = j1.p("A5"), j1.p("B5")
     x_cc2 = cc2[0] + 12.7
     x_cc1 = cc2[0] + 22.86
@@ -353,8 +390,7 @@ def build():
         stub(j1, pn, nm)
     pin_nc(j1, "A8")
     pin_nc(j1, "B8")
-    g = j1.p("A1")
-    pwr("GND", g)
+    pwr("GND", j1.p("A1"))
     sh = j1.p("SH")
     shn = add(sh, (0, 1), G)
     wire(sh, shn)
@@ -373,41 +409,42 @@ def build():
 
     # ============================ Charger ==============================
     bx, by = 105.41, 12.7
-    rect(bx, by, bx + 132.08, by + 69.85, C_PWR, "CHARGER + POWER PATH (BQ24073)")
-    u6 = ic("BQ24073RGTR", "U6", bx + 50.8, by + 33.02)
+    rect(bx, by, bx + 130.81, by + 69.85, C_PWR, "CHARGER + POWER PATH (BQ24073)")
+    u6 = ic("BQ24073RGTR", "U6", bx + 52.07, by + 33.02)
     pin_in = u6.p("13")
     n_in = add(pin_in, (-1, 0), 7.62)
     wire(pin_in, n_in)
     pwr("VBUS", n_in)
-    cap_down("1u", n_in, side="L")
+    cap_down("1u50", n_in, side="L")
     # EN1 = VBUS/2 (USB500 mode only while VBUS present; no drain from the cell)
     p_en1 = u6.p("6")
-    n_en1 = add(p_en1, (-1, 0), 17.78)
+    n_en1 = add(p_en1, (-1, 0), 22.86)
     wire(p_en1, n_en1)
-    r_top = R("100k", add(n_en1, (-1, 0), 7.62), "H", side="B")
-    wire(r_top.p(2), n_en1)
-    pwr("VBUS", r_top.p(1))
-    res_down("100k", n_en1)
+    res_up("100k", n_en1, "VBUS", side="R")
+    res_down("100k", n_en1, side="R")
     xg = p_en1[0] - 2.54
     for pn in ("5", "4", "15"):
         wire(u6.p(pn), (xg, u6.p(pn)[1]))
     wire((xg, u6.p("5")[1]), (xg, u6.p("15")[1]))
     pwr("GND", (xg, u6.p("15")[1]))
-    # OUT -> VSYS + 10uF
+    # OUT -> VSYS + 10uF + test pad
     p_out = u6.p("10")
     n_out = add(p_out, (1, 0), 7.62)
     wire(p_out, n_out)
     pwr("VSYS", n_out)
     cap_down("10u", n_out)
+    e_out = add(n_out, (1, 0), 17.78)
+    wire(n_out, e_out)
+    tp("VSYS", e_out)
     # BAT -> VBAT + 10uF
     p_bat = u6.p("2")
-    n_bat = add(p_bat, (1, 0), 15.24)
+    n_bat = add(p_bat, (1, 0), 12.7)
     wire(p_bat, n_bat)
     pwr("VBAT", n_bat)
-    cap_down("10u", n_bat)
+    cap_down("10u", n_bat, side="L")
     # CHG -> LED (K) ; LED (A) -> 1.5k -> VSYS
     p_chg = u6.p("9")
-    x_led = p_chg[0] + 27.94
+    x_led = p_chg[0] + 20.32
     led_c = (x_led, p_chg[1] - G)
     led = Part("LED_Small", nextref("D"), led_c[0], led_c[1], 90, value="RED",
                fields={"Footprint": "LED_SMD:LED_0603_1608Metric", "MPN": "KT-0603R",
@@ -420,9 +457,9 @@ def build():
     pwr("VSYS", r_led.p(1))
     # PGOOD -> 100k pull-up to 3V3 -> USB_PGOOD_N
     p_pg = u6.p("7")
-    n_pg = add(p_pg, (1, 0), 43.18)
+    n_pg = (x_led + 11.43, p_pg[1])
     wire(p_pg, n_pg)
-    res_up("100k", n_pg, "+3V3", side="L")
+    res_up("100k", n_pg, "+3V3", side="RU")
     e_pg = add(n_pg, (1, 0), 2.54)
     wire(n_pg, e_pg)
     label("USB_PGOOD_N", e_pg, "R")
@@ -432,38 +469,53 @@ def build():
     res_down("3k3", u6.p("12"))
     pin_nc(u6, "14")
     pwr("GND", u6.p("8"))
-    note("ICHG = KISET/RISET = 890/3.3k = 270 mA\\nUSB500: EN1=1, EN2=0 -> IIN <= 500 mA\\n"
-         "TS: 10k fixed (no NTC), TMR open: 5 h timer", (bx + 78.74, by + 55.88))
+    note("ICHG = 890/3.3k = 270 mA\\nUSB500: EN1=1, EN2=0\\n-> IIN <= 500 mA\\n"
+         "TS: 10k fixed (no NTC)\\nTMR open: 5 h timer", (bx + 86.36, by + 56.0))
+    # bring-up ground pad
+    gx = (bx + 8.89, by + 60.96)
+    pwr("GND", gx)
+    tp("GND", gx)
+    gf = add(gx, (1, 0), 10.16)
+    wire(gx, gf)
+    pwr("PWR_FLAG", gf)
 
     # ============================ Battery + gauge ======================
-    bx, by = 241.3, 12.7
-    rect(bx, by, bx + 68.58, by + 69.85, C_BAT, "BATTERY + FUEL GAUGE")
-    j2 = Part("S2B-PH-SM4-TB", "J2", bx + 7.62, by + 17.78, 180,
-              fpos={"Reference": (bx + 3.81, by + 10.16, None),
-                    "Value": (bx + 13.97, by + 22.86, None)})
+    bx, by = 238.76, 12.7
+    rect(bx, by, bx + 100.33, by + 69.85, C_BAT, "BATTERY + FUEL GAUGE")
+    jx, jy = bx + 22.86, by + 20.32
+    j2 = Part("S2B-PH-SM4-TB", "J2", jx, jy, 180,
+              fpos={"Reference": (jx - 3.81, jy - 1.27, "right"),
+                    "Value": (jx - 3.81, jy + 1.27, "right")})
     p_bp = j2.p("2")   # pin 2 = BAT+, pin 1 = BAT- (assumed, see note)
     p_bn = j2.p("1")
-    n_bp = add(p_bp, (1, 0), 5.08)
+    pin_nc(j2, "MP")
+    n_bp = add(p_bp, (1, 0), 7.62)
     wire(p_bp, n_bp)
     pwr("VBAT", n_bp)
-    f_bp = add(n_bp, (1, 0), 10.16)
-    wire(n_bp, f_bp)
-    pwr("PWR_FLAG", f_bp)
-    n_bn = add(p_bn, (1, 0), 5.08)
-    wire(p_bn, n_bn)
-    pwr("GND", n_bn)
-    f_bn = add(n_bn, (1, 0), 25.4)
-    wire(n_bn, f_bn)
-    pwr("PWR_FLAG", f_bn)
-    pin_nc(j2, "MP")
-    note("J2: pin 2 = BAT+, pin 1 = BAT-\\n(verify cell lead polarity)", (bx + 2.54, by + 26.67))
+    e_bp = add(n_bp, (1, 0), 22.86)
+    wire(n_bp, e_bp)
+    pwr("PWR_FLAG", add(n_bp, (1, 0), 10.16))
+    tp("VBAT", e_bp)
+    # reverse-polarity low-side FET: BAT- -> BAT_N -> Q2 drain, source = GND, gate = VBAT via 100k
+    q2 = Part("AO3400A", "Q2", bx + 33.02, by + 33.02, 0,
+              fpos={"Reference": (bx + 40.64, by + 32.131, "left"),
+                    "Value": (bx + 40.64, by + 33.909, "left")})
+    d_q = q2.p("3")
+    wire(p_bn, (p_bn[0] + 2.54, p_bn[1]), (p_bn[0] + 2.54, by + 24.13), (d_q[0], by + 24.13), d_q)
+    label("BAT_N", (p_bn[0] + 5.08, by + 24.13), "R")
+    pwr("GND", q2.p("2"))
+    g_q = q2.p("1")
+    n_g = add(g_q, (-1, 0), 5.08)
+    wire(g_q, n_g)
+    res_up("100k", n_g, "VBAT", side="L")
+    note("J2 pin 2 = BAT+\\nJ2 pin 1 = BAT-\\nQ2 blocks a reversed\\ncell. Silkscreen:\\nmark + and -", (bx + 2.54, by + 58.42))
 
-    u5 = ic("MAX17048G+T10", "U5", bx + 27.94, by + 50.8)
+    u5 = ic("MAX17048G+T10", "U5", bx + 50.8, by + 50.8)
     p_vdd = u5.p("3")
     n_vdd = add(p_vdd, (0, -1), 5.08)
     wire(p_vdd, n_vdd)
     pwr("VBAT", n_vdd)
-    c_g = add(n_vdd, (1, 0), 5.08)
+    c_g = add(n_vdd, (1, 0), 7.62)
     wire(n_vdd, c_g)
     cap_down("100n", c_g)
     p_cell = u5.p("2")
@@ -478,18 +530,18 @@ def build():
     stub(u5, "8", "I2C_SDA")
     stub(u5, "7", "I2C_SCL")
     p_al = u5.p("5")
-    n_al = add(p_al, (1, 0), 12.7)
+    n_al = add(p_al, (1, 0), 15.24)
     wire(p_al, n_al)
-    res_up("100k", n_al, "+3V3")
-    e_al = add(n_al, (0, 1), 5.08)
+    res_up("100k", n_al, "+3V3", side="RU")
+    e_al = add(n_al, (1, 0), 2.54)
     wire(n_al, e_al)
-    label("BAT_ALRT_N", e_al, "L")
+    label("BAT_ALRT_N", e_al, "R")
     pwr("GND", u5.p("4"))
 
     # ============================ 3V3 LDO ==============================
-    bx, by = 313.69, 12.7
-    rect(bx, by, bx + 66.04, by + 40.64, C_LDO, "3V3 LDO (RT9080)")
-    u7 = ic("RT9080-33GJ5", "U7", bx + 33.02, by + 22.86)
+    bx, by = 342.9, 12.7
+    rect(bx, by, bx + 64.77, by + 40.64, C_LDO, "3V3 LDO (RT9080)")
+    u7 = ic("RT9080-33GJ5", "U7", bx + 30.48, by + 22.86)
     p_vin = u7.p("1")
     n_vin = add(p_vin, (-1, 0), 7.62)
     wire(p_vin, n_vin)
@@ -501,138 +553,25 @@ def build():
     p_vo = u7.p("5")
     n_vo = add(p_vo, (1, 0), 7.62)
     wire(p_vo, n_vo)
-    pwr("+3V3", n_vo)
     cap_down("1u", n_vo)
+    r0 = res_up("0R", n_vo, "+3V3", side="L")
+    e_lo = add(n_vo, (1, 0), 2.54)
+    wire(n_vo, e_lo)
+    label("LDO_OUT", e_lo, "R")
+    top = r0.p(1)
+    tp_pt = add(top, (-1, 0), 7.62)
+    wire(top, tp_pt)
+    tp("+3V3", tp_pt)
     pwr("GND", u7.p("2"))
 
-    # ============================ MCU ==================================
-    bx, by = 12.7, 86.36
-    rect(bx, by, bx + 101.6, by + 93.98, C_MCU, "MCU (ESP32-C6-MINI-1)")
-    u1 = ic("ESP32-C6-MINI-1-H4", "U1", bx + 60.96, by + 55.88)
-    p33 = u1.p("3")
-    n33 = add(p33, (0, -1), 10.16)
-    wire(p33, n33)
-    pwr("+3V3", n33)
-    ca = add(n33, (-1, 0), 15.24)
-    cb = add(n33, (-1, 0), 30.48)
-    wire(n33, cb)
-    c10 = cap_down("10u", ca, gnd=False)
-    c01 = cap_down("100n", cb, gnd=False)
-    wire(c01.p(2), c10.p(2))
-    pwr("GND", c10.p(2))
-    pwr("GND", u1.p("1"))
-    # EN: 10k to 3V3 + 1uF to GND (Espressif RC), test pad
-    p_en = u1.p("8")
-    n_en = add(p_en, (-1, 0), 25.4)
-    wire(p_en, n_en)
-    res_up("10k", n_en, "+3V3", side="L")
-    cap_down("1u", n_en, side="L")
-    tp("EN", add(p_en, (-1, 0), 5.08))
-    # IO9 = BOOT strap pad (internal pull-up); IO8 10k pull-up (download boot needs IO8=1)
-    p9 = u1.p("23")
-    e9 = add(p9, (-1, 0), 5.08)
-    wire(p9, e9)
-    tp("BOOT", e9, 90)
-    p8 = u1.p("22")
-    r8 = R("10k", add(p8, (-1, 0), 15.24), "H", side="B")
-    wire(p8, r8.p(2))
-    pwr("+3V3", r8.p(1))
-    pin_nc(u1, "20")
-    stub(u1, "17", "USB_D-")
-    stub(u1, "18", "USB_D+")
-    for pn, nm in (("30", "RXD0"), ("31", "TXD0")):
-        p = u1.p(pn)
-        e = add(p, (-1, 0), 5.08)
-        wire(p, e)
-        tp(nm, e, 90)
-    gp = (u1.p("31")[0] - 5.08, u1.p("31")[1] + 7.62)
-    tp("GND", gp, 0)
-    pwr("GND", gp)
-    for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
-                   ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("19", "BARO_INT"), ("24", "EPD_BUSY"),
-                   ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
-                   ("29", "EPD_MOSI")):
-        stub(u1, pn, nm)
-    for pn in ("9", "10"):
-        pin_nc(u1, pn)
-    note("LP GPIO (deep-sleep wake):\\nIO0 BAT_ALRT_N, IO1 USB_PGOOD_N,\\nIO2 BTN_N, IO3 ACC_INT1.\\n"
-         "IO6/IO7 = LP_I2C SDA/SCL.\\nStraps: IO8 10k pull-up,\\nIO9 BOOT pad, IO15 open.",
-         (bx + 2.54, by + 74.93))
-
-    # ============================ Sensors ==============================
-    bx, by = 118.11, 86.36
-    rect(bx, by, bx + 233.68, by + 68.58, C_SNS, "SENSORS (I2C, 3V3)")
-    px = bx + 12.7
-    py = by + 22.86
-    for i, nm in enumerate(("I2C_SDA", "I2C_SCL")):
-        x = px + i * 12.7
-        r = res_up("10k", (x, py), "+3V3")
-        e = (x, py + 5.08)
-        wire(r.p(2), e)
-        label(nm, e, "D")
-    note("I2C addresses:\\nSHT31 0x44 (ADDR=GND)\\nBMP585 0x46 (SDO=GND)\\nLIS3DH 0x19 (SA0=3V3)\\n"
-         "MAX17048 0x36", (bx + 2.54, by + 43.18))
-
-    def top_decouple(part, pins, caps_right, rise=12.7):
-        pts = [part.p(p) for p in pins]
-        y = pts[0][1] - rise
-        for p in pts:
-            wire(p, (p[0], y))
-        wire((pts[0][0], y), (pts[-1][0], y))
-        pwr("+3V3", (pts[-1][0], y))
-        xr = pts[-1][0] + 7.62
-        prev = pts[-1][0]
-        for k in caps_right:
-            wire((prev, y), (xr, y))
-            cap_down(k, (xr, y))
-            prev = xr
-            xr += 15.24
-        return y
-
-    u2 = ic("SHT31-DIS-B", "U2", bx + 66.04, by + 43.18)
-    top_decouple(u2, ["5"], ["100n"])
-    stub(u2, "1", "I2C_SDA")
-    stub(u2, "4", "I2C_SCL")
-    pin_pwr(u2, "2", "GND")
-    pin_nc(u2, "3")
-    pin_nc(u2, "6")
-    pwr("GND", u2.p("8"))
-    pwr("GND", u2.p("7"))
-
-    u3 = ic("BMP585", "U3", bx + 129.54, by + 40.64)
-    yn = top_decouple(u3, ["4", "8"], ["100n", "100n"], rise=7.62)
-    p_csb = u3.p("7")
-    x_b = p_csb[0] - 2.54
-    wire(p_csb, (x_b, p_csb[1]), (x_b, yn), (u3.p("4")[0], yn))
-    stub(u3, "2", "I2C_SDA")
-    stub(u3, "1", "I2C_SCL")
-    pin_pwr(u3, "3", "GND")
-    stub(u3, "5", "BARO_INT")
-    pwr("GND", u3.p("6"))
-
-    u4 = ic("LIS3DHTR", "U4", bx + 196.85, by + 43.18)
-    yn = top_decouple(u4, ["1", "14"], ["100n", "100n", "10u"], rise=7.62)
-    p_cs = u4.p("8")
-    p_sa = u4.p("7")
-    x_l = p_cs[0] - 2.54
-    wire(p_sa, (x_l, p_sa[1]), (x_l, yn), (u4.p("1")[0], yn))
-    wire(p_cs, (x_l, p_cs[1]))
-    stub(u4, "6", "I2C_SDA")
-    stub(u4, "4", "I2C_SCL")
-    stub(u4, "11", "ACC_INT1")
-    for pn in ("9", "16", "15", "13"):
-        pin_nc(u4, pn)
-    pwr("GND", u4.p("5"))
-    pwr("GND", u4.p("10"))
-
     # ============================ Wake button ==========================
-    bx, by = 118.11, 158.75
-    rect(bx, by, bx + 66.04, by + 21.59, C_UI, "WAKE BUTTON (side)")
+    bx, by = 342.9, 57.15
+    rect(bx, by, bx + 64.77, by + 25.4, C_UI, "WAKE BUTTON (side)")
     sw1 = Part("TS24CA", "SW1", bx + 43.18, by + 13.97, 0)
     p1 = sw1.p("1")
-    n1 = add(p1, (-1, 0), 12.7)
+    n1 = add(p1, (-1, 0), 10.16)
     wire(p1, n1)
-    res_up("100k", n1, "+3V3")
+    res_up("100k", n1, "+3V3", side="RU")
     e1 = add(n1, (-1, 0), 2.54)
     wire(n1, e1)
     label("BTN_N", e1, "L")
@@ -642,10 +581,128 @@ def build():
     pwr("GND", n2)
     pwr("GND", sw1.p("3"))
 
+    # ============================ MCU ==================================
+    bx, by = 12.7, 86.36
+    rect(bx, by, bx + 101.6, by + 91.44, C_MCU, "MCU (ESP32-C6-MINI-1)")
+    u1 = ic("ESP32-C6-MINI-1-H4", "U1", bx + 60.96, by + 55.88)
+    p33 = u1.p("3")
+    n33 = add(p33, (0, -1), 10.16)
+    wire(p33, n33)
+    pwr("+3V3", n33)
+    f33 = add(n33, (-1, 0), 17.78)
+    wire(n33, f33)
+    pwr("PWR_FLAG", f33)
+    ca = add(n33, (1, 0), 7.62)
+    cb = add(n33, (-1, 0), 7.62)
+    wire(cb, ca)
+    c10 = cap_down("10u", ca, side="R", gnd=False)
+    c01 = cap_down("100n", cb, side="L", gnd=False)
+    wire(c01.p(2), c10.p(2))
+    pwr("GND", c10.p(2))
+    pwr("GND", u1.p("1"))
+    # EN: 10k to 3V3 + 1uF to GND (Espressif RC), test pad, net EN
+    p_en = u1.p("8")
+    x_en = p_en[0] - 12.7
+    y_top = p_en[1] - 10.16
+    wire(p_en, (x_en, p_en[1]), (x_en, y_top))
+    res_up("10k", (x_en, y_top), "+3V3", side="L")
+    m = (x_en, p_en[1] - 5.08)
+    cm = (x_en - 7.62, m[1])
+    wire(m, cm)
+    cap_down("1u", cm, side="L")
+    label("EN", add(p_en, (-1, 0), 2.54), "L")
+    tp("EN", add(p_en, (-1, 0), 7.62), show=False)
+    # IO9 = BOOT strap pad (internal pull-up); IO8 10k pull-up (download boot needs IO8=1)
+    p9 = u1.p("23")
+    e9 = add(p9, (-1, 0), 10.16)
+    wire(p9, e9)
+    label("BOOT", add(p9, (-1, 0), 2.54), "L")
+    tp("BOOT", e9, 90, show=False)
+    p8 = u1.p("22")
+    n8 = add(p8, (-1, 0), 25.4)
+    wire(p8, n8)
+    res_up("10k", n8, "+3V3", side="L")
+    pin_nc(u1, "20")
+    stub(u1, "17", "USB_D-")
+    stub(u1, "18", "USB_D+")
+    for pn, nm in (("30", "RXD0"), ("31", "TXD0")):
+        p = u1.p(pn)
+        e = add(p, (-1, 0), 10.16)
+        wire(p, e)
+        label(nm, add(p, (-1, 0), 2.54), "L")
+        tp(nm, e, 90, show=False)
+    gp = (u1.p("31")[0] - 10.16, u1.p("31")[1] + 10.16)
+    pwr("GND", gp)
+    tp("GND", gp)
+    for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
+                   ("9", "BARO_INT"), ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("24", "EPD_BUSY"),
+                   ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
+                   ("29", "EPD_MOSI")):
+        stub(u1, pn, nm)
+    for pn in ("10", "19"):
+        pin_nc(u1, pn)
+    note("LP GPIO (deep-sleep wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
+         "IO4 BARO_INT\\nIO6/IO7 LP_I2C SDA/SCL\\nIO5 IO14 IO15 open\\nIO8 10k pull-up, IO9 BOOT",
+         (bx + 2.54, by + 60.96))
+
+    # ============================ Sensors ==============================
+    bx, by = 118.11, 86.36
+    rect(bx, by, bx + 289.56, by + 91.44, C_SNS, "SENSORS (I2C, 3V3)")
+    # I2C pull-ups next to the bus (labels horizontal)
+    for i, nm in enumerate(("I2C_SDA", "I2C_SCL")):
+        x = bx + 20.32 + i * 15.24
+        node = (x, by + 30.48)
+        r = res_up("10k", node, "+3V3", side="RU")
+        e = add(node, (1, 0), 2.54)
+        wire(node, e)
+        label(nm, e, "R")
+    note("I2C addresses:\\nSHT31 0x44 (ADDR=GND)\\nBMP585 0x46 (SDO=GND)\\nLIS3DH 0x19 (SA0=3V3)\\n"
+         "MAX17048 0x36", (bx + 2.54, by + 50.8))
+
+    u2 = ic("SHT31-DIS-B", "U2", bx + 76.2, by + 48.26)
+    y, _ = rail_caps(u2, ["5"], ["100n"], 10.16)
+    pwr("+3V3", (u2.p("5")[0], y))
+    stub(u2, "1", "I2C_SDA")
+    stub(u2, "4", "I2C_SCL")
+    pin_pwr(u2, "2", "GND")
+    pin_nc(u2, "3")
+    pin_nc(u2, "6")
+    pwr("GND", u2.p("8"))
+    pwr("GND", u2.p("7"))
+
+    u3 = ic("BMP585", "U3", bx + 134.62, by + 50.8)
+    y, x0 = rail_caps(u3, ["4", "8"], ["100n", "100n"], 7.62)
+    p_csb = u3.p("7")
+    x_b = p_csb[0] - 5.08
+    wire(p_csb, (x_b, p_csb[1]), (x_b, y), (x0, y))
+    pwr("+3V3", (x_b, y))
+    stub(u3, "2", "I2C_SDA")
+    stub(u3, "1", "I2C_SCL")
+    pin_pwr(u3, "3", "GND")
+    stub(u3, "5", "BARO_INT")
+    pwr("GND", u3.p("6"))
+    # rule area (keepout) is part of the footprint; note here
+    note("U3 pin 9 (marking\\narea) is not a pad.\\nKeepout rule area\\nis in the footprint.", (bx + 112, by + 76))
+
+    u4 = ic("LIS3DHTR", "U4", bx + 203.2, by + 48.26)
+    y, x0 = rail_caps(u4, ["1", "14"], ["100n", "100n", "10u"], 7.62)
+    p_cs, p_sa = u4.p("8"), u4.p("7")
+    x_l = p_cs[0] - 5.08
+    wire(p_cs, (x_l, p_cs[1]))
+    wire(p_sa, (x_l, p_sa[1]), (x_l, y), (x0, y))
+    pwr("+3V3", (x_l, y))
+    stub(u4, "6", "I2C_SDA")
+    stub(u4, "4", "I2C_SCL")
+    stub(u4, "11", "ACC_INT1")
+    for pn in ("9", "16", "15", "13"):
+        pin_nc(u4, pn)
+    pwr("GND", u4.p("5"))
+    pwr("GND", u4.p("10"))
+
     # ============================ E-paper ==============================
-    bx, by = 12.7, 184.15
-    rect(bx, by, bx + 215.9, by + 99.06, C_EPD, "E-PAPER (GDEY0154D67 ref. circuit)")
-    x0, y0 = bx + 15.24, by + 43.18
+    bx, by = 12.7, 181.61
+    rect(bx, by, bx + 143.51, by + 104.14, C_EPD, "E-PAPER (GDEY0154D67 ref. circuit)")
+    x0, y0 = bx + 12.7, by + 45.72
     pwr("+3V3", (x0, y0))
     cap_down("4u7_25", (x0, y0), side="L")
     l1 = Part("L_Small", "L1", x0 + 10.16, y0, 90, value="47uH",
@@ -689,7 +746,7 @@ def build():
     cap_down("1u50", n_gh)
     e_gh = add(n_gh, (1, 0), 7.62)
     wire(n_gh, e_gh)
-    label("PREVGH", e_gh, "R")
+    label("EPD_PREVGH", e_gh, "R")
     c3 = C("4u7_25", (sw[0], sw[1] - 7.62), "V", side="L")
     wire(sw, c3.p(2))
     nx = add(c3.p(1), (0, -1), 5.08)
@@ -705,46 +762,89 @@ def build():
     wire(ny, d1.p("1"))
     e_gl = add(d1.p("2"), (1, 0), 12.7)
     wire(d1.p("2"), e_gl)
-    label("PREVGL", e_gl, "R")
+    label("EPD_PREVGL", e_gl, "R")
     cap_down("1u50", add(e_gl, (-1, 0), 5.08))
 
-    j3 = ic("FPC-05F-24PH20", "J3", bx + 109.22, by + 50.8)
+    ly1 = pins_of("FPC-05F-24PH20")["1"][1]
+    j3 = ic("FPC-05F-24PH20", "J3", bx + 95.25, by + 7.62 + ly1)
     P = lambda n: j3.p(str(n))  # noqa: E731
     for n in (1, 4, 6, 7, 19):
-        nc(P(n))
+        pin_nc(j3, n)
     stub(j3, 2, "EPD_GDR")
     stub(j3, 3, "EPD_RESE")
+    hcap_row(P(5), "EPD_VSH2", "1u50")
+    g5 = (P(5)[0] + 20.32, P(5)[1])
+    pwr("GND", g5)
+    # BS = GND: long stub so the ground symbol clears the signal labels below
+    wire(P(8), (P(8)[0] + 19.05, P(8)[1]))
+    pwr("GND", (P(8)[0] + 19.05, P(8)[1]))
     for n, nm in ((9, "EPD_BUSY"), (10, "EPD_RST_N"), (11, "EPD_DC"), (12, "EPD_CS_N"),
                   (13, "EPD_SCK"), (14, "EPD_MOSI")):
         stub(j3, n, nm)
-    stub(j3, 21, "PREVGH")
-    xbs = P(8)[0] + 20.32
-    wire(P(8), (xbs, P(8)[1]))
-    pwr("GND", (xbs, P(8)[1]))
-    xc2 = P(5)[0] + 25.4
-    wire(P(5), (xc2, P(5)[1]))
-    cap_down("1u50", (xc2, P(5)[1]))
-    # VGL (23): PREVGL label + C on the pin, staircase of panel caps (lower rows shorter)
-    stub(j3, 23, "PREVGL")
-    stair = [(24, 22.86), (22, 35.56), (20, 48.26), (18, 60.96)]
-    for n, dx in stair:
-        x = P(n)[0] + dx
-        wire(P(n), (x, P(n)[1]))
-        cap_down("1u50", (x, P(n)[1]))
-    x17 = P(17)[0] + 73.66
-    wire(P(17), (x17, P(17)[1]))
-    pwr("GND", (x17, P(17)[1]))
-    x16 = P(16)[0] + 86.36
-    wire(P(16), (x16, P(16)[1]))
-    cap_down("1u50", (x16, P(16)[1]))
-    x15 = P(15)[0] + 78.74
-    wire(P(15), (x15, P(15)[1]), (x15, P(16)[1]))
-    pwr("+3V3", (x15, P(15)[1]))
+    # 3V3: VDDIO(15) + VCI(16) tied, one cap
+    x15 = P(15)[0]
+    wire(P(15), (x15 + 20.32, P(15)[1]))
+    pwr("+3V3", (x15 + 20.32, P(15)[1]))
+    wire(P(16), (x15 + 2.54, P(16)[1]), (x15 + 2.54, P(15)[1]))
+    cap_down("1u50", (x15 + 7.62, P(15)[1]), side="R")
+    # VSS(17) + panel caps on a ground bus
+    bus_top = (P(17)[0] + 20.32, P(17)[1])
+    wire(P(17), bus_top)
+    hcap_row(P(18), "EPD_VDD", "1u50")
+    hcap_row(P(20), "EPD_VSH1", "1u50")
+    hcap_row(P(22), "EPD_VSL", "1u50")
+    bus_bot = hcap_row(P(24), "EPD_VCOM", "1u50")
+    wire(bus_top, bus_bot)
+    pwr("GND", bus_bot)
+    stub(j3, 21, "EPD_PREVGH")
+    stub(j3, 23, "EPD_PREVGL")
     pwr("GND", P(25))
     pwr("GND", P(26))
     note("J3 pin n = panel pin n (straight FPC). FPC-05F-24PH20 is\\nbottom-contact: panel FPC contacts face the PCB. VERIFY.",
-         (bx + 2.54, by + 86.36))
-    note("BS=GND: 4-wire SPI. TSCL/TSDA/VPP/NC open.", (bx + 2.54, by + 92.71))
+         (bx + 2.54, by + 93.98))
+    note("BS=GND: 4-wire SPI. TSCL/TSDA/VPP/NC open.", (bx + 2.54, by + 99.06))
+
+    # ============================ Notes ================================
+    bx, by = 159.38, 181.61
+    rect(bx, by, 407.67, by + 68.58, C_UI, "NOTES")
+    note("GPIO MAP (ESP32-C6-MINI-1)\\n"
+         "IO0  BAT_ALRT_N  (LP wake)\\n"
+         "IO1  USB_PGOOD_N (LP wake)\\n"
+         "IO2  BTN_N       (LP wake)\\n"
+         "IO3  ACC_INT1    (LP wake)\\n"
+         "IO4  BARO_INT    (LP wake)\\n"
+         "IO5  open\\n"
+         "IO6  I2C_SDA     (LP_I2C)\\n"
+         "IO7  I2C_SCL     (LP_I2C)\\n"
+         "IO8  strap, 10k pull-up\\n"
+         "IO9  BOOT pad (strap)", (bx + 2.54, by + 9.0))
+    note("\\n"
+         "IO12 USB_D-\\n"
+         "IO13 USB_D+\\n"
+         "IO14 open\\n"
+         "IO15 open\\n"
+         "IO18 EPD_BUSY\\n"
+         "IO19 EPD_RST_N\\n"
+         "IO20 EPD_DC\\n"
+         "IO21 EPD_CS_N\\n"
+         "IO22 EPD_SCK\\n"
+         "IO23 EPD_MOSI\\n"
+         "EN, RXD0, TXD0, GND: test pads", (bx + 60.96, by + 9.0))
+    note("FIRMWARE\\n"
+         "Set the MAX17048 VALRT / cutoff and the brownout\\n"
+         "level to about 3.5 V: the RT9080 LDO drops out\\n"
+         "below that and the cell must not be run lower.",
+         (bx + 2.54, by + 36.0))
+    note("BRING-UP\\n"
+         "0R link between LDO_OUT and +3V3: replace it with\\n"
+         "an ammeter to measure sleep current.\\n"
+         "Test pads: VBUS, VBAT, VSYS, +3V3, GND.",
+         (bx + 2.54, by + 50.0))
+    note("BATTERY\\n"
+         "Q2 (AO3400A) in the BAT- lead blocks a reversed\\n"
+         "cell. MAX17048 and BQ24073 see system GND.\\n"
+         "Mark + and - on the J2 silkscreen.",
+         (bx + 2.54, by + 59.0))
 
 
 def main():
@@ -760,7 +860,14 @@ def main():
         ends[(x2, y2)] += 1
     pinset = Counter(PINPTS)
     junctions = []
-    for pt, n in ends.items():
+    cand = set(ends)
+    for pt in pinset:
+        for x1, y1, x2, y2 in WIRES:
+            if (x1 == x2 == pt[0] and min(y1, y2) < pt[1] < max(y1, y2)) or \
+               (y1 == y2 == pt[1] and min(x1, x2) < pt[0] < max(x1, x2)):
+                cand.add(pt)
+    for pt in cand:
+        n = ends.get(pt, 0)
         cnt = n + pinset.get(pt, 0)
         for x1, y1, x2, y2 in WIRES:
             if (x1 == x2 == pt[0] and min(y1, y2) < pt[1] < max(y1, y2)) or \
@@ -780,7 +887,8 @@ def main():
             f'(uuid "{ROOT_UUID}") (paper "A3") ')
     tb = dump(find(t, "title_block"))
     tb = tb.replace('">>TITLE<<"', '"ull-pocket: pocket environment meter"').replace(
-        '">>REVISION<<"', '"0.1"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+        '">>REVISION<<"', '"0.2"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+    tb = tb.replace('(rev "0.2")', '(date "2026-10-28") (rev "0.2")')
     body = "\n".join(ITEMS)
     tail = ('(sheet_instances (path "/" (page "1"))) (embedded_fonts no) '
             + dump(find(t, "embedded_files")) + ")")
