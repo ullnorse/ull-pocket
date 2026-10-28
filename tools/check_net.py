@@ -252,7 +252,7 @@ find_part(net(g, 2), "VBUS", "1.5kR")
 assert "D7" not in comps and "R23" not in comps, "D7/R23 retired in rev 0.5"
 assert len([r for r in comps if r.startswith("D") and "LED" in comps[r].get("Description", "")]) == 3
 assert comps["D6"]["LCSC"] == "C2288"
-for nm, val, col in (("LED_USER", "130R", "BLUE"),):
+for nm, val, col in (("LED_USER", "470R", "BLUE"),):
     ld = [r for r in comps if comps[r]["value"] == col][0]
     expect(ld, 1, "GND")
     find_part(nm, net(ld, 2), val)

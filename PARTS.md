@@ -27,7 +27,7 @@
 | D2-D4 | E-paper boost | MBR0530T1G | C82046 | SOD-123 | |
 | D1 | CHG indicator (red) | KT-0603R | C2286 | 0603 | basic, 7.5M in stock; from VSYS via R6 1.5k: 1.3-1.7 mA, only while charging; silkscreen CHG (D5 PWR, D6 USR) |
 | D5 + R21 | Power LED (green), VBUS - 1.5k - LED - GND | KT-0603G | C12624 | 0603 | extended (no basic green 0603); 432k in stock; LCSC Vf 3.1 V: (5.0-3.1)/1.5k = 1.3 mA, 0 on battery. R21 = 0402WGF1501TCE C25867 (basic) |
-| D6 + R22 | LED_USER blue on IO5 (LP GPIO), 130R; silkscreen USR | KT-0603B | C2288 | 0603 | extended, 160k+ in stock; LCSC Vf 3.1 V: (3.3-3.1)/130 = 1.5 mA. R22 = 0402WGF1300TCE C270649 (extended, 51k in stock) |
+| D6 + R22 | LED_USER blue on IO5 (LP GPIO), 470R; silkscreen USR | KT-0603B | C2288 | 0603 | extended, 160k+ in stock; LCSC Vf 3.1 V is @20 mA; at ~1 mA Vf is ~2.7-3.0 V -> 0.6-1.3 mA. R22 = 0402WGF4700TCE C25117 (basic) |
 | TH1 | Battery NTC on BQ24073 TS | SDNT1608X103F3435FTF 10k 1% B3435 | C525660 | 0603 | extended; 87.6k in stock; place under/against the cell. Window 0.5..50.8 C (75 uA bias: 28k / 4.0k trips); resume 3.9 / 47.9 C |
 | R8 | TS fallback fixed 10k, parallel to TH1 | 0402WGF1002TCE | C25744 | 0402 | DNP; excluded from BOM and placement; fixed 10k = 25 C |
 | L1 | E-paper boost | FNR4030S470MT 47 uH (Isat 1 A, Irms 800 mA, DCR 579 mR, 20%) | C167888 | 4x4x3 mm shielded | extended; 82k in stock; replaces SWPA4018S470MT (Isat 570 mA); panel reference needs 47 uH / 500 mA; footprint + 3D from easyeda2kicad, pads 1,2 match L_Small |

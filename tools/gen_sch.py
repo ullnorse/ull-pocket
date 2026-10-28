@@ -248,7 +248,7 @@ PARTS = {
             "MLCC 4.7nF 50V X7R 0402"),
     "1u50": ("1uF/50V", "0603C", "CL10A105KB8NNNC", SEMCO, "C15849", "MLCC 1uF 50V X5R 0603"),
     "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
-    "130R": ("130R", "0402R", "0402WGF1300TCE", UNIROYAL, "C270649", "Resistor 130R 1% 0402"),
+    "470R": ("470R", "0402R", "0402WGF4700TCE", UNIROYAL, "C25117", "Resistor 470R 1% 0402"),
     "1k": ("1kR", "0402R", "0402WGF1001TCE", UNIROYAL, "C11702", "Resistor 1k 1% 0402"),
     "22u": ("22uF/25V", "0805C", "CL21A226MAQNNNE", SEMCO, "C45783", "MLCC 22uF 25V X5R 0805"),
     "4u7_50": ("4.7uF/50V", "0805C", "CL21A475KBQNNNE", SEMCO, "C98192", "MLCC 4.7uF 50V X5R 0805"),
@@ -850,7 +850,7 @@ def build():
          "D5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\\n"
          "   Lit with USB present, 0 on battery.\\n"
          "D1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\\n"
-         "D6 blue IO5: 130R, (3.3-3.1)/130 = 1.5 mA.\\n"
+         "D6 blue IO5: 470R, ~0.6-1.3 mA (Vf 2.7-3.0 V at 1 mA).\\n"
          "Silkscreen: D5 PWR, D1 CHG, D6 USR.\\n"
          "No addressable LEDs: idle current.", (c3, by + 10.0), NS)
     note("BATTERY TEMPERATURE (TS)\\n"
@@ -889,7 +889,7 @@ def build():
     ux, uy = 353.06, 121.92
     rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LED / SPARE GPIO")
     x = ux + 12.7
-    r, d = led_chain(x, uy + 15.24, "130R", "BLUE", "LED_SMD:LED_0603_1608Metric", "KT-0603B", "Hubei KENTO Elec", "C2288", None)
+    r, d = led_chain(x, uy + 15.24, "470R", "BLUE", "LED_SMD:LED_0603_1608Metric", "KT-0603B", "Hubei KENTO Elec", "C2288", None)
     e = add(r.p(1), (0, -1), G)
     wire(r.p(1), e)
     label("LED_USER", e, "R")
@@ -900,7 +900,7 @@ def build():
     wire(tp_s, es)
     label("SPARE_IO14", es, "R")
     tp("SPARE_IO14", tp_s, show=False)
-    note("IO5 -> 130R -> blue: 1.5 mA\\nGPIO high = on, 3.3 V\\nSilk: PWR, CHG, USR", (ux + 2.54, uy + 38.1))
+    note("IO5 -> 470R -> blue: ~1 mA\\nGPIO high = on, 3.3 V\\nSilk: PWR, CHG, USR", (ux + 2.54, uy + 38.1))
     note("IO14: spare GPIO,\\ntest pad only", (ux + 27.94, uy + 30.48))
 
     # ============================ rev 0.4 additions (appended so existing refs stay stable) =====
