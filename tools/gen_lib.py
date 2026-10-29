@@ -297,14 +297,14 @@ def main():
     panel = ["NC", "GDR", "RESE", "NC", "VSH2", "TSCL", "TSDA", "BS", "BUSY", "RES#", "D/C#", "CS#",
              "SCL", "SDA", "VDDIO", "VCI", "VSS", "VDD", "VPP", "VSH1", "VGH", "VSL", "VGL", "VCOM"]
     out.append(ic(
-        "FPC-05F-24PH20", "J",
+        "FPC-05FB-24PH20", "J",
         right=[e for i in range(24) for e in ([(str(i + 1), panel[i], "passive")] +
                                               ([None] if 14 <= i < 23 else []))],
         bottom=[("25", "MP", "passive"), ("26", "MP", "passive")],
-        fields=F("ull-pocket:FPC-SMD_24P-P0.50_FPC-05F-24PH20",
-                 "https://www.lcsc.com/datasheet/C2856805.pdf",
-                 "FPC-05F-24PH20", "XUNPU", "C2856805"),
-        desc="FPC connector 24P 0.5 mm, flip lock, bottom contact; pin names = GDEY0154D67 panel pins",
+        fields=F("ull-pocket:FPC-SMD_24P-P0.50_FPC-05FB-24PH20",
+                 "https://www.lcsc.com/datasheet/C2856831.pdf",
+                 "FPC-05FB-24PH20", "XUNPU", "C2856831"),
+        desc="FPC connector 24P 0.5 mm, back flip lock, dual (top+bottom) contact; pin names = GDEY0154D67 panel pins",
         bottom_pitch=2 * G))
 
     # ---------------- PROG: 6-pad pogo programming cluster (no BOM, no placement) ----------------

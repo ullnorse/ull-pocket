@@ -21,7 +21,7 @@
 | U8 | USB ESD | USBLC6-2SC6 | C2687116 | SOT-23-6 | |
 | J1 | USB-C | TYPE-C-31-M-12 | C165948 | 16-pin SMD | 5.1k CC pull-downs |
 | J2 | Battery | S2B-PH-SM4-TB | C295747 | JST-PH 2P SMD | 503040 LiPo with protection PCB; pin 2 = BAT+, pin 1 = BAT- (via Q2); silkscreen must mark + and - |
-| J3 | E-paper FPC | FPC-05F-24PH20 | C2856805 | 24P 0.5 mm | verify contact side vs panel |
+| J3 | E-paper FPC | FPC-05FB-24PH20 | C2856831 | 24P 0.5 mm, back flip, dual contact, H2.0 | panel tail wraps round the board edge so its fingers (display side) face away from the PCB; FPC-05F-24PH20 (C2856805) is bottom-contact and would mirror the pin order. Straight map: J3 pin n = panel pin n. See docs/mechanical.md |
 | SW1 | Side button | TS24CA (verify side-actuated) | C393942 | 4.6x1.8 | wake button on LP GPIO; locating pegs are 0.7 mm NPTH holes (no pad) |
 | Q1 | E-paper boost switch | SI1308EDL-T1-GE3 | C469327 | SOT-323 | per panel reference circuit |
 | D2-D4 | E-paper boost | MBR0530T1G | C82046 | SOD-123 | |

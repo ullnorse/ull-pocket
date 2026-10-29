@@ -23,7 +23,7 @@ EEMAP = {
     "ESP32-C6-MINI-1-H4": "ESP32-C6-MINI-1-H4", "SHT31-DIS-B": "SHT31-DIS-B",
     "BMP585": "BMP585_C18184976", "LIS3DHTR": "LIS3DHTR_C15134", "MAX17048G+T10": "MAX17048G+T10",
     "BQ24073RGTR": "BQ24073RGTR", "RT9080-33GJ5": "RT9080-33GJ5", "USBLC6-2SC6": "USBLC6-2SC6_C2687116",
-    "FPC-05F-24PH20": "FPC-05F-24PH20", "TS24CA": "TS24CA", "SI1308EDL": "SI1308EDL-T1-GE3",
+    "FPC-05FB-24PH20": "FPC-05FB-24PH20", "TS24CA": "TS24CA", "SI1308EDL": "SI1308EDL-T1-GE3",
 }
 # documented, intentional name differences (symbol, pin): (easyeda, ours)
 ALLOW = {
@@ -78,7 +78,7 @@ def main():
         for num in sorted(a, key=lambda x: (len(x), x)):
             na = {norm(x) for x in a[num]}
             nb = {norm(x) for x in b[num]}
-            if s == "FPC-05F-24PH20":
+            if s == "FPC-05FB-24PH20":
                 exp = {FPC_PANEL[int(num) - 1]} if int(num) <= 24 else {"MP"}
                 if na != exp:
                     print(f"FAIL {s} pin {num}: {na} != panel {exp}")

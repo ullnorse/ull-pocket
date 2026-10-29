@@ -772,8 +772,8 @@ def build():
     label("EPD_PREVGL", e_gl, "R")
     cap_down("1u50", add(e_gl, (-1, 0), 5.08))
 
-    ly1 = pins_of("FPC-05F-24PH20")["1"][1]
-    j3 = ic("FPC-05F-24PH20", "J3", bx + 95.25, by + 7.62 + ly1)
+    ly1 = pins_of("FPC-05FB-24PH20")["1"][1]
+    j3 = ic("FPC-05FB-24PH20", "J3", bx + 95.25, by + 7.62 + ly1)
     P = lambda n: j3.p(str(n))  # noqa: E731
     for n in (1, 4, 6, 7, 19):
         pin_nc(j3, n)
@@ -807,7 +807,7 @@ def build():
     stub(j3, 23, "EPD_PREVGL")
     pwr("GND", P(25))
     pwr("GND", P(26))
-    note("J3 pin n = panel pin n (straight FPC). FPC-05F-24PH20 is\\nbottom-contact: panel FPC contacts face the PCB. VERIFY.",
+    note("J3 pin n = panel pin n (straight FPC). FPC-05FB-24PH20 is dual contact:\\npanel tail wraps round the board edge, contacts face away from the PCB.",
          (bx + 2.54, by + 93.98))
     note("BS=GND: 4-wire SPI. TSCL/TSDA/VPP/NC open.", (bx + 2.54, by + 99.06))
 
