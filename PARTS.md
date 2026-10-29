@@ -1,4 +1,4 @@
-# ull-pocket parts, rev 0.5 (2026-10-28) (stock checked on JLCPCB via pcbparts.dev, 2026-10-28)
+# ull-pocket parts, rev 0.5 (2026-10-28) (stock checked on JLCPCB via pcbparts.dev, 2026-10-28; LEDs 2026-10-29)
 
 | Ref | Function | Part | LCSC | Package | Note |
 |---|---|---|---|---|---|
@@ -25,10 +25,12 @@
 | SW1 | Side button | TS24CA (verify side-actuated) | C393942 | 4.6x1.8 | wake button on LP GPIO; locating pegs are 0.7 mm NPTH holes (no pad) |
 | Q1 | E-paper boost switch | SI1308EDL-T1-GE3 | C469327 | SOT-323 | per panel reference circuit |
 | D2-D4 | E-paper boost | MBR0530T1G | C82046 | SOD-123 | |
-| D1 | CHG indicator (red) | KT-0603R | C2286 | 0603 | basic, 7.5M in stock; from VSYS via R6 1.5k: 1.3-1.7 mA, only while charging; silkscreen CHG (D5 PWR, D6 USR) |
-| D5 + R21 | Power LED (green), VBUS - 1.5k - LED - GND | KT-0603G | C12624 | 0603 | extended (no basic green 0603); 432k in stock; LCSC Vf 3.1 V: (5.0-3.1)/1.5k = 1.3 mA, 0 on battery. R21 = 0402WGF1501TCE C25867 (basic) |
-| D6 + R22 | LED_USER blue on IO5 (LP GPIO), 470R; silkscreen USR | KT-0603B | C2288 | 0603 | extended, 160k+ in stock; LCSC Vf 3.1 V is @20 mA; at ~1 mA Vf is ~2.7-3.0 V -> 0.6-1.3 mA. R22 = 0402WGF4700TCE C25117 (basic) |
+| D1 + R6 | CHG indicator (red), side-view on bottom edge | XL-1606SURC (XINGLIGHT) | C965860 | SMD 1.7x0.6, H1.1, side-view | extended; 221k in stock; Vf 1.9-2.3 V @20 mA, ~1.8 V @1 mA; from VSYS (4.4 V while charging) via R6 2k: (4.4-1.8)/2k = 1.3 mA, only while charging. R6 = 0402WGF2001TCE C4109 (basic); silkscreen CHG (D5 PWR, D6 USR) |
+| D5 + R21 | Power LED (green), side-view on bottom edge, VBUS - 2k - LED - GND | XL-1606UGC (XINGLIGHT) | C965863 | SMD 1.7x0.6, H1.1, side-view | extended; 238k in stock; InGaN emerald, Vf 2.6-3.4 V @20 mA, ~2.6 V @1 mA: (5.0-2.6)/2k = 1.2 mA, 0 on battery. R21 = 0402WGF2001TCE C4109 (basic) |
+| D6 + R22 | LED_USER blue on IO5 (LP GPIO), side-view on bottom edge, 470R; silkscreen USR | XL-1606UBC (XINGLIGHT) | C965865 | SMD 1.7x0.6, H1.1, side-view | extended; 55k in stock; Vf 2.7-3.3 V @20 mA, 2.6-2.8 V @1 mA (datasheet I-V curve): (3.3-2.6..2.8)/470 = 1.1-1.5 mA. R22 = 0402WGF4700TCE C25117 (basic) |
 | TH1 | Battery NTC on BQ24073 TS | SDNT1608X103F3435FTF 10k 1% B3435 | C525660 | 0603 | extended; 87.6k in stock; place under/against the cell. Window 0.5..50.8 C (75 uA bias: 28k / 4.0k trips); resume 3.9 / 47.9 C |
 | R8 | TS fallback fixed 10k, parallel to TH1 | 0402WGF1002TCE | C25744 | 0402 | DNP; excluded from BOM and placement; fixed 10k = 25 C |
 | L1 | E-paper boost | FNR4030S470MT 47 uH (Isat 1 A, Irms 800 mA, DCR 579 mR, 20%) | C167888 | 4x4x3 mm shielded | extended; 82k in stock; replaces SWPA4018S470MT (Isat 570 mA); panel reference needs 47 uH / 500 mA; footprint + 3D from easyeda2kicad, pads 1,2 match L_Small |
 | DISP | E-paper panel | Good Display GDEY0154D67 (SSD1681, 200x200) | — | — | not at LCSC; hand-fit after assembly |
+
+LEDs D1/D5/D6 share footprint `ull-pocket:LED_XL-1606_SideView` (datasheet land pattern 2x 0.77x0.95 mm, pad 1 = cathode). The emitting face sits 0.1 mm inside the bottom board edge (pads 0.2 mm from the edge, custom DRC rule); the case needs a window or light pipe at each LED.

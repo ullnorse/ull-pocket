@@ -240,18 +240,20 @@ for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND", "SPARE_IO14"):
 for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH", "EPD_PREVGL", "LDO_OUT", "BAT_N"):
     if nm not in nets:
         bad.append(f"net {nm} missing")
-# CHG LED chain: CHG -> LED K, LED A -> 1.5k -> VSYS
+# CHG LED chain: CHG -> LED K, LED A -> 2k -> VSYS
 led = [r for r in comps if comps[r]["value"] == "RED"][0]
 expect(led, 1, net("U6", 9))
-find_part(net(led, 2), "VSYS", "1.5kR")
-# power LED: VBUS -> 1.5k -> green -> GND
+find_part(net(led, 2), "VSYS", "2kR")
+# power LED: VBUS -> 2k -> green -> GND
 g = [r for r in comps if comps[r]["value"] == "GREEN"][0]
 expect(g, 1, "GND")
-find_part(net(g, 2), "VBUS", "1.5kR")
+find_part(net(g, 2), "VBUS", "2kR")
 # user LED: GPIO -> R -> LED -> GND, active high; only one user LED (D6), no D7/R23
 assert "D7" not in comps and "R23" not in comps, "D7/R23 retired in rev 0.5"
 assert len([r for r in comps if r.startswith("D") and "LED" in comps[r].get("Description", "")]) == 3
-assert comps["D6"]["LCSC"] == "C2288"
+assert comps["D6"]["LCSC"] == "C965865"  # XL-1606UBC side-view
+for r_, l_ in (("D1", "C965860"), ("D5", "C965863")):
+    assert comps[r_]["LCSC"] == l_, r_
 for nm, val, col in (("LED_USER", "470R", "BLUE"),):
     ld = [r for r in comps if comps[r]["value"] == col][0]
     expect(ld, 1, "GND")

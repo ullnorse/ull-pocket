@@ -8310,7 +8310,7 @@
 		)
 		(uuid "c8c763e0-101a-5486-83d6-9eaef5f9c3fb")
 	)
-	(text "LEDS (about 1.3-1.5 mA)\nD5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\nD6 blue IO5: 470R, ~0.6-1.3 mA (Vf 2.7-3.0 V at 1 mA).\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
+	(text "LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\nD5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\nD6 blue IO5: 470R, Vf 2.6-2.8 @1 mA: 1.1-1.5 mA.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
 		(exclude_from_sim no)
 		(at 326.38 191.61 0)
 		(effects
@@ -11470,7 +11470,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+		(property "Footprint" "ull-pocket:LED_XL-1606_SideView"
 			(at 203.2 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -11492,7 +11492,7 @@
 				)
 			)
 		)
-		(property "Description" "LED red 0603, charge indicator"
+		(property "Description" "LED red side-view 1.7x0.6, charge indicator"
 			(at 203.2 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -11514,7 +11514,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603R"
+		(property "MPN" "XL-1606SURC"
 			(at 203.2 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -11525,7 +11525,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO Elec"
+		(property "Manufacturer" "XINGLIGHT"
 			(at 203.2 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -11536,7 +11536,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2286"
+		(property "LCSC" "C965860"
 			(at 203.2 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -13902,7 +13902,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1.5kR"
+		(property "Value" "2kR"
 			(at 204.724 44.069 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13935,7 +13935,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 1.5k 1% 0402"
+		(property "Description" "Resistor 2k 1% 0402"
 			(at 203.2 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -13946,7 +13946,7 @@
 				)
 			)
 		)
-		(property "MPN" "0402WGF1501TCE"
+		(property "MPN" "0402WGF2001TCE"
 			(at 203.2 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -13968,7 +13968,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25867"
+		(property "LCSC" "C4109"
 			(at 203.2 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -14335,7 +14335,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+		(property "Footprint" "ull-pocket:LED_XL-1606_SideView"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14379,7 +14379,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603B"
+		(property "MPN" "XL-1606UBC"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14390,7 +14390,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO Elec"
+		(property "Manufacturer" "XINGLIGHT"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -14401,7 +14401,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2288"
+		(property "LCSC" "C965865"
 			(at 365.76 144.78 90)
 			(hide yes)
 			(show_name no)
@@ -15023,7 +15023,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "1.5kR"
+		(property "Value" "2kR"
 			(at 89.916 31.369 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15056,7 +15056,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 1.5k 1% 0402"
+		(property "Description" "Resistor 2k 1% 0402"
 			(at 91.44 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -15067,7 +15067,7 @@
 				)
 			)
 		)
-		(property "MPN" "0402WGF1501TCE"
+		(property "MPN" "0402WGF2001TCE"
 			(at 91.44 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -15089,7 +15089,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25867"
+		(property "LCSC" "C4109"
 			(at 91.44 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -19546,7 +19546,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+		(property "Footprint" "ull-pocket:LED_XL-1606_SideView"
 			(at 91.44 35.56 90)
 			(hide yes)
 			(show_name no)
@@ -19568,7 +19568,7 @@
 				)
 			)
 		)
-		(property "Description" "LED green 0603, USB power present"
+		(property "Description" "LED green side-view 1.7x0.6, USB power present"
 			(at 91.44 35.56 90)
 			(hide yes)
 			(show_name no)
@@ -19590,7 +19590,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0603G"
+		(property "MPN" "XL-1606UGC"
 			(at 91.44 35.56 90)
 			(hide yes)
 			(show_name no)
@@ -19601,7 +19601,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO Elec"
+		(property "Manufacturer" "XINGLIGHT"
 			(at 91.44 35.56 90)
 			(hide yes)
 			(show_name no)
@@ -19612,7 +19612,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C12624"
+		(property "LCSC" "C965863"
 			(at 91.44 35.56 90)
 			(hide yes)
 			(show_name no)

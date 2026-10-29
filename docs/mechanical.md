@@ -77,6 +77,6 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - **BMP585 (U3):** at the tab root, also clear of the heat sources.
 - **USB-C (J1):** bottom centre. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
 - **SW1:** left edge (the right side seen from the front). The actuator is 0.3 mm past the edge.
-- **LEDs:** D5 PWR, D1 CHG and D6 USR sit on the F-side bottom edge, beside J1. The case needs light pipes to the bottom edge or front chin.
+- **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
 - **Programming and test points:** J4 pogo pads and TP1-TP6 are under the cell. Reach them with the battery unplugged.

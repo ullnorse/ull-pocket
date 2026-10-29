@@ -231,6 +231,7 @@ FP = {"0402R": "Resistor_SMD:R_0402_1005Metric", "0603R": "Resistor_SMD:R_0603_1
       "0402C": "Capacitor_SMD:C_0402_1005Metric", "0603C": "Capacitor_SMD:C_0603_1608Metric",
       "0805C": "Capacitor_SMD:C_0805_2012Metric"}
 UNIROYAL = "UNI-ROYAL(Uniroyal Elec)"
+LED_SIDE_FP = "ull-pocket:LED_XL-1606_SideView"  # XINGLIGHT XL-1606 side-view, emits toward -y (board edge)
 SEMCO = "Samsung Electro-Mechanics"
 PARTS = {
     "10k": ("10kR", "0402R", "0402WGF1002TCE", UNIROYAL, "C25744", "Resistor 10k 1% 0402"),
@@ -238,6 +239,7 @@ PARTS = {
     "100k": ("100kR", "0402R", "0402WGF1003TCE", UNIROYAL, "C25741", "Resistor 100k 1% 0402"),
     "3k3": ("3.3kR", "0402R", "0402WGF3301TCE", UNIROYAL, "C25890", "Resistor 3.3k 1% 0402"),
     "1k5": ("1.5kR", "0402R", "0402WGF1501TCE", UNIROYAL, "C25867", "Resistor 1.5k 1% 0402"),
+    "2k": ("2kR", "0402R", "0402WGF2001TCE", UNIROYAL, "C4109", "Resistor 2k 1% 0402"),
     "1M": ("1MR", "0402R", "0402WGF1004TCE", UNIROYAL, "C26083", "Resistor 1M 1% 0402"),
     "1M_0603": ("1MR", "0603R", "0603WAF1004T5E", UNIROYAL, "C22935", "Resistor 1M 1% 0603"),
     "2R2_0603": ("2.2R", "0603R", "0603WAF220KT5E", UNIROYAL, "C22939", "Resistor 2.2R 1% 0603"),
@@ -448,18 +450,18 @@ def build():
     wire(p_bat, n_bat)
     pwr("VBAT", n_bat)
     cap_down("10u", n_bat, side="L")
-    # CHG -> LED (K) ; LED (A) -> 1.5k -> VSYS
+    # CHG -> LED (K) ; LED (A) -> 2k -> VSYS
     p_chg = u6.p("9")
     x_led = p_chg[0] + 20.32
     led_c = (x_led, p_chg[1] - G)
     led = Part("LED_Small", nextref("D"), led_c[0], led_c[1], 90, value="RED",
-               fields={"Footprint": "LED_SMD:LED_0603_1608Metric", "MPN": "KT-0603R",
-                       "Manufacturer": "Hubei KENTO Elec", "LCSC": "C2286",
-                       "Description": "LED red 0603, charge indicator"},
+               fields={"Footprint": LED_SIDE_FP, "MPN": "XL-1606SURC",
+                       "Manufacturer": "XINGLIGHT", "LCSC": "C965860",
+                       "Description": "LED red side-view 1.7x0.6, charge indicator"},
                fpos={"Reference": (x_led + 1.524, led_c[1] - 0.889, "left"),
                      "Value": (x_led + 1.524, led_c[1] + 0.889, "left")})
     wire(p_chg, led.p("1"))
-    r_led = R("1k5", (x_led, led.p("2")[1] - G))
+    r_led = R("2k", (x_led, led.p("2")[1] - G))
     pwr("VSYS", r_led.p(1))
     # PGOOD -> 100k pull-up to 3V3 -> USB_PGOOD_N
     p_pg = u6.p("7")
@@ -846,11 +848,11 @@ def build():
          "panel idle while the MCU sleeps.\\n"
          "IO15: 10k to +3V3 (strap). If JTAG_SEL is\\n"
          "burned, selects USB Serial/JTAG, not pad JTAG.", (c2, by + 50.0), NS)
-    note("LEDS (about 1.3-1.5 mA)\\n"
-         "D5 green: VBUS-1.5k, (5.0-3.1)/1.5k = 1.3 mA.\\n"
+    note("LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\\n"
+         "D5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\\n"
          "   Lit with USB present, 0 on battery.\\n"
-         "D1 red CHG: VSYS-1.5k, 1.3-1.7 mA, charging.\\n"
-         "D6 blue IO5: 470R, ~0.6-1.3 mA (Vf 2.7-3.0 V at 1 mA).\\n"
+         "D1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\\n"
+         "D6 blue IO5: 470R, Vf 2.6-2.8 @1 mA: 1.1-1.5 mA.\\n"
          "Silkscreen: D5 PWR, D1 CHG, D6 USR.\\n"
          "No addressable LEDs: idle current.", (c3, by + 10.0), NS)
     note("BATTERY TEMPERATURE (TS)\\n"
@@ -874,14 +876,14 @@ def build():
         pwr("GND", d.p("1"))
         return r, d
 
-    # power LED: VBUS -> 1.5k -> green LED -> GND (USB present; zero drain on battery)
+    # power LED: VBUS -> 2k -> green LED -> GND (USB present; zero drain on battery)
     xp = 91.44
-    rp = R("1k5", (xp, 30.48), "V", "L")
+    rp = R("2k", (xp, 30.48), "V", "L")
     pwr("VBUS", rp.p(1))
     lcp = (xp, rp.p(2)[1] + G)
     Part("LED_Small", nextref("D"), lcp[0], lcp[1], 90, value="GREEN",
-         fields=led_f("green 0603, USB power present", "LED_SMD:LED_0603_1608Metric", "KT-0603G",
-                      "Hubei KENTO Elec", "C12624"),
+         fields=led_f("green side-view 1.7x0.6, USB power present", LED_SIDE_FP, "XL-1606UGC",
+                      "XINGLIGHT", "C965863"),
          fpos={"Reference": (xp - 2.7, lcp[1] - 0.889, "right"), "Value": (xp - 2.7, lcp[1] + 0.889, "right")})
     pwr("GND", (xp, lcp[1] + G))
 
@@ -889,7 +891,7 @@ def build():
     ux, uy = 353.06, 121.92
     rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LED / SPARE GPIO")
     x = ux + 12.7
-    r, d = led_chain(x, uy + 15.24, "470R", "BLUE", "LED_SMD:LED_0603_1608Metric", "KT-0603B", "Hubei KENTO Elec", "C2288", None)
+    r, d = led_chain(x, uy + 15.24, "470R", "BLUE", LED_SIDE_FP, "XL-1606UBC", "XINGLIGHT", "C965865", None)
     e = add(r.p(1), (0, -1), G)
     wire(r.p(1), e)
     label("LED_USER", e, "R")
