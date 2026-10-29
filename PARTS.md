@@ -13,7 +13,7 @@
 | Q2 | Battery reverse-polarity FET (low side, BAT- lead) | AO3400A | C20917 | SOT-23 | basic part, 1.13M in stock; Vgs(max) 12 V; drain = BAT_N (J2 pin 1), source = GND, gate = VBAT via R11 100k |
 | R13 | Sleep-current link, LDO_OUT to +3V3 | 0603WAF0000T5E 0R | C21189 | 0603 | basic part, 21.6M in stock; replace with an ammeter to measure sleep current |
 | TP1-TP6 | Test pads: VBUS, VSYS, GND, VBAT, +3V3, SPARE_IO14 (spare GPIO, IO14) | TestPoint_Pad_1.0x1.0mm | - | 1.0 mm pad | footprint only, excluded from BOM |
-| J4 | PROG pogo pads: +3V3, GND, EN, IO9/BOOT, TXD0, RXD0 | PogoPads_2x3_P2.54mm_D1.0 | - | 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads | footprint only, excluded from BOM and placement; mates with a 2x3 pogo clip or header; pad 1 (+3V3) is a sense/reference pin only: do not feed 3.3 V from a programmer with no battery fitted (back-feed through the RT9080) |
+| J4 | PROG pogo pads: +3V3, GND, EN, IO9/BOOT, TXD0, RXD0 | PogoPads_2x3_P2.54mm_D1.0 | - | 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads | footprint only, excluded from BOM and placement; on B.Cu above the panel; mates with a 2x3 pogo fixture (no room for a header); pad 1 (+3V3) is a sense/reference pin only: do not feed 3.3 V from a programmer with no battery fitted (back-feed through the RT9080) |
 | C8 | U1 3V3 bulk | CL21A226MAQNNNE 22uF/25V X5R | C45783 | 0805 | basic, 4.05M in stock |
 | C19 | E-paper boost coupling cap | CL21A475KBQNNNE 4.7uF/50V X5R | C98192 | 0805 | extended, 366k in stock |
 | R25, R26 | 100k pull-ups to +3V3 on EPD_RST_N, EPD_CS_N (panel idle in sleep) | 0402WGF1003TCE | C25741 | 0402 | basic |

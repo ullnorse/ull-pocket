@@ -35,7 +35,7 @@ zone(pcbnew.B_Cu, 'GND', full, 'GND_B')
 # In2: +3V3 pour over the west half (keeps In2 GND under the USB pair and the east side)
 # In2 is the +3V3 plane; GND is kept on In2 only under the USB pair (B.Cu) and its hops under J1
 zone(pcbnew.In2_Cu, '+3V3', full, 'P3V3_In2', prio=1)
-corr = [(19.35, 31.6), (19.35, 13.2), (20.8, 11.75), (30.6, 11.75), (31.1, 10.95), (33.25, 10.95), (33.25, 12.95), (21.45, 12.95), (20.85, 13.55), (20.85, 31.6)]
+corr = [(19.35, 31.6), (19.35, 13.2), (20.8, 11.75), (30.6, 11.75), (31.1, 10.95), (33.25, 10.95), (33.25, 13.45), (20.95, 13.45), (20.85, 13.55), (20.85, 31.6)]
 zone(pcbnew.In2_Cu, 'GND', corr, 'GND_In2_usb', prio=2)
 zone(pcbnew.In2_Cu, 'GND', [(18.5, 37.9), (21.8, 37.9), (21.8, 40.3), (18.5, 40.3)], 'GND_In2_hops', prio=2)
 

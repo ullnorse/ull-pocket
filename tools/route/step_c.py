@@ -14,13 +14,13 @@ mv('R25', 24.6, 18.55, 0)          # EPD RST/CS pull-ups beside J3 pins 10/12
 mv('R26', 24.6, 19.6, 0)
 for ref, y in (('C22', 20.9), ('C23', 22.5), ('C24', 24.1), ('C25', 25.7), ('C26', 27.3)):
     mv(ref, 24.6, y)
-# U6 exposed pad: 4 smaller paste windows leaving a 0.4 mm cross for the thermal via
+# U6 exposed pad: 4 smaller paste windows leaving a 0.47 mm cross for the thermal vias
 f = b.FindFootprintByReference('U6'); c = xy(f.GetPosition())
 k = 0
 for p in f.Pads():
     if p.GetNumber() == '' and not p.IsOnLayer(pcbnew.F_Cu):
-        dx = -0.48 if xy(p.GetPosition())[0] < c[0] else 0.48
-        dy = -0.48 if xy(p.GetPosition())[1] < c[1] else 0.48
+        dx = -0.51 if xy(p.GetPosition())[0] < c[0] else 0.51
+        dy = -0.51 if xy(p.GetPosition())[1] < c[1] else 0.51
         p.SetSize(pcbnew.VECTOR2I(MM(0.55), MM(0.55)))
         p.SetPosition(P(c[0] + dx, c[1] + dy)); k += 1
 print('U6 paste windows', k)

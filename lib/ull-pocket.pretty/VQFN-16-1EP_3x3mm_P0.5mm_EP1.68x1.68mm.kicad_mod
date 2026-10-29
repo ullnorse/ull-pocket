@@ -2,7 +2,7 @@
 	(version 20260206)
 	(generator "kicad-footprint-generator")
 	(layer "F.Cu")
-	(descr "ull-pocket copy: paste windows 0.55 at 0.48 leave a cross for one thermal via; VQFN, 16 Pin (http://www.ti.com/lit/ds/symlink/tlv62095.pdf)")
+	(descr "ull-pocket copy: paste windows 0.55 at 0.51 leave a 0.47 mm cross for five 0.45 mm thermal vias; VQFN, 16 Pin (http://www.ti.com/lit/ds/symlink/tlv62095.pdf)")
 	(tags "VQFN NoLead")
 	(property "Reference" "REF**"
 		(at 0 -2.83 0)
@@ -328,25 +328,25 @@
 		)
 	)
 	(pad "" smd roundrect
-		(at -0.48 -0.48)
+		(at -0.51 -0.51)
 		(size 0.55 0.55)
 		(layers "F.Paste")
 		(roundrect_rratio 0.25)
 	)
 	(pad "" smd roundrect
-		(at -0.48 0.48)
+		(at -0.51 0.51)
 		(size 0.55 0.55)
 		(layers "F.Paste")
 		(roundrect_rratio 0.25)
 	)
 	(pad "" smd roundrect
-		(at 0.48 -0.48)
+		(at 0.51 -0.51)
 		(size 0.55 0.55)
 		(layers "F.Paste")
 		(roundrect_rratio 0.25)
 	)
 	(pad "" smd roundrect
-		(at 0.48 0.48)
+		(at 0.51 0.51)
 		(size 0.55 0.55)
 		(layers "F.Paste")
 		(roundrect_rratio 0.25)

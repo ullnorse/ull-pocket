@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "10.99")
 	(layer "F.Cu")
-	(descr "Programming pads, 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads (pogo clip or 2x3 header)")
+	(descr "Programming pads, 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads (pogo pins only; courtyard is pads + 0.15 mm, no room for a header)")
 	(property "Reference" "REF**"
 		(at 1.27 -2.4 0)
 		(layer "F.SilkS")
@@ -52,19 +52,8 @@
 	)
 	(attr smd exclude_from_pos_files exclude_from_bom)
 	(fp_rect
-		(start -1.27 -1.27)
-		(end 3.81 6.35)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.SilkS")
-		(uuid "4bece52e-fa5b-5ed4-bb54-5d2c7fb703ca")
-	)
-	(fp_rect
-		(start -1.77 -1.77)
-		(end 4.31 6.85)
+		(start -0.65 -0.65)
+		(end 3.19 5.73)
 		(stroke
 			(width 0.05)
 			(type solid)

@@ -15,3 +15,9 @@
 (rule "sht_tab_thin"
 	(condition "A.Type == 'Track' && A.intersectsArea('SHT_TAB_no_pour')")
 	(constraint track_width (min 0.1mm) (opt 0.15mm) (max 0.15mm)))
+
+# U6 (BQ24073) EP: centre via plus four in the cross between the paste windows,
+# 0.55 mm pitch, 0.2 mm drills (0.35 mm hole gap; JLC via hole spacing min 0.2 mm).
+(rule "u6_ep_thermal_vias"
+	(condition "A.Type == 'Via' && B.Type == 'Via' && A.NetName == B.NetName && A.intersectsCourtyard('U6') && B.intersectsCourtyard('U6')")
+	(constraint hole_to_hole (min 0.3mm)))
