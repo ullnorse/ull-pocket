@@ -147,9 +147,9 @@ lines = ["# Rotation check (JLCPCB CPL)", "",
 for (fp, lcsc), ps in pairs.items():
     i = info[(fp, lcsc)]
     refs = ",".join(p["ref"] for p in ps)
-    k1 = v(i["p1k"]) + (" (cathode)" if lcsc in ("C965860", "C965863", "C965865", "C82046") else "")
+    k1 = v(i["p1k"]) + (" (cathode)" if lcsc in ("C965860", "C965863", "C965865", "C8598") else "")
     e1 = v(i["p1e"]) + (" (pad 2 = cathode)" if lcsc == "C965865" else
-                        " (cathode)" if lcsc in ("C965860", "C965863", "C82046") else "")
+                        " (cathode)" if lcsc in ("C965860", "C965863", "C8598") else "")
     lines.append(f"| {refs} | {fp.split(':')[-1]} | {lcsc} | {k1} | {i['ee']} | {e1} | {i['delta']} deg | "
                  f"{v(i['t']) if i['t']!=(0.0,0.0) else '0'} | {i['res']:.2f} / {i['res2']:.2f} |")
 lines += ["", "## Notes", "",
@@ -161,7 +161,7 @@ lines += ["", "## Notes", "",
           "  The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).",
           "- J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm",
           "  between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.",
-          "- J2: 0.08 mm shift ignored (< 0.1 mm). The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by",
+          "- J2 (DEALON PH-2PWB): pads 1 and 2 coincide with our footprint, no shift. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",
           "- Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview."]

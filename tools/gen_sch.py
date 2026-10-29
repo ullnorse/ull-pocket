@@ -504,7 +504,9 @@ def build():
     bx, by = 238.76, 12.7
     rect(bx, by, bx + 100.33, by + 69.85, C_BAT, "BATTERY + FUEL GAUGE")
     jx, jy = bx + 22.86, by + 20.32
-    j2 = Part("S2B-PH-SM4-TB", "J2", jx, jy, 180,
+    j2 = Part("S2B-PH-SM4-TB", "J2", jx, jy, 180, value="PH-2PWB",
+              fields={"MPN": "PH-2PWB", "Manufacturer": "DEALON", "LCSC": "C2905019",
+                      "Description": "JST PH 2.0 mm 2-pin SMD right-angle (DEALON PH-2PWB, pad-compatible with S2B-PH-SM4-TB)"},
               fpos={"Reference": (jx - 3.81, jy - 1.27, "right"),
                     "Value": (jx - 3.81, jy + 1.27, "right")})
     p_bp = j2.p("2")   # pin 2 = BAT+, pin 1 = BAT- (assumed, see note)
@@ -740,13 +742,13 @@ def build():
     wire(ns, ls)
     label("EPD_RESE", ls, "R")
     res_down("2R2_0603", ns, side="L")
-    d_fields = {"Footprint": "Diode_SMD:D_SOD-123", "MPN": "MBR0530T1G", "Manufacturer": "onsemi",
-                "LCSC": "C82046", "Description": "Schottky 30V 0.5A SOD-123"}
+    d_fields = {"Footprint": "Diode_SMD:D_SOD-123", "MPN": "B5819W SL", "Manufacturer": "Jiangsu Changjing Electronics",
+                "LCSC": "C8598", "Description": "Schottky 40V 1A SOD-123 (JLC basic; replaces MBR0530T1G)"}
 
     def diode(c, rot):
         ref = nextref("D")
         fpos = {"Reference": (c[0], c[1] - 2.286, None), "Value": (c[0], c[1] + 2.286, None)}
-        return Part("D_Schottky_Small", ref, c[0], c[1], rot, value="MBR0530", fields=d_fields, fpos=fpos)
+        return Part("D_Schottky_Small", ref, c[0], c[1], rot, value="B5819W", fields=d_fields, fpos=fpos)
 
     d3 = diode((sw[0] + 10.16, sw[1]), 180)       # SW -> PREVGH
     wire(sw, d3.p("2"))

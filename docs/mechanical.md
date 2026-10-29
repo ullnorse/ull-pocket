@@ -53,7 +53,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - 503040 cell, 600 mAh, 40 mm along x, from y 14 to 44.
 - It lies over the F side on a 3.5 mm shelf.
 - Parts under the shelf are at most 3.25 mm tall (USB-C 3.25, L1 3.0, J3 2.0, module 2.4).
-- J2 (JST PH SMD, 5.5 mm tall) is outside the cell outline, at top-left. Its opening faces +x.
+- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces +x.
 - The cell's lead end is at -x. Leave about 40 mm of lead.
 - J2 is marked + (pin 2, VBAT) and - (pin 1, BAT-) on silkscreen.
 

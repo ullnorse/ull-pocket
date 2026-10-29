@@ -272,7 +272,7 @@ l1 = find_part("+3V3", sw, "47uH")
 if l1 != ["L1"] or comps["L1"]["fp"] != "ull-pocket:IND-SMD_L4.0-W4.0_FNR40XXS" or comps["L1"]["LCSC"] != "C167888":
     bad.append("L1 should be FNR4030S470MT C167888 with the FNR40XXS footprint")
 find_part("+3V3", "GND", "4.7uF/25V")
-d = {r: (net(r, 1), net(r, 2)) for r in comps if comps[r]["value"] == "MBR0530"}   # (K, A)
+d = {r: (net(r, 1), net(r, 2)) for r in comps if comps[r]["value"] == "B5819W"}   # (K, A)
 x = [n for k, a in d.values() for n in (k, a) if n not in (sw, "GND", "EPD_PREVGH", "EPD_PREVGL")]
 xnode = x[0] if x else None
 got = {(k, a) for k, a in d.values()}
