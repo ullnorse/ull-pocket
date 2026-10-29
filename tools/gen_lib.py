@@ -263,7 +263,7 @@ def main():
                None, ("9", "~{CHG}", "open_collector"), ("7", "~{PGOOD}", "open_collector")],
         bottom=[("1", "TS", "passive"), ("16", "ISET", "passive"), ("12", "ILIM", "passive"),
                 ("14", "TMR", "passive"), ("8,17", "VSS", "power_in")],
-        fields=F("Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
+        fields=F("ull-pocket:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
                  "https://www.ti.com/lit/ds/symlink/bq24073.pdf",
                  "BQ24073RGTR", "Texas Instruments", "C15220"),
         desc="1-cell Li-ion charger with power path, 4.4 V OUT regulation, QFN-16",

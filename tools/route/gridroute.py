@@ -76,6 +76,8 @@ class Grid:
         for f in self.b.GetFootprints():
             for p in f.Pads():
                 same = p.GetNetname() == net and net
+                if p.GetAttribute() == pcbnew.PAD_ATTRIB_SMD and p.IsOnLayer(pcbnew.F_Cu):
+                    rect(vblk, p.GetEffectivePolygon(pcbnew.F_Cu).BBox(), 0.27 + vr)   # dog-bone: via edge >= 0.25 mm from any pad
                 if same:
                     continue
                 c = clr + (0.08 if p.GetNetname() in HOT else 0)
@@ -113,6 +115,28 @@ class Grid:
                     seg(blk[1], a, z, wd / 2 + c + hw); seg(vblk, a, z, wd / 2 + c + vr)
                 elif L == pcbnew.In2_Cu:
                     seg(vblk, a, z, wd / 2 + c + vr)
+        # BMP585 no-mask window: no foreign copper, own pads leave radially, no vias
+        u3 = self.b.FindFootprintByReference('U3')
+        if u3:
+            cx, cy = xy(u3.GetPosition()); W = 1.75
+            win = np.zeros((NY, NX), bool)
+            i0, i1 = cl(int((cx - W - hw - X0) / G)), cl(int((cx + W + hw - X0) / G) + 1)
+            j0, j1 = clyy(int((cy - W - hw - Y0) / G)), clyy(int((cy + W + hw - Y0) / G) + 1)
+            win[j0:j1, i0:i1] = True
+            vblk[clyy(j0 - int(vr / G) - 6):j1 + int(vr / G) + 6, cl(i0 - int(vr / G) - 6):i1 + int(vr / G) + 6] = True
+            for p in u3.Pads():
+                if p.GetNetname() == net and net:
+                    bb = p.GetEffectivePolygon(pcbnew.F_Cu).BBox()
+                    px0, py0 = xy(bb.GetOrigin()); px1, py1 = xy(bb.GetEnd())
+                    pcx, pcy = xy(p.GetPosition())
+                    if abs(pcx - cx) > abs(pcy - cy):   # left/right column: strip outward in x
+                        xa, xb = (cx - W - 1, px1) if pcx < cx else (px0, cx + W + 1)
+                        ya, yb = py0 + 0.1, py1 - 0.1
+                    else:
+                        ya, yb = (cy - W - 1, py1) if pcy < cy else (py0, cy + W + 1)
+                        xa, xb = px0 + 0.1, px1 - 0.1
+                    win[clyy(int((ya - Y0) / G)):clyy(int((yb - Y0) / G) + 1), cl(int((xa - X0) / G)):cl(int((xb - X0) / G) + 1)] = False
+            blk[0] |= win
         return blk, vblk
 
 
@@ -195,35 +219,31 @@ def seg(m, a, z, r):
 
 
 def net_cells(r, net):
-    """cells (layer, i, j) occupied by the net's pads and copper: sources/targets."""
-    out = {}
+    """connected copper groups of a net as cell sets: returns ({name: cells}, []) where every group is one island."""
+    items = []
     for f in r.b.GetFootprints():
         for p in f.Pads():
             if p.GetNetname() != net:
                 continue
-            key = f.GetReference() + '.' + p.GetNumber()
             cells = set()
             for li, lid in ((0, pcbnew.F_Cu), (1, pcbnew.B_Cu)):
                 if p.IsOnLayer(lid):
-                    sh = p.GetEffectivePolygon(lid)
-                    bb = sh.BBox()
+                    bb = p.GetEffectivePolygon(lid).BBox()
                     x0, y0 = xy(bb.GetOrigin()); x1, y1 = xy(bb.GetEnd())
-                    # shrink a little so the track end lands well inside the pad
                     cx, cy = xy(p.GetPosition())
                     for i in range(cl(int((x0 - X0) / G)), cl(int((x1 - X0) / G) + 1)):
                         for j in range(clyy(int((y0 - Y0) / G)), clyy(int((y1 - Y0) / G) + 1)):
                             x, y = XS[i], YS[j]
                             if abs(x - cx) <= max(0.05, (x1 - x0) / 2 - 0.08) and abs(y - cy) <= max(0.05, (y1 - y0) / 2 - 0.08):
                                 cells.add((li, i, j))
-            out[key] = cells
-    # existing copper of the net (tracks/vias) as one group per connected item set
-    tc = set()
+            items.append((f.GetReference() + '.' + p.GetNumber(), cells))
     for t in r.b.GetTracks():
         if t.GetNetname() != net:
             continue
+        cells = set()
         if t.GetClass() == 'PCB_VIA':
             i, j = idx(*xy(t.GetPosition()))
-            tc |= {(0, i, j), (1, i, j)}
+            cells |= {(0, i, j), (1, i, j)}
         else:
             L = {pcbnew.F_Cu: 0, pcbnew.B_Cu: 1}.get(t.GetLayer())
             if L is None:
@@ -231,9 +251,31 @@ def net_cells(r, net):
             a, z = xy(t.GetStart()), xy(t.GetEnd())
             n = max(1, int(math.hypot(z[0] - a[0], z[1] - a[1]) / G))
             for k in range(n + 1):
-                x = a[0] + (z[0] - a[0]) * k / n; y = a[1] + (z[1] - a[1]) * k / n
-                tc.add((L,) + idx(x, y))
-    return out, tc
+                cells.add((L,) + idx(a[0] + (z[0] - a[0]) * k / n, a[1] + (z[1] - a[1]) * k / n))
+        items.append(('trk', cells))
+    # union-find on touching cells (8-neighbourhood, same layer)
+    par = list(range(len(items)))
+    def fnd(k):
+        while par[k] != k:
+            par[k] = par[par[k]]; k = par[k]
+        return k
+    owner = {}
+    for k, (_, cells) in enumerate(items):
+        for c in cells:
+            for di in (-1, 0, 1):
+                for dj in (-1, 0, 1):
+                    o = owner.get((c[0], c[1] + di, c[2] + dj))
+                    if o is not None:
+                        par[fnd(k)] = fnd(o)
+            owner[c] = k
+    comp = {}
+    for k, (name, cells) in enumerate(items):
+        key = fnd(k)
+        nm, cs = comp.get(key, (None, set()))
+        if nm is None or (nm == 'trk' and name != 'trk'):
+            nm = name
+        comp[key] = (nm, cs | cells)
+    return {('%s#%d' % (nm, k)): cs for k, (nm, cs) in comp.items()}, []
 
 
 def astar(src, dst, blk, vblk, lcost, via_cost, turn=1.2):
@@ -280,7 +322,7 @@ def astar(src, dst, blk, vblk, lcost, via_cost, turn=1.2):
                 continue
             if blk[L][nj, ni] and (L, ni, nj) not in dset:
                 continue
-            step = (1.414 if k >= 4 else 1.0) * lcost[L]
+            step = (1.7 if k >= 4 else 1.0) * lcost[L]
             if d >= 0 and d != k:
                 step += turn
             ns = (L, ni, nj, k)
@@ -341,17 +383,7 @@ def emit(r, net, path, w, via_d, via_dr):
 
 def route_net(r, grid, net, w=0.15, clr=0.15, via=(0.6, 0.3), lcost=(1.25, 1.0), via_cost=25, order=None, allow=None, padr=1.2):
     pads, tc = net_cells(r, net)
-    groups = [set(c) for c in pads.values() if c]
-    if tc:
-        # merge pad groups touched by existing copper into one tree group
-        tree = set(tc)
-        rest = []
-        for gset in groups:
-            if gset & tree or any(((L, i + a, j + b) in tree) for (L, i, j) in list(gset)[:200] for a in (-1, 0, 1) for b in (-1, 0, 1)):
-                tree |= gset
-            else:
-                rest.append(gset)
-        groups = [tree] + rest
+    groups = sorted([set(c) for c in pads.values() if c], key=len, reverse=True)
     if order:
         pass
     if len(groups) < 2:
@@ -364,7 +396,7 @@ def route_net(r, grid, net, w=0.15, clr=0.15, via=(0.6, 0.3), lcost=(1.25, 1.0),
             j0, j1 = clyy(int((y0 - Y0) / G)), clyy(int((y1 - Y0) / G) + 1)
             for li in ((0,) if L == 'F' else (1,) if L == 'B' else (0, 1)):
                 am[li][j0:j1, i0:i1] = True
-        for gset in groups:
+        for gi_, gset in enumerate(groups):
             for (L, i, j) in gset:
                 n = int(padr / G)
                 am[0][max(0, j - n):j + n, max(0, i - n):i + n] = True

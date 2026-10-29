@@ -18,6 +18,13 @@ def in_v3(x, y):
 
 
 def all_via_block(vblk):
+    from gridroute import rect
+    for f in b.GetFootprints():
+        for p in f.Pads():
+            if p.GetAttribute() == pcbnew.PAD_ATTRIB_SMD and p.IsOnLayer(pcbnew.F_Cu):
+                rect(vblk, p.GetEffectivePolygon(pcbnew.F_Cu).BBox(), 0.57)
+    u3 = b.FindFootprintByReference('U3'); cx, cy = xy(u3.GetPosition())
+    i0, j0 = idx(cx - 2.35, cy - 2.35); i1, j1 = idx(cx + 2.35, cy + 2.35); vblk[j0:j1, i0:i1] = True
     for t in b.GetTracks():
         if t.GetClass() == 'PCB_VIA':
             circ(vblk, xy(t.GetPosition()), 0.86)
@@ -44,7 +51,7 @@ def place_vias(net, cond, maxd=1.6):
             bb = p.GetEffectivePolygon(pcbnew.F_Cu).BBox()
             hw_, hh_ = bb.GetWidth() / 2e6, bb.GetHeight() / 2e6
             best = None
-            for rad in np.arange(0.45, maxd, 0.1):
+            for rad in np.arange(0.57, maxd + 0.4, 0.1):
                 for a in range(0, 360, 15):
                     vx = px + (hw_ + rad) * math.cos(math.radians(a)) if abs(math.cos(math.radians(a))) > 0.3 else px + rad * math.cos(math.radians(a))
                     vy = py + (hh_ + rad) * math.sin(math.radians(a)) if abs(math.sin(math.radians(a))) > 0.3 else py + rad * math.sin(math.radians(a))
@@ -81,7 +88,7 @@ def place_vias(net, cond, maxd=1.6):
 
 
 place_vias('GND', lambda x, y: True)
-place_vias('+3V3', in_v3)
+place_vias('+3V3', lambda x, y: y > 0.7)
 
 # ---------------------------------------------------------------- stitching: board edge and module surround
 blk, vblk = grid.mask_items('GND', 0.3, 0.15, 0.6)
@@ -128,6 +135,8 @@ def connect_pad(net, ref, num, box):
     else:
         print('connect failed', ref, num)
 connect_pad('GND', 'U4', '5', (12, 2, 26, 14))
+connect_pad('GND', 'C15', '2', (14, 0, 30, 16))
+connect_pad('GND', 'C5', '2', (2, 8, 14, 20))
 SOLID = {'TP3': ('1',), 'U5': '1469', 'U4': '51012', 'U3': '36', 'J1': ('A1', 'A12', 'B1', 'B12')}
 for ref, pads in SOLID.items():
     f = b.FindFootprintByReference(ref)

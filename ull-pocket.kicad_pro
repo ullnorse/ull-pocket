@@ -910,6 +910,22 @@
       {
         "netclass": "PWR_3V3",
         "pattern": "*LDO_OUT"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_VSH1"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_VSH2"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_VSL"
+      },
+      {
+        "netclass": "EPD_BOOST",
+        "pattern": "*EPD_VCOM"
       }
     ]
   },

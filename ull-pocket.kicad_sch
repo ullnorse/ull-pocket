@@ -771,7 +771,7 @@
 					(justify left bottom)
 				)
 			)
-			(property "Footprint" "Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
+			(property "Footprint" "ull-pocket:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -26693,7 +26693,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
+		(property "Footprint" "ull-pocket:VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
 			(at 157.48 45.72 0)
 			(hide yes)
 			(show_name no)

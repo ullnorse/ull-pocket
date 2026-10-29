@@ -75,8 +75,8 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 
 - **SHT31 (U2):** on a 6.8 x 3.8 mm tab above the top-left edge, joined by a 3 mm neck. It has no copper pour (rule area). It is outside the panel and battery outlines, and about 25 mm from the module and charger. Vent the case at the tab.
 - **BMP585 (U3):** at the tab root, also clear of the heat sources.
-- **USB-C (J1):** bottom centre. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
+- **USB-C (J1):** bottom centre. The receptacle mouth overhangs the bottom edge by 0.6 mm so a plug seats through a thin case wall. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
 - **SW1:** left edge (the right side seen from the front). The actuator is 0.3 mm past the edge.
 - **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
-- **Programming and test points:** J4 pogo pads and TP1-TP6 are under the cell. Reach them with the battery unplugged.
+- **Programming and test points:** J4 pogo pads sit in the top strip between the cell connector and the module, outside the cell outline, so they are reachable with the battery fitted. TP6 (IO14) is beside U3. TP1-TP5 are under the cell; reach them with the battery unplugged.
