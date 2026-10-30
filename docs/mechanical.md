@@ -1,7 +1,7 @@
 # ull-pocket mechanical concept (layout phase 1)
 
-Board: 40.0 x 44.5 mm, 4-layer 1.6 mm (JLC04161H-3313), corners R1.
-Envelope with overhangs: 41.2 x 49.9 mm (antenna 5.4 mm up, SHT31 tab 5.4 mm up, FPC bend 1.2 mm right).
+Board: 40.0 x 44.5 mm rectangle, 4-layer 1.6 mm (JLC04161H-3313), corners R1. Only internal cut-out: the SHT31 moat.
+Envelope with overhangs: 41.2 x 49.9 mm (antenna 5.4 mm up, FPC bend 1.2 mm right). The USB-C mouth adds 0.6 mm at the bottom.
 Coordinates below: KiCad top view (F side), origin at board top-left (KiCad 100,100).
 
 ## Stack, front to back
@@ -68,13 +68,32 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - Its 5.4 mm antenna region overhangs the top board edge, which Espressif recommends.
 - The footprint's 15 mm keep-out falls entirely off the board.
 - Keep case metal, screws and the battery away from the overhang.
-- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, and J2 and its leads about 9 mm to the left.
+- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, J2 and its leads about 9 mm to the left, and the SHT31 island 10 mm to the left.
 - Panelization: the overhanging module needs a cut-out or an open edge in the JLC panel or rail at the top edge. Ask JLC for "components overhang board edge".
 
-## SHT31 tab and other parts
+## SHT31 island
 
-- **SHT31 (U2):** on a 6.8 x 3.8 mm tab above the top-left edge, joined by a 3 mm neck. It has no copper pour (rule area). It is outside the panel and battery outlines, and about 25 mm from the module and charger. Vent the case at the tab.
-- **BMP585 (U3):** at the tab root, also clear of the heat sources.
+U2 sits on a thermally isolated island at the top edge, between the J2 opening and U4.
+
+- Island: x 11.75-15.9, y 1.75-5.65 (4.15 x 3.9 mm). It carries U2 and its decoupling cap C11 only.
+- Moat: a 1.0 mm non-plated milled slot (Edge.Cuts cut-out) on the top, left and right, wrapping both bottom corners. Outer extent x 10.75-16.9, y 0.75-7.15. Convex slot corners are drawn R0.5 (1 mm cutter).
+- Bridge: x 11.75-14.75 (3.0 mm wide), y 5.65-7.15 (1.5 mm long), at the island's bottom-left. It carries four 0.15 mm F.Cu tracks: SDA, GND, SCL, +3V3.
+- Rim: 0.75 mm of bare FR4 between the moat and the top edge.
+- No copper pour on any layer over the rim, moat, island or bridge (rule area `SHT_island_no_pour`).
+- Heat sources are far away: the module 10 mm, the boost inductor L1 9 mm, the charger and the LDO about 30 mm. U4 (accelerometer, microamps) is 1.3 mm right of the moat.
+- The island is clear of the battery outline (the cell starts at y 14). On the B side its lower 1.45 mm and the bridge lie under the panel glass (from y 4.2).
+
+### Case vent
+
+- Put the vent in the top wall over x 11-17, on the F side (battery side) of the PCB. U2's sensing opening faces F. Sensor top surface: about 0.9 mm above the PCB.
+- Leave an open air path from the vent to the island above the F side. The cavity there is open up to the battery shelf at y 14.
+- Keep the J2 plug and battery leads off the island. The plug enters J2 from +x at x 10.1, around y 4-8.5. Run the leads down towards y 14, not over x 11-17.
+- Back side: do not tape the panel to the PCB over x 10.5-17, y 4.2-7.5. Tape there would bridge the moat to the glass.
+- Keep the wall rib or boss off the rim and island. A clamp there would also bridge the moat.
+
+## Other parts
+
+- **BMP585 (U3):** below the island at (13.5, 12.0), clear of the heat sources.
 - **USB-C (J1):** bottom centre. The receptacle mouth overhangs the bottom edge by 0.6 mm so a plug seats through a thin case wall. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
 - **SW1:** left edge (the right side seen from the front). The actuator is 0.3 mm past the edge.
 - **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.

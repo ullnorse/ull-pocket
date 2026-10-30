@@ -11,9 +11,9 @@
 	(condition "A.hasNetclass('EPD_BOOST')")
 	(constraint clearance (min 0.2mm)))
 
-# SHT31 tab and neck: thin tracks only, so the sensor stays thermally isolated.
-(rule "sht_tab_thin"
-	(condition "A.Type == 'Track' && A.intersectsArea('SHT_TAB_no_pour')")
+# SHT31 island (moated, top edge) and its bridge: thin tracks only, so the sensor stays thermally isolated.
+(rule "sht_island_thin"
+	(condition "A.Type == 'Track' && A.intersectsArea('SHT_island_no_pour')")
 	(constraint track_width (min 0.1mm) (opt 0.15mm) (max 0.15mm)))
 
 # U6 (BQ24073) EP: centre via plus four in the cross between the paste windows,
