@@ -6431,58 +6431,11 @@
 		(sheetfile "ull-pocket.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -6.75 -11.15)
-			(end 6.75 -11.15)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "7b3ec0da-bc27-432b-966b-f1fda2fe09b7")
-		)
-		(fp_line
-			(start -6.75 5.75)
-			(end -6.75 -11.15)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "3aad4a0b-10de-47db-b439-47176553e1da")
-		)
-		(fp_line
-			(start 6.75 -11.15)
-			(end 6.75 5.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "92fe3fdb-48d7-45d9-950a-f9a7d2d424ad")
-		)
-		(fp_line
-			(start 6.75 5.75)
-			(end -6.75 5.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "3b8ddd4e-ac17-4b6f-8e63-cce3ac220fc7")
-		)
-		(fp_poly
-			(pts
-				(xy -7.1 -4) (xy -7.436 -3.76) (xy -7.436 -4.24)
-			)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(fill yes)
-			(layer "F.SilkS")
-			(uuid "2dfa916c-bf60-40d5-a3bf-1295a2e06eeb")
-		)
+
+
+
+
+
 		(fp_line
 			(start -21.6 -26)
 			(end 21.6 -26)
@@ -16174,56 +16127,11 @@
 		(sheetfile "ull-pocket.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -4.7 -1.9)
-			(end -4.7 0.1)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "355fb783-f0b1-429c-a62a-175442a78852")
-		)
-		(fp_line
-			(start -4.7 2)
-			(end -4.7 3.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "530b79e8-d1c6-4dbc-a4bd-17e59057fbba")
-		)
-		(fp_line
-			(start -4.7 3.9)
-			(end 4.7 3.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "39763f7d-decc-4ad2-9594-a917ded45b85")
-		)
-		(fp_line
-			(start 4.7 -1.9)
-			(end 4.7 0.1)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "6d1548dd-2d29-4cb3-9372-36282ecd2f64")
-		)
-		(fp_line
-			(start 4.7 2)
-			(end 4.7 3.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "791d229a-6fc4-4272-8c60-52eed19f8929")
-		)
+
+
+
+
+
 		(fp_line
 			(start -5.32 -5.27)
 			(end -5.32 4.15)
@@ -17872,86 +17780,14 @@
 		(sheetfile "ull-pocket.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -2.28 -0.09)
-			(end -2.28 1.07)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "4361d307-b576-4c3e-be03-e3352a0950bc")
-		)
-		(fp_line
-			(start -1 -2.43)
-			(end -1 -1.23)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "d4368035-9016-491b-8604-9bd4c9489232")
-		)
-		(fp_line
-			(start -1 -2.43)
-			(end 1 -2.43)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "b651ec23-9042-4fd9-bff2-1d0e1bcd8cf0")
-		)
-		(fp_line
-			(start -0.89 1.07)
-			(end -1.17 1.07)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "bf0b00d4-20e9-45b9-905b-0b1646b5ff95")
-		)
-		(fp_line
-			(start -0.89 1.07)
-			(end 0.89 1.07)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "d3411817-ac7f-4a74-9eae-6cbffafbce68")
-		)
-		(fp_line
-			(start 0.89 1.07)
-			(end 1.17 1.07)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "46b1db44-ac3e-4233-afa7-f3de5b05ca52")
-		)
-		(fp_line
-			(start 1 -2.43)
-			(end 1 -1.23)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "850d139a-11fc-4dc0-9423-8395aed52786")
-		)
-		(fp_line
-			(start 2.28 -0.09)
-			(end 2.28 1.07)
-			(stroke
-				(width 0.25)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "d7354773-8f67-43ac-82f6-f4d209e2b2cc")
-		)
+
+
+
+
+
+
+
+
 		(fp_circle
 			(center -2.28 1.13)
 			(end -2.25 1.13)
