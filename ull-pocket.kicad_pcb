@@ -203,7 +203,7 @@
 				)
 			)
 		)
-		(property "Value" "B5819W"
+		(property "Value" "MBR0530"
 			(at 0 2.1 0)
 			(layer "F.Fab")
 			(uuid "e1575780-d6a3-401f-b070-fd5725ba6da5")
@@ -227,7 +227,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky 40V 1A SOD-123 (JLC basic; replaces MBR0530T1G)"
+		(property "Description" "Schottky 30V 0.5A SOD-123"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -240,7 +240,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Jiangsu Changjing Electronics"
+		(property "Manufacturer" "onsemi"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -253,7 +253,7 @@
 				)
 			)
 		)
-		(property "MPN" "B5819W SL"
+		(property "MPN" "MBR0530T1G"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -266,7 +266,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C8598"
+		(property "LCSC" "C82046"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1453,7 +1453,7 @@
 				)
 			)
 		)
-		(property "Value" "B5819W"
+		(property "Value" "MBR0530"
 			(at 0 2.1 0)
 			(layer "F.Fab")
 			(uuid "109ab715-e3ee-4ad9-b4fa-a0411b105fe7")
@@ -1477,7 +1477,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky 40V 1A SOD-123 (JLC basic; replaces MBR0530T1G)"
+		(property "Description" "Schottky 30V 0.5A SOD-123"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1490,7 +1490,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Jiangsu Changjing Electronics"
+		(property "Manufacturer" "onsemi"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1503,7 +1503,7 @@
 				)
 			)
 		)
-		(property "MPN" "B5819W SL"
+		(property "MPN" "MBR0530T1G"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1516,7 +1516,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C8598"
+		(property "LCSC" "C82046"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7292,7 +7292,7 @@
 				)
 			)
 		)
-		(property "Value" "B5819W"
+		(property "Value" "MBR0530"
 			(at 0 2.1 90)
 			(layer "F.Fab")
 			(uuid "3d814a61-2211-4b2d-aea5-2ff5fd826111")
@@ -7316,7 +7316,7 @@
 				)
 			)
 		)
-		(property "Description" "Schottky 40V 1A SOD-123 (JLC basic; replaces MBR0530T1G)"
+		(property "Description" "Schottky 30V 0.5A SOD-123"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7329,7 +7329,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Jiangsu Changjing Electronics"
+		(property "Manufacturer" "onsemi"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7342,7 +7342,7 @@
 				)
 			)
 		)
-		(property "MPN" "B5819W SL"
+		(property "MPN" "MBR0530T1G"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7355,7 +7355,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C8598"
+		(property "LCSC" "C82046"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")

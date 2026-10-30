@@ -742,13 +742,13 @@ def build():
     wire(ns, ls)
     label("EPD_RESE", ls, "R")
     res_down("2R2_0603", ns, side="L")
-    d_fields = {"Footprint": "Diode_SMD:D_SOD-123", "MPN": "B5819W SL", "Manufacturer": "Jiangsu Changjing Electronics",
-                "LCSC": "C8598", "Description": "Schottky 40V 1A SOD-123 (JLC basic; replaces MBR0530T1G)"}
+    d_fields = {"Footprint": "Diode_SMD:D_SOD-123", "MPN": "MBR0530T1G", "Manufacturer": "onsemi",
+                "LCSC": "C82046", "Description": "Schottky 30V 0.5A SOD-123"}
 
     def diode(c, rot):
         ref = nextref("D")
         fpos = {"Reference": (c[0], c[1] - 2.286, None), "Value": (c[0], c[1] + 2.286, None)}
-        return Part("D_Schottky_Small", ref, c[0], c[1], rot, value="B5819W", fields=d_fields, fpos=fpos)
+        return Part("D_Schottky_Small", ref, c[0], c[1], rot, value="MBR0530", fields=d_fields, fpos=fpos)
 
     d3 = diode((sw[0] + 10.16, sw[1]), 180)       # SW -> PREVGH
     wire(sw, d3.p("2"))

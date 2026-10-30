@@ -21,7 +21,7 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 | C17 | C_0805_2012Metric | C1779 | (-0.95, 0.00) | C0805 | (-1.00, 0.00) | 0 deg | 0 | 0.05 / 1.38 |
 | C19 | C_0805_2012Metric | C98192 | (-0.95, 0.00) | C0805 | (-1.00, 0.00) | 0 deg | 0 | 0.05 / 1.38 |
 | D1 | LED_XL-1606_SideView | C965860 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-RD_RED-SIDE | (-0.85, 0.00) (cathode) | 180 deg | (0.00, -0.28) | 0.04 / 1.18 |
-| D2,D3,D4 | D_SOD-123 | C8598 | (-1.65, 0.00) (cathode) | SOD-123_L2.7-W1.6-LS3.7-RD-1 | (-1.70, 0.00) (cathode) | 0 deg | 0 | 0.05 / 2.37 |
+| D2,D3,D4 | D_SOD-123 | C82046 | (-1.65, 0.00) | SOD-123_L2.7-W1.6-LS3.7-RD-1 | (-1.70, 0.00) | 0 deg | 0 | 0.05 / 2.37 |
 | D5 | LED_XL-1606_SideView | C965863 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-R-RD_ORANGE | (-0.75, 0.00) (cathode) | 180 deg | (0.00, -0.28) | 0.06 / 1.11 |
 | D6 | LED_XL-1606_SideView | C965865 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-R-RD_BULE | (-0.80, 0.00) (pad 2 = cathode) | 180 deg | (0.00, -0.28) | 0.01 / 1.14 |
 | J1 | USB_C_Receptacle_HRO_TYPE-C-31-M-12 | C165948 | (-3.25, -4.04) | USB-C_SMD-TYPE-C-31-M-12_1 | (-3.20, -2.47) | 0 deg | (0.00, 1.57) | 0.00 / 2.47 |
