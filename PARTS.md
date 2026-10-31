@@ -13,7 +13,11 @@
 | Q2 | Battery reverse-polarity FET (low side, BAT- lead) | AO3400A | C20917 | SOT-23 | basic part, 1.13M in stock; Vgs(max) 12 V; drain = BAT_N (J2 pin 1), source = GND, gate = VBAT via R11 100k |
 | R13 | Sleep-current link, LDO_OUT to +3V3 | 0603WAF0000T5E 0R | C21189 | 0603 | basic part, 21.6M in stock; replace with an ammeter to measure sleep current |
 | TP1-TP6 | Test pads: VBUS, VSYS, GND, VBAT, +3V3, SPARE_IO14 (spare GPIO, IO14) | TestPoint_Pad_1.0x1.0mm | - | 1.0 mm pad | footprint only, excluded from BOM |
-| J4 | PROG pogo pads: +3V3, GND, EN, IO9/BOOT, TXD0, RXD0 | PogoPads_2x3_P2.54mm_D1.0 | - | 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads | footprint only, excluded from BOM and placement; on B.Cu above the panel; mates with a 2x3 pogo fixture (no room for a header); pad 1 (+3V3) is a sense/reference pin only: do not feed 3.3 V from a programmer with no battery fitted (back-feed through the RT9080) |
+| J4 | PROG pogo pads: VREF, GND, EN, IO9/BOOT, TXD0, RXD0 | PogoPads_2x3_P2.54mm_D1.0 | - | 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads | footprint only, excluded from BOM and placement; on B.Cu above the panel; mates with a 2x3 pogo fixture (no room for a header); pad 1 is VREF, a sense-only reference fed from +3V3 through R27 1k: the programmer cannot power the board. Power from USB or the battery while programming |
+| R27 | J4.1 VREF series resistor, +3V3 to J4 pad 1 | 0402WGF1001TCE 1k | C11702 | 0402 | basic; on F left of U1 at (20.4, 2.7), via + B.Cu run to the pad; limits programmer back-feed to ~1 mA |
+| R3 | USB-C shield to GND | 0402WGF0000TCE 0R | C17168 | 0402 | basic; plastic case, shield tied straight to GND (was 1M) |
+| C1 | USB-C shield RC option | 0402B472K500NT 4.7nF/50V | C1538 | 0402 | DNP; excluded from BOM and placement; footprint kept for a metal-case RC option |
+| R28 + C27 | SW1 series resistor (switch side BTN_SW) + BTN_N debounce cap to GND | 0402WGF1000TCE 100R / CL05B104KO5NNNC 100nF | C25076 / C1525 | 0402 | basic; right of SW1; R28 limits ESD current into IO2; press discharges C27 in ~10 us through R28, release recharges it through R14 100k (tau 10 ms) |
 | C8 | U1 3V3 bulk | CL21A226MAQNNNE 22uF/25V X5R | C45783 | 0805 | basic, 4.05M in stock |
 | C19 | E-paper boost coupling cap | CL21A475KBQNNNE 4.7uF/50V X5R | C98192 | 0805 | extended, 366k in stock |
 | R25, R26 | 100k pull-ups to +3V3 on EPD_RST_N, EPD_CS_N (panel idle in sleep) | 0402WGF1003TCE | C25741 | 0402 | basic |

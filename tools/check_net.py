@@ -166,7 +166,10 @@ for p, nm in FPC.items():
 expect("SW1", 2, "GND")
 expect("SW1", 3, "GND")
 expect("SW1", 4, "GND")
-expect("SW1", 1, "BTN_N")
+expect("SW1", 1, "BTN_SW")
+between("R28", "BTN_N", "BTN_SW")             # 100R series: ESD / debounce with C27
+if comps["R28"]["value"] != "100R":
+    bad.append("R28 should be 100R")
 
 
 # ---------------- passives by topology
@@ -189,6 +192,7 @@ def find_part(a, b, value=None):
 find_part("I2C_SDA", "+3V3", "10kR")
 find_part("I2C_SCL", "+3V3", "10kR")
 find_part("BTN_N", "+3V3", "100kR")
+find_part("BTN_N", "GND", "100nF/16V")          # debounce with R28
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
 find_part(net("U1", 8), "+3V3", "10kR")
@@ -196,8 +200,9 @@ find_part(net("U1", 20), "+3V3", "10kR")        # IO15 strap pull-up (JTAG_SEL b
 find_part("EPD_CS_N", "+3V3", "100kR")           # e-paper sleep pull-ups
 find_part("EPD_RST_N", "+3V3", "100kR")
 # programming pogo cluster J4: +3V3, GND, EN, BOOT, TXD0, RXD0; no BOM, no placement
-for pin, nm in ((1, "+3V3"), (2, "GND"), (3, "EN"), (4, "BOOT"), (5, "TXD0"), (6, "RXD0")):
+for pin, nm in ((1, "VREF"), (2, "GND"), (3, "EN"), (4, "BOOT"), (5, "TXD0"), (6, "RXD0")):
     expect("J4", pin, nm)
+find_part("VREF", "+3V3", "1kR")           # J4.1 is a sense-only VREF; programmer cannot feed +3V3
 if flags["J4"] != {"exclude_from_bom", "exclude_from_pos_files"}:
     bad.append(f"J4 should be excluded from BOM and placement: {flags['J4']}")
 if "PogoPads_2x3_P2.54mm" not in comps["J4"]["fp"]:
@@ -210,8 +215,12 @@ find_part(net("J1", "A5"), "GND", "5.1kR")
 find_part(net("J1", "B5"), "GND", "5.1kR")
 if net("J1", "A5") == net("J1", "B5"):
     bad.append("CC1 and CC2 shorted")
-find_part(net("J1", "SH"), "GND", "1MR")
-find_part(net("J1", "SH"), "GND", "4.7nF/50V")
+sh0 = find_part(net("J1", "SH"), "GND", "0R")        # plastic case: shield straight to GND
+if sh0 and comps[sh0[0]]["LCSC"] != "C17168":
+    bad.append("shield 0R should be 0402 C17168")
+shc = find_part(net("J1", "SH"), "GND", "4.7nF/50V")  # RC option kept as a DNP footprint
+if shc and flags[shc[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"}:
+    bad.append("shield 4.7 nF should be DNP + excluded from BOM and placement")
 ts = net("U6", 1)
 th = find_part(ts, "GND", "NTC10k")[0]
 if comps[th]["LCSC"] != "C525660" or "0603" not in comps[th]["fp"]:

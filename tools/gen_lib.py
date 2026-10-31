@@ -310,11 +310,11 @@ def main():
     # ---------------- PROG: 6-pad pogo programming cluster (no BOM, no placement) ----------------
     prog = ic(
         "PROG", "J",
-        right=[("1", "+3V3", "passive"), ("2", "GND", "passive"), ("3", "EN", "passive"),
+        right=[("1", "VREF", "passive"), ("2", "GND", "passive"), ("3", "EN", "passive"),
               ("4", "IO9/BOOT", "passive"), ("5", "TXD0", "passive"), ("6", "RXD0", "passive")],
         fields=F("ull-pocket:PogoPads_2x3_P2.54mm_D1.0",
                  "", "PROG", "-", "-"),
-        desc="Programming pads: 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads; mates with a 2x3 pogo clip or header")
+        desc="Programming pads: 2x3 grid, 2.54 mm pitch, 1.0 mm round SMD pads; pad 1 VREF is sense-only (1k from +3V3)")
     prog = prog.replace("(in_bom yes)", "(in_bom no)", 1).replace("(in_pos_files yes)", "(in_pos_files no)", 1)
     out.append(prog)
 

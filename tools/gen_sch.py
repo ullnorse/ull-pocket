@@ -252,6 +252,8 @@ PARTS = {
     "0R": ("0R", "0603R", "0603WAF0000T5E", UNIROYAL, "C21189", "Resistor 0R 0603 (sleep-current link)"),
     "470R": ("470R", "0402R", "0402WGF4700TCE", UNIROYAL, "C25117", "Resistor 470R 1% 0402"),
     "1k": ("1kR", "0402R", "0402WGF1001TCE", UNIROYAL, "C11702", "Resistor 1k 1% 0402"),
+    "0R_0402": ("0R", "0402R", "0402WGF0000TCE", UNIROYAL, "C17168", "Resistor 0R 0402 (USB shield to GND)"),
+    "100R": ("100R", "0402R", "0402WGF1000TCE", UNIROYAL, "C25076", "Resistor 100R 1% 0402"),
     "22u": ("22uF/25V", "0805C", "CL21A226MAQNNNE", SEMCO, "C45783", "MLCC 22uF 25V X5R 0805"),
     "4u7_50": ("4.7uF/50V", "0805C", "CL21A475KBQNNNE", SEMCO, "C98192", "MLCC 4.7uF 50V X5R 0805"),
     "4u7_25": ("4.7uF/25V", "0805C", "CL21A475KAQNNNE", SEMCO, "C1779", "MLCC 4.7uF 25V X5R 0805"),
@@ -288,8 +290,8 @@ def R(key, c, orient="V", side="R", fpos=None, dnp=False):
     return _passive("R_Small_US", "R", key, c, orient, side, fpos, dnp)
 
 
-def C(key, c, orient="V", side="R", fpos=None):
-    return _passive("C_Small", "C", key, c, orient, side, fpos)
+def C(key, c, orient="V", side="R", fpos=None, dnp=False):
+    return _passive("C_Small", "C", key, c, orient, side, fpos, dnp)
 
 
 def cap_down(key, top, side="R", gnd=True):
@@ -365,6 +367,20 @@ def rail_caps(part, pins, caps, rise, step=20.32, side="R"):
     return y, xl
 
 
+SW_PTS, J4_PTS = [], []
+
+
+def hres(key, a, b, below=False):
+    """horizontal resistor whose pins land on a and b (5.08 mm apart, same y)"""
+    x, y = (a[0] + b[0]) / 2, a[1]
+    fp = {"Reference": (x + 1.27, y + 2.286, None), "Value": (x + 1.27, y + 4.064, None)} if below else \
+        {"Reference": (x, y - 2.286, None), "Value": (x, y + 2.286, None)}
+    r = R(key, (x, y), "H", fpos=fp)
+    pts = sorted([r.p(1), r.p(2)])
+    assert pts == sorted([a, b]), (pts, a, b)
+    return r
+
+
 def build():
     C_USB = (0, 132, 80)
     C_PWR = (194, 24, 7)
@@ -404,8 +420,9 @@ def build():
     wire(sh, shn)
     xl, xr = shn[0] - 2.54, shn[0] + 2.54
     wire((xl, shn[1]), (xr, shn[1]))
-    r_sh = R("1M", (xl, shn[1] + G), "V", side="L")
-    c_sh = C("4n7", (xr, shn[1] + G), "V", side="R")
+    # plastic case: shield straight to GND through a 0R; the 4.7 nF RC option stays as a DNP footprint
+    r_sh = R("0R_0402", (xl, shn[1] + G), "V", side="L")
+    c_sh = C("4n7", (xr, shn[1] + G), "V", side="R", dnp=True)
     bot = r_sh.p(2)
     wire(bot, c_sh.p(2))
     pwr("GND", (shn[0], bot[1]))
@@ -596,7 +613,7 @@ def build():
     sw1 = Part("TS24CA", "SW1", bx + 43.18, by + 13.97, 0)
     p1 = sw1.p("1")
     n1 = add(p1, (-1, 0), 10.16)
-    wire(p1, n1)
+    SW_PTS.extend([p1, n1])   # 100R series + 100 nF debounce are added at the end (stable refs)
     res_up("100k", n1, "+3V3", side="RU")
     e1 = add(n1, (-1, 0), 2.54)
     wire(n1, e1)
@@ -911,7 +928,7 @@ def build():
     mx, my = 12.7, 86.36   # MCU box origin
     # programming pogo cluster J4: +3V3, GND, EN, IO9/BOOT, TXD0, RXD0 (no BOM, no placement)
     j4 = Part("PROG", "J4", 25.4, 157.48, 0, in_bom=False, in_pos=False)
-    pin_pwr(j4, "1", "+3V3", 10.16)
+    J4_PTS.extend([j4.p("1"), j4.out("1")])   # 1k sense resistor to +3V3 added at the end (stable refs)
     pin_pwr(j4, "2", "GND", 10.16)
     for pn, nm in (("3", "EN"), ("4", "BOOT"), ("5", "TXD0"), ("6", "RXD0")):
         stub(j4, pn, nm)
@@ -931,6 +948,25 @@ def build():
         else:
             wire((pt[0] + G, pt[1]), e)
         res_up("100k", e, "+3V3", side=side)
+
+    # ============================ rev 0.6 review changes (appended so existing refs stay stable) =====
+    # J4.1 is a sense-only VREF for the programmer: 1k from +3V3, so a programmer cannot feed the rail
+    p, d = J4_PTS
+    a = add(p, d, G)
+    b = add(p, d, G + 5.08)
+    e = add(p, d, 10.16)
+    wire(p, a)
+    hres("1k", a, b) if a[0] < b[0] else hres("1k", b, a)
+    wire(b, e)
+    pwr("+3V3", e)
+    label("VREF", a, {(1, 0): "U", (-1, 0): "U", (0, -1): "R", (0, 1): "R"}[d])
+    # SW1: 100R series (ESD/debounce) between the switch and the BTN_N node, 100 nF BTN_N to GND
+    p1, n1 = SW_PTS
+    ra, rb = add(p1, (-1, 0), 5.08), n1   # R28 lands directly on the BTN_N node
+    wire(p1, ra)
+    hres("100R", rb, ra, below=True)
+    label("BTN_SW", add(p1, (-1, 0), G), "D")
+    cap_down("100n", n1, side="L")
 
 
 def main():

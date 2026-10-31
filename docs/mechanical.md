@@ -98,11 +98,12 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
 - **SW1:** left edge (the right side seen from the front). The actuator is 0.3 mm past the edge.
 - **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
-- **Programming and test points:** J4 (PROG) pogo pads are on the back, top-right strip under the module (x 30.5-36.6, y 0.35-3.9), between the board edge and the panel (panel starts at y 4.2). They are clear of the J2 plug and its lead on the front, and reachable with the battery fitted. Pogo pins only: there is no room for a 2x3 header. TP6 (IO14) is beside U3. TP1-TP5 are under the cell; reach them with the battery unplugged.
+- **Programming and test points:** J4 (PROG) pogo pads (VREF, GND, EN, IO9/BOOT, TXD0, RXD0) are on the back, top-right strip under the module (x 30.5-36.6, y 0.35-3.9), between the board edge and the panel (panel starts at y 4.2). They are clear of the J2 plug and its lead on the front, and reachable with the battery fitted. Pogo pins only: there is no room for a 2x3 header. TP6 (IO14) is beside U3. TP1-TP5 are under the cell; reach them with the battery unplugged.
 
 ## Programming access
 
 - USB-C (J1) is the primary programming path.
 - J4 (PROG pads on the back) is for recovery only. Use a press-on pogo fixture.
+- Power the board from USB or the battery while programming. J4 pad 1 (VREF) is a sense-only reference: it is fed from +3V3 through R27 1k, so the programmer reads the target voltage but its target-power output does nothing.
 - The pogo pins must protrude at least 2 mm: the panel glass is 0.8 mm away from the pads, and the antenna overhang leaves no room for edge clips.
 - Program the board before taping the panel on, where possible.
