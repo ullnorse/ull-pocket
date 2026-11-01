@@ -1,8 +1,8 @@
 #!/bin/sh
-# regenerate lib and render symbol montage to build/sym_all.png
+# render symbol montage to build/sym_all.png
 cd "$(dirname "$0")/.." || exit 1
 KC=${KICAD_CLI:-kicad-cli}
-python3 -I tools/gen_lib.py && $KC sym upgrade --force lib/ull-pocket.kicad_sym >/dev/null
+# renders the symbols in lib/ull-pocket.kicad_sym (edit the library in KiCad)
 rm -rf build/symsvg; mkdir -p build/symsvg; $KC sym export svg lib/ull-pocket.kicad_sym -o build/symsvg >/dev/null
 cd build/symsvg
 L=""
