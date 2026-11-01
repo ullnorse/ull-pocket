@@ -30,10 +30,11 @@ ALLOW = {
     ("SHT31-DIS-B", "9"): ("EPAD", "VSS"),
     ("MAX17048G+T10", "9"): ("EP", "GND"),
     ("BQ24073RGTR", "17"): ("EP", "VSS"),
-    ("TS24CA", "3"): ("3", "MP"), ("TS24CA", "4"): ("4", "MP"),
 }
 # easyeda pins deliberately dropped: BMP585 pin 9 is a laser-marking area under solder resist, not a pad
-REMOVED = {("BMP585", "9")}
+# TS24CA 3/4 are the brass cover's legs: no symbol pins, pads left unconnected (rev 0.7 review)
+REMOVED = {("BMP585", "9"), ("TS24CA", "3"), ("TS24CA", "4")}
+PADS_NO_PIN = {"TS24CA": {"3", "4"}}
 FPC_PANEL = ["NC", "GDR", "RESE", "NC", "VSH2", "TSCL", "TSDA", "BS", "BUSY", "RES#", "D/C#", "CS#",
              "SCL", "SDA", "VDDIO", "VCI", "VSS", "VDD", "VPP", "VSH1", "VGH", "VSL", "VGL", "VCOM"]
 
@@ -99,6 +100,7 @@ def main():
             continue
         pads = fp_pads(fp)
         pins = set(pins_of(sym))
+        pads = pads - PADS_NO_PIN.get(name, set())
         if pads != pins:
             print(f"FAIL {name} vs {fp}: pins-only {sorted(pins-pads)} pads-only {sorted(pads-pins)}")
             bad += 1
