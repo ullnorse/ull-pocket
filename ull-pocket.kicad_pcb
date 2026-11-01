@@ -4422,7 +4422,7 @@
 				(xyz 0 0 0)
 			)
 			(scale
-				(xyz 1 1 1)
+				(xyz 1 1 0.8)
 			)
 			(rotate
 				(xyz 0 0 0)
@@ -10204,7 +10204,7 @@
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/SW-SMD_2P-TS24CA.step"
 			(offset
-				(xyz 0 1 0)
+				(xyz 0 1 0.815)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -10982,7 +10982,7 @@
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 180)
+				(xyz 0 0 0)
 			)
 		)
 	)
@@ -11808,260 +11808,6 @@
 	(footprint "ull-pocket:LED_XL-1606_SideView"
 		(layer "F.Cu")
 		(uuid "87ec7cc0-4f2d-47f9-bee7-8ef02f151aff")
-		(at 129.8 144.1)
-		(descr "XINGLIGHT XL-1606 side-view (right-angle) SMD LED, body 1.7 x 0.6 x 1.1 mm; land pattern per datasheet (2x 0.77 x 0.95, gap 0.86); pad 1 cathode, pad 2 anode; emitting face on the +y side (body edge y=+0.3), place it at the board edge")
-		(tags "LED side view right angle XL-1606 C965860 C965863 C965865")
-		(property "Reference" "D1"
-			(at 0 -1.6 0)
-			(layer "F.Fab")
-			(uuid "84059ecb-6254-4ad2-a8e2-4c27f971ccb8")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.153)
-				)
-			)
-		)
-		(property "Value" "RED"
-			(at 0 1.4 0)
-			(layer "F.Fab")
-			(uuid "62687c8f-ba01-4a73-8796-ad6b05f09a47")
-			(effects
-				(font
-					(size 0.5 0.5)
-					(thickness 0.08)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "c8d0d906-4c7d-4cb4-8711-a0bebbef3c50")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "LED red side-view 1.7x0.6, charge indicator"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2f9b00d1-f988-4583-9430-cd1627f51224")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "5aa207a0-779a-4f0c-b9e5-0ea92912eb73")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Manufacturer" "XINGLIGHT"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "46f81e9b-ff0f-41fa-acf4-c1ab7f769e7f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "MPN" "XL-1606SURC"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1dade2df-ff00-41ac-96d1-e2cda729aaca")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "LCSC" "C965860"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "8c0e010f-e592-4702-8e4a-de92968b6046")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(path "/0216566a-95d0-5350-ab96-dc8ee1c34c21")
-		(sheetname "/")
-		(sheetfile "ull-pocket.kicad_sch")
-		(attr smd)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -0.25 -1.12)
-			(end 0.25 -1.12)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "c4233227-0025-4ac8-a8a1-9a0a51cffa4c")
-		)
-		(fp_circle
-			(center 0.8 -1.12)
-			(end 0.88 -1.12)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(fill yes)
-			(layer "F.SilkS")
-			(uuid "789d154c-34f0-4c3a-ab1b-d3887c7dedbd")
-		)
-		(fp_line
-			(start -1.35 -1.3)
-			(end 1.35 -1.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "2f9765b4-9996-4401-baa9-1b27d3b66db6")
-		)
-		(fp_line
-			(start -1.35 0.4)
-			(end -1.35 -1.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "64bb6b43-212e-4710-ab54-f291742a71a9")
-		)
-		(fp_line
-			(start 1.35 -1.3)
-			(end 1.35 0.4)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "30f2e96e-8372-40d8-afd2-e185648d973f")
-		)
-		(fp_line
-			(start 1.35 0.4)
-			(end -1.35 0.4)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "04d0c1a8-df8e-489a-8a00-58fa83efb2f9")
-		)
-		(fp_line
-			(start -0.85 -0.3)
-			(end 0.85 -0.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "3b735a8d-1a46-40b7-a725-d0778ef03ffb")
-		)
-		(fp_line
-			(start -0.85 0.3)
-			(end -0.85 -0.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "c600a8fa-aade-4c64-8a59-7162a8890a2b")
-		)
-		(fp_line
-			(start -0.6 0.45)
-			(end 0.6 0.45)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "a299bb22-90c4-4ab5-ae2b-b1b766ca216e")
-		)
-		(fp_line
-			(start 0.85 -0.3)
-			(end 0.85 0.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "fd6b4f57-c42e-4d5a-8879-654de9093ee5")
-		)
-		(fp_line
-			(start 0.85 0.3)
-			(end -0.85 0.3)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "8acd7e53-5f17-406e-9554-0718f7304768")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 -0.1 0)
-			(layer "F.Fab")
-			(uuid "cf9cf57b-28eb-4edb-afad-2e1338e77c3c")
-			(effects
-				(font
-					(size 0.3 0.3)
-					(thickness 0.05)
-				)
-			)
-		)
-		(pad "1" smd rect
-			(at 0.815 -0.275)
-			(size 0.77 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "Net-(D1-K)")
-			(uuid "284a8579-61de-4a1b-87f7-68a69874ca66")
-		)
-		(pad "2" smd rect
-			(at -0.815 -0.275)
-			(size 0.77 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "Net-(D1-A)")
-			(uuid "cd02dddd-0b8e-43a0-be8d-bdcb97d96359")
-		)
-		(embedded_fonts no)
-		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/LED_XL-1606_SideView.wrl"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint "ull-pocket:LED_XL-1606_SideView"
-		(layer "F.Cu")
-		(uuid "87ec7cc0-4f2d-47f9-bee7-8ef02f151aff")
 		(at 126.8 144.1)
 		(descr "XINGLIGHT XL-1606 side-view (right-angle) SMD LED, body 1.7 x 0.6 x 1.1 mm; land pattern per datasheet (2x 0.77 x 0.95, gap 0.86); pad 1 cathode, pad 2 anode; emitting face on the +y side (body edge y=+0.3), place it at the board edge")
 		(tags "LED side view right angle XL-1606 C965860 C965863 C965865")
@@ -12298,6 +12044,260 @@
 			(size 0.77 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "Net-(D5-A)")
+			(uuid "cd02dddd-0b8e-43a0-be8d-bdcb97d96359")
+		)
+		(embedded_fonts no)
+		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/LED_XL-1606_SideView.wrl"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
+	(footprint "ull-pocket:LED_XL-1606_SideView"
+		(layer "F.Cu")
+		(uuid "87ec7cc0-4f2d-47f9-bee7-8ef02f151aff")
+		(at 129.8 144.1)
+		(descr "XINGLIGHT XL-1606 side-view (right-angle) SMD LED, body 1.7 x 0.6 x 1.1 mm; land pattern per datasheet (2x 0.77 x 0.95, gap 0.86); pad 1 cathode, pad 2 anode; emitting face on the +y side (body edge y=+0.3), place it at the board edge")
+		(tags "LED side view right angle XL-1606 C965860 C965863 C965865")
+		(property "Reference" "D1"
+			(at 0 -1.6 0)
+			(layer "F.Fab")
+			(uuid "84059ecb-6254-4ad2-a8e2-4c27f971ccb8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.153)
+				)
+			)
+		)
+		(property "Value" "RED"
+			(at 0 1.4 0)
+			(layer "F.Fab")
+			(uuid "62687c8f-ba01-4a73-8796-ad6b05f09a47")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c8d0d906-4c7d-4cb4-8711-a0bebbef3c50")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "LED red side-view 1.7x0.6, charge indicator"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2f9b00d1-f988-4583-9430-cd1627f51224")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5aa207a0-779a-4f0c-b9e5-0ea92912eb73")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "XINGLIGHT"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "46f81e9b-ff0f-41fa-acf4-c1ab7f769e7f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "XL-1606SURC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1dade2df-ff00-41ac-96d1-e2cda729aaca")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C965860"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8c0e010f-e592-4702-8e4a-de92968b6046")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(path "/0216566a-95d0-5350-ab96-dc8ee1c34c21")
+		(sheetname "/")
+		(sheetfile "ull-pocket.kicad_sch")
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -0.25 -1.12)
+			(end 0.25 -1.12)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "c4233227-0025-4ac8-a8a1-9a0a51cffa4c")
+		)
+		(fp_circle
+			(center 0.8 -1.12)
+			(end 0.88 -1.12)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "789d154c-34f0-4c3a-ab1b-d3887c7dedbd")
+		)
+		(fp_line
+			(start -1.35 -1.3)
+			(end 1.35 -1.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "2f9765b4-9996-4401-baa9-1b27d3b66db6")
+		)
+		(fp_line
+			(start -1.35 0.4)
+			(end -1.35 -1.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "64bb6b43-212e-4710-ab54-f291742a71a9")
+		)
+		(fp_line
+			(start 1.35 -1.3)
+			(end 1.35 0.4)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "30f2e96e-8372-40d8-afd2-e185648d973f")
+		)
+		(fp_line
+			(start 1.35 0.4)
+			(end -1.35 0.4)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "04d0c1a8-df8e-489a-8a00-58fa83efb2f9")
+		)
+		(fp_line
+			(start -0.85 -0.3)
+			(end 0.85 -0.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "3b735a8d-1a46-40b7-a725-d0778ef03ffb")
+		)
+		(fp_line
+			(start -0.85 0.3)
+			(end -0.85 -0.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "c600a8fa-aade-4c64-8a59-7162a8890a2b")
+		)
+		(fp_line
+			(start -0.6 0.45)
+			(end 0.6 0.45)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "a299bb22-90c4-4ab5-ae2b-b1b766ca216e")
+		)
+		(fp_line
+			(start 0.85 -0.3)
+			(end 0.85 0.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "fd6b4f57-c42e-4d5a-8879-654de9093ee5")
+		)
+		(fp_line
+			(start 0.85 0.3)
+			(end -0.85 0.3)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "8acd7e53-5f17-406e-9554-0718f7304768")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 -0.1 0)
+			(layer "F.Fab")
+			(uuid "cf9cf57b-28eb-4edb-afad-2e1338e77c3c")
+			(effects
+				(font
+					(size 0.3 0.3)
+					(thickness 0.05)
+				)
+			)
+		)
+		(pad "1" smd rect
+			(at 0.815 -0.275)
+			(size 0.77 0.95)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "Net-(D1-K)")
+			(uuid "284a8579-61de-4a1b-87f7-68a69874ca66")
+		)
+		(pad "2" smd rect
+			(at -0.815 -0.275)
+			(size 0.77 0.95)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "Net-(D1-A)")
 			(uuid "cd02dddd-0b8e-43a0-be8d-bdcb97d96359")
 		)
 		(embedded_fonts no)
@@ -13578,7 +13578,7 @@
 				(xyz 0 0 0)
 			)
 			(scale
-				(xyz 1 1 1)
+				(xyz 1 1 1.3)
 			)
 			(rotate
 				(xyz 0 0 0)
@@ -15755,7 +15755,7 @@
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/SW-SMD_2P-TS24CA.step"
 			(offset
-				(xyz 0 1 0)
+				(xyz 0 1 0.815)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -16305,7 +16305,7 @@
 			(uuid "ba607bbe-cfab-4886-b682-1c95a96f4910")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
+		(model "${KICAD10_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0603_1608Metric.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -16786,7 +16786,7 @@
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/SW-SMD_2P-TS24CA.step"
 			(offset
-				(xyz 0 1 0)
+				(xyz 0 1 0.815)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -18999,7 +18999,7 @@
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/USB_C_HRO_TYPE-C-31-M-12_ee.wrl"
 			(offset
-				(xyz 0 -1.575 0)
+				(xyz 0 -0.8 0)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -19606,7 +19606,7 @@
 				(xyz 0 0 0)
 			)
 			(scale
-				(xyz 1 1 1)
+				(xyz 1 1 1.15)
 			)
 			(rotate
 				(xyz 0 0 90)
@@ -22242,7 +22242,7 @@
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/FPC-SMD_24P-P0.50_FPC-05FB-24PH20.step"
 			(offset
-				(xyz 0 0 0)
+				(xyz 0 1.7 0)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -33910,24 +33910,6 @@
 		(uuid "c8646aec-eddf-4aea-8ad3-932c6308b52a")
 	)
 	(segment
-		(start 126.29 141.7)
-		(end 125.985 142.9)
-		(width 0.2)
-		(locked yes)
-		(layer "F.Cu")
-		(net "Net-(D5-A)")
-		(uuid "3486b56d-a67b-4102-afc8-1727eaebbd7e")
-	)
-	(segment
-		(start 125.985 142.9)
-		(end 125.985 143.825)
-		(width 0.2)
-		(locked yes)
-		(layer "F.Cu")
-		(net "Net-(D5-A)")
-		(uuid "b49d5641-f0af-4e6a-95bc-8f240cba49ac")
-	)
-	(segment
 		(start 130.615 143)
 		(end 130.9 142.75)
 		(width 0.2)
@@ -34018,6 +34000,24 @@
 		(layer "B.Cu")
 		(net "Net-(D1-K)")
 		(uuid "3da3c0df-0bd6-4aad-b499-3e919158a3c0")
+	)
+	(segment
+		(start 126.29 141.7)
+		(end 125.985 142.9)
+		(width 0.2)
+		(locked yes)
+		(layer "F.Cu")
+		(net "Net-(D5-A)")
+		(uuid "3486b56d-a67b-4102-afc8-1727eaebbd7e")
+	)
+	(segment
+		(start 125.985 142.9)
+		(end 125.985 143.825)
+		(width 0.2)
+		(locked yes)
+		(layer "F.Cu")
+		(net "Net-(D5-A)")
+		(uuid "b49d5641-f0af-4e6a-95bc-8f240cba49ac")
 	)
 	(segment
 		(start 132.289999 141.7)

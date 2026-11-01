@@ -373,7 +373,7 @@
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/FPC-SMD_24P-P0.50_FPC-05FB-24PH20.step"
 		(offset
-			(xyz 0 0 0)
+			(xyz 0 1.7 0)
 		)
 		(scale
 			(xyz 1 1 1)

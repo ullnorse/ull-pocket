@@ -425,7 +425,7 @@
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/SW-SMD_2P-TS24CA.step"
 		(offset
-			(xyz 0 1 0)
+			(xyz 0 1 0.815)
 		)
 		(scale
 			(xyz 1 1 1)

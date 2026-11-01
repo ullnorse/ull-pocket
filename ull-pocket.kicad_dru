@@ -1,6 +1,6 @@
 (version 1)
 
-# Side-view LEDs D1/D5/D6: emitting face 0.1 mm inside the bottom edge, pads 0.2 mm from it
+# Side-view LEDs D1/D5/D6: pads 0.2 mm from the bottom edge, lens sticks out about 0.3-0.4 mm past it
 # (JLC routed-edge minimum is 0.2 mm; board default stays 0.3 mm).
 (rule "side_led_edge"
 	(condition "A.Type == 'Pad' && (A.memberOfFootprint('D1') || A.memberOfFootprint('D5') || A.memberOfFootprint('D6'))")

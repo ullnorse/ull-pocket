@@ -95,7 +95,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
 
 - **BMP585 (U3):** below the island at (13.5, 12.0), clear of the heat sources.
 - **USB-C (J1):** bottom centre. The receptacle mouth overhangs the bottom edge by 0.6 mm so a plug seats through a thin case wall. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
-- **Buttons SW1-SW3:** three TS24CA side buttons on the left edge (the right side seen from the front), 7.0 mm pitch. Each actuator is 0.3 mm past the edge, on the F (battery) side. Give each its own cut-out or cap.
+- **Buttons SW1-SW3:** three TS24CA side buttons on the left edge (the right side seen from the front), 7.0 mm pitch. Each actuator is about 0.2 mm past the edge (TS24CA datasheet), on the F (battery) side. Give each its own cut-out or cap.
 
   | Button | Function | Centre y | GPIO |
   |---|---|---|---|
@@ -104,7 +104,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
   | SW3 | DN | 34.5 | IO9 (polled, no wake; also BOOT) |
 
   The row spans y 18.2-36.8 (switch bodies). It stays clear of Q2 (ends at y 15.7) and of the H2 boss (hole at y 41.3).
-- **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.
+- **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). They lie flat (0.6 mm tall) with the lens pointing out through the bottom edge; the lens tip sticks out about 0.3-0.4 mm past the edge (0.26 in JLC's model, 0.42 from the XINGLIGHT land pattern). The case needs a small window or light pipe at each one, centred about 0.3 mm above the PCB top surface.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
 - **Programming and test points:** J4 (PROG) pogo pads (VREF, GND, EN, IO9/BOOT, TXD0, RXD0) are on the back, top-right strip under the module (x 30.5-36.6, y 0.35-3.9), between the board edge and the panel (panel starts at y 4.2). They are clear of the J2 plug and its lead on the front, and reachable with the battery fitted. Pogo pins only: there is no room for a 2x3 header. TP1-TP5 are under the cell; reach them with the battery unplugged. TP4 (VBAT) and TP5 (+3V3) sit between the DN button and USB-C.
 
