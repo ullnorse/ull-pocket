@@ -8,3 +8,4 @@ _autosave-*
 *.kicad_prl
 __pycache__/
 .history/
+datasheets/
