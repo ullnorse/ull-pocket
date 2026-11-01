@@ -22776,7 +22776,7 @@
 				(justify mirror)
 			)
 		)
-		(fp_text user "3V3"
+		(fp_text user "VREF"
 			(at 1.269999 0 0)
 			(layer "B.SilkS")
 			(uuid "fc933d2a-7db1-434e-9a1a-e1700fd2b825")
