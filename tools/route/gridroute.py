@@ -32,7 +32,10 @@ class Grid:
         self.edge = edge
         # board inside mask from the edge polygon
         outline = pcbnew.SHAPE_POLY_SET()
-        self.b.GetBoardPolygonOutlines(outline)
+        try:
+            self.b.GetBoardPolygonOutlines(outline, False)   # KiCad 10 signature
+        except TypeError:
+            self.b.GetBoardPolygonOutlines(outline)
         self.outline = outline
 
     def mask_items(self, net, w, clr, via_d):

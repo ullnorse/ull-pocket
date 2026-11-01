@@ -60,7 +60,10 @@ def side_obstacles(side):
     cu, silk, mask = (pcbnew.F_Cu, pcbnew.F_SilkS, pcbnew.F_Mask) if side == 'F' else (pcbnew.B_Cu, pcbnew.B_SilkS, pcbnew.B_Mask)
     img = Image.new('1', (NX, NY), 1)
     outl = pcbnew.SHAPE_POLY_SET()
-    b.GetBoardPolygonOutlines(outl)
+    try:
+        b.GetBoardPolygonOutlines(outl, False)   # KiCad 10 signature
+    except TypeError:
+        b.GetBoardPolygonOutlines(outl)
     poly_draw(img, outl, fill=0)
     d = ImageDraw.Draw(img)
     for dr in b.GetDrawings():  # edge clearance band

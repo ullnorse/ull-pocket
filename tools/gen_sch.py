@@ -607,9 +607,9 @@ def build():
     tp("+3V3", tp_pt)
     pwr("GND", u7.p("2"))
 
-    # ============================ Wake button ==========================
+    # ============================ UP button (SW1, wake) ===============
     bx, by = 342.9, 57.15
-    rect(bx, by, bx + 64.77, by + 25.4, C_UI, "WAKE BUTTON (side)")
+    rect(bx, by, bx + 64.77, by + 25.4, C_UI, "BUTTON UP (side, wake)")
     sw1 = Part("TS24CA", "SW1", bx + 43.18, by + 13.97, 0)
     p1 = sw1.p("1")
     n1 = add(p1, (-1, 0), 10.16)
@@ -671,10 +671,10 @@ def build():
     for pn, nm in (("12", "BAT_ALRT_N"), ("13", "USB_PGOOD_N"), ("5", "BTN_N"), ("6", "ACC_INT1"),
                    ("9", "BARO_INT"), ("15", "I2C_SDA"), ("16", "I2C_SCL"), ("24", "EPD_BUSY"),
                    ("25", "EPD_RST_N"), ("26", "EPD_DC"), ("27", "EPD_CS_N"), ("28", "EPD_SCK"),
-                   ("29", "EPD_MOSI"), ("10", "LED_USER"), ("19", "SPARE_IO14")):
+                   ("29", "EPD_MOSI"), ("10", "BTN2_N"), ("19", "LED_USER")):
         stub(u1, pn, nm)
-    note("LP GPIO (IO0-IO4 wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N\\nIO3 ACC_INT1\\n"
-         "IO4 BARO_INT\\nIO5 LED_USER\\nIO6/7 LP_I2C\\nIO8 10k pull-up",
+    note("LP GPIO (IO0-IO5 ext1 wake):\\nIO0 BAT_ALRT_N\\nIO1 USB_PGOOD_N\\nIO2 BTN_N (UP)\\nIO3 ACC_INT1\\n"
+         "IO4 BARO_INT\\nIO5 BTN2_N (OK)\\nIO6/7 LP_I2C\\nIO8 10k pull-up\\nIO14 LED_USER\\nIO15 BTN3_N (DN, no wake)",
          (bx + 2.54, by + 7.0))
 
     # ============================ Sensors ==============================
@@ -844,9 +844,10 @@ def build():
     c1, c2, c3 = bx + 2.54, bx + 85.0, bx + 167.0
     note("WAKE POLARITY (ext1, one level)\\n"
          "ACC_INT1, BARO_INT: active-high by default.\\n"
-         "BTN_N, BAT_ALRT_N, USB_PGOOD_N: active-low.\\n"
-         "Set LIS3DH INT_POLARITY and BMP585 int_pol\\n"
-         "to active-low so one ext1 level wakes all.", (c1, by + 10.0), NS)
+         "BTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\\n"
+         "active-low. Set LIS3DH INT_POLARITY and\\n"
+         "BMP585 int_pol to active-low so one ext1\\n"
+         "level wakes all. BTN3_N (IO15) is polled.", (c1, by + 10.0), NS)
     note("PROGRAMMING (J4 pads)\\n"
          "+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\\n"
          "2x3 pads at 2.54 mm: pogo clip or header.\\n"
@@ -871,12 +872,13 @@ def build():
          "EPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\\n"
          "panel idle while the MCU sleeps.\\n"
          "IO15: 10k to +3V3 (strap). If JTAG_SEL is\\n"
-         "burned, selects USB Serial/JTAG, not pad JTAG.", (c2, by + 50.0), NS)
+         "burned, selects USB Serial/JTAG, not pad JTAG.\\n"
+         "R24 is also the pull-up of SW3 (DN).", (c2, by + 50.0), NS)
     note("LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\\n"
          "D5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\\n"
          "   Lit with USB present, 0 on battery.\\n"
          "D1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\\n"
-         "D6 blue IO5: 470R, Vf 2.6-2.8 @1 mA: 1.1-1.5 mA.\\n"
+         "D6 blue IO14: 470R, Vf 2.6-2.8 @1 mA: 1.1-1.5 mA.\\n"
          "Silkscreen: D5 PWR, D1 CHG, D6 USR.\\n"
          "No addressable LEDs: idle current.", (c3, by + 10.0), NS)
     note("BATTERY TEMPERATURE (TS)\\n"
@@ -911,23 +913,27 @@ def build():
          fpos={"Reference": (xp - 2.7, lcp[1] - 0.889, "right"), "Value": (xp - 2.7, lcp[1] + 0.889, "right")})
     pwr("GND", (xp, lcp[1] + G))
 
-    # user LED (GPIO, active high) + spare-GPIO test pad in a small block in the free corner of the sensor area
+    # user LED (GPIO, active high) in a small block in the free corner of the sensor area
     ux, uy = 353.06, 121.92
-    rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LED / SPARE GPIO")
+    rect(ux, uy, ux + 50.8, uy + 45.72, C_UI, "USER LED (IO14)")
     x = ux + 12.7
     r, d = led_chain(x, uy + 15.24, "470R", "BLUE", LED_SIDE_FP, "XL-1606UBC", "XINGLIGHT", "C965865", None)
     e = add(r.p(1), (0, -1), G)
     wire(r.p(1), e)
     label("LED_USER", e, "R")
     REFCOUNT["R"] = REFCOUNT.get("R", 0) + 1   # rev 0.5: R23 retired; keep R24/R25/R26 stable
+    # rev 0.6: IO14 drives the LED, IO5 became BTN2_N; the IO14 test pad (TP6) is gone. Its items are
+    # still generated and then dropped so the UUIDs of everything after them stay stable.
+    mark = (len(ITEMS), len(WIRES), len(PINPTS))
     xs = ux + 38.1
     tp_s = (xs, uy + 20.32)
     es = (xs, uy + 22.86)
     wire(tp_s, es)
     label("SPARE_IO14", es, "R")
     tp("SPARE_IO14", tp_s, show=False)
-    note("IO5 -> 470R -> blue: ~1 mA\\nGPIO high = on, 3.3 V\\nSilk: PWR, CHG, USR", (ux + 2.54, uy + 38.1))
-    note("IO14: spare GPIO,\\ntest pad only", (ux + 27.94, uy + 30.48))
+    del ITEMS[mark[0]:], WIRES[mark[1]:], PINPTS[mark[2]:]
+    note("IO14 -> 470R -> blue: ~1 mA\\nGPIO high = on, 3.3 V\\nSilk: PWR, CHG, USR", (ux + 2.54, uy + 38.1))
+    uid()   # was the "IO14: spare GPIO" note
 
     # ============================ rev 0.4 additions (appended so existing refs stay stable) =====
     mx, my = 12.7, 86.36   # MCU box origin
@@ -973,6 +979,40 @@ def build():
     label("BTN_SW", add(p1, (-1, 0), G), "D")
     cap_down("100n", n1, side="L")
 
+    # ============================ rev 0.6 menu buttons (appended so existing refs stay stable) =====
+    # Three side buttons on the left board edge, top to bottom: SW1 UP (IO2), SW2 OK (IO5), SW3 DN (IO15, polled).
+    # Same circuit as SW1: pull-up to +3V3, 100R series (switch side *_SW), 100 nF debounce to GND.
+    # SW3 reuses R24 (IO15 strap, 10k) as its pull-up.
+    bx, by = 159.38, 252.73
+    rect(bx, by, 297.18, 285.75, C_UI, "BUTTONS OK + DN (side)")
+
+    def button(x0, ref, net, swnet, pullup, txt):
+        sw = Part("TS24CA", ref, x0 + 43.18, by + 16.51, 0)
+        p1 = sw.p("1")
+        n1 = add(p1, (-1, 0), 10.16)
+        if pullup:
+            res_up("100k", n1, "+3V3", side="RU")
+        e1 = add(n1, (-1, 0), 2.54)
+        wire(n1, e1)
+        label(net, e1, "L")
+        p2 = sw.p("2")
+        n2 = add(p2, (1, 0), 2.54)
+        wire(p2, n2)
+        pwr("GND", n2)
+        pwr("GND", sw.p("3"))
+        ra = add(p1, (-1, 0), 5.08)
+        wire(p1, ra)
+        hres("100R", n1, ra, below=True)
+        label(swnet, add(p1, (-1, 0), G), "D")
+        cap_down("100n", n1, side="L")
+        note(txt, (x0 + 2.54, by + 25.4))
+
+    button(bx + 0.64, "SW2", "BTN2_N", "BTN2_SW", True, "OK: IO5, ext1 wake")   # x on the 2.54 grid
+    button(bx + 69.22, "SW3", "BTN3_N", "BTN3_SW", False, "DN: IO15, polled.\\nPull-up: R24 10k (MCU)")
+    # IO15 net name (R24 strap pull-up doubles as the SW3 pull-up)
+    p15 = u1.p("20")
+    label("BTN3_N", add(p15, (-1, 0), 2.54), "L")
+
 
 def main():
     global ROOT_UUID
@@ -1014,8 +1054,8 @@ def main():
             f'(uuid "{ROOT_UUID}") (paper "A3") ')
     tb = dump(find(t, "title_block"))
     tb = tb.replace('">>TITLE<<"', '"ull-pocket: pocket environment meter"').replace(
-        '">>REVISION<<"', '"0.5"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
-    tb = tb.replace('(rev "0.5")', '(date "2026-10-28") (rev "0.5")')
+        '">>REVISION<<"', '"0.6"').replace('">>CLIENT<<"', '"ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper"')
+    tb = tb.replace('(rev "0.6")', '(date "2026-11-01") (rev "0.6")')
     body = "\n".join(ITEMS)
     tail = ('(sheet_instances (path "/" (page "1"))) (embedded_fonts no) '
             + dump(find(t, "embedded_files")) + ")")

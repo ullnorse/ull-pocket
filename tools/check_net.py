@@ -66,9 +66,9 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": None, "17": "USB_D-", "18": "USB_D+",
-       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "LED_USER",
-       "15": "I2C_SDA", "16": "I2C_SCL", "19": "SPARE_IO14", "24": "EPD_BUSY", "25": "EPD_RST_N",
+ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": "BTN3_N", "17": "USB_D-", "18": "USB_D+",
+       "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "BTN2_N",
+       "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
 for pin, nm in ESP.items():
     if nm == "NC":
@@ -81,7 +81,7 @@ for p in (4, 7, 21, 32, 33, 34, 35):
     nc("U1", p)
 # LP-capable checks (GPIO0-7 = pins 12,13,5,6,9,10,15,16)
 LP = {"12": 0, "13": 1, "5": 2, "6": 3, "9": 4, "10": 5, "15": 6, "16": 7}
-for pin in ("5", "6", "9", "10"):  # BTN, ACC INT1, BARO INT, LED_USER must be LP GPIO for deep-sleep wake
+for pin in ("5", "6", "9", "10"):  # BTN, ACC INT1, BARO INT, BTN2 must be LP GPIO for deep-sleep wake
     assert pin in LP
 # EN RC
 en = net("U1", 8)
@@ -163,13 +163,17 @@ for p, nm in FPC.items():
         nc("J3", p)
     else:
         expect("J3", p, nm)
-expect("SW1", 2, "GND")
-expect("SW1", 3, "GND")
-expect("SW1", 4, "GND")
-expect("SW1", 1, "BTN_SW")
-between("R28", "BTN_N", "BTN_SW")             # 100R series: ESD / debounce with C27
-if comps["R28"]["value"] != "100R":
-    bad.append("R28 should be 100R")
+# side buttons (rev 0.6): SW1 UP IO2, SW2 OK IO5, SW3 DN IO15; each 100R series + 100 nF debounce
+for sw, rs, node, swn in (("SW1", "R28", "BTN_N", "BTN_SW"), ("SW2", "R30", "BTN2_N", "BTN2_SW"),
+                          ("SW3", "R31", "BTN3_N", "BTN3_SW")):
+    for p in (2, 3, 4):
+        expect(sw, p, "GND")
+    expect(sw, 1, swn)
+    between(rs, node, swn)
+    if comps[rs]["value"] != "100R" or comps[rs]["LCSC"] != "C25076":
+        bad.append(f"{rs} should be 100R C25076")
+    if comps[sw]["LCSC"] != "C393942":
+        bad.append(f"{sw} should be TS24CA C393942")
 
 
 # ---------------- passives by topology
@@ -193,10 +197,15 @@ find_part("I2C_SDA", "+3V3", "10kR")
 find_part("I2C_SCL", "+3V3", "10kR")
 find_part("BTN_N", "+3V3", "100kR")
 find_part("BTN_N", "GND", "100nF/16V")          # debounce with R28
+find_part("BTN2_N", "+3V3", "100kR")
+find_part("BTN2_N", "GND", "100nF/16V")         # debounce with R30
+find_part("BTN3_N", "GND", "100nF/16V")         # debounce with R31; pull-up is R24 (IO15 strap)
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
 find_part(net("U1", 8), "+3V3", "10kR")
-find_part(net("U1", 20), "+3V3", "10kR")        # IO15 strap pull-up (JTAG_SEL burned -> USB Serial/JTAG)
+find_part("BTN3_N", "+3V3", "10kR")             # IO15 strap pull-up (JTAG_SEL burned -> USB Serial/JTAG) = SW3 pull-up
+if parts_on("BTN3_N", "R") != ["R24", "R31"]:
+    bad.append(f"BTN3_N should carry only R24 (pull-up) and R31: {parts_on('BTN3_N', 'R')}")
 find_part("EPD_CS_N", "+3V3", "100kR")           # e-paper sleep pull-ups
 find_part("EPD_RST_N", "+3V3", "100kR")
 # programming pogo cluster J4: +3V3, GND, EN, BOOT, TXD0, RXD0; no BOM, no placement
@@ -243,7 +252,9 @@ gate = net("Q2", 1)
 find_part(gate, "VBAT", "100kR")
 if gate in ("GND", "VBAT"):
     bad.append("Q2 gate must be on its own node")
-for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND", "SPARE_IO14"):
+if "SPARE_IO14" in nets or "TP6" in comps:
+    bad.append("SPARE_IO14 / TP6 retired in rev 0.6")
+for nm in ("VBUS", "VBAT", "VSYS", "+3V3", "GND"):
     if not [r for r in comps if r.startswith("TP") and comps[r]["value"] == nm and net(r, 1) == nm]:
         bad.append(f"missing test pad on {nm}")
 for nm in ("EPD_VSH1", "EPD_VSH2", "EPD_VSL", "EPD_VCOM", "EPD_VDD", "EPD_PREVGH", "EPD_PREVGL", "LDO_OUT", "BAT_N"):
