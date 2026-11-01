@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sexp
 
 pcb_path, ee_dir, out_dir = sys.argv[1:4]
+name = sys.argv[4] if len(sys.argv) > 4 else "ull-pocket-r0.7"
 EXCLUDE_PREFIX = ("TP", "H", "ASSY")
 # EE pad name that is the same *function* as KiCad pad "1" (cathode on the LEDs).
 # C965865's EE symbol numbers anode=1, cathode=2; the datasheet (and our footprint) has 1 = cathode.
@@ -113,7 +114,7 @@ for p in sorted(parts, key=lambda p: natkey(p["ref"])):
     r = (p["rot"] - i["delta"]) % 360
     dx, dy = rot(i["t"], r)
     rows.append((p["ref"], p["x"] - dx, -(p["y"] - dy), "T", r))
-with open(os.path.join(out_dir, "ull-pocket-r0.7-cpl.csv"), "w", newline="") as fh:
+with open(os.path.join(out_dir, name + "-cpl.csv"), "w", newline="") as fh:
     w = csv.writer(fh, quoting=csv.QUOTE_ALL, lineterminator="\n")
     w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
     for ref, x, y, l, r in rows:
@@ -123,7 +124,7 @@ with open(os.path.join(out_dir, "ull-pocket-r0.7-cpl.csv"), "w", newline="") as 
 groups = collections.OrderedDict()
 for p in sorted(parts, key=lambda p: natkey(p["ref"])):
     groups.setdefault((p["val"], p["fp"].split(":")[-1], p["lcsc"]), []).append(p["ref"])
-with open(os.path.join(out_dir, "ull-pocket-r0.7-bom.csv"), "w", newline="") as fh:
+with open(os.path.join(out_dir, name + "-bom.csv"), "w", newline="") as fh:
     w = csv.writer(fh, quoting=csv.QUOTE_ALL, lineterminator="\n")
     w.writerow(["Comment", "Designator", "Footprint", "LCSC"])
     for (val, fp, lcsc), refs in sorted(groups.items(), key=lambda kv: natkey(kv[1][0])):
@@ -165,7 +166,8 @@ lines += ["", "## Notes", "",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",
           "- Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview."]
-open(os.path.join(out_dir, "rotation-check.md"), "w").write("\n".join(lines) + "\n")
+if name == "ull-pocket-r0.7":
+    open(os.path.join(out_dir, "rotation-check.md"), "w").write("\n".join(lines) + "\n")
 print(len(rows), "CPL rows,", len(groups), "BOM lines")
 nz = [(k, i) for k, i in info.items() if i["delta"] or i["t"] != (0.0, 0.0)]
 for (fp, lcsc), i in nz:

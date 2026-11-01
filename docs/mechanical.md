@@ -53,7 +53,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - 503040 cell, 600 mAh, 40 mm along x, from y 14 to 44.
 - It lies over the F side on a 3.5 mm shelf.
 - Parts under the shelf are at most 3.25 mm tall (USB-C 3.25, L1 3.0, J3 2.0, module 2.4).
-- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces +x.
+- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, at the left board edge (rev 0.7: turned 180 degrees so the plug no longer points at the SHT31 island). A mated PH plug sticks out about 0.5 mm past the left edge at y 3-9, and its leads leave to the left; the case needs a pocket there for the plug and the lead bend.
 - The cell's lead end is at -x. Leave about 40 mm of lead.
 - J2 is marked + (pin 2, VBAT) and - (pin 1, BAT-) on silkscreen.
 
@@ -87,7 +87,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
 
 - Put the vent in the top wall over x 11-17, on the F side (battery side) of the PCB. U2's sensing opening faces F. Sensor top surface: about 0.9 mm above the PCB.
 - Leave an open air path from the vent to the island above the F side. The cavity there is open up to the battery shelf at y 14.
-- Keep the J2 plug and battery leads off the island. The plug enters J2 from +x at x 10.1, around y 4-8.5. Run the leads down towards y 14, not over x 11-17.
+- Keep the battery leads off the island. The plug enters J2 from the left edge, around y 3-9; run the leads down the left side to the cell's lead end (above SW1 at y 18), not across the board.
 - Back side: do not tape the panel to the PCB over x 10.5-17, y 4.2-7.5. Tape there would bridge the moat to the glass.
 - Keep the wall rib or boss off the rim and island. A clamp there would also bridge the moat.
 

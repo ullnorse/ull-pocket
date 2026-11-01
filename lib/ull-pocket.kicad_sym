@@ -22,7 +22,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "ESP32-C6-MINI-1-H4"
+		(property "Value" "ESP32-C6-MINI-1-N4"
 			(at -30.48 28.575 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -66,7 +66,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESP32-C6-MINI-1-H4"
+		(property "MPN" "ESP32-C6-MINI-1-N4"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -88,7 +88,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C6553337"
+		(property "LCSC" "C5736265"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

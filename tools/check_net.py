@@ -231,8 +231,8 @@ if shc and flags[shc[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"
     bad.append("shield 4.7 nF should be DNP + excluded from BOM and placement")
 ts = net("U6", 1)
 th = find_part(ts, "GND", "NTC10k")[0]
-if comps[th]["LCSC"] != "C525660" or "0603" not in comps[th]["fp"]:
-    bad.append("TH1 should be the Sunlord 0603 NTC C525660")
+if comps[th]["LCSC"] != "C279936" or "0603" not in comps[th]["fp"]:
+    bad.append("TH1 should be the Sunlord 0603 NTC B3950 C279936")
 fb = find_part(ts, "GND", "10kR")           # DNP fixed-10k fallback in parallel
 if len(fb) != 1 or flags[fb[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"}:
     bad.append("fallback 10k on TS missing or not DNP + excluded from BOM and placement")

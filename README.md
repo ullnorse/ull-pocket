@@ -8,7 +8,7 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 
 | Block | Part |
 |---|---|
-| MCU | ESP32-C6-MINI-1-H4 (Wi-Fi 6, BLE, 802.15.4, 4 MB flash) |
+| MCU | ESP32-C6-MINI-1-N4 (Wi-Fi 6, BLE, 802.15.4, 4 MB flash) |
 | Temperature / humidity | Sensirion SHT31, on a moated island away from the heat sources |
 | Pressure | Bosch BMP585 |
 | Motion / wake | ST LIS3DH accelerometer |
@@ -28,7 +28,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 |---|---|
 | `ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
 | `lib/` | Project symbols, footprints and 3D models |
-| `production/` | JLCPCB Gerbers, BOM and CPL (`ull-pocket-r0.7-*`) |
+| `production/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.7-*`) and the assembly panel (`ull-pocket-r0.7-panel-*`, made by `tools/panelize.sh`) |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
@@ -39,13 +39,16 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 ## Ordering
 
-1. Upload `production/ull-pocket-r0.7-gerbers.zip` to JLCPCB and set:
+Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs, made by `tools/panelize.sh` (needs KiKit). The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
+
+1. Upload `production/ull-pocket-r0.7-panel-gerbers.zip` to JLCPCB and set:
    - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
    - surface finish **ENIG** (the LGA/QFN/DFN parts need a flat finish; HASL is the default)
    - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
    - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
-2. Enable PCB assembly (top side) and upload `ull-pocket-r0.7-bom.csv` and `ull-pocket-r0.7-cpl.csv`.
-3. Add a remark: "Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm and side LEDs 0.4 mm (bottom edge), side buttons 0.2 mm (left edge)."
+   - panel by customer (1 board per panel), edge rails: none (already in the files)
+2. Enable PCB assembly (top side) and upload `ull-pocket-r0.7-panel-bom.csv` and `ull-pocket-r0.7-panel-cpl.csv`.
+3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm and side LEDs 0.4 mm (bottom edge), side buttons 0.2 mm (left edge)."
 4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
 5. Buy separately: the e-paper panel (GDEY0154D67), a 503040 LiPo with a protection board (check its plug polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 
@@ -105,6 +108,9 @@ In KiCad: **File → Fabrication Outputs** (Gerbers, drill files, component plac
 ```sh
 sh tools/jlc_export.sh                     # Gerbers + drill files -> production/*-gerbers.zip
 python3 tools/jlc_cpl.py ull-pocket.kicad_pcb <easyeda-cache> production   # BOM + CPL with JLC rotations
+sh tools/panelize.sh                       # assembly panel -> build/panel/ull-pocket-panel.kicad_pcb (pipx install kikit)
+sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.7-panel
+python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> production ull-pocket-r0.7-panel
 sh tools/check_sch.sh                      # ERC, netlist checks, pin/pad checks, schematic PDF + PNG
 sh tools/render3d.sh                       # 3D renders -> build/render3d/
 ```

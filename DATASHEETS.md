@@ -4,7 +4,7 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 
 | Ref | Part | LCSC | Datasheet |
 |---|---|---|---|
-| U1 | ESP32-C6-MINI-1-H4 module | C6553337 | [Espressif](https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf) |
+| U1 | ESP32-C6-MINI-1-N4 module | C5736265 | [Espressif](https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf) |
 | U1 | ESP32-C6 SoC | - | [Espressif](https://www.espressif.com/sites/default/files/documentation/esp32-c6_datasheet_en.pdf) |
 | U2 | SHT31-DIS-B | C80862 | [Sensirion](https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf) |
 | U3 | BMP585 | C18184976 | [Bosch](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp585-ds003.pdf) |
@@ -21,6 +21,6 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 | D1, D5, D6 | XL-1606 side-view LEDs | C965860, C965863, C965865 | [LCSC](https://www.lcsc.com/datasheet/C965865.pdf) |
 | D2-D4 | MBR0530 | C82046 | [LCSC](https://www.lcsc.com/datasheet/C82046.pdf) |
 | L1 | 47 uH, FNR40xxS | C167888 | [LCSC](https://www.lcsc.com/datasheet/C167888.pdf) |
-| TH1 | NTC 10k B3435 0603 | C525660 | [LCSC](https://www.lcsc.com/datasheet/C525660.pdf) |
+| TH1 | NTC 10k B3950 0603 | C279936 | [LCSC](https://www.lcsc.com/datasheet/C279936.pdf) |
 | SW1-SW3 | TS24CA | C393942 | [LCSC](https://www.lcsc.com/datasheet/C393942.pdf) |
 | - | GDEY0154D67 e-paper panel (bought separately) | - | [Good Display](https://www.good-display.com/product/388.html) |

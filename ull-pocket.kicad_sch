@@ -1504,7 +1504,7 @@
 					(justify left bottom)
 				)
 			)
-			(property "Value" "ESP32-C6-MINI-1-H4"
+			(property "Value" "ESP32-C6-MINI-1-N4"
 				(at -30.48 28.575 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1548,7 +1548,7 @@
 					)
 				)
 			)
-			(property "MPN" "ESP32-C6-MINI-1-H4"
+			(property "MPN" "ESP32-C6-MINI-1-N4"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1570,7 +1570,7 @@
 					)
 				)
 			)
-			(property "LCSC" "C6553337"
+			(property "LCSC" "C5736265"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -28103,7 +28103,7 @@
 				)
 			)
 		)
-		(property "Description" "NTC 10k 1% B3435 0603; place under/against the cell"
+		(property "Description" "NTC 10k 1% B3950 0603; place under/against the cell"
 			(at 132.08 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -28114,7 +28114,7 @@
 				)
 			)
 		)
-		(property "MPN" "SDNT1608X103F3435FTF"
+		(property "MPN" "SDNT1608X103F3950FTF"
 			(at 132.08 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -28136,7 +28136,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C525660"
+		(property "LCSC" "C279936"
 			(at 132.08 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -29107,7 +29107,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "ESP32-C6-MINI-1-H4"
+		(property "Value" "ESP32-C6-MINI-1-N4"
 			(at 58.42 113.665 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29151,7 +29151,7 @@
 				)
 			)
 		)
-		(property "MPN" "ESP32-C6-MINI-1-H4"
+		(property "MPN" "ESP32-C6-MINI-1-N4"
 			(at 88.9 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -29173,7 +29173,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C6553337"
+		(property "LCSC" "C5736265"
 			(at 88.9 142.24 0)
 			(hide yes)
 			(show_name no)

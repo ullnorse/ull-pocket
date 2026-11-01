@@ -28,4 +28,5 @@ if len(sys.argv) > 3:
         if t.GetClass() == 'PCB_VIA' and t.GetNetname() == 'GND' and abs(t.GetPosition().x - mm(100.75)) < 20000 and min(abs(t.GetPosition().y - mm(131.4)), abs(t.GetPosition().y - mm(133.0))) < 20000:
             b.Delete(t)
     b.Save(sys.argv[2])
-# U3 per-pad mask (fp_rect on F.Mask removed) and the 0.15 mm stroke on UP/OK/DN and the J1 label were text edits to the board file.
+# The 0.15 mm stroke on UP/OK/DN and the J1 label was a text edit to the board file. (U3 keeps its single
+# mask opening over the body: BMP585 datasheet 9.3.3 asks for no solder mask under the sensor.)
