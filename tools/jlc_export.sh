@@ -11,5 +11,5 @@ $K pcb export drill --format excellon --excellon-units mm --excellon-separate-th
 mkdir -p production/drill-map
 cp "$T"/*drl_map.pdf production/drill-map/
 cp "$T"/*.gbl "$T"/*.gbo "$T"/*.gbp "$T"/*.gbs "$T"/*.gm1 "$T"/*.gtl "$T"/*.gto "$T"/*.gtp "$T"/*.gts "$T"/*.g1 "$T"/*.g2 "$T"/*.drl "$Z"/
-rm -f production/ull-pocket-r0.5-gerbers.zip
-(cd "$Z" && python3 -c "import zipfile,glob;z=zipfile.ZipFile('$R/production/ull-pocket-r0.5-gerbers.zip','w',zipfile.ZIP_DEFLATED);[z.write(f) for f in sorted(glob.glob('*'))]")
+rm -f production/ull-pocket-r0.6-gerbers.zip
+(cd "$Z" && python3 -c "import zipfile,glob;z=zipfile.ZipFile('$R/production/ull-pocket-r0.6-gerbers.zip','w',zipfile.ZIP_DEFLATED);[z.write(f) for f in sorted(glob.glob('*'))]")
