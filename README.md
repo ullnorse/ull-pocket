@@ -32,6 +32,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
+| `docs/3d-models.md` | 3D models checked against the datasheets |
 | `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
 
 ![Schematic](docs/img/schematic.png)
