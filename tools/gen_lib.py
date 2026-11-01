@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from sexp import Q, dump, find, findall, parse, walk  # noqa: E402
 
-STD = "/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/share/kicad/symbols"
+STD = "/usr/share/kicad/symbols"
 OUT = os.path.join(os.path.dirname(__file__), "..", "lib", "ull-pocket.kicad_sym")
 G = 2.54
 CHW = 1.2  # approx char width (mm) of 1.27 mm KiCad font (measured from renders)
@@ -131,10 +131,10 @@ def ic(name, ref, left=(), right=(), top=(), bottom=(), nc=(), fields=None, desc
 
 
 def std(libdir, name):
-    path = os.path.join(STD, f"{libdir}.kicad_symdir", f"{name}.kicad_sym")
+    path = os.path.join(STD, f"{libdir}.kicad_sym")
     t = parse(open(path).read())
-    s = find(t, "symbol")
-    assert s[1] == name, s[1]
+    s = next(n for n in t if isinstance(n, list) and n and n[0] == "symbol" and n[1].strip('"') == name)
+    assert not find(s, "extends"), name
     return s
 
 

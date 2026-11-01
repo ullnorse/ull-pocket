@@ -2,7 +2,7 @@
 # Bare-board 3D renders (battery and panel ASSY_* models hidden) into build/render3d.
 set -e
 cd "$(dirname "$0")/.."
-KC=/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/bin/kicad-cli
+KC=${KICAD_CLI:-kicad-cli}
 O=build/render3d
 T=$O/src
 rm -rf $O && mkdir -p $T

@@ -1,5 +1,5 @@
 (footprint "PogoPads_2x3_P2.54mm_D1.0"
-	(version 20260901)
+	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.99")
 	(layer "F.Cu")
@@ -51,6 +51,7 @@
 		)
 	)
 	(attr smd exclude_from_pos_files exclude_from_bom)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_rect
 		(start -0.65 -0.65)
 		(end 3.19 5.73)
@@ -109,4 +110,5 @@
 		(layers "F.Cu" "F.Mask")
 		(uuid "d1290457-d929-508a-a5ed-3f740380a33b")
 	)
+	(embedded_fonts no)
 )

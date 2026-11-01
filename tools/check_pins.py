@@ -16,7 +16,7 @@ from sexp import find, findall, parse, walk  # noqa: E402
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 LIB = os.path.join(ROOT, "lib", "ull-pocket.kicad_sym")
 EE = os.path.join(ROOT, "build", "ee", "ee.kicad_sym")
-FPSTD = "/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/share/kicad/footprints"
+FPSTD = "/usr/share/kicad/footprints"
 
 # project symbol -> easyeda symbol name
 EEMAP = {

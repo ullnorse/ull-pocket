@@ -1,5 +1,5 @@
 (footprint "LGA-9_L3.3-W3.3-P1.10-TL"
-	(version 20260901)
+	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.99")
 	(layer "F.Cu")
@@ -60,6 +60,17 @@
 	)
 	(attr smd allow_soldermask_bridges)
 	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -1.67 -1.67)
+		(end 1.67 1.67)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Mask")
+		(uuid "7c2e9a41-3b5d-4f08-a6c1-0d94e5b27f13")
+	)
 	(fp_line
 		(start -1.78 -1.78)
 		(end 1.78 -1.78)
@@ -232,21 +243,13 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "6958bf50-500d-45bc-ab52-2926268862b5")
 	)
-	(fp_rect
-		(start -1.67 -1.67)
-		(end 1.67 1.67)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.Mask")
-		(uuid "7c2e9a41-3b5d-4f08-a6c1-0d94e5b27f13")
-	)
 	(zone
-		(net 0)
-		(net_name "")
-		(layers "*.Cu")
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu"
+		)
 		(uuid "5b1a3c52-6f0e-4c0a-9a55-2f1d7c9e4b10")
 		(name "BMP585 keepout")
 		(hatch edge 0.5)
@@ -254,7 +257,6 @@
 			(clearance 0)
 		)
 		(min_thickness 0.25)
-		(filled_areas_thickness no)
 		(keepout
 			(tracks not_allowed)
 			(vias not_allowed)
@@ -262,9 +264,14 @@
 			(copperpour not_allowed)
 			(footprints allowed)
 		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
 		(fill
 			(thermal_gap 0.5)
 			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
 		)
 		(polygon
 			(pts

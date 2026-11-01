@@ -1,8 +1,8 @@
 #!/bin/sh
-# Gerbers + drills + zip for JLCPCB. Needs the KiCad fork CLI (stock KiCad 9 cannot load this board).
+# Gerbers + drills + zip for JLCPCB. Needs KiCad 10.
 # usage: tools/jlc_export.sh   (run from the repo root; BOM/CPL come from tools/jlc_cpl.py)
 set -e
-K=${KICAD_CLI:-$HOME/.backplane-bend/kicad/10.99.0-bp.4/bin/kicad-cli}
+K=${KICAD_CLI:-kicad-cli}
 R=$PWD; T=$(mktemp -d); Z=$(mktemp -d)
 $K pcb export gerbers --layers F.Cu,In1.Cu,In2.Cu,B.Cu,F.Mask,B.Mask,F.SilkS,B.SilkS,F.Paste,B.Paste,Edge.Cuts \
   --subtract-soldermask --no-x2 --no-netlist --precision 6 -o "$T" ull-pocket.kicad_pcb

@@ -1,5 +1,5 @@
 (footprint "IND-SMD_L4.0-W4.0_FNR40XXS"
-	(version 20260901)
+	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.99")
 	(layer "F.Cu")

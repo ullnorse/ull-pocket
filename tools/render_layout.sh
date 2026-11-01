@@ -2,7 +2,7 @@
 # Layout review renders into build/layout: copper layers, 2D top/bottom with silk, 3D views.
 set -e
 cd "$(dirname "$0")/.."
-KC=/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/bin/kicad-cli
+KC=${KICAD_CLI:-kicad-cli}
 PCB=ull-pocket.kicad_pcb
 O=build/layout
 rm -rf $O && mkdir -p $O

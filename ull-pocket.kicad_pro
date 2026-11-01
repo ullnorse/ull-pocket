@@ -1246,7 +1246,7 @@
       "sort_asc": true,
       "sort_field": "Value"
     },
-    "bus_aliases": null,
+    "bus_aliases": {},
     "connection_grid_size": 50.0,
     "drawing": {
       "dashed_lines_dash_length_ratio": 12.0,

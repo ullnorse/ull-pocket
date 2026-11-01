@@ -1,8 +1,8 @@
 #!/bin/sh
-# Regenerate schematic, round-trip through KiCad 10 fork, run ERC, export netlist + renders.
+# Regenerate schematic, round-trip through KiCad 10, run ERC, export netlist + renders.
 set -e
 cd "$(dirname "$0")/.."
-KC=/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/bin/kicad-cli
+KC=${KICAD_CLI:-kicad-cli}
 python3 -I tools/gen_sch.py
 $KC sch upgrade --force ull-pocket.kicad_sch >/dev/null
 mkdir -p build/review build/erc

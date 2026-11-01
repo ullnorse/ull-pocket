@@ -71,9 +71,9 @@ for f in tree:
     if isinstance(f, list) and f and f[0] == "footprint":
         d = {p[1]: p[2] for p in f if isinstance(p, list) and p[0] == "property"}
         a = next((p[1:] for p in f if isinstance(p, list) and p[0] == "attr"), [])
-        tr = next(p for p in f if isinstance(p, list) and p[0] == "transform")
-        x, y = next(q for q in tr if isinstance(q, list) and q[0] == "translate")[1:3]
-        r = float(next(q for q in tr if isinstance(q, list) and q[0] == "rotate")[1])
+        at = next(p for p in f if isinstance(p, list) and p[0] == "at")
+        x, y = at[1:3]
+        r = float(at[3]) if len(at) > 3 else 0.0
         layer = next(p[1] for p in f if isinstance(p, list) and p[0] == "layer")
         ref = d["Reference"]
         if "dnp" in a or "exclude_from_bom" in a or ref.startswith(EXCLUDE_PREFIX):

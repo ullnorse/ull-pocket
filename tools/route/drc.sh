@@ -1,7 +1,7 @@
 #!/bin/sh
-# drc.sh board.kicad_pcb [refill]  -> chk/drc.json summary (fork DRC with project rules)
+# drc.sh board.kicad_pcb [refill]  -> chk/drc.json summary (DRC with project rules)
 P=/home/blueeyes/projects/hardware/ull-pocket
-KC=/home/blueeyes/.backplane-bend/kicad/10.99.0-bp.4/bin/kicad-cli
+KC=${KICAD_CLI:-kicad-cli}
 C=$P/build/route/chk
 cp $P/ull-pocket.kicad_pro $P/ull-pocket.kicad_dru $P/ull-pocket.kicad_sch $P/fp-lib-table $P/sym-lib-table $C/
 ln -sfn $P/lib $C/lib
