@@ -42,3 +42,11 @@
 LEDs D1/D5/D6 share footprint `ull-pocket:LED_XL-1606_SideView` (datasheet land pattern 2x 0.77x0.95 mm, pad 1 = cathode). The emitting face sits 0.1 mm inside the bottom board edge (pads 0.2 mm from the edge, custom DRC rule); the case needs a window or light pipe at each LED.
 
 Firmware GPIO notes (rev 0.7): ext1 deep-sleep wake mask is IO0-IO5 (BAT_ALRT_N, USB_PGOOD_N, BTN_N UP, ACC_INT1, BARO_INT, BTN2_N OK), all active-low once the LIS3DH and BMP585 interrupt polarities are set. BTN3_N (DN, IO9) is not an LP GPIO: poll it while awake. DN is also BOOT: held while the chip resets or powers up (unplug USB and battery, hold DN, plug USB in), it starts the ROM download mode for recovery flashing. IO15 is unconnected. Buttons read low when pressed. LED_USER is IO14, active high.
+
+Firmware rules from the rev 0.7 review:
+- Wake sources: USB_PGOOD_N (IO1) stays low while USB is plugged in, and BAT_ALRT_N (IO0) stays low until the MAX17048 alert is cleared. Wake on IO1 going high while USB is present (or leave it out of the mask), and clear the alert before sleeping, otherwise the chip wakes at once. Clearing it also stops 33 uA in R12.
+- BARO_INT (IO4) floats until the BMP585 interrupt is enabled (disabled at power-up): configure it push-pull, active low, before arming ext1.
+- Hold DC, SCK and MOSI (IO20/22/23) in deep sleep (gpio_hold_en + deep-sleep hold) so the powered SSD1681 inputs don't float.
+- Never leave I2C (IO6/IO7) low in sleep: 330 uA per line. Run the bus at 100 kHz: the 10k pull-ups are too slow for 400 kHz.
+- Battery: block Wi-Fi below about 3.55 V (MAX17048 reading) and set the gauge's voltage alert to put the chip into deep sleep; below that the LDO drops out during Wi-Fi bursts.
+- Holding DN (IO9) at a power-up or brown-out reset starts the ROM download mode; deep-sleep wake is not affected.

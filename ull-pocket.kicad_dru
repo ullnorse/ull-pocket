@@ -21,3 +21,13 @@
 (rule "u6_ep_thermal_vias"
 	(condition "A.Type == 'Via' && B.Type == 'Via' && A.NetName == B.NetName && A.intersectsCourtyard('U6') && B.intersectsCourtyard('U6')")
 	(constraint hole_to_hole (min 0.3mm)))
+
+# U7 (RT9080) GND pin: solid to the pour for heat (WiFi bursts ~0.1-0.4 W in a TSOT-23).
+(rule "u7_gnd_solid"
+	(condition "A.Type == 'Pad' && A.memberOfFootprint('U7') && A.NetName == 'GND'")
+	(constraint zone_connection solid))
+
+# U5 (MAX17048) exposed pad: paste reduced to ~60% (1.0 x 0.6 of 1.2 x 0.8) so the TDFN doesn't float.
+(rule "u5_ep_paste"
+	(condition "A.Type == 'Pad' && A.memberOfFootprint('U5') && A.Pad_Number == '9'")
+	(constraint solder_paste_abs_margin (opt -0.1mm)))

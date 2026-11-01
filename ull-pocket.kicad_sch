@@ -5887,7 +5887,7 @@
 					)
 				)
 			)
-			(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; pins 3/4 = shell tabs"
+			(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; shell tabs 3/4 have no pins (left unconnected)"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6021,43 +6021,6 @@
 						)
 					)
 					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 2.54)
-					(name "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 2.54)
-					(hide yes)
-					(name "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -15566,84 +15529,6 @@
 	)
 	(symbol
 		(lib_id "ull-pocket:GND")
-		(at 203.2 273.05 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2d0fcd08-7c5d-5de2-a221-056648884834")
-		(property "Reference" "#PWR095"
-			(at 203.2 279.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 203.2 276.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 203.2 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 203.2 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 203.2 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e9bc0b51-bc6d-5f47-b9f5-8e18d262617c")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR095")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:GND")
 		(at 68.58 207.01 0)
 		(unit 1)
 		(body_style 1)
@@ -17939,84 +17824,6 @@
 	)
 	(symbol
 		(lib_id "ull-pocket:GND")
-		(at 386.08 74.93 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "49796ef0-b7ab-50d0-872a-b4ab946572db")
-		(property "Reference" "#PWR044"
-			(at 386.08 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 386.08 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 386.08 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 386.08 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 386.08 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "90486fab-8715-5703-acf5-278b0966c846")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR044")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:GND")
 		(at 285.75 111.76 0)
 		(unit 1)
 		(body_style 1)
@@ -18756,7 +18563,7 @@
 				)
 			)
 		)
-		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; pins 3/4 = shell tabs"
+		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; shell tabs 3/4 have no pins (left unconnected)"
 			(at 386.08 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -18952,7 +18759,7 @@
 				)
 			)
 		)
-		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; pins 3/4 = shell tabs"
+		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; shell tabs 3/4 have no pins (left unconnected)"
 			(at 271.78 269.24 0)
 			(hide yes)
 			(show_name no)
@@ -20527,84 +20334,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 271.78 273.05 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "701f94c4-193b-5949-8bea-3f1268e787e5")
-		(property "Reference" "#PWR098"
-			(at 271.78 279.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 271.78 276.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 271.78 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 271.78 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 271.78 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "850655e1-7ee4-5556-826d-7161c4170313")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR098")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:C_Small")
 		(at 138.43 250.19 90)
 		(unit 1)
@@ -21038,7 +20767,7 @@
 				)
 			)
 		)
-		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; pins 3/4 = shell tabs"
+		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; shell tabs 3/4 have no pins (left unconnected)"
 			(at 203.2 269.24 0)
 			(hide yes)
 			(show_name no)

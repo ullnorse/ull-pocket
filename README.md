@@ -39,10 +39,15 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 ## Ordering
 
-1. Upload `production/ull-pocket-r0.7-gerbers.zip` to JLCPCB: 4 layers, 1.6 mm, stackup JLC04161H-3313.
+1. Upload `production/ull-pocket-r0.7-gerbers.zip` to JLCPCB and set:
+   - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
+   - surface finish **ENIG** (the LGA/QFN/DFN parts need a flat finish; HASL is the default)
+   - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
+   - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
 2. Enable PCB assembly (top side) and upload `ull-pocket-r0.7-bom.csv` and `ull-pocket-r0.7-cpl.csv`.
-3. Check the part rotations in JLC's preview against `production/rotation-check.md`.
-4. Buy the e-paper panel (GDEY0154D67) and a 503040 LiPo with a protection board separately.
+3. Add a remark: "Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm and side LEDs 0.4 mm (bottom edge), side buttons 0.2 mm (left edge)."
+4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
+5. Buy separately: the e-paper panel (GDEY0154D67), a 503040 LiPo with a protection board (check its plug polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 
 ## Programming
 

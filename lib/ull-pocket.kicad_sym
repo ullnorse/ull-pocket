@@ -4000,7 +4000,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; pins 3/4 = shell tabs"
+		(property "Description" "Side-actuated SMD tactile switch 4.7x1.9 mm, SPST-NO; shell tabs 3/4 have no pins (left unconnected)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4137,43 +4137,6 @@
 					)
 				)
 				(number "2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin passive line
-				(at 0 -3.81 90)
-				(length 2.54)
-				(name "MP"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin passive line
-				(at 0 -3.81 90)
-				(length 2.54)
-				(hide yes)
-				(name "MP"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "4"
 					(effects
 						(font
 							(size 1.27 1.27)

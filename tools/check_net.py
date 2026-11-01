@@ -166,8 +166,7 @@ for p, nm in FPC.items():
 # side buttons (rev 0.6): SW1 UP IO2, SW2 OK IO5, SW3 DN IO9 (= BOOT, rev 0.7); each 100R series + 100 nF debounce
 for sw, rs, node, swn in (("SW1", "R28", "BTN_N", "BTN_SW"), ("SW2", "R30", "BTN2_N", "BTN2_SW"),
                           ("SW3", "R31", "BTN3_N", "BTN3_SW")):
-    for p in (2, 3, 4):
-        expect(sw, p, "GND")
+    expect(sw, 2, "GND")                       # shell tabs (pads 3/4) have no pins: left unconnected
     expect(sw, 1, swn)
     between(rs, node, swn)
     if comps[rs]["value"] != "100R" or comps[rs]["LCSC"] != "C25076":
