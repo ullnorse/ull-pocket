@@ -101,7 +101,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
   |---|---|---|---|
   | SW1 | UP | 20.5 | IO2 (ext1 wake) |
   | SW2 | OK | 27.5 | IO5 (ext1 wake) |
-  | SW3 | DN | 34.5 | IO15 (polled, no wake) |
+  | SW3 | DN | 34.5 | IO9 (polled, no wake; also BOOT) |
 
   The row spans y 18.2-36.8 (switch bodies). It stays clear of Q2 (ends at y 15.7) and of the H2 boss (hole at y 41.3).
 - **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). Each emits outward through the bottom edge; the face sits 0.1 mm inside the edge. The case needs a small window or light pipe at each one, centred about 0.6 mm above the PCB top surface.

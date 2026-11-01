@@ -113,7 +113,7 @@ for p in sorted(parts, key=lambda p: natkey(p["ref"])):
     r = (p["rot"] - i["delta"]) % 360
     dx, dy = rot(i["t"], r)
     rows.append((p["ref"], p["x"] - dx, -(p["y"] - dy), "T", r))
-with open(os.path.join(out_dir, "ull-pocket-r0.6-cpl.csv"), "w", newline="") as fh:
+with open(os.path.join(out_dir, "ull-pocket-r0.7-cpl.csv"), "w", newline="") as fh:
     w = csv.writer(fh, quoting=csv.QUOTE_ALL, lineterminator="\n")
     w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
     for ref, x, y, l, r in rows:
@@ -123,7 +123,7 @@ with open(os.path.join(out_dir, "ull-pocket-r0.6-cpl.csv"), "w", newline="") as 
 groups = collections.OrderedDict()
 for p in sorted(parts, key=lambda p: natkey(p["ref"])):
     groups.setdefault((p["val"], p["fp"].split(":")[-1], p["lcsc"]), []).append(p["ref"])
-with open(os.path.join(out_dir, "ull-pocket-r0.6-bom.csv"), "w", newline="") as fh:
+with open(os.path.join(out_dir, "ull-pocket-r0.7-bom.csv"), "w", newline="") as fh:
     w = csv.writer(fh, quoting=csv.QUOTE_ALL, lineterminator="\n")
     w.writerow(["Comment", "Designator", "Footprint", "LCSC"])
     for (val, fp, lcsc), refs in sorted(groups.items(), key=lambda kv: natkey(kv[1][0])):

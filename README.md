@@ -16,7 +16,7 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 | Charging | TI BQ24073 power path, ~270 mA from USB-C |
 | 3.3 V | Richtek RT9080 LDO, ~2 uA quiescent |
 | Display | Good Display GDEY0154D67, 200x200 black/white e-paper, SSD1681, bought separately |
-| Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep) |
+| Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep; DN doubles as BOOT) |
 | LEDs | Power (green), charge (red), user (blue), side-view at the bottom edge |
 | Programming | USB-C (native USB Serial/JTAG) or 2x3 pogo pads on the back |
 
@@ -28,7 +28,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 |---|---|
 | `ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
 | `lib/` | Project symbols, footprints and 3D models |
-| `production/` | JLCPCB Gerbers, BOM and CPL (`ull-pocket-r0.6-*`) |
+| `production/` | JLCPCB Gerbers, BOM and CPL (`ull-pocket-r0.7-*`) |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
@@ -38,10 +38,18 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 ## Ordering
 
-1. Upload `production/ull-pocket-r0.6-gerbers.zip` to JLCPCB: 4 layers, 1.6 mm, stackup JLC04161H-3313.
-2. Enable PCB assembly (top side) and upload `ull-pocket-r0.6-bom.csv` and `ull-pocket-r0.6-cpl.csv`.
+1. Upload `production/ull-pocket-r0.7-gerbers.zip` to JLCPCB: 4 layers, 1.6 mm, stackup JLC04161H-3313.
+2. Enable PCB assembly (top side) and upload `ull-pocket-r0.7-bom.csv` and `ull-pocket-r0.7-cpl.csv`.
 3. Check the part rotations in JLC's preview against `production/rotation-check.md`.
 4. Buy the e-paper panel (GDEY0154D67) and a 503040 LiPo with a protection board separately.
+
+## Programming
+
+Plug in USB-C. The ESP32-C6 shows up as a USB serial port and esptool, Arduino or ESP-IDF flash it with no buttons: target `esp32c6` (Arduino: "ESP32C6 Dev Module", USB CDC On Boot enabled).
+
+USB is off while the chip is in deep sleep, so keep the firmware awake while `USB_PGOOD_N` (IO1) is low (cable plugged in).
+
+**Recovery:** if the firmware crashes, sleeps or disables USB before it can be flashed, unplug USB and the battery, hold **DN** (it is also BOOT, IO9), and plug USB back in. The chip starts in its ROM download mode; flash as usual, then reset by unplugging. The back pogo pads (J4) carry EN, BOOT and UART0 for a pogo fixture.
 
 ## Opening in KiCad
 

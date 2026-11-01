@@ -7,7 +7,7 @@
 	(title_block
 		(title "ull-pocket: pocket environment meter")
 		(date "2026-11-01")
-		(rev "0.6")
+		(rev "0.7")
 		(company "American Embedded")
 		(comment 1 "ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper")
 	)
@@ -8865,6 +8865,10 @@
 		(uuid "fba02a29-b3dd-564e-83b1-44b1c1ec2d42")
 	)
 	(no_connect
+		(at 55.88 137.16)
+		(uuid "b4f74ce3-a8ef-4354-abf9-c3fd4c4869ca")
+	)
+	(no_connect
 		(at 50.8 60.96)
 		(uuid "006300aa-5dea-567e-9a9a-653d7cc35c7b")
 	)
@@ -10596,7 +10600,7 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 137.16) (xy 38.1 137.16)
+			(xy 53.34 137.16) (xy 38.1 137.16)
 		)
 		(stroke
 			(width 0)
@@ -11084,7 +11088,7 @@
 		)
 		(uuid "016dd193-b37e-5d2b-af1a-17a0d529a9ca")
 	)
-	(label "BOOT"
+	(label "BTN3_N"
 		(at 38.1 157.48 0)
 		(effects
 			(font
@@ -11624,7 +11628,7 @@
 		)
 		(uuid "b2a27c66-8444-5da1-9316-8c4109f8bdc8")
 	)
-	(label "BOOT"
+	(label "BTN3_N"
 		(at 53.34 127 180)
 		(effects
 			(font

@@ -66,7 +66,7 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "EN", "23": "BOOT", "22": None, "30": "RXD0", "31": "TXD0", "20": "BTN3_N", "17": "USB_D-", "18": "USB_D+",
+ESP = {"8": "EN", "23": "BTN3_N", "22": None, "30": "RXD0", "31": "TXD0", "20": "NC", "17": "USB_D-", "18": "USB_D+",
        "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "BTN2_N",
        "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
@@ -163,7 +163,7 @@ for p, nm in FPC.items():
         nc("J3", p)
     else:
         expect("J3", p, nm)
-# side buttons (rev 0.6): SW1 UP IO2, SW2 OK IO5, SW3 DN IO15; each 100R series + 100 nF debounce
+# side buttons (rev 0.6): SW1 UP IO2, SW2 OK IO5, SW3 DN IO9 (= BOOT, rev 0.7); each 100R series + 100 nF debounce
 for sw, rs, node, swn in (("SW1", "R28", "BTN_N", "BTN_SW"), ("SW2", "R30", "BTN2_N", "BTN2_SW"),
                           ("SW3", "R31", "BTN3_N", "BTN3_SW")):
     for p in (2, 3, 4):
@@ -199,17 +199,17 @@ find_part("BTN_N", "+3V3", "100kR")
 find_part("BTN_N", "GND", "100nF/16V")          # debounce with R28
 find_part("BTN2_N", "+3V3", "100kR")
 find_part("BTN2_N", "GND", "100nF/16V")         # debounce with R30
-find_part("BTN3_N", "GND", "100nF/16V")         # debounce with R31; pull-up is R24 (IO15 strap)
+find_part("BTN3_N", "GND", "100nF/16V")         # debounce with R31; pull-up is R24 (IO9 strap)
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
 find_part(net("U1", 8), "+3V3", "10kR")
-find_part("BTN3_N", "+3V3", "10kR")             # IO15 strap pull-up (JTAG_SEL burned -> USB Serial/JTAG) = SW3 pull-up
+find_part("BTN3_N", "+3V3", "10kR")             # IO9 BOOT strap pull-up = SW3 pull-up (DN held at reset -> download mode)
 if parts_on("BTN3_N", "R") != ["R24", "R31"]:
     bad.append(f"BTN3_N should carry only R24 (pull-up) and R31: {parts_on('BTN3_N', 'R')}")
 find_part("EPD_CS_N", "+3V3", "100kR")           # e-paper sleep pull-ups
 find_part("EPD_RST_N", "+3V3", "100kR")
-# programming pogo cluster J4: +3V3, GND, EN, BOOT, TXD0, RXD0; no BOM, no placement
-for pin, nm in ((1, "VREF"), (2, "GND"), (3, "EN"), (4, "BOOT"), (5, "TXD0"), (6, "RXD0")):
+# programming pogo cluster J4: +3V3, GND, EN, BOOT (BTN3_N), TXD0, RXD0; no BOM, no placement
+for pin, nm in ((1, "VREF"), (2, "GND"), (3, "EN"), (4, "BTN3_N"), (5, "TXD0"), (6, "RXD0")):
     expect("J4", pin, nm)
 find_part("VREF", "+3V3", "1kR")           # J4.1 is a sense-only VREF; programmer cannot feed +3V3
 if flags["J4"] != {"exclude_from_bom", "exclude_from_pos_files"}:
