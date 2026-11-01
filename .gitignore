@@ -7,3 +7,4 @@ _autosave-*
 .venv/
 *.kicad_prl
 __pycache__/
+.history/

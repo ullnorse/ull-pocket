@@ -626,8 +626,8 @@ def build():
 
     # ============================ MCU ==================================
     bx, by = 12.7, 86.36
-    rect(bx, by, bx + 101.6, by + 91.44, C_MCU, "MCU (ESP32-C6-MINI-1)")
-    u1 = ic("ESP32-C6-MINI-1-H4", "U1", bx + 60.96, by + 55.88)
+    rect(bx, by, bx + 132.08, by + 91.44, C_MCU, "MCU (ESP32-C6-MINI-1)")
+    u1 = ic("ESP32-C6-MINI-1-H4", "U1", bx + 76.2, by + 55.88)
     p33 = u1.p("3")
     n33 = add(p33, (0, -1), 10.16)
     wire(p33, n33)
@@ -642,6 +642,10 @@ def build():
     c01 = cap_down("100n", cb, side="L", gnd=False)
     wire(c01.p(2), c10.p(2))
     pwr("GND", c10.p(2))
+    # all 22 GND pins drawn on the bottom edge, tied by one bus wire
+    gnd_pins = ["1", "2", "11", "14"] + [str(i) for i in range(36, 54)]
+    for a, b in zip(gnd_pins, gnd_pins[1:]):
+        wire(u1.p(a), u1.p(b))
     pwr("GND", u1.p("1"))
     # EN: 10k to 3V3 + 1uF to GND (Espressif RC), test pad, net EN
     p_en = u1.p("8")
@@ -675,17 +679,18 @@ def build():
 
     # ============================ Sensors ==============================
     bx, by = 118.11, 86.36
-    rect(bx, by, bx + 289.56, by + 91.44, C_SNS, "SENSORS (I2C, 3V3)")
+    sx = bx + 30.48   # box starts right of the widened MCU box; parts keep their places
+    rect(sx, by, bx + 289.56, by + 91.44, C_SNS, "SENSORS (I2C, 3V3)")
     # I2C pull-ups next to the bus (labels horizontal)
     for i, nm in enumerate(("I2C_SDA", "I2C_SCL")):
-        x = bx + 20.32 + i * 15.24
+        x = sx + 5.08 + i * 12.7
         node = (x, by + 30.48)
         r = res_up("10k", node, "+3V3", side="RU")
         e = add(node, (1, 0), 2.54)
         wire(node, e)
         label(nm, e, "R")
     note("I2C addresses:\\nSHT31 0x44 (ADDR=GND)\\nBMP585 0x46 (SDO=GND)\\nLIS3DH 0x19 (SA0=3V3)\\n"
-         "MAX17048 0x36", (bx + 2.54, by + 50.8))
+         "MAX17048 0x36", (sx + 2.54, by + 58.42))
 
     u2 = ic("SHT31-DIS-B", "U2", bx + 76.2, by + 48.26)
     y, _ = rail_caps(u2, ["5"], ["100n"], 10.16)

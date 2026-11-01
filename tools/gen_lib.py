@@ -48,7 +48,7 @@ def tlen(s):
 
 
 def ic(name, ref, left=(), right=(), top=(), bottom=(), nc=(), fields=None, desc="", min_w=0,
-       top_pitch=G, bottom_pitch=G):
+       top_pitch=G, bottom_pitch=G, value_above=False):
     """Build an IC symbol. Entries: (nums, name, type) with nums 'a,b' stacked; None = gap.
 
     Layout rules: Reference above body (left). Value above body (stacked) when there are no
@@ -60,7 +60,7 @@ def ic(name, ref, left=(), right=(), top=(), bottom=(), nc=(), fields=None, desc
     rmax = max([tlen(p[1]) for p in right if p] + [0])
     tmax = max([tlen(p[1]) for p in top if p] + [0])
     bmax = max([tlen(p[1]) for p in bottom if p] + [0])
-    val_below = bool(top)
+    val_below = bool(top) and not value_above
     w = (lmax + rmax) * CHW + 2.0
     w = max(w, (len(top) - 1) * top_pitch + 2 * G, (len(bottom) - 1) * bottom_pitch + 2 * G, min_w)
     if val_below and bottom:
@@ -195,12 +195,13 @@ def main():
                ("26", "IO20", "bidirectional"), ("27", "IO21", "bidirectional"), ("28", "IO22", "bidirectional"),
                ("29", "IO23", "bidirectional")],
         top=[("3", "3V3", "power_in")],
-        bottom=[("1,2,11,14," + ",".join(str(i) for i in range(36, 54)), "GND", "power_in")],
+        bottom=[(n, "GND", "power_in") for n in ["1", "2", "11", "14"] + [str(i) for i in range(36, 54)]],
         nc=[("4", "NC"), ("7", "NC"), ("21", "NC"), ("32", "NC"), ("33", "NC"), ("34", "NC"), ("35", "NC")],
         fields=F("RF_Module:ESP32-C6-MINI-1",
                  "https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf",
                  "ESP32-C6-MINI-1-H4", "Espressif Systems", "C6553337"),
-        desc="ESP32-C6 module, Wi-Fi 6/BLE/802.15.4, 4 MB flash, PCB antenna", min_w=20.32))
+        desc="ESP32-C6 module, Wi-Fi 6/BLE/802.15.4, 4 MB flash, PCB antenna", min_w=20.32,
+        value_above=True))
 
     # ---------------- SHT31-DIS-B ----------------
     out.append(ic(
