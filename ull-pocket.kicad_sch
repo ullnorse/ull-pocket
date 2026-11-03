@@ -6,10 +6,10 @@
 	(paper "A3")
 	(title_block
 		(title "ull-pocket: pocket environment meter")
-		(date "2026-11-01")
-		(rev "0.7")
+		(date "2026-11-03")
+		(rev "0.8")
 		(company "American Embedded")
-		(comment 1 "ESP32-C6, SHT31, BMP585, LIS3DH, MAX17048, 1.54in e-paper")
+		(comment 1 "ESP32-C6, SHT40, BMP580, LIS2DW12, MAX17048, 1.54in e-paper")
 	)
 	(lib_symbols
 		(symbol "ull-pocket:+3V3"
@@ -478,261 +478,6 @@
 						)
 					)
 					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "ull-pocket:BMP585"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -7.62 20.955 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" "BMP585"
-				(at -7.62 -20.955 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
-				)
-			)
-			(property "Footprint" "ull-pocket:LGA-9_L3.3-W3.3-P1.10-TL"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp585-ds003.pdf"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Barometric pressure sensor, I2C/I3C/SPI, LGA-9 (pin 9 marking area is not a pad)"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "MPN" "BMP585"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer" "Bosch Sensortec"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "LCSC" "C18184976"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "BMP585_0_1"
-				(rectangle
-					(start -7.62 20.32)
-					(end 7.62 -20.32)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "BMP585_1_1"
-				(pin input line
-					(at -10.16 2.54 0)
-					(length 2.54)
-					(name "SCX"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -10.16 5.08 0)
-					(length 2.54)
-					(name "SDX"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -10.16 -2.54 0)
-					(length 2.54)
-					(name "SDO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 22.86 270)
-					(length 2.54)
-					(name "VDDIO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 10.16 10.16 180)
-					(length 2.54)
-					(name "INT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 5.08 -22.86 90)
-					(length 2.54)
-					(name "VSSIO/VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 10.16 0)
-					(length 2.54)
-					(name "CSB"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 5.08 22.86 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3456,408 +3201,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ull-pocket:LIS3DHTR"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -12.7 15.875 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" "LIS3DHTR"
-				(at -12.7 -15.875 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
-				)
-			)
-			(property "Footprint" "Package_LGA:LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "https://www.st.com/resource/en/datasheet/lis3dh.pdf"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "3-axis accelerometer, I2C/SPI, LGA-16"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "MPN" "LIS3DHTR"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer" "STMicroelectronics"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "LCSC" "C15134"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "LIS3DHTR_0_1"
-				(rectangle
-					(start -12.7 15.24)
-					(end 12.7 -15.24)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "LIS3DHTR_1_1"
-				(pin power_in line
-					(at 5.08 17.78 270)
-					(length 2.54)
-					(name "VDD_IO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at -10.16 -12.7 90)
-					(length 0)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at -7.62 -12.7 90)
-					(length 0)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -15.24 -5.08 0)
-					(length 2.54)
-					(name "SCL/SPC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 5.08 -17.78 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 2.54)
-					(name "SDA/SDI/SDO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -15.24 2.54 0)
-					(length 2.54)
-					(name "SDO/SA0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -15.24 5.08 0)
-					(length 2.54)
-					(name "CS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 15.24 2.54 180)
-					(length 2.54)
-					(name "INT2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -17.78 90)
-					(length 2.54)
-					(name "RES"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 15.24 5.08 180)
-					(length 2.54)
-					(name "INT1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 5.08 -17.78 90)
-					(length 2.54)
-					(hide yes)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 15.24 -5.08 180)
-					(length 2.54)
-					(name "ADC3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 10.16 17.78 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 15.24 -2.54 180)
-					(length 2.54)
-					(name "ADC2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 15.24 0 180)
-					(length 2.54)
-					(name "ADC1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "ull-pocket:L_Small"
 			(pin_numbers
 				(hide yes)
@@ -5214,280 +4557,6 @@
 						)
 					)
 					(number "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "ull-pocket:SHT31-DIS-B"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -12.7 13.335 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" "SHT31-DIS-B"
-				(at -12.7 -13.335 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left top)
-				)
-			)
-			(property "Footprint" "Sensor_Humidity:Sensirion_DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.7mm"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Digital humidity and temperature sensor, I2C, DFN-8"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "MPN" "SHT31-DIS-B2.5kS"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer" "Sensirion"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "LCSC" "C80862"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "SHT31-DIS-B_0_1"
-				(rectangle
-					(start -12.7 12.7)
-					(end 12.7 -12.7)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "SHT31-DIS-B_1_1"
-				(pin bidirectional line
-					(at -15.24 5.08 0)
-					(length 2.54)
-					(name "SDA"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -15.24 -2.54 0)
-					(length 2.54)
-					(name "ADDR"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 15.24 5.08 180)
-					(length 2.54)
-					(name "ALERT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -15.24 2.54 0)
-					(length 2.54)
-					(name "SCL"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 10.16 15.24 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 15.24 2.54 180)
-					(length 2.54)
-					(name "NRESET"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 10.16 -15.24 90)
-					(length 2.54)
-					(name "R"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 5.08 -15.24 90)
-					(length 2.54)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 5.08 -15.24 90)
-					(length 2.54)
-					(hide yes)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -7858,6 +6927,1006 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "ull-pocket:SHT40-AD1B"
+			(pin_names
+				(offset 0.508)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -12.7 13.335 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "SHT40-AD1B"
+				(at -12.7 -13.335 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "ull-pocket:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://sensirion.com/media/documents/33FD6951/67EB9032/HT_DS_Datasheet_SHT4x_5.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Humidity and temperature sensor, I2C 0x44, DFN-4 1.5x1.5"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "SHT40-AD1B-R2"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "Sensirion"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC" "C2909890"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SHT40-AD1B_0_1"
+				(rectangle
+					(start -12.7 12.7)
+					(end 12.7 -12.7)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "SHT40-AD1B_1_1"
+				(pin bidirectional line
+					(at -15.24 5.08 0)
+					(length 2.54)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -15.24 2.54 0)
+					(length 2.54)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 15.24 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 -15.24 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ull-pocket:BMP580"
+			(pin_names
+				(offset 0.508)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -7.62 20.955 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "BMP580"
+				(at -7.62 -20.955 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "ull-pocket:Bosch_LGA-10_2x2mm_P0.5mm_BMP580"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp580-ds004.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Barometric pressure sensor, I2C 0x46 (SDO=GND), LGA-10 2x2"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "BMP580"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "Bosch Sensortec"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC" "C22391138"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "BMP580_0_1"
+				(rectangle
+					(start -7.62 20.32)
+					(end 7.62 -20.32)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "BMP580_1_1"
+				(pin input line
+					(at -10.16 10.16 0)
+					(length 2.54)
+					(name "CSB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -10.16 5.08 0)
+					(length 2.54)
+					(name "SDI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "SDO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 10.16 10.16 180)
+					(length 2.54)
+					(name "INT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 22.86 270)
+					(length 2.54)
+					(name "VDDIO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 22.86 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 -22.86 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -22.86 90)
+					(length 2.54)
+					(hide yes)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -22.86 90)
+					(length 2.54)
+					(hide yes)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ull-pocket:LIS2DW12TR"
+			(pin_names
+				(offset 0.508)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -12.7 15.875 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "LIS2DW12TR"
+				(at -12.7 -15.875 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "Package_LGA:LGA-12_2x2mm_P0.5mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.st.com/resource/en/datasheet/lis2dw12.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "3-axis accelerometer, I2C 0x19 (SA0=1), LGA-12 2x2"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "LIS2DW12TR"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "STMicroelectronics"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC" "C189624"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LIS2DW12TR_0_1"
+				(rectangle
+					(start -12.7 15.24)
+					(end 12.7 -15.24)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "LIS2DW12TR_1_1"
+				(pin input line
+					(at -15.24 5.08 0)
+					(length 2.54)
+					(name "CS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -15.24 2.54 0)
+					(length 2.54)
+					(name "SDO/SA0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -15.24 -2.54 0)
+					(length 2.54)
+					(name "SDA/SDI/SDO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -15.24 -5.08 0)
+					(length 2.54)
+					(name "SCL/SPC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 5.08 180)
+					(length 2.54)
+					(name "INT1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 2.54 180)
+					(length 2.54)
+					(name "INT2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 17.78 270)
+					(length 2.54)
+					(name "VDD_IO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 17.78 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 -17.78 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -17.78 90)
+					(length 2.54)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -17.78 90)
+					(length 2.54)
+					(name "RES"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 -12.7 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ull-pocket:LED_RGB_CA"
+			(pin_names
+				(offset 0.508)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at -2.54 10.795 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "LED_RGB_CA"
+				(at -2.54 -10.795 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "ull-pocket:LED_MHS110FRGBCT_SideView"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2006111804_MEIHUA-MHS110FRGBCT_C496820.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Side-view RGB LED, common anode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "MHS110FRGBCT"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "MEIHUA"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC" "C496820"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED_RGB_CA_0_1"
+				(rectangle
+					(start -2.54 10.16)
+					(end 2.54 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "LED_RGB_CA_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 7.62 180)
+					(length 2.54)
+					(name "R"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -7.62 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(rectangle
 		(start 342.9 57.15)
@@ -8024,7 +8093,7 @@
 		)
 		(uuid "07b27e6c-9b38-558a-b4aa-529ae5d60271")
 	)
-	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 is\nunconnected (strap only if JTAG_SEL burned)."
+	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 drives\nLED_G (strap only if JTAG_SEL burned)."
 		(exclude_from_sim no)
 		(at 244.38 231.61 0)
 		(effects
@@ -8074,7 +8143,7 @@
 		)
 		(uuid "22adaef0-8005-5da9-8393-8f7fa90e5e41")
 	)
-	(text "I2C addresses:\nSHT31 0x44 (ADDR=GND)\nBMP585 0x46 (SDO=GND)\nLIS3DH 0x19 (SA0=3V3)\nMAX17048 0x36"
+	(text "I2C addresses:\nSHT40 0x44\nBMP580 0x46 (SDO=GND)\nLIS2DW12 0x19 (SA0=3V3)\nMAX17048 0x36"
 		(exclude_from_sim no)
 		(at 151.13 144.78 0)
 		(effects
@@ -8199,7 +8268,7 @@
 		)
 		(uuid "80b9b413-073b-5858-989a-61aaae2da513")
 	)
-	(text "WAKE POLARITY (ext1, one level)\nACC_INT1, BARO_INT: active-high by default.\nBTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\nactive-low. Set LIS3DH INT_POLARITY and\nBMP585 int_pol to active-low so one ext1\nlevel wakes all. BTN3_N (IO9) is polled."
+	(text "WAKE POLARITY (ext1, one level)\nACC_INT1, BARO_INT: active-high by default.\nBTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\nactive-low. Set LIS2DW12 H_LACTIVE and\nBMP580 int_pol to active-low so one ext1\nlevel wakes all. BTN3_N (IO9) is polled."
 		(exclude_from_sim no)
 		(at 161.92 191.61 0)
 		(effects
@@ -8210,7 +8279,7 @@
 		)
 		(uuid "8861ce66-7d37-5c2f-a797-40be38bba3c2")
 	)
-	(text "USER LED (IO14)"
+	(text "USER LED (RGB)"
 		(exclude_from_sim no)
 		(at 354.33 123.19 0)
 		(effects
@@ -8332,7 +8401,7 @@
 		)
 		(uuid "e4b4f331-9310-5611-8a7e-479a42a469cb")
 	)
-	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 10k pull-up\nIO14 LED_USER\nIO9 BTN3_N (DN/BOOT, no wake)\nIO15 unconnected"
+	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 LED_R (strap)\nIO14 LED_B\nIO15 LED_G\nIO9 BTN3_N (DN/BOOT)"
 		(exclude_from_sim no)
 		(at 15.24 93.36 0)
 		(effects
@@ -8343,7 +8412,7 @@
 		)
 		(uuid "f0663de0-14b5-5ee9-9801-425eb6c311fc")
 	)
-	(text "IO14 -> 470R -> blue: ~1 mA\nGPIO high = on, 3.3 V\nSilk: PWR, CHG, USR"
+	(text "Common anode on +3V3; GPIO low = on.\nR 1k ~1.5 mA, G 1k ~0.7 mA, B 470R ~1.5 mA\nIO8 high at reset (R16): red stays off,\nstrap unaffected. Silk: PWR, CHG, USR"
 		(exclude_from_sim no)
 		(at 355.6 160.02 0)
 		(effects
@@ -8353,17 +8422,6 @@
 			(justify left top)
 		)
 		(uuid "f17a01e2-90a0-5735-8aa2-ba7e308f8d88")
-	)
-	(text "U3 pin 9 (marking\narea) is not a pad.\nKeepout and F.Mask\nopening: footprint.\nLayout: only each\npad's own trace may\nenter the band under\nthe body."
-		(exclude_from_sim no)
-		(at 216.11 148.36 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "f927563c-a49c-5a51-a25b-2d3e3dce10dd")
 	)
 	(junction
 		(at 76.2 172.72)
@@ -8828,20 +8886,8 @@
 		(uuid "fba02a29-b3dd-564e-83b1-44b1c1ec2d42")
 	)
 	(no_connect
-		(at 55.88 137.16)
-		(uuid "b4f74ce3-a8ef-4354-abf9-c3fd4c4869ca")
-	)
-	(no_connect
 		(at 50.8 60.96)
 		(uuid "006300aa-5dea-567e-9a9a-653d7cc35c7b")
-	)
-	(no_connect
-		(at 212.09 132.08)
-		(uuid "2e92dfcf-c917-5ef3-9f94-3bdc6f432e73")
-	)
-	(no_connect
-		(at 339.09 134.62)
-		(uuid "4227e37b-ddc8-59e1-89eb-eee34a931066")
 	)
 	(no_connect
 		(at 118.11 201.93)
@@ -8856,16 +8902,8 @@
 		(uuid "73793922-2431-5bb4-b0f3-c5987eb032e6")
 	)
 	(no_connect
-		(at 212.09 129.54)
-		(uuid "73cc5630-8c73-5061-ae5e-a18f15d9c804")
-	)
-	(no_connect
 		(at 118.11 196.85)
 		(uuid "8046a68b-fb00-59a1-9346-9312602983d8")
-	)
-	(no_connect
-		(at 339.09 139.7)
-		(uuid "9279ba4e-723f-5b88-8293-b5181f748949")
 	)
 	(no_connect
 		(at 339.09 132.08)
@@ -8887,10 +8925,6 @@
 		(at 167.64 68.58)
 		(uuid "dee416ea-51b4-5f76-a0d9-9ca09f2b78d3")
 	)
-	(no_connect
-		(at 339.09 137.16)
-		(uuid "ea598460-62fe-56dd-ade7-ffd2a506923d")
-	)
 	(wire
 		(pts
 			(xy 48.26 242.57) (xy 48.26 245.11)
@@ -8900,16 +8934,6 @@
 			(type default)
 		)
 		(uuid "0201c4f1-03c1-5bf5-9002-497f91b95305")
-	)
-	(wire
-		(pts
-			(xy 336.55 139.7) (xy 339.09 139.7)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0281b878-39e1-5390-b374-836c1582b3d7")
 	)
 	(wire
 		(pts
@@ -9143,16 +9167,6 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 137.16) (xy 176.53 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c155156-09ea-59a4-acdf-11f6f5711ad6")
-	)
-	(wire
-		(pts
 			(xy 331.47 109.22) (xy 339.09 109.22)
 		)
 		(stroke
@@ -9340,16 +9354,6 @@
 			(type default)
 		)
 		(uuid "328ec286-deee-55b2-8e96-a8d6a5131347")
-	)
-	(wire
-		(pts
-			(xy 209.55 129.54) (xy 212.09 129.54)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3521cf3c-ab1f-5dce-ba4d-c6ed6b9da5ba")
 	)
 	(wire
 		(pts
@@ -10213,16 +10217,6 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 132.08) (xy 212.09 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a5e0154f-2d32-5db1-8f44-1dc26e8664ab")
-	)
-	(wire
-		(pts
 			(xy 214.63 53.34) (xy 217.17 53.34)
 		)
 		(stroke
@@ -10493,16 +10487,6 @@
 	)
 	(wire
 		(pts
-			(xy 336.55 137.16) (xy 339.09 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c27cf948-8ba7-5d67-b6e3-a7801dcae744")
-	)
-	(wire
-		(pts
 			(xy 182.88 30.48) (xy 190.5 30.48)
 		)
 		(stroke
@@ -10563,7 +10547,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 137.16) (xy 38.1 137.16)
+			(xy 45.72 137.16) (xy 38.1 137.16)
 		)
 		(stroke
 			(width 0)
@@ -10750,26 +10734,6 @@
 			(type default)
 		)
 		(uuid "df3b0272-1247-5669-9599-c8dd8e988833")
-	)
-	(wire
-		(pts
-			(xy 365.76 137.16) (xy 365.76 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "df72a75b-7e64-5c0d-b3a6-f0d7addf534c")
-	)
-	(wire
-		(pts
-			(xy 336.55 134.62) (xy 339.09 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e05947d1-d687-5fe1-8baf-33def4cb5025")
 	)
 	(wire
 		(pts
@@ -11191,16 +11155,6 @@
 		)
 		(uuid "3f662c58-5ef2-5bf9-ae35-9ff0d49364a8")
 	)
-	(label "LED_USER"
-		(at 365.76 134.62 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3fafb773-466c-587c-ae9f-5daea44824e2")
-	)
 	(label "RXD0"
 		(at 53.34 149.86 180)
 		(effects
@@ -11541,7 +11495,7 @@
 		)
 		(uuid "a3a41fdb-793b-50cf-8c92-d1c027206e40")
 	)
-	(label "LED_USER"
+	(label "LED_B"
 		(at 124.46 144.78 0)
 		(effects
 			(font
@@ -11692,7 +11646,7 @@
 		(uuid "dc7f0318-4f93-524d-9bc4-99c94f9fd891")
 	)
 	(label "BTN3_N"
-		(at 53.34 137.16 180)
+		(at 45.72 137.16 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -12043,84 +11997,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "D1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 176.53 137.16 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "02fbd75f-40dc-57dc-b051-3576d1e7f1d8")
-		(property "Reference" "#PWR056"
-			(at 176.53 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 176.53 140.97 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 176.53 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 176.53 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 176.53 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "5424c9df-40a9-5315-85a4-e307a3c02126")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR056")
 					(unit 1)
 				)
 			)
@@ -19862,7 +19738,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:BMP585")
+		(lib_id "ull-pocket:BMP580")
 		(at 252.73 137.16 0)
 		(unit 1)
 		(body_style 1)
@@ -19883,7 +19759,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "BMP585"
+		(property "Value" "BMP580"
 			(at 245.11 158.115 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19894,7 +19770,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "ull-pocket:LGA-9_L3.3-W3.3-P1.10-TL"
+		(property "Footprint" "ull-pocket:Bosch_LGA-10_2x2mm_P0.5mm_BMP580"
 			(at 252.73 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -19905,7 +19781,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp585-ds003.pdf"
+		(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp580-ds004.pdf"
 			(at 252.73 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -19916,7 +19792,7 @@
 				)
 			)
 		)
-		(property "Description" "Barometric pressure sensor, I2C/I3C/SPI, LGA-9 (pin 9 marking area is not a pad)"
+		(property "Description" "Barometric pressure sensor, I2C 0x46 (SDO=GND), LGA-10 2x2"
 			(at 252.73 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -19927,7 +19803,7 @@
 				)
 			)
 		)
-		(property "MPN" "BMP585"
+		(property "MPN" "BMP580"
 			(at 252.73 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -19949,7 +19825,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C18184976"
+		(property "LCSC" "C22391138"
 			(at 252.73 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -19960,148 +19836,40 @@
 				)
 			)
 		)
-		(pin "7"
-			(uuid "0e982de2-f80a-5f9d-9730-f1aae2d9a946")
-		)
-		(pin "2"
-			(uuid "83293034-772d-5126-b367-16f8c1ae3671")
-		)
-		(pin "1"
-			(uuid "54973a82-fb84-5619-8f4e-46d04cbbc331")
-		)
-		(pin "3"
-			(uuid "a038e448-413e-5454-8763-9aef27199ecc")
-		)
-		(pin "5"
-			(uuid "f4a8f8fa-e2cb-5fb7-ae01-2583173b4a4b")
+		(pin "6"
+			(uuid "803796c1-e8fd-480f-900d-3b4f061a036e")
 		)
 		(pin "4"
-			(uuid "8caf936d-e49f-5f2b-861d-0f2d60f30836")
+			(uuid "c86ef487-e105-49ec-945b-2482ca9f7d4d")
+		)
+		(pin "2"
+			(uuid "e9b62119-0ab1-4bdb-8929-dfd712013b92")
+		)
+		(pin "5"
+			(uuid "26301c04-fd61-4be9-abf1-0887b2b458c0")
+		)
+		(pin "7"
+			(uuid "a77a5e73-3cba-4788-bbdf-f0d2e8b782a1")
+		)
+		(pin "1"
+			(uuid "dec2e14d-ec74-4c79-8b17-f605bd9fa582")
+		)
+		(pin "10"
+			(uuid "a73fe60b-c060-4d6d-b682-836a5912f2ca")
+		)
+		(pin "3"
+			(uuid "752feabb-8471-4fd0-854e-d27e49977664")
 		)
 		(pin "8"
-			(uuid "79722e4d-94d9-51eb-b127-6243ea523398")
+			(uuid "0346e080-7d31-417b-988e-48d2c1372012")
 		)
-		(pin "6"
-			(uuid "73fc39c1-bbb2-568d-9847-dc2f59cf13e5")
+		(pin "9"
+			(uuid "7f470202-4419-479e-beda-703a63fa555c")
 		)
 		(instances
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "U3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:R_Small_US")
-		(at 365.76 139.7 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6e168a8d-4876-5d08-8bdc-4ee0adac6648")
-		(property "Reference" "R22"
-			(at 367.284 138.811 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "470R"
-			(at 367.284 140.589 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor 470R 1% 0402"
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "0402WGF4700TCE"
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C25117"
-			(at 365.76 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e76a3013-a921-58fb-a4b8-dcd5f2e92856")
-		)
-		(pin "2"
-			(uuid "3460d756-740c-51b4-b186-7f9f9b5c89b8")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -20440,84 +20208,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "C24")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 204.47 149.86 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "708f47bd-1bc7-5f84-a88c-b87cd3b2fd9f")
-		(property "Reference" "#PWR058"
-			(at 204.47 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 204.47 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 204.47 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 204.47 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 204.47 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b04333fa-fc26-5c51-a077-4c157cc899c5")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -21673,7 +21363,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:LIS3DHTR")
+		(lib_id "ull-pocket:LIS2DW12TR")
 		(at 321.31 134.62 0)
 		(unit 1)
 		(body_style 1)
@@ -21694,7 +21384,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "LIS3DHTR"
+		(property "Value" "LIS2DW12TR"
 			(at 308.61 150.495 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21705,7 +21395,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "Package_LGA:LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y"
+		(property "Footprint" "Package_LGA:LGA-12_2x2mm_P0.5mm"
 			(at 321.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -21716,7 +21406,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.st.com/resource/en/datasheet/lis3dh.pdf"
+		(property "Datasheet" "https://www.st.com/resource/en/datasheet/lis2dw12.pdf"
 			(at 321.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -21727,7 +21417,7 @@
 				)
 			)
 		)
-		(property "Description" "3-axis accelerometer, I2C/SPI, LGA-16"
+		(property "Description" "3-axis accelerometer, I2C 0x19 (SA0=1), LGA-12 2x2"
 			(at 321.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -21738,7 +21428,7 @@
 				)
 			)
 		)
-		(property "MPN" "LIS3DHTR"
+		(property "MPN" "LIS2DW12TR"
 			(at 321.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -21760,7 +21450,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C15134"
+		(property "LCSC" "C189624"
 			(at 321.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -21771,53 +21461,41 @@
 				)
 			)
 		)
-		(pin "8"
-			(uuid "15251caf-d535-5e9e-b060-1e8adffd4e5c")
-		)
-		(pin "7"
-			(uuid "16f2d987-33fe-5557-b679-ce5e08b13efe")
-		)
-		(pin "6"
-			(uuid "e42bfc91-2439-52ef-a4f0-7efbfdbce4f4")
-		)
-		(pin "4"
-			(uuid "5168f523-9ee9-540e-bf91-ed6dbe637a29")
-		)
-		(pin "11"
-			(uuid "9550d972-d4e5-5f2a-9aba-b4080908f1b5")
-		)
-		(pin "9"
-			(uuid "1fde1e6d-f1a1-50ee-98c2-473a4528bd7c")
-		)
-		(pin "16"
-			(uuid "cc95057e-1712-5f8e-87db-7a0522380934")
-		)
-		(pin "15"
-			(uuid "cd7fbc40-c217-55b6-bc94-798f188caddc")
-		)
-		(pin "13"
-			(uuid "574e33fe-1977-5b06-bd5d-4dbdeed7c37f")
-		)
-		(pin "1"
-			(uuid "d6495b1c-d4a3-5470-b053-a47a2673ec54")
-		)
-		(pin "14"
-			(uuid "db650366-cb12-55f7-9e1b-ffce31291251")
-		)
-		(pin "5"
-			(uuid "e713e001-d465-522d-9102-cd707fb2a273")
-		)
-		(pin "12"
-			(uuid "aa664a71-7cbd-5c1b-b432-23be6d6d718d")
-		)
-		(pin "10"
-			(uuid "14437f63-b3ac-5f19-adf6-c98223d24965")
-		)
 		(pin "2"
-			(uuid "74c90019-c2a7-5ddc-8964-3615e45530b4")
+			(uuid "e2bd6328-be17-4e26-9eec-0355aaa10a82")
 		)
 		(pin "3"
-			(uuid "3fcb9129-ea1b-513e-8e7f-e07495058378")
+			(uuid "3e7b4307-5f34-48ce-af99-e2b9128190ec")
+		)
+		(pin "4"
+			(uuid "f13ac051-01ee-4004-93c9-fb8ca3cdc8e6")
+		)
+		(pin "1"
+			(uuid "1231f9b1-af7e-419b-89f6-b6284a48f425")
+		)
+		(pin "12"
+			(uuid "2e30d77e-716e-46ee-ad34-76df01335658")
+		)
+		(pin "11"
+			(uuid "b253678f-14e0-434b-849f-9d5ba435117d")
+		)
+		(pin "10"
+			(uuid "6c427c31-488a-4f1c-b54b-d167f19190a5")
+		)
+		(pin "9"
+			(uuid "7d67a7ae-a16b-488f-b1d7-96cfc33980ad")
+		)
+		(pin "6"
+			(uuid "9de6eb22-c078-4405-b5e2-cf41d51665d9")
+		)
+		(pin "8"
+			(uuid "82f641d5-4a54-419c-aa8a-ec4d79a2e084")
+		)
+		(pin "7"
+			(uuid "53373591-c438-49c4-b6b1-e24f929ef9a4")
+		)
+		(pin "5"
+			(uuid "89bff020-11fe-4b4f-a94c-323283225536")
 		)
 		(instances
 			(project "ull-pocket"
@@ -22519,7 +22197,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:SHT31-DIS-B")
+		(lib_id "ull-pocket:SHT40-AD1B")
 		(at 194.31 134.62 0)
 		(unit 1)
 		(body_style 1)
@@ -22540,7 +22218,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "SHT31-DIS-B"
+		(property "Value" "SHT40-AD1B"
 			(at 181.61 147.955 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22551,7 +22229,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "Sensor_Humidity:Sensirion_DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.7mm"
+		(property "Footprint" "ull-pocket:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x"
 			(at 194.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -22562,7 +22240,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf"
+		(property "Datasheet" "https://sensirion.com/media/documents/33FD6951/67EB9032/HT_DS_Datasheet_SHT4x_5.pdf"
 			(at 194.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -22573,7 +22251,7 @@
 				)
 			)
 		)
-		(property "Description" "Digital humidity and temperature sensor, I2C, DFN-8"
+		(property "Description" "Humidity and temperature sensor, I2C 0x44, DFN-4 1.5x1.5"
 			(at 194.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -22584,7 +22262,7 @@
 				)
 			)
 		)
-		(property "MPN" "SHT31-DIS-B2.5kS"
+		(property "MPN" "SHT40-AD1B-R2"
 			(at 194.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -22606,7 +22284,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C80862"
+		(property "LCSC" "C2909890"
 			(at 194.31 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -22618,31 +22296,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "f7ecc53e-4949-52d5-9425-514ace4c56c2")
-		)
-		(pin "4"
-			(uuid "9143d463-53c9-5a2b-b39b-b87e9d3de748")
+			(uuid "f72c7242-a1d6-4716-8534-b1df4a717b14")
 		)
 		(pin "2"
-			(uuid "4c0163c3-927f-5686-b67f-1c0fc32177fa")
+			(uuid "243124db-3edf-4705-bba5-4138de605d45")
 		)
 		(pin "3"
-			(uuid "b6691e9f-a975-57f9-9ec8-d05880b8b53f")
+			(uuid "2b7073e1-256c-4460-aabc-b28f0f59d1b9")
 		)
-		(pin "6"
-			(uuid "878be68e-7e11-5161-91ce-fed0ac1faf3b")
-		)
-		(pin "5"
-			(uuid "7bae6155-d27c-5acf-81b3-f5653728450e")
-		)
-		(pin "8"
-			(uuid "1674b325-c812-5886-b8c0-4410f6236d8c")
-		)
-		(pin "9"
-			(uuid "798f644a-a885-591a-acf4-bc44303eb606")
-		)
-		(pin "7"
-			(uuid "1becd813-0bad-51c2-bca4-70e6837f4d85")
+		(pin "4"
+			(uuid "6bfe1dff-32c4-4e1e-96a6-7e506a42b743")
 		)
 		(instances
 			(project "ull-pocket"
@@ -23299,131 +22962,6 @@
 			(project "ull-pocket"
 				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
 					(reference "#PWR035")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "ull-pocket:LED_Small")
-		(at 365.76 144.78 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "a1162e7a-0a98-5323-8aa2-131dc9bcd252")
-		(property "Reference" "D6"
-			(at 368.56 143.891 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "BLUE"
-			(at 368.56 145.669 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "ull-pocket:LED_XL-1606_SideView"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "LED blue"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "XL-1606UBC"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "XINGLIGHT"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C965865"
-			(at 365.76 144.78 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2d1f2a2a-2e2d-52d6-8a58-7d699e5f56fb")
-		)
-		(pin "2"
-			(uuid "3c15f869-6cb8-522f-a28b-7df43ff327fa")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "D6")
 					(unit 1)
 				)
 			)
@@ -28625,84 +28163,6 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:GND")
-		(at 365.76 147.32 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f2a6dddc-861f-51a9-aca6-69b38696c0ce")
-		(property "Reference" "#PWR086"
-			(at 365.76 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 365.76 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 365.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 365.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 365.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "036ae858-56e7-5110-a036-bf1b88ebc3b5")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "#PWR086")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "ull-pocket:TYPE-C-31-M-12")
 		(at 33.02 48.26 0)
 		(unit 1)
@@ -29697,6 +29157,627 @@
 				)
 			)
 		)
+	)
+	(symbol
+		(lib_id "ull-pocket:LED_RGB_CA")
+		(at 373.38 144.78 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "05d5e843-5d4f-42a0-b12b-ac30dd4a6040")
+		(property "Reference" "D6"
+			(at 373.38 133.35 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MHS110FRGBCT"
+			(at 373.38 156.21 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ull-pocket:LED_MHS110FRGBCT_SideView"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2006111804_MEIHUA-MHS110FRGBCT_C496820.pdf"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Side-view RGB LED, common anode"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MHS110FRGBCT"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "MEIHUA"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C496820"
+			(at 373.38 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7d99e6eb-82d2-48a1-80a5-0cedd1f14d0c")
+		)
+		(pin "2"
+			(uuid "d101cf20-6b43-4b7b-94f7-68705b5fe735")
+		)
+		(pin "3"
+			(uuid "8dd317d2-18b7-4fc8-b765-9a68b57491db")
+		)
+		(pin "4"
+			(uuid "180af433-7fac-4be3-b1a6-8cf1c1797ca3")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 368.3 144.78) (xy 365.76 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a110f080-77cd-41c8-8503-841bdcf364f0")
+	)
+	(wire
+		(pts
+			(xy 378.46 137.16) (xy 381 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c9132d00-4fd9-4d54-8a95-f6bca4bffd94")
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 383.54 137.16 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3afa00b9-cfbd-428a-a442-e1e1641fe5a3")
+		(property "Reference" "R32"
+			(at 385.28 139.446 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1kR"
+			(at 385.28 141.224 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 1k 1% 0402"
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1001TCE"
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 383.54 137.16 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e236bc53-5b0a-4d26-9a1c-d3d3c2fa9ae3")
+		)
+		(pin "2"
+			(uuid "6637e7e3-b1d0-43dc-9002-649711f2cea4")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "LED_R"
+		(at 386.08 137.16 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "67a56592-9c32-44ff-a5ef-a31c13a08f50")
+	)
+	(wire
+		(pts
+			(xy 378.46 144.78) (xy 381 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7789fb05-9f2b-4471-af61-0186087359cd")
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 383.54 144.78 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e443db7f-a05b-43b1-af69-75f948d4928e")
+		(property "Reference" "R33"
+			(at 385.28 147.066 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1kR"
+			(at 385.28 148.844 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 1k 1% 0402"
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1001TCE"
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 383.54 144.78 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c5c12bbe-80a8-4ced-a4a3-a2e9d732d7d3")
+		)
+		(pin "2"
+			(uuid "1c53909a-0848-4acd-922f-079a53763528")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "LED_G"
+		(at 386.08 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "10becb2f-26d4-4592-a5c3-6d028b27452f")
+	)
+	(wire
+		(pts
+			(xy 378.46 152.4) (xy 381 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f707280e-f434-4c3c-9673-6ed374a59a01")
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 383.54 152.4 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d6776aa9-224a-4f8d-9a22-1d6a64c478a2")
+		(property "Reference" "R22"
+			(at 385.28 154.686 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "470R"
+			(at 385.28 156.464 270)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 470R 1% 0402"
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF4700TCE"
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25117"
+			(at 383.54 152.4 270)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2e9118bd-39d1-4e3c-82c5-3fc9992ac259")
+		)
+		(pin "2"
+			(uuid "4d8186a5-c04f-4274-8d02-937d296e19ea")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "LED_B"
+		(at 386.08 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8d7ade1d-ca04-4879-9a43-0e83277a4d7d")
+	)
+	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 365.76 144.78 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "20344ffd-5976-4d32-bb36-36066d75d52b")
+		(property "Reference" "#PWR100"
+			(at 365.76 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 365.76 141.224 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 365.76 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 365.76 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 365.76 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "19f9caa8-4ccf-4638-a344-4ec72f3881da")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR100")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "LED_G"
+		(at 55.88 137.16 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "772f944a-6381-47f2-8df2-db08bd795943")
+	)
+	(label "LED_R"
+		(at 55.88 132.08 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "13d66370-dae3-4fc2-8436-87e5cafd1a9c")
 	)
 	(sheet_instances
 		(path "/"

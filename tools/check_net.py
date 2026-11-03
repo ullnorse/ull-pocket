@@ -66,9 +66,9 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "EN", "23": "BTN3_N", "22": None, "30": "RXD0", "31": "TXD0", "20": "NC", "17": "USB_D-", "18": "USB_D+",
+ESP = {"8": "EN", "23": "BTN3_N", "22": "LED_R", "30": "RXD0", "31": "TXD0", "20": "LED_G", "17": "USB_D-", "18": "USB_D+",
        "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "BTN2_N",
-       "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_USER", "24": "EPD_BUSY", "25": "EPD_RST_N",
+       "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_B", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
 for pin, nm in ESP.items():
     if nm == "NC":
@@ -92,25 +92,25 @@ io8 = net("U1", 22)
 io9 = net("U1", 23)
 
 # ---------------- I2C bus: every device on the same SDA/SCL
-for ref, sda, scl in (("U2", 1, 4), ("U3", 2, 1), ("U4", 6, 4), ("U5", 8, 7)):
+for ref, sda, scl in (("U2", 1, 2), ("U3", 4, 2), ("U4", 4, 1), ("U5", 8, 7)):
     expect(ref, sda, "I2C_SDA")
     expect(ref, scl, "I2C_SCL")
 # address straps
-expect("U2", 2, "GND")          # SHT31 ADDR=0 -> 0x44
-expect("U3", 3, "GND")          # BMP585 SDO=0 -> 0x46
-expect("U3", 7, "+3V3")         # BMP585 CSB=VDDIO -> I2C
-expect("U4", 7, "+3V3")         # LIS3DH SA0=1 -> 0x19
-expect("U4", 8, "+3V3")         # LIS3DH CS=1 -> I2C
-expect("U4", 11, "ACC_INT1")
-expect("U3", 5, "BARO_INT")
+# SHT40-AD1B: fixed 0x44
+expect("U3", 5, "GND")          # BMP580 SDO=0 -> 0x46
+expect("U3", 6, "+3V3")         # BMP580 CSB=VDDIO -> I2C
+expect("U4", 3, "+3V3")         # LIS2DW12 SA0=1 -> 0x19
+expect("U4", 2, "+3V3")         # LIS2DW12 CS=1 -> I2C
+expect("U4", 12, "ACC_INT1")
+expect("U3", 7, "BARO_INT")
 # sensor power
-for ref, pins in (("U2", (5,)), ("U3", (4, 8)), ("U4", (1, 14))):
+for ref, pins in (("U2", (3,)), ("U3", (1, 10)), ("U4", (9, 10))):
     for p in pins:
         expect(ref, p, "+3V3")
-for ref, pins in (("U2", (8, 9, 7)), ("U3", (6,)), ("U4", (5, 12, 10)), ("U5", (4, 9, 1, 6))):
+for ref, pins in (("U2", (4,)), ("U3", (3, 8, 9)), ("U4", (6, 8, 7)), ("U5", (4, 9, 1, 6))):
     for p in pins:
         expect(ref, p, "GND")
-for ref, p in (("U2", 3), ("U2", 6), ("U4", 9), ("U4", 13), ("U4", 15), ("U4", 16)):
+for ref, p in (("U4", 5), ("U4", 11)):
     nc(ref, p)
 
 # ---------------- fuel gauge
@@ -148,7 +148,6 @@ expect("U7", 2, "GND")
 expect("J2", 2, "VBAT")
 expect("J2", 1, "BAT_N")
 nc("J2", "MP")
-assert ("U3", "9") not in pin2net, "BMP585 pin 9 is a marking area, not a pad"
 # reverse-polarity FET: drain = BAT_N, source = GND, gate = VBAT via 100k
 expect("Q2", 3, "BAT_N")
 expect("Q2", 2, "GND")
@@ -267,16 +266,15 @@ find_part(net(led, 2), "VSYS", "2kR")
 g = [r for r in comps if comps[r]["value"] == "GREEN"][0]
 expect(g, 1, "GND")
 find_part(net(g, 2), "VBUS", "2kR")
-# user LED: GPIO -> R -> LED -> GND, active high; only one user LED (D6), no D7/R23
+# user LED: common-anode RGB D6, anode on +3V3, each cathode -> R -> GPIO (low = on)
 assert "D7" not in comps and "R23" not in comps, "D7/R23 retired in rev 0.5"
 assert len([r for r in comps if r.startswith("D") and "LED" in comps[r].get("Description", "")]) == 3
-assert comps["D6"]["LCSC"] == "C965865"  # XL-1606UBC side-view
+assert comps["D6"]["LCSC"] == "C496820"  # MHS110FRGBCT side-view RGB
 for r_, l_ in (("D1", "C965860"), ("D5", "C965863")):
     assert comps[r_]["LCSC"] == l_, r_
-for nm, val, col in (("LED_USER", "470R", "BLUE"),):
-    ld = [r for r in comps if comps[r]["value"] == col][0]
-    expect(ld, 1, "GND")
-    find_part(nm, net(ld, 2), val)
+expect("D6", 1, "+3V3")
+for pin, nm, val in ((4, "LED_R", "1kR"), (3, "LED_G", "1kR"), (2, "LED_B", "470R")):
+    find_part(nm, net("D6", pin), val)
 # no addressable LEDs
 for r, c in comps.items():
     if "WS2812" in c["value"].upper() or "SK6812" in c["value"].upper():

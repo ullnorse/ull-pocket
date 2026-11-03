@@ -9,15 +9,15 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 | Block | Part |
 |---|---|
 | MCU | ESP32-C6-MINI-1-N4 (Wi-Fi 6, BLE, 802.15.4, 4 MB flash) |
-| Temperature / humidity | Sensirion SHT31, on a moated island away from the heat sources |
-| Pressure | Bosch BMP585 |
-| Motion / wake | ST LIS3DH accelerometer |
+| Temperature / humidity | Sensirion SHT40, on a moated island away from the heat sources |
+| Pressure | Bosch BMP580 |
+| Motion / wake | ST LIS2DW12 accelerometer |
 | Battery | 600 mAh 1S LiPo (503040), JST-PH 2.0; MAX17048 fuel gauge; low-side reverse-polarity FET |
 | Charging | TI BQ24073 power path, ~270 mA from USB-C |
 | 3.3 V | Richtek RT9080 LDO, ~2 uA quiescent |
 | Display | Good Display GDEY0154D67, 200x200 black/white e-paper, SSD1681, bought separately |
 | Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep; DN doubles as BOOT) |
-| LEDs | Power (green), charge (red), user (blue), side-view at the bottom edge |
+| LEDs | Power (green), charge (red), user (RGB), side-view at the bottom edge |
 | Programming | USB-C (native USB Serial/JTAG) or 2x3 pogo pads on the back |
 
 Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the front; the panel sits on the back.
@@ -28,12 +28,12 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 |---|---|
 | `ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
 | `lib/` | Project symbols, footprints and 3D models |
-| `production/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.7-*`) and the assembly panel (`ull-pocket-r0.7-panel-*`, made by `tools/panelize.sh`) |
+| `production/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.8-*`) and the assembly panel (`ull-pocket-r0.8-panel-*`, made by `tools/panelize.sh`) |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
 | `docs/3d-models.md` | 3D models checked against the datasheets |
-| `production/ull-pocket-r0.7-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
+| `production/ull-pocket-r0.8-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
 | `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
 | `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
 
@@ -43,14 +43,14 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs, made by `tools/panelize.sh` (needs KiKit). The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
 
-1. Upload `production/ull-pocket-r0.7-panel-gerbers.zip` to JLCPCB and set:
+1. Upload `production/ull-pocket-r0.8-panel-gerbers.zip` to JLCPCB and set:
    - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
    - surface finish **ENIG** (the LGA/QFN/DFN parts need a flat finish; HASL is the default)
    - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
    - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
    - panel by customer (1 board per panel), edge rails: none (already in the files)
-2. Enable PCB assembly (top side) and upload `ull-pocket-r0.7-panel-bom.csv` and `ull-pocket-r0.7-panel-cpl.csv`.
-3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm and side LEDs 0.4 mm (bottom edge), side buttons 0.2 mm (left edge)."
+2. Enable PCB assembly (top side) and upload `ull-pocket-r0.8-panel-bom.csv` and `ull-pocket-r0.8-panel-cpl.csv`.
+3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.7 mm (bottom edge), side buttons 0.2 mm (left edge)."
 4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
 5. Buy separately: the e-paper panel (GDEY0154D67), a 503040 LiPo with a protection board (check its plug polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 
@@ -99,7 +99,7 @@ Keep the folder structure intact: KiCad finds `lib/` relative to the `.kicad_pro
 
 ### 4. Editing
 
-- **Board:** edit freely in the PCB Editor. Run **Inspect → Design Rules Checker** before ordering. Custom rules are in `ull-pocket.kicad_dru` (side-LED edge clearance, e-paper high-voltage clearance, the thin traces on the SHT31 island, U6 thermal vias). Expect 4 harmless "footprint does not match library" warnings for parts edited on purpose.
+- **Board:** edit freely in the PCB Editor. Run **Inspect → Design Rules Checker** before ordering. Custom rules are in `ull-pocket.kicad_dru` (side-LED edge clearance, e-paper high-voltage clearance, the thin traces on the SHT40 island, U6 thermal vias). Expect 4 harmless "footprint does not match library" warnings for parts edited on purpose.
 - **Schematic and symbols:** edit them in the Schematic Editor and Symbol Editor. The project's symbols are in `lib/ull-pocket.kicad_sym`.
 - After a schematic change, update the board with **Tools → Update PCB from Schematic** (F8) in the PCB Editor.
 
@@ -111,9 +111,9 @@ In KiCad: **File → Fabrication Outputs** (Gerbers, drill files, component plac
 sh tools/jlc_export.sh                     # Gerbers + drill files -> production/*-gerbers.zip
 python3 tools/jlc_cpl.py ull-pocket.kicad_pcb <easyeda-cache> production   # BOM + CPL with JLC rotations
 sh tools/panelize.sh                       # assembly panel -> build/panel/ull-pocket-panel.kicad_pcb (pipx install kikit)
-sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.7-panel
-python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> production ull-pocket-r0.7-panel
-python3 tools/silk/assembly.py ull-pocket.kicad_pcb production/ull-pocket-r0.7-assembly.pdf
+sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.8-panel
+python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> production ull-pocket-r0.8-panel
+python3 tools/silk/assembly.py ull-pocket.kicad_pcb production/ull-pocket-r0.8-assembly.pdf
 sh tools/check_sch.sh                      # ERC, netlist checks, pin/pad checks, schematic PDF + PNG
 sh tools/render3d.sh                       # 3D renders -> build/render3d/
 ```

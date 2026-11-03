@@ -1,0 +1,234 @@
+(footprint "LED_MHS110FRGBCT_SideView"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "MEIHUA MHS110FRGBCT side-view RGB LED, common anode, body 3.2 x 0.5 x 1.0 mm + dome R1.0; JLC/EasyEDA pads (C496820): pad 1 anode, 2 blue K, 3 green K, 4 red K; dome toward +y, place it at the board edge")
+	(tags "LED RGB side view right angle MHS110FRGBCT C496820")
+	(property "Reference" "REF**"
+		(at 0 -1.3 0)
+		(layer "F.SilkS")
+		(uuid "ad584d44-f855-4a06-91f2-dd82c4e475e2")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.133)
+			)
+		)
+	)
+	(property "Value" "LED_MHS110FRGBCT_SideView"
+		(at 0 2.2 0)
+		(layer "F.Fab")
+		(uuid "66ab80f8-f974-425a-b48a-1aaded4eb9bc")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.083)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "007650ce-6ad8-400c-b1cd-b5c978132327")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.167)
+			)
+		)
+	)
+	(property "Description" "Side-view RGB LED, common anode"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b1ef24ed-2f00-4f94-b609-3d64f3b91374")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.167)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -1.6 -0.04)
+		(end 1.6 -0.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5e42718a-d1f9-4f15-bf5f-b89f3ba132ce")
+	)
+	(fp_line
+		(start 1.6 -0.04)
+		(end 1.6 0.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "7b1829a9-67c0-4752-b3ed-46e2a6b8662d")
+	)
+	(fp_line
+		(start 1.6 0.48)
+		(end -1.6 0.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "95c0d77d-2589-433b-8389-6b9ab59cfec0")
+	)
+	(fp_line
+		(start -1.6 0.48)
+		(end -1.6 -0.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9c39aef3-ae78-4add-bd97-79321867daa0")
+	)
+	(fp_arc
+		(start -1 0.48)
+		(mid 0 1.48)
+		(end 1 0.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c42e0c8c-a896-4248-b835-c59282ce4d3a")
+	)
+	(fp_line
+		(start -0.9 -0.7)
+		(end 0.9 -0.7)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d68b2ac3-3ffa-4924-af29-a5d89495d73e")
+	)
+	(fp_line
+		(start -1.6 -0.6)
+		(end -1.2 -0.6)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "cdf9126a-a51b-4167-841d-d0013d52b4c2")
+	)
+	(fp_line
+		(start -1.78 -0.55)
+		(end 1.78 -0.55)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f5e9e09e-91c4-424c-8eab-f57dbc26ea7c")
+	)
+	(fp_line
+		(start 1.78 -0.55)
+		(end 1.78 0.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a11a08c1-ced2-42f2-9703-82c349d65062")
+	)
+	(fp_line
+		(start 1.78 0.7)
+		(end 1.08 0.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a0e04d26-daf5-441f-83f1-707e02d13808")
+	)
+	(fp_arc
+		(start 1.08 0.7)
+		(mid 0 1.58)
+		(end -1.08 0.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1996957a-68c4-42a0-95b8-eb17d93d9ebf")
+	)
+	(fp_line
+		(start -1.08 0.7)
+		(end -1.78 0.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "6387a5eb-2382-48a2-84a2-bf6bb019969d")
+	)
+	(fp_line
+		(start -1.78 0.7)
+		(end -1.78 -0.55)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "b0fd12b2-a2d7-43f2-9185-35398234ec40")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0.22 0)
+		(layer "F.Fab")
+		(uuid "def37144-19a4-4511-b1b0-43e0c033e663")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.05)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -1.4 0.2)
+		(size 0.55 0.8)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "db1e1ff9-5dd5-4f86-9657-0e0e0cd3df8f")
+	)
+	(pad "2" smd rect
+		(at -0.4 -0.2)
+		(size 0.5 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "2b4a68c0-dfa8-4a01-8efe-aed68dbacc53")
+	)
+	(pad "3" smd rect
+		(at 0.4 -0.2)
+		(size 0.5 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "a4ab2bf6-d367-4db5-91ce-65fe16523d7f")
+	)
+	(pad "4" smd rect
+		(at 1.4 0.2)
+		(size 0.55 0.8)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "87d4709b-3316-47df-bd27-c55dcfa52cf7")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/LED_MHS110FRGBCT_ee.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 180)
+		)
+	)
+)

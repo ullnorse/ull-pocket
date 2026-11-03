@@ -22,7 +22,7 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 | D1 | LED_XL-1606_SideView | C965860 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-RD_RED-SIDE | (-0.85, 0.00) (cathode) | 180 deg | (0.00, -0.28) | 0.04 / 1.18 |
 | D2,D3,D4 | D_SOD-123 | C82046 | (-1.65, 0.00) | SOD-123_L2.7-W1.6-LS3.7-RD-1 | (-1.70, 0.00) | 0 deg | 0 | 0.05 / 2.37 |
 | D5 | LED_XL-1606_SideView | C965863 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-R-RD_ORANGE | (-0.75, 0.00) (cathode) | 180 deg | (0.00, -0.28) | 0.06 / 1.11 |
-| D6 | LED_XL-1606_SideView | C965865 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-R-RD_BULE | (-0.80, 0.00) (pad 2 = cathode) | 180 deg | (0.00, -0.28) | 0.01 / 1.14 |
+| D6 | LED_MHS110FRGBCT_SideView | C496820 | (-1.40, 0.20) | LED-ARRAY-SMD_MHS110FRGBCT | (1.40, -0.20) | 180 deg | 0 | 0.00 / 2.00 |
 | J1 | USB_C_Receptacle_HRO_TYPE-C-31-M-12 | C165948 | (-3.25, -4.04) | USB-C_SMD-TYPE-C-31-M-12_1 | (-3.20, -2.47) | 0 deg | (0.00, 1.57) | 0.00 / 2.47 |
 | J2 | JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal | C2905019 | (-1.00, -2.85) | FPC-SMD_2P-P2.00_DEALON_PH-2PWB | (-1.00, -2.85) | 0 deg | 0 | 0.00 / 1.41 |
 | J3 | FPC-SMD_24P-P0.50_FPC-05FB-24PH20 | C2856831 | (5.75, -1.62) | FPC-SMD_24P-P0.50_FPC-05FB-24PH20 | (5.75, -1.62) | 0 deg | 0 | 0.00 / 11.16 |
@@ -39,14 +39,14 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 | R19 | R_0603_1608Metric | C22935 | (-0.82, 0.00) | R0603 | (-0.75, 0.00) | 0 deg | 0 | 0.07 / 1.11 |
 | R20 | R_0603_1608Metric | C22939 | (-0.82, 0.00) | R0603 | (-0.75, 0.00) | 0 deg | 0 | 0.07 / 1.11 |
 | R22 | R_0402_1005Metric | C25117 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
-| R27 | R_0402_1005Metric | C11702 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
+| R27,R32,R33 | R_0402_1005Metric | C11702 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | R28,R30,R31 | R_0402_1005Metric | C25076 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | SW1,SW2,SW3 | SW-SMD_2P-TS24CA | C393942 | (-1.70, 0.97) | SW-SMD_2P-TS24CA | (-1.70, 0.97) | 0 deg | 0 | 0.00 / 3.30 |
 | TH1 | R_0603_1608Metric | C279936 | (-0.82, 0.00) | R0603 | (-0.75, 0.00) | 0 deg | 0 | 0.07 / 1.11 |
 | U1 | ESP32-C6-MINI-1 | C5736265 | (-5.90, -4.00) | WIFIM-SMD_61P-L16.6-W13.2-P0.80-ESP32-C6-MINI-1-N4 | (-5.90, -3.98) | 0 deg | 0 | 0.06 / 10.96 |
-| U2 | Sensirion_DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.7mm | C80862 | (-1.18, -0.75) | DFN-8_L2.5-W2.5-P0.50-BL-EP | (-0.75, 1.20) | 90 deg | 0 | 0.02 / 2.00 |
-| U3 | LGA-9_L3.3-W3.3-P1.10-TL | C18184976 | (-1.23, -1.10) | LGA-9_L3.3-W3.3-P1.10-TL | (-1.23, -1.10) | 0 deg | 0 | 0.00 / 2.33 |
-| U4 | LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y | C15134 | (-1.23, -1.00) | LGA-16_L3.0-W3.0-P0.50-TL | (-1.40, -1.00) | 0 deg | 0 | 0.17 / 2.41 |
+| U2 | Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x | C2909890 | (-0.70, -0.40) | DFN-4_L1.5-W1.5-P0.8-TL-EP | (-0.68, -0.40) | 0 deg | 0 | 0.02 / 1.14 |
+| U3 | Bosch_LGA-10_2x2mm_P0.5mm_BMP580 | C22391138 | (-0.76, -0.25) | LGA-10_L2.0-W2.0-P0.50-TL_BMP580 | (-0.78, -0.25) | 0 deg | 0 | 0.02 / 1.31 |
+| U4 | LGA-12_2x2mm_P0.5mm | C189624 | (-0.76, -0.75) | LGA-12_L2.0-W2.0-P0.50-BL | (-0.75, 0.88) | 90 deg | 0 | 0.12 / 1.63 |
 | U5 | TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2 | C2682616 | (-0.75, 0.94) | TDFN-8_L2.0-W2.0-P0.50-BL-EP1.2 | (-0.75, 0.94) | 0 deg | 0 | 0.00 / 1.70 |
 | U6 | VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm | C15220 | (-1.46, -0.75) | QFN-16_L3.0-W3.0-P0.50-TL-EP1.7 | (-1.50, -0.75) | 0 deg | 0 | 0.04 / 2.36 |
 | U7 | TSOT-23-5 | C841192 | (-1.14, -0.95) | TSOT-23-5_L2.9-W1.6-P0.95-LS2.8-BL | (-0.95, 1.15) | 90 deg | 0 | 0.01 / 2.37 |
@@ -56,9 +56,9 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 
 - Parts imported from EasyEDA (L1, J3, U3, U5, SW1, U1) and the stock R/C/D footprints need delta 0 and no shift.
 - Q1, Q2, U2, U7, U8: the EE footprint is the KiCad one rotated (delta in the table); CPL rotation = KiCad rotation - delta.
-- LEDs D1, D5, D6: all three EE footprints have the cathode on the -x pad. For C965860/C965863 that is pad 1;
-  for C965865 the EE symbol numbers anode = 1, cathode = 2 (datasheet and our footprint: 1 = cathode), so the
-  match is by function and D6 also gets delta 180. Check D1, D5, D6 polarity in JLC's placement preview.
+- LEDs D1, D5: both EE footprints have the cathode (pad 1) on the -x pad. D6 (C496820, RGB): EE pad 1 is the
+  common anode, as in our footprint; the EE footprint is ours turned 180. Check D1, D5, D6 orientation in
+  JLC's placement preview.
   The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).
 - J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm
   between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.

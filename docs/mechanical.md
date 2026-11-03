@@ -1,6 +1,6 @@
 # ull-pocket mechanical concept (layout phase 1)
 
-Board: 40.0 x 44.5 mm rectangle, 4-layer 1.6 mm (JLC04161H-3313), corners R1. Only internal cut-out: the SHT31 moat.
+Board: 40.0 x 44.5 mm rectangle, 4-layer 1.6 mm (JLC04161H-3313), corners R1. Only internal cut-out: the SHT40 moat.
 Envelope with overhangs: 41.2 x 49.9 mm (antenna 5.4 mm up, FPC bend 1.2 mm right). The USB-C mouth adds 0.6 mm at the bottom.
 Coordinates below: KiCad top view (F side), origin at board top-left (KiCad 100,100).
 
@@ -53,7 +53,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - 503040 cell, 600 mAh, 40 mm along x, from y 14 to 44.
 - It lies over the F side on a 3.5 mm shelf.
 - Parts under the shelf are at most 3.25 mm tall (USB-C 3.25, L1 3.0, J3 2.0, module 2.4).
-- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, at the left board edge (rev 0.7: turned 180 degrees so the plug no longer points at the SHT31 island). A mated PH plug sticks out about 0.5 mm past the left edge at y 3-9, and its leads leave to the left; the case needs a pocket there for the plug and the lead bend.
+- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, at the left board edge (rev 0.7: turned 180 degrees so the plug no longer points at the SHT40 island). A mated PH plug sticks out about 0.5 mm past the left edge at y 3-9, and its leads leave to the left; the case needs a pocket there for the plug and the lead bend.
 - The cell's lead end is at -x. Leave about 40 mm of lead.
 - J2 is marked + (pin 2, VBAT) and - (pin 1, BAT-) on silkscreen.
 
@@ -68,10 +68,10 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - Its 5.4 mm antenna region overhangs the top board edge, which Espressif recommends.
 - The footprint's 15 mm keep-out falls entirely off the board.
 - Keep case metal, screws and the battery away from the overhang.
-- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, J2 and its leads about 9 mm to the left, and the SHT31 island 10 mm to the left.
+- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, J2 and its leads about 9 mm to the left, and the SHT40 island 10 mm to the left.
 - Panelization: the overhanging module needs a cut-out or an open edge in the JLC panel or rail at the top edge. Ask JLC for "components overhang board edge".
 
-## SHT31 island
+## SHT40 island
 
 U2 sits on a thermally isolated island at the top edge, between the J2 opening and U4.
 
@@ -80,12 +80,12 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
 - Bridge: x 11.75-14.75 (3.0 mm wide), y 5.65-7.15 (1.5 mm long), at the island's bottom-left. It carries four 0.15 mm F.Cu tracks: SDA, GND, SCL, +3V3.
 - Rim: 0.75 mm of bare FR4 between the moat and the top edge.
 - No copper pour on any layer over the rim, moat, island or bridge (rule area `SHT_island_no_pour`).
-- Heat sources are far away: the module 10 mm, the boost inductor L1 9 mm, the charger and the LDO about 30 mm. U4 (accelerometer, microamps) is 1.3 mm right of the moat.
+- Heat sources are far away: the module 10 mm, the boost inductor L1 9 mm, the charger and the LDO about 30 mm. U4 (LIS2DW12, 2x2 mm LGA-12, microamps) is 2.1 mm right of the moat.
 - The island is clear of the battery outline (the cell starts at y 14). On the B side its lower 1.45 mm and the bridge lie under the panel glass (from y 4.2).
 
 ### Case vent
 
-- Put the vent in the top wall over x 11-17, on the F side (battery side) of the PCB. U2's sensing opening faces F. Sensor top surface: about 0.9 mm above the PCB.
+- Put the vent in the top wall over x 11-17, on the F side (battery side) of the PCB. U2's sensing opening faces F.
 - Leave an open air path from the vent to the island above the F side. The cavity there is open up to the battery shelf at y 14.
 - Keep the battery leads off the island. The plug enters J2 from the left edge, around y 3-9; run the leads down the left side to the cell's lead end (above SW1 at y 18), not across the board.
 - Back side: do not tape the panel to the PCB over x 10.5-17, y 4.2-7.5. Tape there would bridge the moat to the glass.
@@ -93,7 +93,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
 
 ## Other parts
 
-- **BMP585 (U3):** below the island at (13.5, 12.0), clear of the heat sources.
+- **BMP580 (U3, LGA-10 2x2 mm):** below the island at (13.5, 12.0), clear of the heat sources.
 - **USB-C (J1):** bottom centre. The receptacle mouth overhangs the bottom edge by 0.6 mm so a plug seats through a thin case wall. Its THT shell legs are below the panel outline, in the 8.5 mm bottom chin on the front.
 - **Buttons SW1-SW3:** three TS24CA side buttons on the left edge (the right side seen from the front), 7.0 mm pitch. Each actuator is about 0.2 mm past the edge (TS24CA datasheet), on the F (battery) side. Give each its own cut-out or cap.
 
@@ -104,7 +104,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
   | SW3 | DN | 34.5 | IO9 (polled, no wake; also BOOT) |
 
   The row spans y 18.2-36.8 (switch bodies). It stays clear of Q2 (ends at y 15.7) and of the H2 boss (hole at y 41.3).
-- **LEDs:** D5 PWR, D1 CHG and D6 USR are XL-1606 side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 32.8). They lie flat (0.6 mm tall) with the lens pointing out through the bottom edge; the lens tip sticks out about 0.3-0.4 mm past the edge (0.26 in JLC's model, 0.42 from the XINGLIGHT land pattern). The case needs a small window or light pipe at each one, centred about 0.3 mm above the PCB top surface.
+- **LEDs:** D5 PWR, D1 CHG and D6 USR are side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 33.05). D5 and D1 are XL-1606: they lie flat (0.6 mm tall) with the lens pointing out through the bottom edge; the lens tip sticks out about 0.3-0.4 mm past the edge (0.26 in JLC's model, 0.42 from the XINGLIGHT land pattern). D6 is the MHS110FRGBCT RGB LED: its dome is 1.0 mm tall and overhangs the bottom edge by about 0.7 mm. The case needs a small window or light pipe at each one: centred about 0.3 mm above the PCB top surface for D5/D1, covering the full 1.0 mm dome height for D6.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
 - **Programming and test points:** J4 (PROG) pogo pads (VREF, GND, EN, IO9/BOOT, TXD0, RXD0) are on the back, top-right strip under the module (x 30.5-36.6, y 0.35-3.9), between the board edge and the panel (panel starts at y 4.2). They are clear of the J2 plug and its lead on the front, and reachable with the battery fitted. Pogo pins only: there is no room for a 2x3 header. TP1-TP5 are under the cell; reach them with the battery unplugged. TP4 (VBAT) and TP5 (+3V3) sit between the DN button and USB-C.
 

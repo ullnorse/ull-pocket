@@ -20,20 +20,25 @@ FPSTD = "/usr/share/kicad/footprints"
 
 # project symbol -> easyeda symbol name
 EEMAP = {
-    "ESP32-C6-MINI-1-H4": "ESP32-C6-MINI-1-H4", "SHT31-DIS-B": "SHT31-DIS-B",
-    "BMP585": "BMP585_C18184976", "LIS3DHTR": "LIS3DHTR_C15134", "MAX17048G+T10": "MAX17048G+T10",
+    "ESP32-C6-MINI-1-H4": "ESP32-C6-MINI-1-H4", "SHT40-AD1B": "SHT40-AD1B-R2",
+    "BMP580": "BMP580", "LIS2DW12TR": "LIS2DW12TR", "MAX17048G+T10": "MAX17048G+T10",
+    "LED_RGB_CA": "MHS110FRGBCT",
     "BQ24073RGTR": "BQ24073RGTR", "RT9080-33GJ5": "RT9080-33GJ5", "USBLC6-2SC6": "USBLC6-2SC6_C2687116",
     "FPC-05FB-24PH20": "FPC-05FB-24PH20", "TS24CA": "TS24CA", "SI1308EDL": "SI1308EDL-T1-GE3",
 }
 # documented, intentional name differences (symbol, pin): (easyeda, ours)
 ALLOW = {
-    ("SHT31-DIS-B", "9"): ("EPAD", "VSS"),
+    ("LIS2DW12TR", "10"): ("VDDIO", "VDD_IO"),
+    ("LED_RGB_CA", "1"): ("+", "A"),
+    ("LED_RGB_CA", "2"): ("-", "B"),
+    ("LED_RGB_CA", "3"): ("-", "G"),
+    ("LED_RGB_CA", "4"): ("-", "R"),
     ("MAX17048G+T10", "9"): ("EP", "GND"),
     ("BQ24073RGTR", "17"): ("EP", "VSS"),
 }
-# easyeda pins deliberately dropped: BMP585 pin 9 is a laser-marking area under solder resist, not a pad
+# easyeda pins deliberately dropped: SHT40 pin 5 is the centre die pad, which Sensirion says not to solder
 # TS24CA 3/4 are the brass cover's legs: no symbol pins, pads left unconnected (rev 0.7 review)
-REMOVED = {("BMP585", "9"), ("TS24CA", "3"), ("TS24CA", "4")}
+REMOVED = {("SHT40-AD1B", "5"), ("TS24CA", "3"), ("TS24CA", "4")}
 PADS_NO_PIN = {"TS24CA": {"3", "4"}}
 FPC_PANEL = ["NC", "GDR", "RESE", "NC", "VSH2", "TSCL", "TSDA", "BS", "BUSY", "RES#", "D/C#", "CS#",
              "SCL", "SDA", "VDDIO", "VCI", "VSS", "VDD", "VPP", "VSH1", "VGH", "VSL", "VGL", "VCOM"]

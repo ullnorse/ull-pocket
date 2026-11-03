@@ -11,7 +11,7 @@
 	(condition "A.hasNetclass('EPD_BOOST')")
 	(constraint clearance (min 0.2mm)))
 
-# SHT31 island (moated, top edge) and its bridge: thin tracks only, so the sensor stays thermally isolated.
+# SHT40 island (moated, top edge) and its bridge: thin tracks only, so the sensor stays thermally isolated.
 (rule "sht_island_thin"
 	(condition "A.Type == 'Track' && A.intersectsArea('SHT_island_no_pour')")
 	(constraint track_width (min 0.1mm) (opt 0.15mm) (max 0.15mm)))

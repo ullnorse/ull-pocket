@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sexp
 
 pcb_path, ee_dir, out_dir = sys.argv[1:4]
-name = sys.argv[4] if len(sys.argv) > 4 else "ull-pocket-r0.7"
+name = sys.argv[4] if len(sys.argv) > 4 else "ull-pocket-r0.8"
 EXCLUDE_PREFIX = ("TP", "H", "ASSY")
 # EE pad name that is the same *function* as KiCad pad "1" (cathode on the LEDs).
 # C965865's EE symbol numbers anode=1, cathode=2; the datasheet (and our footprint) has 1 = cathode.
@@ -156,9 +156,9 @@ for (fp, lcsc), ps in pairs.items():
 lines += ["", "## Notes", "",
           "- Parts imported from EasyEDA (L1, J3, U3, U5, SW1, U1) and the stock R/C/D footprints need delta 0 and no shift.",
           "- Q1, Q2, U2, U7, U8: the EE footprint is the KiCad one rotated (delta in the table); CPL rotation = KiCad rotation - delta.",
-          "- LEDs D1, D5, D6: all three EE footprints have the cathode on the -x pad. For C965860/C965863 that is pad 1;",
-          "  for C965865 the EE symbol numbers anode = 1, cathode = 2 (datasheet and our footprint: 1 = cathode), so the",
-          "  match is by function and D6 also gets delta 180. Check D1, D5, D6 polarity in JLC's placement preview.",
+          "- LEDs D1, D5: both EE footprints have the cathode (pad 1) on the -x pad. D6 (C496820, RGB): EE pad 1 is the",
+          "  common anode, as in our footprint; the EE footprint is ours turned 180. Check D1, D5, D6 orientation in",
+          "  JLC's placement preview.",
           "  The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).",
           "- J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm",
           "  between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.",
@@ -166,7 +166,7 @@ lines += ["", "## Notes", "",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",
           "- Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview."]
-if name == "ull-pocket-r0.7":
+if name == "ull-pocket-r0.8":
     open(os.path.join(out_dir, "rotation-check.md"), "w").write("\n".join(lines) + "\n")
 print(len(rows), "CPL rows,", len(groups), "BOM lines")
 nz = [(k, i) for k, i in info.items() if i["delta"] or i["t"] != (0.0, 0.0)]
