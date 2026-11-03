@@ -1,5 +1,5 @@
 """Rev 0.8 silkscreen cleanup: rings round the mounting holes (H1/H2 refs hidden),
-a chin mark under the display (back: screen frame line, name, rev), rev text fix. Idempotent: removes
+a chin mark under the display (back: screen frame line, name), no revision or date on the silk. Idempotent: removes
 its own items (tagged by width 0.151) before adding them again."""
 import os
 import pcbnew
@@ -58,14 +58,13 @@ for ref in ("H1", "H2"):
     b.FindFootprintByReference(ref).Reference().SetVisible(False)
 
 # back chin (product face, below the glass which ends at y 137.0): frame line split round the USB-C legs,
-# name and rev either side of the receptacle (x is mirrored when you look at the back)
+# name beside the receptacle (x is mirrored when you look at the back)
 seg(B, 104.6, 137.6, 114.7, 137.6)
 seg(B, 125.3, 137.6, 135.4, 137.6)
 text(B, "ull-pocket", 130.4, 140.4, 1.2, bold=True)
-text(B, "rev 0.8", 109.6, 140.4, 1.2)
 
-for d in b.GetDrawings():
-    if d.GetClass() == "PCB_TEXT" and d.GetText() == "rev 0.7  2026-11":
-        d.SetText("rev 0.8  2026-11")
+for d in list(b.GetDrawings()):
+    if d.GetClass() == "PCB_TEXT" and d.GetText() in ("rev 0.7  2026-11", "rev 0.8  2026-11", "r0.8"):
+        b.Delete(d)
 b.Save(PCB)
 print("ok")
