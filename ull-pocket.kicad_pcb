@@ -7336,6 +7336,7 @@
 		(property "Reference" "H2"
 			(at 0 2 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "6df828cd-1267-4bdb-a7d1-ac9179444810")
 			(effects
 				(font
@@ -17523,6 +17524,7 @@
 		(property "Reference" "H1"
 			(at 0 2 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "c934a4ce-0670-4371-8bc6-69a37263d947")
 			(effects
 				(font
@@ -23224,6 +23226,70 @@
 		)
 		(embedded_fonts no)
 	)
+	(gr_circle
+		(center 102.8 141.3)
+		(end 104.5 141.3)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "f556663b-2559-477e-9aaa-97812eb3c938")
+	)
+	(gr_circle
+		(center 137.2 141.3)
+		(end 138.899999 141.3)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "013bce02-9e12-4933-ba91-0ca8fd3a9542")
+	)
+	(gr_circle
+		(center 102.8 141.3)
+		(end 104.5 141.3)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "317a2413-eedf-41ab-b6b1-3f12426e00cf")
+	)
+	(gr_line
+		(start 104.6 137.6)
+		(end 114.7 137.6)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(layer "B.SilkS")
+		(uuid "9a96ea6d-4f2c-4c14-83c0-b0609ab3ba22")
+	)
+	(gr_line
+		(start 125.3 137.6)
+		(end 135.4 137.6)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(layer "B.SilkS")
+		(uuid "e5dcf5e9-d9bc-468a-b38a-06388b58b469")
+	)
+	(gr_circle
+		(center 137.2 141.3)
+		(end 138.899999 141.3)
+		(stroke
+			(width 0.151)
+			(type default)
+		)
+		(fill no)
+		(layer "B.SilkS")
+		(uuid "a807ebc6-567d-4a17-8f43-28a2dede3c74")
+	)
 	(gr_arc
 		(start 100 101)
 		(mid 100.292893 100.292893)
@@ -23620,6 +23686,18 @@
 			(justify mirror)
 		)
 	)
+	(gr_text "rev 0.8"
+		(at 109.6 140.4 0)
+		(layer "B.SilkS")
+		(uuid "a7917cba-d62a-428f-b990-3d6b80395f7d")
+		(effects
+			(font
+				(size 1.2 1.2)
+				(thickness 0.18)
+			)
+			(justify mirror)
+		)
+	)
 	(gr_text "ESP32-C6 pocket environment meter"
 		(at 120.6 119 0)
 		(layer "B.SilkS")
@@ -23632,7 +23710,7 @@
 			(justify mirror)
 		)
 	)
-	(gr_text "rev 0.7  2026-11"
+	(gr_text "rev 0.8  2026-11"
 		(at 120.6 121.2 0)
 		(layer "B.SilkS")
 		(uuid "39efa179-35c1-4e81-a192-623dd0d20e7b")
@@ -23640,6 +23718,19 @@
 			(font
 				(size 1.2 1.2)
 				(thickness 0.2)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "ull-pocket"
+		(at 130.4 140.4 0)
+		(layer "B.SilkS")
+		(uuid "a0a670dd-a606-4918-812c-f90f00d4ee81")
+		(effects
+			(font
+				(size 1.2 1.2)
+				(thickness 0.24)
+				(bold yes)
 			)
 			(justify mirror)
 		)
