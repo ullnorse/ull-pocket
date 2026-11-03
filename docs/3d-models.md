@@ -5,8 +5,8 @@ Each part's 3D model was compared with the manufacturer's package drawing: body 
 | Ref | Part | Datasheet | Model now | Result |
 |---|---|---|---|---|
 | U1 | ESP32-C6-MINI-1 | 13.2 x 16.6 x 2.4 | 13.2 x 16.6 x 2.5 | OK (shield drawn 1 mm longer, cosmetic) |
-| U2 | SHT4x DFN-4 | 1.5 x 1.5 | EasyEDA-derived `Sensirion_DFN-4_1.5x1.5_ee.wrl` | Not size-checked against the package drawing |
-| U3 | BMP580 LGA-10 | 2.0 x 2.0 x 0.8 | EasyEDA-derived `Bosch_LGA-10_2x2_BMP580_ee.wrl` | Not size-checked against the package drawing |
+| U2 | SHT4x DFN-4 | 1.5 x 1.5 x 0.54 | 1.52 x 1.52 x 0.55, EasyEDA-derived `Sensirion_DFN-4_1.5x1.5_ee.wrl` | OK |
+| U3 | BMP580 LGA-10 | 2.0 x 2.0 x 0.8 max | 2.0 x 2.0 x 0.8, EasyEDA-derived `Bosch_LGA-10_2x2_BMP580_ee.wrl` | OK |
 | U4 | LIS2DW12 LGA-12 | 2 x 2 | KiCad stock `LGA-12_2x2mm_P0.5mm` | OK (stock model) |
 | U5 | MAX17048 TDFN-8 | 2 x 2 x 0.8 max | 2 x 2 x 0.78 | OK; exposed pad size not checked (drawing 21-0168 unavailable) |
 | U6 | BQ24073 VQFN-16 RGT | 3 x 3 x 0.8-1.0 | 3 x 3 x 1.0 | Fixed: was 0.77 tall (sits under the panel) |
@@ -15,7 +15,7 @@ Each part's 3D model was compared with the manufacturer's package drawing: body 
 | Q1, Q2 | SC-70, SOT-23 | | | OK (pinout G/S/D checked) |
 | D2-D4 | MBR0530 SOD-123 | | | OK (cathode band at pad 1) |
 | D1, D5 | XL-1606 side-view LED | 1.7 x 1.1 footprint, 0.6 tall, lying flat | same | Fixed: model stood 1.1 tall. Lens sticks out 0.3-0.4 mm past the bottom edge |
-| D6 | MHS110FRGBCT RGB side-view LED | dome 1.0 tall, overhangs the bottom edge ~0.7 mm | EasyEDA-derived `LED_MHS110FRGBCT_ee.wrl`, rotated 180 in the footprint | Not size-checked against the package drawing |
+| D6 | MHS110FRGBCT RGB side-view LED | 3.2 x 1.5 (base 0.5 + dome R1.0), 1.0 tall | 3.2 x 1.5 x 1.0, EasyEDA-derived `LED_MHS110FRGBCT_ee.wrl`, rotated 180 in the footprint; dome 0.65 past the bottom edge | OK |
 | J1 | HRO TYPE-C-31-M-12 | mouth 0.6 past the edge | 0.6 | Fixed: model was 0.78 mm too far out (pegs missed their holes) |
 | J2 | DEALON PH-2PWB | 7.95 x 7.6 x 5.6 | JST S2B-PH-SM4-TB 7.9 x 7.6 x 5.5 | OK (JST-compatible body, 0.1 mm lower) |
 | J3 | FPC-05FB-24PH20 | body over the pads | same | Fixed: model was 1.7 mm toward the slot |

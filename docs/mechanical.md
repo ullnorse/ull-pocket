@@ -75,7 +75,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 
 U2 sits on a thermally isolated island at the top edge, between the J2 opening and U4.
 
-- Island: x 11.75-15.9, y 1.75-5.65 (4.15 x 3.9 mm). It carries U2 and its decoupling cap C11 only.
+- Island: x 11.75-15.9, y 1.75-5.65 (4.15 x 3.9 mm). It carries U2 and its decoupling cap C11 only. U2 (SHT40) is 0.54 mm tall.
 - Moat: a 1.0 mm non-plated milled slot (Edge.Cuts cut-out) on the top, left and right, wrapping both bottom corners. Outer extent x 10.75-16.9, y 0.75-7.15. Convex slot corners are drawn R0.5 (1 mm cutter).
 - Bridge: x 11.75-14.75 (3.0 mm wide), y 5.65-7.15 (1.5 mm long), at the island's bottom-left. It carries four 0.15 mm F.Cu tracks: SDA, GND, SCL, +3V3.
 - Rim: 0.75 mm of bare FR4 between the moat and the top edge.
@@ -104,7 +104,7 @@ U2 sits on a thermally isolated island at the top edge, between the J2 opening a
   | SW3 | DN | 34.5 | IO9 (polled, no wake; also BOOT) |
 
   The row spans y 18.2-36.8 (switch bodies). It stays clear of Q2 (ends at y 15.7) and of the H2 boss (hole at y 41.3).
-- **LEDs:** D5 PWR, D1 CHG and D6 USR are side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 33.05). D5 and D1 are XL-1606: they lie flat (0.6 mm tall) with the lens pointing out through the bottom edge; the lens tip sticks out about 0.3-0.4 mm past the edge (0.26 in JLC's model, 0.42 from the XINGLIGHT land pattern). D6 is the MHS110FRGBCT RGB LED: its dome is 1.0 mm tall and overhangs the bottom edge by about 0.7 mm. The case needs a small window or light pipe at each one: centred about 0.3 mm above the PCB top surface for D5/D1, covering the full 1.0 mm dome height for D6.
+- **LEDs:** D5 PWR, D1 CHG and D6 USR are side-view LEDs on the F-side bottom edge, right of J1 (x 26.8, 29.8, 33.05). D5 and D1 are XL-1606: they lie flat (0.6 mm tall) with the lens pointing out through the bottom edge; the lens tip sticks out about 0.3-0.4 mm past the edge (0.26 in JLC's model, 0.42 from the XINGLIGHT land pattern). D6 is the MHS110FRGBCT RGB LED: its dome is 1.0 mm tall and overhangs the bottom edge by 0.65 mm. The case needs a small window or light pipe at each one: centred about 0.3 mm above the PCB top surface for D5/D1, covering the full 1.0 mm dome height for D6.
 - **Mounting holes:** two M2 holes in the chin, at (2.8, 41.3) and (37.2, 41.3). Bosses go on the front shell. Screws go in from the back, under the battery shelf.
 - **Programming and test points:** J4 (PROG) pogo pads (VREF, GND, EN, IO9/BOOT, TXD0, RXD0) are on the back, top-right strip under the module (x 30.5-36.6, y 0.35-3.9), between the board edge and the panel (panel starts at y 4.2). They are clear of the J2 plug and its lead on the front, and reachable with the battery fitted. Pogo pins only: there is no room for a 2x3 header. TP1-TP5 are under the cell; reach them with the battery unplugged. TP4 (VBAT) and TP5 (+3V3) sit between the DN button and USB-C.
 

@@ -50,7 +50,7 @@ Order the **panel**: one board with 5 mm rails on the left and right (tooling ho
    - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
    - panel by customer (1 board per panel), edge rails: none (already in the files)
 2. Enable PCB assembly (top side) and upload `ull-pocket-r0.8-panel-bom.csv` and `ull-pocket-r0.8-panel-cpl.csv`.
-3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.7 mm (bottom edge), side buttons 0.2 mm (left edge)."
+3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)."
 4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
 5. Buy separately: the e-paper panel (GDEY0154D67), a 503040 LiPo with a protection board (check its plug polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 
