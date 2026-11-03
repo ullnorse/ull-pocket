@@ -33,6 +33,8 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
 | `docs/3d-models.md` | 3D models checked against the datasheets |
+| `production/ull-pocket-r0.7-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
+| `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
 | `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
 
 ![Schematic](docs/img/schematic.png)
@@ -111,6 +113,7 @@ python3 tools/jlc_cpl.py ull-pocket.kicad_pcb <easyeda-cache> production   # BOM
 sh tools/panelize.sh                       # assembly panel -> build/panel/ull-pocket-panel.kicad_pcb (pipx install kikit)
 sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.7-panel
 python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> production ull-pocket-r0.7-panel
+python3 tools/silk/assembly.py ull-pocket.kicad_pcb production/ull-pocket-r0.7-assembly.pdf
 sh tools/check_sch.sh                      # ERC, netlist checks, pin/pad checks, schematic PDF + PNG
 sh tools/render3d.sh                       # 3D renders -> build/render3d/
 ```

@@ -8024,7 +8024,7 @@
 		)
 		(uuid "07b27e6c-9b38-558a-b4aa-529ae5d60271")
 	)
-	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nIO15: 10k to +3V3 (strap). If JTAG_SEL is\nburned, selects USB Serial/JTAG, not pad JTAG.\nR24 is also the pull-up of SW3 (DN)."
+	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 is\nunconnected (strap only if JTAG_SEL burned)."
 		(exclude_from_sim no)
 		(at 244.38 231.61 0)
 		(effects
@@ -8063,7 +8063,7 @@
 		)
 		(uuid "1457d5d8-1da5-54c1-be05-ea61a82976ae")
 	)
-	(text "ICHG = 890/3.3k = 270 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3435), R8 10k DNP\nCharge window 0.5..50.8 C (see NOTES)\nTMR open: 5 h timer"
+	(text "ICHG = 890/3.3k = 270 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 5 h timer"
 		(exclude_from_sim no)
 		(at 191.77 68.7 0)
 		(effects
@@ -8199,7 +8199,7 @@
 		)
 		(uuid "80b9b413-073b-5858-989a-61aaae2da513")
 	)
-	(text "WAKE POLARITY (ext1, one level)\nACC_INT1, BARO_INT: active-high by default.\nBTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\nactive-low. Set LIS3DH INT_POLARITY and\nBMP585 int_pol to active-low so one ext1\nlevel wakes all. BTN3_N (IO15) is polled."
+	(text "WAKE POLARITY (ext1, one level)\nACC_INT1, BARO_INT: active-high by default.\nBTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\nactive-low. Set LIS3DH INT_POLARITY and\nBMP585 int_pol to active-low so one ext1\nlevel wakes all. BTN3_N (IO9) is polled."
 		(exclude_from_sim no)
 		(at 161.92 191.61 0)
 		(effects
@@ -8224,7 +8224,7 @@
 		)
 		(uuid "9ede9934-244a-55ac-b6e3-4a0f33a10d43")
 	)
-	(text "DN: IO15, polled.\nPull-up: R24 10k (MCU)"
+	(text "DN: IO9, polled; doubles as BOOT.\nPull-up: R24 10k (IO9 strap)"
 		(exclude_from_sim no)
 		(at 231.14 278.13 0)
 		(effects
@@ -8249,7 +8249,7 @@
 		)
 		(uuid "a91d71ea-cd6c-5b97-88ea-d69d756ac172")
 	)
-	(text "PROGRAMMING (J4 pads)\n+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\n2x3 pads at 2.54 mm: pogo clip or header.\nHold BOOT low, pulse EN for download mode.\nPin 1 (+3V3) is sense/reference only: do not\nfeed 3.3 V with no battery fitted (RT9080\nback-feed)."
+	(text "PROGRAMMING (J4 pads)\n+3V3, GND, EN, IO9/BOOT, TXD0, RXD0.\n2x3 pads at 2.54 mm: pogo clip or header.\nHold BOOT (or DN) low, pulse EN for download mode.\nPin 1 (+3V3) is sense/reference only: do not\nfeed 3.3 V with no battery fitted (RT9080\nback-feed)."
 		(exclude_from_sim no)
 		(at 161.92 208.61 0)
 		(effects
@@ -8260,7 +8260,7 @@
 		)
 		(uuid "b57b9a3e-5c02-5c1d-81e0-b2149965cfb2")
 	)
-	(text "BATTERY TEMPERATURE (TS)\nTH1 10k NTC B3435 (0603): place against the\ncell. R8 10k (DNP) is the fallback.\n75 uA bias trips at 0.30 V and 2.1 V:\ncharging 0.5..50.8 C (resume < 47.9, > 3.9 C).\nBias flows only while VBUS is present."
+	(text "BATTERY TEMPERATURE (TS)\nTH1 10k NTC B3950 (0603): place against the\ncell. R8 10k (DNP) is the fallback.\n75 uA bias trips at 0.30 V and 2.1 V:\ncharging 3.5..47.2 C (resume < 44.7, > 6.5 C).\nBias flows only while VBUS is present."
 		(exclude_from_sim no)
 		(at 326.38 218.61 0)
 		(effects
@@ -8332,7 +8332,7 @@
 		)
 		(uuid "e4b4f331-9310-5611-8a7e-479a42a469cb")
 	)
-	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 10k pull-up\nIO14 LED_USER\nIO15 BTN3_N (DN, no wake)"
+	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 10k pull-up\nIO14 LED_USER\nIO9 BTN3_N (DN/BOOT, no wake)\nIO15 unconnected"
 		(exclude_from_sim no)
 		(at 15.24 93.36 0)
 		(effects

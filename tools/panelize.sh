@@ -12,6 +12,7 @@ KIKIT_FP=$(dirname "$(readlink -f ~/.local/bin/kikit)")/../lib/python3*/site-pac
 python3 - ull-pocket.kicad_pcb $D/src/ull-pocket.kicad_pcb $KIKIT_FP <<'PY'
 import sys, pcbnew
 b = pcbnew.LoadBoard(sys.argv[1])
+# Tab positions must match TABS in tools/route/tab_keepouts.py (no copper pour behind the mouse bites).
 # (x, y, rotation): annotation in the gap outside the edge, arrow pointing at the board (0 = +x)
 for x, y, rot in ((99.0, 114.5, 0), (99.0, 141.5, 0), (141.0, 104.0, 180), (141.0, 141.5, 180)):
     f = pcbnew.FootprintLoad(sys.argv[3], 'Tab')

@@ -31,3 +31,7 @@
 (rule "u5_ep_paste"
 	(condition "A.Type == 'Pad' && A.memberOfFootprint('U5') && A.Pad_Number == '9'")
 	(constraint solder_paste_abs_margin (opt -0.1mm)))
+
+# JLC silkscreen: >= 0.15 mm from pads (silk on exposed copper is removed), keep silk items apart
+(rule "silk_to_pad" (layer "?.Silkscreen") (condition "B.Type == 'Pad'") (constraint silk_clearance (min 0.15mm)))
+(rule "silk_to_silk" (layer "?.Silkscreen") (constraint silk_clearance (min 0.1mm)))
