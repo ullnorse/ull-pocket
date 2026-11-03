@@ -26,7 +26,7 @@ for m in re.finditer(r'\n\t\(footprint "[^"]*ASSY_[^"]*"', s):
 out.append(s[i:])
 open(sys.argv[2], 'w').write(''.join(out))
 PY
-r() { $KC pcb render -o $O/$1 -w 1800 -h 1500 --quality high --floor --perspective --background opaque $2 $T/ull-pocket.kicad_pcb >/dev/null; }
+r() { $KC pcb render -o $O/$1 -w 1800 -h 1500 --quality high --floor --perspective --background opaque --use-board-stackup-colors $2 $T/ull-pocket.kicad_pcb >/dev/null; }
 r top_bare.png "--side top"
 r back_bare.png "--side bottom"
 r iso_bare.png "--side top --rotate -50,0,30 --zoom 0.9"

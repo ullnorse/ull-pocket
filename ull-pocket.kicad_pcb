@@ -54,7 +54,7 @@
 			)
 			(layer "F.Mask"
 				(type "Top Solder Mask")
-				(color "Green")
+				(color "#14307AD9")
 				(thickness 0.01)
 				(material "Epoxy")
 				(epsilon_r 3.3)
@@ -102,7 +102,7 @@
 			)
 			(layer "B.Mask"
 				(type "Bottom Solder Mask")
-				(color "Green")
+				(color "#14307AD9")
 				(thickness 0.01)
 				(material "Epoxy")
 				(epsilon_r 3.3)
