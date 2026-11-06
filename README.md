@@ -13,7 +13,7 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 | Pressure | Bosch BMP580 |
 | Motion / wake | ST LIS2DW12 accelerometer |
 | Battery | 1200 mAh 1S LiPo (103040), 1.25 mm plug; MAX17048 fuel gauge; low-side reverse-polarity FET |
-| Charging | TI BQ24073 power path, ~405 mA from USB-C |
+| Charging | TI BQ24073 power path, ~270 mA from USB-C, about 5-6 h for a full charge |
 | 3.3 V | Richtek RT9080 LDO, ~2 uA quiescent |
 | Display | Good Display GDEY0154D67, 200x200 black/white e-paper, SSD1681, bought separately |
 | Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep; DN doubles as BOOT) |
@@ -69,7 +69,7 @@ Firmware rules:
 - Don't run Wi-Fi validation with no cell: the input limit leaves little margin over TX peaks.
 - Ignore temperature and humidity while charging and until the case cools; measure how long that takes on the first board.
 
-First-board charge test: compare TH1 with a thermocouple on the cell during a full charge. Board heat may reach TH1's 47 C limit in a warm room and pause charging (estimated, not measured). If it does, change R9 to 3.3k: about 270 mA and less heat, but the 4-6 h timer may then stop the charge before the cell is full. CHG flashing at 2 Hz means a timer fault; replug USB to clear it.
+First-board charge test: compare TH1 with a thermocouple on the cell during a full charge. Board heat could still reach TH1's 47 C limit in a very warm room and pause charging (estimated, not measured).
 
 **Recovery:** if the firmware crashes, sleeps or disables USB before it can be flashed, unplug USB and the battery, hold **DN** (it is also BOOT, IO9), and plug USB back in. The chip starts in its ROM download mode; flash as usual, then reset by unplugging. The back pogo pads (J4) carry EN, BOOT and UART0 for a pogo fixture.
 

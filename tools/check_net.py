@@ -139,7 +139,6 @@ for p in (2, 3):
     expect("U6", p, "VBAT")
 for p in (8, 17, 4, 5, 15):
     expect("U6", p, "GND")       # VSS, EP, /CE, EN2, TD
-nc("U6", 14)                    # TMR open: default timers
 expect("U6", 7, "USB_PGOOD_N")
 expect("U7", 1, "VSYS")
 expect("U7", 3, "VSYS")
@@ -235,7 +234,8 @@ if comps[th]["LCSC"] != "C279936" or "0603" not in comps[th]["fp"]:
 fb = find_part(ts, "GND", "10kR")           # DNP fixed-10k fallback in parallel
 if len(fb) != 1 or flags[fb[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"}:
     bad.append("fallback 10k on TS missing or not DNP + excluded from BOM and placement")
-find_part(net("U6", 16), "GND", "2.2kR")    # ISET
+find_part(net("U6", 16), "GND", "3.3kR")    # ISET
+find_part(net("U6", 14), "GND", "68kR")     # TMR: timer outlasts a 270 mA charge
 find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
 find_part(net("U6", 6), "GND", "100kR")     # EN1 divider bottom

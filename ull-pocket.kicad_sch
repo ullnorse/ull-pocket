@@ -8132,7 +8132,7 @@
 		)
 		(uuid "1457d5d8-1da5-54c1-be05-ea61a82976ae")
 	)
-	(text "ICHG = 890/2.2k = 405 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 4-6 h timer"
+	(text "ICHG = 890/3.3k = 270 mA, cool and slow\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR 68k: 6.8-11 h timer"
 		(exclude_from_sim no)
 		(at 191.77 68.7 0)
 		(effects
@@ -8920,10 +8920,6 @@
 	(no_connect
 		(at 118.11 189.23)
 		(uuid "d17352f5-9d05-5590-9ddd-5a7481ba1a55")
-	)
-	(no_connect
-		(at 167.64 68.58)
-		(uuid "dee416ea-51b4-5f76-a0d9-9ca09f2b78d3")
 	)
 	(wire
 		(pts
@@ -9804,16 +9800,6 @@
 			(type default)
 		)
 		(uuid "7be2a701-ff1d-54ed-9bae-7889dbcea48e")
-	)
-	(wire
-		(pts
-			(xy 167.64 66.04) (xy 167.64 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7d6d3f66-5c1a-5276-bd9c-8cec99db2d8d")
 	)
 	(wire
 		(pts
@@ -21606,7 +21592,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.2kR"
+		(property "Value" "3.3kR"
 			(at 148.844 69.469 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21639,7 +21625,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 2.2k 1% 0402"
+		(property "Description" "Resistor 3.3k 1% 0402"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -21650,7 +21636,7 @@
 				)
 			)
 		)
-		(property "MPN" "0402WGF2201TCE"
+		(property "MPN" "0402WGF3301TCE"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -21672,7 +21658,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25879"
+		(property "LCSC" "C25890"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -29778,6 +29764,198 @@
 			(justify right bottom)
 		)
 		(uuid "13d66370-dae3-4fc2-8436-87e5cafd1a9c")
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 167.64 68.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "677a4f9d-5b55-4de9-842c-1397026e2485")
+		(property "Reference" "R34"
+			(at 169.164 67.691 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "68kR"
+			(at 169.164 69.469 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 68k 1% 0402"
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF6802TCE"
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C36871"
+			(at 167.64 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6e75ad92-be08-4b81-b960-f4ba78fe65c2")
+		)
+		(pin "2"
+			(uuid "69ad7132-34fb-4af5-9a7f-0838dbaab5d3")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R34")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:GND")
+		(at 167.64 71.12 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8199fe37-4120-4fb4-9959-24b73949fbad")
+		(property "Reference" "#PWR101"
+			(at 167.64 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 167.64 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 167.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 167.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8ba3184d-288e-47c8-ba5e-002a0375ef29")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR101")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(sheet_instances
 		(path "/"

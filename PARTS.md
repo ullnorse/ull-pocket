@@ -19,6 +19,8 @@
 | C1 | USB-C shield RC option | 0402B472K500NT 4.7nF/50V | C1538 | 0402 | DNP; excluded from BOM and placement; footprint kept for a metal-case RC option |
 | R28 + C27 | SW1 (UP) series resistor (switch side BTN_SW) + BTN_N debounce cap to GND | 0402WGF1000TCE 100R / CL05B104KO5NNNC 100nF | C25076 / C1525 | 0402 | basic; right of SW1; R28 limits ESD current into IO2; press discharges C27 in ~10 us through R28, release recharges it through R14 100k (tau 10 ms) |
 | C7 | U7 output | CL05A106MQ5NUNC 10uF/6.3V X5R | C15525 | 0402 | basic; RT9080 needs 1 uF effective on its own while R13 is swapped for an ammeter |
+| R9 | U6 ISET, charge current | 0402WGF3301TCE 3.3k 1% | C25890 | 0402 | 890/3.3k = 270 mA (241 mA min); chosen for low heat |
+| R34 | U6 TMR, safety timer | 0402WGF6802TCE 68k 1% | C36871 | 0402 | 10 x KTMR x 68k = 6.8-11.3 h fast charge, 41-68 min pre-charge; outlasts a full 270 mA charge |
 | C8 | U1 3V3 bulk | CL21A226MAQNNNE 22uF/25V X5R | C45783 | 0805 | basic, 4.05M in stock |
 | C19 | E-paper boost coupling cap | CL21A475KBQNNNE 4.7uF/50V X5R | C98192 | 0805 | extended, 366k in stock |
 | R25, R26 | 100k pull-ups to +3V3 on EPD_RST_N, EPD_CS_N (panel idle in sleep) | 0402WGF1003TCE | C25741 | 0402 | basic |
