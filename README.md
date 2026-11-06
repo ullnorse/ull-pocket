@@ -34,6 +34,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
 | `docs/3d-models.md` | 3D models checked against the datasheets |
 | `production/ull-pocket-r0.8-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
+| `docs/learn.html` | Interactive course: understand every part of the board, from zero |
 | `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
 | `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
 

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Understand ull-pocket</title>
+<style>
+:root{--fg:var(--foreground,#1c1f26);--mut:var(--muted-foreground,#5d6470);--line:var(--border,#d9d7cf);--card:var(--card-bg,transparent);--acc:var(--primary,#1f4fc0);--acc-fg:var(--primary-foreground,#fff);--cu:#b4692b;--ok:var(--success,#1d7f4e);--bad:var(--destructive,#c23a2c);--warn:var(--warning,#a86a00);--code:var(--code-background,rgba(127,127,127,.13));--sans:var(--font-sans,system-ui,-apple-system,"Segoe UI",sans-serif);--mono:var(--font-mono,ui-monospace,Menlo,Consolas,monospace);--r:var(--radius,8px)}
+html.standalone{background:#fbfaf6}
+@media(prefers-color-scheme:dark){:root{--fg:var(--foreground,#e7e9ee);--mut:var(--muted-foreground,#a0a7b4);--line:var(--border,#343944);--acc:var(--primary,#86a8ff);--acc-fg:var(--primary-foreground,#10141f);--ok:var(--success,#4cc38a);--bad:var(--destructive,#ff7a6b);--warn:var(--warning,#e0a63a);--cu:#d99255}html.standalone{background:#14171d}}
+*{box-sizing:border-box}
+body{margin:0;color:var(--fg);font:16px/1.6 var(--sans)}
+#app{display:grid;grid-template-columns:1fr;max-width:1160px;margin:0 auto;padding:0 2px}
+@media(min-width:1000px){#app{grid-template-columns:250px minmax(0,1fr);gap:40px;padding:24px}nav{position:sticky;top:16px;align-self:start}}
+nav .lst{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+nav button{font:inherit;font-size:14px;color:var(--fg);background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;cursor:pointer;min-width:34px}
+nav button .t{display:none}
+nav button.on{background:var(--acc);color:var(--acc-fg);border-color:var(--acc)}
+nav button.done:not(.on){border-color:var(--ok);color:var(--ok)}
+@media(min-width:1000px){nav .lst{display:block}nav button{display:block;width:100%;text-align:left;border:0;padding:4px 8px;line-height:1.3;margin-bottom:1px}nav button .t{display:inline}nav button .n{color:var(--mut);font-variant-numeric:tabular-nums;margin-right:6px}nav button.on .n{color:inherit}nav button.done:not(.on)::after{content:" ✓"}}
+.brand{font-weight:700}.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);width:0}
+.prog{font-size:13px;color:var(--mut);margin-top:4px}
+main{min-width:0}
+h1{font-size:28px;line-height:1.2;margin:16px 0 4px}h2{font-size:20px;margin:30px 0 6px}h3{font-size:16px;margin:20px 0 4px}
+.goal{color:var(--mut);margin:0 0 16px}
+p{margin:8px 0}ul,ol{padding-left:22px;margin:8px 0}li{margin:3px 0}
+code,.m{font-family:var(--mono);font-size:.88em}code{background:var(--code);padding:1px 4px;border-radius:4px}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}th,td{border-bottom:1px solid var(--line);text-align:left;padding:6px 10px 6px 0;vertical-align:top}th{font-weight:600;color:var(--mut)}
+.p{font-family:var(--mono);font-size:.86em;font-weight:600;color:var(--cu);background:none;border:0;border-bottom:1px dotted var(--cu);padding:0;cursor:pointer}
+.box{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:16px 0}
+.box>h3:first-child{margin-top:0}
+.note{border-left:3px solid var(--acc);padding:2px 0 2px 12px;margin:14px 0}
+.warn{border-left-color:var(--bad)}
+.est{font-size:12px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px;white-space:nowrap}
+.q{border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin:12px 0}.q b{display:block;margin-bottom:6px;font-weight:600}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:15px;color:var(--fg);background:none;border:1px solid var(--line);border-radius:6px;padding:6px 10px;margin:5px 0;cursor:pointer}
+.q button.y{border-color:var(--ok);color:var(--ok);font-weight:600}.q button.n{border-color:var(--bad);color:var(--bad)}
+.why{margin-top:8px;font-size:15px}
+label{display:block;font-size:14px;margin:8px 0 2px}input[type=range]{width:100%;accent-color:var(--acc)}
+select,textarea,input[type=text],input[type=search]{font:inherit;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:6px;padding:5px 8px;max-width:100%}
+select option{color:#111;background:#fff}
+textarea{width:100%;min-height:110px;line-height:1.45}
+.btn{font:inherit;font-size:14px;color:var(--fg);background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;margin:2px 4px 2px 0}.btn.on{background:var(--acc);color:var(--acc-fg);border-color:var(--acc)}
+.out{font-family:var(--mono);font-size:14px;margin-top:10px;line-height:1.55}
+.okt{color:var(--ok)}.badt{color:var(--bad)}.wrnt{color:var(--warn)}.mt{color:var(--mut)}
+.pn{display:flex;justify-content:space-between;gap:8px;margin:24px 0 20px}.pn .btn{padding:8px 14px}
+svg text{fill:var(--fg);font-family:var(--sans)}svg{display:block;max-width:100%;height:auto}
+.wire{fill:none;stroke:var(--line);stroke-width:2.5}.wire.live{stroke:var(--acc);stroke-width:3.5;stroke-dasharray:7 6;animation:fl .7s linear infinite}.wire.hot{stroke:var(--bad);stroke-width:3.5;stroke-dasharray:7 6;animation:fl .7s linear infinite}
+.wire.back{animation-direction:reverse}
+@keyframes fl{to{stroke-dashoffset:-13}}@media(prefers-reduced-motion:reduce){.wire.live,.wire.hot{animation:none}}
+.nd{fill:none;stroke:var(--mut);stroke-width:1.3}.nd.on{stroke:var(--acc);stroke-width:2}
+.mini{max-width:230px;float:right;margin:0 0 8px 16px}@media(max-width:560px){.mini{float:none;margin:8px 0}}
+.fp{fill:var(--line);opacity:.55;cursor:pointer}.fp.hl{fill:var(--cu);opacity:1}.fp:hover{opacity:1}
+.clr{clear:both}.small{font-size:14px}
+</style></head><body>
+<div id="app"><nav><div class="brand">ull-pocket, from zero</div><div class="bar"><i id="bar"></i></div><div class="prog" id="prog"></div><div class="lst" id="lst"></div></nav><main id="main"></main></div>
+
+<template id="l0" data-t="Start here" data-p="">
+<p class="goal">This course takes you from "what is voltage?" to explaining every part on your board.</p>
+<p>Your embedded background helps: you already think in GPIOs, buses, registers and active-low signals. The missing layer is what happens underneath: why a line sits at 3.3 V, where current goes, and why each resistor has its value.</p>
+<div class="box"><h3>The whole board on one page</h3>
+<svg viewBox="0 0 680 262" role="img" aria-label="Block diagram">
+<g font-size="13">
+<rect class="nd" x="6" y="20" width="96" height="42" rx="5"/><text x="54" y="39" text-anchor="middle">USB-C</text><text x="54" y="54" text-anchor="middle" font-size="11">J1, U8 · 5 V</text>
+<rect class="nd" x="140" y="20" width="110" height="42" rx="5"/><text x="195" y="39" text-anchor="middle">Charger</text><text x="195" y="54" text-anchor="middle" font-size="11">U6</text>
+<rect class="nd" x="140" y="110" width="110" height="52" rx="5"/><text x="195" y="130" text-anchor="middle">Battery</text><text x="195" y="146" text-anchor="middle" font-size="11">J2, Q2, TH1, U5</text>
+<rect class="nd" x="290" y="20" width="110" height="42" rx="5"/><text x="345" y="39" text-anchor="middle">Regulator</text><text x="345" y="54" text-anchor="middle" font-size="11">U7 · 3.3 V</text>
+<rect class="nd" x="440" y="20" width="234" height="42" rx="5"/><text x="557" y="39" text-anchor="middle">ESP32-C6 (U1)</text><text x="557" y="54" text-anchor="middle" font-size="11">your firmware, Wi-Fi, USB</text>
+<rect class="nd" x="440" y="110" width="110" height="52" rx="5"/><text x="495" y="130" text-anchor="middle">Sensors</text><text x="495" y="146" text-anchor="middle" font-size="11">U2 U3 U4 · I2C</text>
+<rect class="nd" x="564" y="110" width="110" height="52" rx="5"/><text x="619" y="130" text-anchor="middle">E-paper</text><text x="619" y="146" text-anchor="middle" font-size="11">J3, L1, Q1 · SPI</text>
+<rect class="nd" x="440" y="200" width="234" height="42" rx="5"/><text x="557" y="219" text-anchor="middle">Buttons and LEDs</text><text x="557" y="234" text-anchor="middle" font-size="11">SW1–3, D1, D5, D6</text>
+</g>
+<path class="wire live" d="M102 41H140M250 41H290M400 41H440"/><path class="wire live" d="M195 62V110"/>
+<path class="wire" d="M495 62V110M619 62V110"/><path class="wire" d="M430 41V180H557V200"/>
+</svg>
+<p class="small mt">Blue shows power. Grey shows the signals from the ESP32 and the 3.3 V feed to everything else.</p></div>
+<h2>How to use this</h2>
+<ol><li><b>Do the lessons in order.</b> Part 0 gives you the vocabulary and each later lesson relies on it.</li>
+<li><b>Predict before you touch a widget.</b> A wrong prediction teaches you more than a right one.</li>
+<li><b>Answer the checks.</b> A lesson gets its tick when every question is right. A wrong guess costs nothing.</li>
+<li><b>Write the teach-back.</b> Each lesson ends by asking you to explain something in your own words. This is the real test, so don't skip it. Your notes save in this browser, so copy them out from the final lesson now and then.</li>
+<li><b>Open the real files alongside.</b> Keep the schematic in KiCad and the PDFs in <code>datasheets/</code> open. Orange part names like <button class="p" data-ref="U6">U6</button> jump to the board map.</li></ol>
+<div class="note"><b>How far to trust this page.</b> The connections and part values come from your netlist, and most numbers come from your datasheet PDFs. Values tagged <span class="est">est.</span> are my estimates, not measurements. This page can also be wrong, so when something matters, find it in the datasheet. Nothing here proves the board works. Only a real board can, which is the last lesson.</div>
+<h2>What "understood" means</h2>
+<p>For any part you should be able to say what it does, work out its value, predict what breaks if it's removed or doubled, and find the datasheet line behind it. The final exam tests that with fault-finding scenarios.</p>
+</template>
+
+<template id="l1" data-t="Voltage, current, power" data-p="">
+<p class="goal">Three ideas explain most of this board.</p>
+<h2>Voltage is a difference</h2>
+<p>Voltage is like height: it only means something between two points. "IO2 is at 3.3 V" really means 3.3 V above GND, the shared reference point. A logic HIGH is just a net sitting near the top of the supply.</p>
+<h2>Current flows in loops</h2>
+<p>Current is how much charge moves per second, in amps. Everything that flows out of a supply has to come back to it, so <b>every wire has a return path, usually through ground</b>. This one idea explains reverse-protection FETs, ground planes and why layout matters.</p>
+<h2>Resistance links them</h2>
+<p>Ohm's law: <b>V = I × R</b>. Rearrange it to fit the question. These two also come up constantly:</p>
+<ul><li><b>P = V × I</b>: power, in watts. In a resistor or regulator, this becomes heat.</li>
+<li><b>Battery energy</b>: mAh is current × time. 1200 mAh at 270 mA is about 4.4 h, ignoring the slow end of charging.</li></ul>
+<div class="box"><h3>Try it: size an LED resistor</h3>
+<p class="small">An LED has a nearly fixed voltage across it (Vf), and the resistor takes up the rest. Then I = (Vsupply − Vf) / R. Before pressing a preset, try working it out on paper.</p>
+<div id="w-led"></div></div>
+<div id="q1"></div>
+<div data-tb="Explain to a friend why you can't connect an LED straight between 3.3 V and GND, using the words voltage, current and resistor."></div>
+</template>
+
+<template id="l2" data-t="The parts vocabulary" data-p="">
+<p class="goal">Your board uses only a handful of part types. Here is what each one does in practice.</p>
+<div class="tw"><table><tr><th>Part</th><th>Behaviour</th><th>Why you use it</th></tr>
+<tr><td><b>Resistor</b> R</td><td>V = I × R</td><td>Limit current, set a default level (pull-up), or tell a chip a setting</td></tr>
+<tr><td><b>Capacitor</b> C</td><td>Stores charge, resists sudden voltage changes</td><td>A tiny local energy reserve beside chips; with a resistor, a delay</td></tr>
+<tr><td><b>Inductor</b> L</td><td>Stores energy in a magnetic field, resists sudden current changes</td><td>Makes a higher voltage in the display's boost circuit</td></tr>
+<tr><td><b>Diode</b> D</td><td>One-way valve, with a voltage drop</td><td>Steering current; an LED is a diode that emits light</td></tr>
+<tr><td><b>MOSFET</b> Q</td><td>Voltage-controlled switch: gate-to-source voltage turns it on</td><td>The GPIO of power electronics. Q1 switches the boost, and Q2 blocks a reversed battery</td></tr>
+<tr><td><b>Regulator</b> U7</td><td>Holds a fixed output</td><td>Turns a varying supply into a steady one</td></tr></table></div>
+<h2>Five patterns you'll see everywhere</h2>
+<h3>1. Decoupling capacitor</h3>
+<p>A chip's current comes in sharp bursts, and long traces can't deliver it quickly. A small cap beside the power pin supplies each burst locally. It's like a small cache in front of slow memory. That's why almost every chip here has a 100 nF cap next to it.</p>
+<h3>2. Pull-up resistor and open-drain outputs</h3>
+<p>An open-drain output can only pull low or let go. When it lets go, a pull-up resistor brings the line high. You know this from I2C. This board also uses it for <button class="p" data-ref="U6">U6</button>'s PGOOD and <button class="p" data-ref="U5">U5</button>'s ALRT. The cost: while the line is held low, current flows through the resistor, I = V / R.</p>
+<h3>3. Voltage divider</h3>
+<p>Two resistors in series split a voltage: Vout = Vin × R2 / (R1 + R2). <button class="p" data-ref="R4">R4</button> and <button class="p" data-ref="R5">R5</button> use this to make a logic level from USB 5 V.</p>
+<h3>4. RC delay</h3>
+<p>A resistor charging a capacitor takes time. <b>τ = R × C</b> is the time to cover 63% of the change, and 5τ is effectively done. In this design it delays reset and cleans up buttons.</p>
+<h3>5. Programming resistor</h3>
+<p>Some chips read a setting from a resistor, like a config register you solder. <button class="p" data-ref="R9">R9</button> sets the charge current this way.</p>
+<div class="note"><b>Capacitors shrink under voltage.</b> Small ceramic caps can lose much of their rated capacitance as DC voltage rises. That's why the LDO is specified for 1 µF <i>effective</i> capacitance, and why <button class="p" data-ref="C7">C7</button> is 10 µF.</div>
+<div id="q2"></div>
+<div data-tb="Using your embedded experience, explain what a pull-up does and why a stronger (smaller) one costs more battery but gives faster edges."></div>
+</template>
+
+<template id="l3" data-t="Reading schematics, datasheets" data-p="">
+<p class="goal">Learn to read the two documents this whole board comes from.</p>
+<h2>The schematic</h2>
+<ul><li><b>Reference (R9, U6)</b>: the name of one physical part. R is resistor, C capacitor, U chip, J connector, Q transistor, D diode, L inductor, SW switch, TP test point.</li>
+<li><b>Net</b>: a set of connected pins. Two pins with the same label, such as <code>VSYS</code>, are wired together even with no line drawn. Think of a global variable.</li>
+<li><b>Power symbols</b>: <code>+3V3</code> and <code>GND</code> are also nets, drawn as symbols.</li>
+<li><b>_N suffix</b>: active low, as in <code>USB_PGOOD_N</code>.</li>
+<li><b>DNP</b>: do not populate. The footprint exists but no part is fitted (<button class="p" data-ref="C1">C1</button>, <button class="p" data-ref="R8">R8</button>).</li>
+<li><b>0 Ω resistor</b>: a removable wire (<button class="p" data-ref="R13">R13</button>, <button class="p" data-ref="R3">R3</button>).</li></ul>
+<p><b>Try it in KiCad:</b> open the Schematic Editor, choose the Highlight Nets tool (shortcut <code>~</code>), and click <code>VSYS</code>. Everything it reaches lights up.</p>
+<h2>The datasheet</h2>
+<p>Don't read it front to back. Go in this order:</p>
+<ol><li><b>First page</b>: what is it, and what are the headline numbers?</li>
+<li><b>Application circuit</b>: the vendor's working example. Much of your schematic started there.</li>
+<li><b>Pin table</b>: what each pin wants, including warnings like "do not leave unconnected".</li>
+<li><b>Electrical characteristics</b>: the min, typ and max values.</li>
+<li><b>Absolute maximum ratings</b>: the limits beyond which damage can occur. These are not operating conditions.</li></ol>
+<h2>Why min and max matter</h2>
+<p>Typical is what you usually get, while min and max are what you must design for. For example, the charger datasheet gives a factor K<sub>ISET</sub> of 797 / 890 / 975 A·Ω (min / typ / max). With <button class="p" data-ref="R9">R9</button> = 3.3 kΩ:</p>
+<div class="out">ICHG = KISET / RISET<br>min 797/3300 = 241 mA · typ 890/3300 = 270 mA · max 975/3300 = 295 mA</div>
+<p>So "270 mA" really means somewhere from 241 to 295 mA, before you count the resistor's own 1% tolerance.</p>
+<div class="box"><h3>Exercise: do it yourself</h3><p>Open <code>datasheets/BQ24073.pdf</code>. In the Pin Functions table, find what happens if ILIM is left unconnected, then find <code>VO(REG)</code> in the electrical characteristics. You'll use both next.</p></div>
+<div id="q3"></div>
+<div data-tb="Describe in your own steps how you would check whether a resistor on this board has the right value, starting from its reference."></div>
+</template>
+
+<template id="l4" data-t="Power: the big picture" data-p="J1 U6 Q2 U7 R13 J2">
+<p class="goal">Where does current flow in every situation? Most faults start here.</p>
+<p>The ESP32 needs a steady 3.0–3.6 V. USB gives about 5 V, and the battery drifts from 4.2 V down to about 3 V. Two chips bridge the gap:</p>
+<ul><li><button class="p" data-ref="U6">U6</button> is a <b>power-path charger</b>. It feeds <code>VSYS</code>, the board's main rail, from USB when available and from the battery otherwise. It also charges the battery.</li>
+<li><button class="p" data-ref="U7">U7</button> is an <b>LDO</b>. It turns whatever <code>VSYS</code> is into 3.3 V, the <code>+3V3</code> rail.</li></ul>
+<div class="clr"></div>
+<div class="box"><h3>Try it: power simulator</h3><p class="small">Predict each result first. Try these: USB out with the battery at 3.0 V; then Wi-Fi burst at 3.4 V on battery; then Wi-Fi burst with USB in.</p><div id="w-pow"></div></div>
+<h2>The four rails</h2>
+<div class="tw"><table><tr><th>Net</th><th>Voltage</th><th>Fed by</th><th>Test point</th></tr>
+<tr><td><code>VBUS</code></td><td>about 5 V, 0 V unplugged</td><td>USB</td><td><button class="p" data-ref="TP1">TP1</button></td></tr>
+<tr><td><code>VBAT</code></td><td>about 3.0–4.2 V</td><td>The cell</td><td><button class="p" data-ref="TP4">TP4</button></td></tr>
+<tr><td><code>VSYS</code></td><td>about 4.4 V on USB, just under VBAT on battery</td><td>U6</td><td><button class="p" data-ref="TP2">TP2</button></td></tr>
+<tr><td><code>+3V3</code></td><td>3.3 V until the battery gets low</td><td>U7, through R13</td><td><button class="p" data-ref="TP5">TP5</button></td></tr></table></div>
+<h2>Why not simply charge from USB and run from the battery?</h2>
+<p>Without a power path, the load and the battery share one node. The charger then can't tell how much current goes into the cell, so it can't end the charge properly, and a dead battery could stop the board from booting. U6 keeps the two separate.</p>
+<h2>Why the 4.4 V rail?</h2>
+<p>This is the difference between this chip's variants: the BQ24073 regulates OUT to a fixed 4.4 V, while the BQ24072 tracks the battery at about VBAT + 225 mV. A fixed 4.4 V means <code>VSYS</code> stays well above 3.3 V on USB even with a nearly flat cell, and it stays below U7's 5.5 V input limit.</p>
+<h2>What you just saw in the simulator</h2>
+<ul><li><b>At the low end,</b> an LDO can't make its output higher than its input. Below 3.3 V plus the dropout, <code>+3V3</code> simply follows the battery down. At 3.0 V you're at the ESP32's minimum.</li>
+<li><b>A Wi-Fi burst</b> pulls a large current, so the LDO's dropout grows and the cell's own voltage sags under load. The simulator models only the dropout. That's why firmware should block Wi-Fi below about 3.55 V: it keeps a margin for both.</li>
+<li><b>With USB in,</b> U6 limits input to 500 mA and <b>the load gets priority</b>. If the system takes more, charging slows down. TI calls this DPPM.</li></ul>
+<div id="q4"></div>
+<div data-tb="Without looking, trace the current from the USB connector to the ESP32 with USB in. Then explain what changes when you unplug it, and how firmware finds out."></div>
+</template>
+
+<template id="l5" data-t="USB-C input" data-p="J1 R1 R2 R3 C1 U8 C2 D5 R21 TP1">
+<p class="goal">One connector does three jobs: power, data and protection.</p>
+<h3><button class="p" data-ref="J1">J1</button>: the socket</h3>
+<p>USB-C can be plugged in either way up, so many pins come in A and B pairs. Your schematic joins them: A6 and B6 are both D+, A7 and B7 both D−. The SBU pins aren't used.</p>
+<h3><button class="p" data-ref="R1">R1</button>, <button class="p" data-ref="R2">R2</button>: 5.1 kΩ on CC1, CC2</h3>
+<p>These pull-downs tell a USB-C source "a device that wants power is here". A proper USB-C charger won't apply 5 V without seeing them. Each CC pin needs its own resistor. Skip them and a C-to-C cable can leave the board dead, even though an old A-to-C cable works. That's a famous beginner's mistake.</p>
+<h3><button class="p" data-ref="U8">U8</button>: ESD protection</h3>
+<p>Touching a USB connector can inject a kilovolt-scale spike. U8 contains fast diodes that steer D+ and D− spikes into VBUS or GND before they reach the ESP32. It only works if it's physically close to the connector, and it is.</p>
+<div class="note"><b>A subtle side effect.</b> U8's diodes link D+ to VBUS (from the README; the local datasheet has no internal diagram). On battery, the ESP32's D+ pull-up can leak through them and lift unplugged VBUS to about 2.7 V. The README asks you to measure <button class="p" data-ref="TP1">TP1</button> for this and, if it's there, turn off the pull-up before sleeping.</div>
+<h3>D+ and D−</h3>
+<p>They go straight to IO13 and IO12, the ESP32's built-in USB, which is why you need no separate USB-serial chip. It's a differential pair: the receiver reads the difference, so noise on both cancels out. Layout targets about 90 Ω; this board comes to about 86 Ω by calculation. Espressif suggests leaving room for 22–33 Ω series resistors, which this board doesn't have. It's a low-risk trade-off on such a short run, but it's worth knowing.</p>
+<h3><button class="p" data-ref="R3">R3</button>, <button class="p" data-ref="C1">C1</button>: shield</h3>
+<p>The connector's metal shell connects to ground through the 0 Ω R3. C1 is unfitted and exists only as an option for a metal case.</p>
+<h3><button class="p" data-ref="C2">C2</button>, <button class="p" data-ref="D5">D5</button>, <button class="p" data-ref="R21">R21</button></h3>
+<p>C2 (1 µF) is U6's required input capacitor, rated 50 V because hot-plugging can cause voltage spikes. D5 and R21 form the green "USB present" LED, wired straight to VBUS: (5.0 − 2.6) / 2k = 1.2 mA. It takes no current on battery.</p>
+<div id="q5"></div>
+<div data-tb="A friend's board works with an A-to-C cable but not C-to-C. Explain what's wrong and why."></div>
+</template>
+
+<template id="l6" data-t="The charger, U6" data-p="U6 R4 R5 R9 R10 R34 R7 R6 D1 C3 C4">
+<p class="goal">U6 is configured almost entirely by what its pins are wired to. Every pin is a decision.</p>
+<div class="tw"><table><tr><th>Pin</th><th>Wired to</th><th>Effect</th></tr>
+<tr><td>IN</td><td>VBUS, C2</td><td>Input. Recommended 4.35–6.4 V; protection trips near 6.6 V, and it survives up to 26 V with operation suspended</td></tr>
+<tr><td>OUT</td><td>VSYS, C3</td><td>Output to the board, 4.4 V on USB</td></tr>
+<tr><td>BAT</td><td>VBAT, C4</td><td>Battery; the datasheet asks for 4.7–47 µF here</td></tr>
+<tr><td>CE</td><td>GND</td><td>Active low: charging always enabled</td></tr>
+<tr><td>EN2, EN1</td><td>GND, R4/R5 divider</td><td>EN2=0, EN1=1 selects USB500: input limited to 450–500 mA</td></tr>
+<tr><td>ISET</td><td><button class="p" data-ref="R9">R9</button> 3.3k</td><td>Charge current: 890 / 3.3k = 270 mA</td></tr>
+<tr><td>ILIM</td><td><button class="p" data-ref="R10">R10</button> 3.3k</td><td>Only sets the limit in another EN mode, but leaving it open disables all charging, so it must be fitted</td></tr>
+<tr><td>TMR</td><td><button class="p" data-ref="R34">R34</button> 68k</td><td>Safety timer: 6.8–11.3 h fast charge, 41–68 min pre-charge</td></tr>
+<tr><td>TD</td><td>GND</td><td>Termination stays enabled, so charging ends by itself</td></tr>
+<tr><td>TS</td><td><button class="p" data-ref="TH1">TH1</button></td><td>Battery temperature (next lesson)</td></tr>
+<tr><td>PGOOD</td><td><button class="p" data-ref="R7">R7</button> → IO1</td><td>Open-drain: low when USB is good</td></tr>
+<tr><td>CHG</td><td><button class="p" data-ref="D1">D1</button>, <button class="p" data-ref="R6">R6</button></td><td>Open-drain: lights the red LED during the first charge after power-up; later top-up charges leave it off. Flashes at about 2 Hz for a fault</td></tr>
+<tr><td>VSS, pad</td><td>GND</td><td>Ground and heat path</td></tr></table></div>
+<h3>Why a divider on EN1?</h3>
+<p>EN1 needs to be high only when USB is present, and <button class="p" data-ref="R4">R4</button>/<button class="p" data-ref="R5">R5</button> take it from VBUS. Include the chip's internal 285 kΩ pull-down and you get about 2.1 V, not 2.5 V. Work that out yourself: R5 in parallel with 285k, then the divider formula.</p>
+<h2>How a lithium cell gets charged</h2>
+<svg viewBox="0 0 640 210" role="img" aria-label="Charge stages">
+<path class="wire" d="M50 180H630M50 180V14"/>
+<path d="M50 96 L95 96 L95 40 L350 40 C 430 40 480 150 620 164" fill="none" stroke="var(--acc)" stroke-width="3" transform="translate(0,0)"/>
+<path d="M50 150 L95 124 L350 30 L620 30" fill="none" stroke="var(--cu)" stroke-width="3"/>
+<g font-size="12"><text x="60" y="198">Pre-charge</text><text x="190" y="198">Constant current</text><text x="420" y="198">Constant voltage</text>
+<text x="360" y="22" fill="var(--cu)" style="fill:var(--cu)">voltage climbs to 4.2 V, then holds</text><text x="140" y="60" style="fill:var(--acc)">current 270 mA, then tapers</text></g>
+<path d="M95 14V180M350 14V180" stroke="var(--line)" stroke-dasharray="3 4"/></svg>
+<ol><li><b>Pre-charge:</b> below 3.0 V the cell gets a gentle 88 / 3.3k ≈ 27 mA.</li>
+<li><b>Constant current:</b> a steady 270 mA as voltage rises.</li>
+<li><b>Constant voltage:</b> held at 4.2 V, and current falls as the cell fills.</li>
+<li><b>Done:</b> at 10% of the charge current (27 mA), charging stops. If the cell falls about 100 mV below 4.2 V, charging restarts.</li></ol>
+<p>Time: 1200 mAh / 270 mA = 4.4 h, plus the slow final stage, so 5–6 h <span class="est">est.</span> The safety timer must outlast this, or a healthy charge would end in a false fault. That's why R34 is 68k.</p>
+<h2>Why so slow? Heat</h2>
+<p>U6 is a <b>linear</b> charger: it burns off the voltage difference. At 3.7 V: (5 − 3.7) × 0.27 A = <b>0.35 W</b> <span class="est">est.</span>. Double the current and you double the heat, on a small board that also carries a temperature sensor. If the chip reaches its 125 °C regulation limit, it reduces the charge current on its own.</p>
+<div id="q6"></div>
+<div data-tb="You want to charge at 500 mA. Work out the new R9 value and heat at 3.7 V, then say what else must change and what could go wrong."></div>
+</template>
+
+<template id="l7" data-t="Battery, safety, fuel gauge" data-p="J2 Q2 R11 TH1 R8 U5 R12 C5 TP4">
+<p class="goal">The cell can deliver a lot of energy into a fault, so this block is about what could go wrong.</p>
+<h3><button class="p" data-ref="J2">J2</button>: the connector</h3>
+<p>Pin 2 is + and pin 1 is −. <b>Battery plug polarity isn't standardised</b>, so check every cell with a multimeter, because a cheap listing can arrive reversed.</p>
+<h3><button class="p" data-ref="Q2">Q2</button>, <button class="p" data-ref="R11">R11</button>: reverse protection</h3>
+<p>Q2 is an N-MOSFET in the battery's negative lead, so all cell current returns through it. Its gate connects to VBAT through 100 kΩ, and its source is GND.</p>
+<ul><li><b>Correct cell:</b> VBAT is positive, so the gate is above the source and the FET turns on, acting almost like a wire.</li>
+<li><b>Reversed cell:</b> the gate is below the source, so the FET stays off. Its built-in body diode points the blocking way too, so no loop forms.</li></ul>
+<p>R11 carries almost no current, since a MOSFET gate draws essentially none. <b>Limit:</b> with USB in and a reversed cell, the charger slowly drains it through Q2, so check polarity before plugging in USB.</p>
+<h3><button class="p" data-ref="TH1">TH1</button>: temperature</h3>
+<p>Charging lithium when it's too cold or too hot damages the cell and can be dangerous. TH1 is an NTC: its resistance falls as temperature rises. U6 pushes 75 µA through it and reads the voltage. It sits under the cell with a thermal pad; if that pad is missing, it mostly measures the board.</p>
+<div class="box"><h3>Try it: TS window</h3><div id="w-ntc"></div></div>
+<p><button class="p" data-ref="R8">R8</button> is an unfitted fixed 10k: a fallback that fakes 25 °C. It would defeat the protection, so it isn't fitted. The bias current flows only while VBUS is present, so TH1 doesn't drain the battery.</p>
+<h3><button class="p" data-ref="U5">U5</button>: fuel gauge</h3>
+<p>The MAX17048 estimates charge from voltage alone, using a cell model, without a current-sense resistor. It's connected directly to VBAT and has I2C address 0x36. <button class="p" data-ref="C5">C5</button> decouples it. QSTRT and CTG go to GND since they aren't used.</p>
+<p>ALRT is open-drain, with <button class="p" data-ref="R12">R12</button> 100k up to +3V3, into IO0. While ALRT is held low: 3.3 V / 100k = <b>33 µA</b> wasted, and IO0 would also wake the chip immediately. So firmware must clear the alert before sleeping.</p>
+<div class="note warn"><b>Safety.</b> Use a cell with a protection board. Never short, puncture or bend one. If it swells, stop using it. The case leaves room for swelling on purpose. Don't leave a first prototype charging unattended.</div>
+<div id="q7"></div>
+<div data-tb="Explain how Q2 protects against a reversed battery, drawing the current loop. Include what it doesn't protect against."></div>
+</template>
+
+<template id="l8" data-t="3.3 V regulator" data-p="U7 C6 C7 R13 C16 TP2 TP5">
+<p class="goal">This small chip decides battery life and how low the battery can go.</p>
+<h3><button class="p" data-ref="U7">U7</button>: how an LDO works</h3>
+<p>Think of a variable resistor in series that a control loop adjusts to hold 3.3 V at the output. It can only reduce voltage, and the difference becomes heat:</p>
+<div class="out">P = (VSYS − 3.3) × I<br>On USB, at 100 mA: (4.4 − 3.3) × 0.1 = 0.11 W<br>Efficiency = 3.3 / VIN: 75% at 4.4 V, 92% at 3.6 V</div>
+<h3>Why an LDO, not a switching regulator?</h3>
+<p>A switching regulator can be more efficient at high current, but this board sleeps most of the time, so standby current matters most. U7 uses about <b>2 µA</b>. An LDO is also quiet and has few parts. The catch is wasted heat during Wi-Fi.</p>
+<h3>Dropout</h3>
+<p>The minimum headroom between input and output. The datasheet gives 0.31 V at 600 mA for this voltage. Roughly scaled, a 350 mA <span class="est">est.</span> Wi-Fi burst needs about 0.18 V, so the battery has to stay above about 3.5 V for a clean 3.3 V.</p>
+<h3><button class="p" data-ref="C6">C6</button>, <button class="p" data-ref="C7">C7</button>, <button class="p" data-ref="C16">C16</button>: stability</h3>
+<p>LDOs are feedback loops and can oscillate without the right output capacitor. The datasheet needs 1 µF effective. C7 sits right at the output, on the regulator's side of R13, so it stays connected while R13 is removed. C6 is at the input, and C16 is 10 µF bulk on +3V3.</p>
+<h3><button class="p" data-ref="R13">R13</button>: the measurement link</h3>
+<p>This 0 Ω link is the only feed from <code>LDO_OUT</code> to <code>+3V3</code>. Remove it, connect an ammeter across its pads, and you can measure the real sleep current of everything on 3.3 V. This matters most for your embedded work: it shows whether firmware really sleeps.</p>
+<p>EN on U7 connects to VSYS, so the LDO is on whenever there's power. <b>The board has no off switch.</b> "Off" just means asleep, which is why every microamp counts. U5, U6 and U7 alone take roughly 10–30 µA from the cell. A 1200 mAh cell at 20 µA would last about 7 years on paper; self-discharge would run it down first. At 200 µA, it's about 8 months.</p>
+<div class="note warn"><b>Don't feed 3.3 V from a programmer with no battery fitted.</b> Forcing voltage into the LDO's output can back-feed it. That's why J4's pin 1 is a sense-only line through 1 kΩ.</div>
+<div id="q8"></div>
+<div data-tb="Explain why this design chose an LDO, and what would make you change to a switching regulator."></div>
+</template>
+
+<template id="l9" data-t="ESP32-C6 module" data-p="U1 C8 C9 C10 R15 R16 R24 R27 J4">
+<p class="goal">You know this chip from the software side. Here's what the hardware has to give it.</p>
+<h3><button class="p" data-ref="U1">U1</button> is a module, not a bare chip</h3>
+<p>Inside its metal can are the ESP32-C6, 4 MB flash, crystal and RF matching network, all RF-tested and certified by Espressif. Without the module, you'd have to design all of that. You only supply power, reset and a clear area around the antenna.</p>
+<h3>Power: <button class="p" data-ref="C8">C8</button> and <button class="p" data-ref="C9">C9</button></h3>
+<p>C8 (22 µF) covers large Wi-Fi bursts, while C9 (100 nF) covers fast edges. Espressif asks for a supply that can provide at least 500 mA. U7 is rated for 600 mA.</p>
+<h3>Reset: <button class="p" data-ref="R15">R15</button> and <button class="p" data-ref="C10">C10</button></h3>
+<p>EN must stay low until power is stable. The RC delays it: 10 kΩ × 1 µF = <b>10 ms</b>. EN is only reachable on the pogo pads, so there's no reset button in the case.</p>
+<h3>Strapping pins: hardware read at reset</h3>
+<p>Like a config register the chip reads once at boot:</p>
+<div class="tw"><table><tr><th>Pin</th><th>Here</th><th>Why</th></tr>
+<tr><td>IO9</td><td><button class="p" data-ref="R24">R24</button> 10k up, and the DN button</td><td>High: normal boot. Low with IO8 high at reset: ROM download mode</td></tr>
+<tr><td>IO8</td><td><button class="p" data-ref="R16">R16</button> 10k up, and red LED cathode side</td><td>Must be high for download mode; also keeps red off</td></tr>
+<tr><td>IO15</td><td>Green LED</td><td>Only matters if the JTAG eFuse is burned</td></tr></table></div>
+<p>The DN button's filter cap is on IO9. 10k × 100 nF = 1 ms, well inside the 10 ms reset delay, so IO9 has settled before the chip samples it.</p>
+<div class="note"><b>Your recovery path.</b> If firmware breaks USB: unplug USB and battery, hold DN, plug USB in. The chip starts in the ROM bootloader and you can flash it.</div>
+<h3>The GPIO map</h3>
+<div class="tw"><table><tr><th>IO</th><th>Net</th><th>Why that pin</th></tr>
+<tr><td>0</td><td>BAT_ALRT_N</td><td rowspan="6">LP pins can wake deep sleep through ext1. The LP pins are IO0–7, and IO6–7 are the I2C bus, so wake sources use IO0–5</td></tr>
+<tr><td>1</td><td>USB_PGOOD_N</td></tr><tr><td>2</td><td>BTN_N (UP)</td></tr><tr><td>3</td><td>ACC_INT1</td></tr><tr><td>4</td><td>BARO_INT</td></tr><tr><td>5</td><td>BTN2_N (OK)</td></tr>
+<tr><td>6, 7</td><td>I2C SDA, SCL</td><td>LP pins, so the low-power core can use I2C</td></tr>
+<tr><td>8, 14, 15</td><td>LED R, B, G</td><td>Active low</td></tr>
+<tr><td>9</td><td>BTN3_N (DN)</td><td>Strap pin, polled, can't wake</td></tr>
+<tr><td>12, 13</td><td>USB D−, D+</td><td>Fixed USB pins</td></tr>
+<tr><td>18–23</td><td>BUSY, RST, DC, CS, SCK, MOSI</td><td>E-paper</td></tr>
+<tr><td>RXD0, TXD0</td><td>To J4</td><td>Backup UART</td></tr></table></div>
+<h3>Antenna</h3>
+<p>The antenna is part of the module's PCB and overhangs the top edge by 5.4 mm, with no copper under it, as Espressif recommends. Copper nearby detunes it, as can metal or the battery. <b>That overhang makes a real difference to Wi-Fi range.</b> Keep the case free of metal there.</p>
+<h3><button class="p" data-ref="J4">J4</button>, <button class="p" data-ref="R27">R27</button></h3>
+<p>Pogo pads for recovery: VREF, GND, EN, IO9, TXD0, RXD0. VREF comes from +3V3 through R27 1k, letting a programmer sense voltage but not power the board.</p>
+<div id="q9"></div>
+<div data-tb="Walk through what happens electrically from plugging in USB to your first line of firmware, naming R15, C10, R24 and R16."></div>
+</template>
+
+<template id="l10" data-t="I2C and sensors" data-p="U2 U3 U4 U5 R17 R18 C11 C12 C13 C14 C15">
+<p class="goal">You've written I2C drivers. This is the analog side of the same bus.</p>
+<p><button class="p" data-ref="R17">R17</button> and <button class="p" data-ref="R18">R18</button> (10 kΩ) pull SDA and SCL high. Devices only pull low, so the bus rises at a speed set by the pull-up and the wiring's capacitance. That's the rounded edge you see on a scope.</p>
+<div class="box"><h3>Try it: pull-up trade-off</h3><div id="w-i2c"></div></div>
+<p><b>The rule from this:</b> run the bus at 100 kHz, and never leave a line held low in sleep. That would waste 330 µA per line, which dwarfs the sleep current. Also, if firmware has enabled U5's sleep mode, holding both SDA and SCL low for about 2 s puts it to sleep.</p>
+<h2>The four devices</h2>
+<div class="tw"><table><tr><th>Part</th><th>Measures</th><th>Addr</th><th>Set by</th><th>Notes</th></tr>
+<tr><td><button class="p" data-ref="U2">U2</button> SHT40</td><td>Temp, humidity</td><td>0x44</td><td>Fixed by part variant (AD1B)</td><td>On the isolated island, with C11</td></tr>
+<tr><td><button class="p" data-ref="U3">U3</button> BMP580</td><td>Pressure</td><td>0x46</td><td>SDO to GND</td><td>CSB to +3V3 selects I2C; C12, C13</td></tr>
+<tr><td><button class="p" data-ref="U4">U4</button> LIS2DW12</td><td>Motion</td><td>0x19</td><td>SA0 to +3V3</td><td>CS to +3V3 selects I2C; INT1 on IO3; C14, C15</td></tr>
+<tr><td><button class="p" data-ref="U5">U5</button> MAX17048</td><td>Battery</td><td>0x36</td><td>Fixed</td><td>Powered from VBAT</td></tr></table></div>
+<p>Bosch and ST sensors can speak I2C or SPI, and the pin level picks which. That's why CSB and CS are wired high.</p>
+<h2>Interrupts and polarity</h2>
+<p>ext1 wakes on one common level, and buttons and open-drain alerts are active low. U4's INT1 defaults to active-high push-pull, so firmware must set <code>H_LACTIVE</code>. U3's INT defaults to active low but open-drain and disabled, and the board has no pull-up on <code>BARO_INT</code>, so the line floats. Set <code>int_od</code> = 0 (push-pull) and <code>int_en</code> = 1 before arming sleep. This is hardware and firmware fitting together.</p>
+<h2>Why U2 is on an island</h2>
+<p>A temperature sensor measures itself, and copper conducts heat from warmer parts. So U2 sits on a tab cut away from the board by a milled slot, joined only by four thin 0.15 mm traces with no copper pour. Humidity also depends on temperature, so 1 °C of board heat also skews %RH. Don't trust readings while charging.</p>
+<div id="q10"></div>
+<div data-tb="An I2C scan finds 0x19, 0x36 and 0x46 but not 0x44. List your suspects in order, and how you'd test each."></div>
+</template>
+
+<template id="l11" data-t="Buttons and LEDs" data-p="SW1 SW2 SW3 R14 R28 C27 R29 R30 C28 R31 C29 D1 D5 D6 R6 R21 R22 R32 R33">
+<p class="goal">The simplest circuits on the board, and a great way to practise RC thinking.</p>
+<h2>The button circuit</h2>
+<p>Each button, like UP: <code>+3V3 → R14 100k → BTN_N → R28 100R → SW1 → GND</code>, with <button class="p" data-ref="C27">C27</button> 100 nF on BTN_N, feeding IO2.</p>
+<ul><li><b>Idle:</b> R14 holds the line high. No current flows, so sleep costs nothing.</li>
+<li><b>Press:</b> C27 discharges through R28: τ = 100 Ω × 100 nF = 10 µs, nearly instant.</li>
+<li><b>Release:</b> C27 recharges through R14: τ = 100 kΩ × 100 nF = 10 ms. This hides contact bounce.</li>
+<li><b>R28</b> also limits ESD current and caps the discharge peak.</li></ul>
+<div class="box"><h3>Try it: RC recharge</h3><div id="w-rc"></div></div>
+<p>SW3 (DN) differs: its pull-up is <button class="p" data-ref="R24">R24</button> 10k, since IO9 needs a stronger strap. Its τ is therefore 1 ms.</p>
+<h2>The LEDs</h2>
+<div class="tw"><table><tr><th>LED</th><th>Circuit</th><th>Current</th><th>Lit when</th></tr>
+<tr><td><button class="p" data-ref="D5">D5</button> PWR green</td><td>VBUS → R21 2k → LED → GND</td><td>(5.0 − 2.6)/2k = 1.2 mA</td><td>USB is present</td></tr>
+<tr><td><button class="p" data-ref="D1">D1</button> CHG red</td><td>VSYS → R6 2k → LED → U6 CHG</td><td>(4.4 − 1.8)/2k = 1.3 mA</td><td>U6 pulls CHG low</td></tr>
+<tr><td><button class="p" data-ref="D6">D6</button> red</td><td>+3V3 → LED → R32 1k → IO8</td><td>(3.3 − 1.8)/1k = 1.5 mA</td><td>IO8 low</td></tr>
+<tr><td>D6 green</td><td>+3V3 → LED → R33 1k → IO15</td><td>(3.3 − 2.6)/1k = 0.7 mA</td><td>IO15 low</td></tr>
+<tr><td>D6 blue</td><td>+3V3 → LED → R22 470R → IO14</td><td>(3.3 − 2.6)/470 = 1.5 mA</td><td>IO14 low</td></tr></table></div>
+<p>The LED voltages are approximate, read at low current. D6 is <b>common anode</b>: all three colours share +3V3, so a GPIO turns one on by sinking current, which means active low. An LED at this current is dim but visible, and 1.5 mA is still about 75 times a 20 µA sleep target <span class="est">est.</span>, so turn them off in firmware.</p>
+<div id="q11"></div>
+<div data-tb="Why does the button use both a 100k and a 100R? Explain what would happen with only one of them."></div>
+</template>
+
+<template id="l12" data-t="E-paper and the boost" data-p="J3 L1 Q1 D2 D3 D4 R19 R20 C17 C18 C19 C20 C21 C22 C23 C24 C25 C26 R25 R26">
+<p class="goal">The hardest analog on your board: how 3.3 V becomes tens of volts, both positive and negative.</p>
+<p>E-paper moves charged pigments with an electric field, so an image stays with no power. But moving them needs high voltages of both polarities, on the order of ±15–20 V <span class="est">from memory of the SSD1681, not in your PDFs</span>. The SSD1681 controller on the panel handles most of it, but needs a few parts on your board. Those parts are copied from the panel maker's reference circuit.</p>
+<h2>Step through the boost</h2>
+<div class="box"><div id="w-boost"></div></div>
+<h3>The key idea</h3>
+<p>Inductor current can't change instantly. Turn off the switch and the inductor forces its current onward, pushing the node as high as needed until something conducts. The rate while charging is V = L × di/dt: 3.3 V / 47 µH ≈ 70 mA per µs.</p>
+<h2>Each part's job</h2>
+<div class="tw"><table><tr><th>Part</th><th>Job</th></tr>
+<tr><td><button class="p" data-ref="L1">L1</button> 47 µH</td><td>Energy store, rated above the current it will see (saturation 0.95 A)</td></tr>
+<tr><td><button class="p" data-ref="Q1">Q1</button></td><td>The switch, driven by GDR from the panel controller</td></tr>
+<tr><td><button class="p" data-ref="R19">R19</button> 1 MΩ</td><td>Holds Q1's gate low when nothing's driving it, so it can't float on</td></tr>
+<tr><td><button class="p" data-ref="R20">R20</button> 2.2 Ω</td><td>Current sense on RESE: V = I × 2.2 Ω tells the controller when to stop</td></tr>
+<tr><td><button class="p" data-ref="D2">D2</button>, <button class="p" data-ref="C18">C18</button></td><td>Catches the high peak: positive rail PREVGH</td></tr>
+<tr><td><button class="p" data-ref="C19">C19</button>, <button class="p" data-ref="D3">D3</button>, <button class="p" data-ref="D4">D4</button>, <button class="p" data-ref="C20">C20</button></td><td>Charge pump that flips swings into a negative rail, PREVGL</td></tr>
+<tr><td><button class="p" data-ref="C21">C21</button>, <button class="p" data-ref="C24">C24</button>, <button class="p" data-ref="C25">C25</button>, <button class="p" data-ref="C26">C26</button></td><td>Hold VSH2, VSH1, VSL, VCOM, the regulated drive rails</td></tr>
+<tr><td><button class="p" data-ref="C23">C23</button></td><td>Controller's internal core supply VDD</td></tr>
+<tr><td><button class="p" data-ref="C22">C22</button></td><td>Decouples the panel's VCI/VDDIO on +3V3</td></tr>
+<tr><td><button class="p" data-ref="C17">C17</button></td><td>4.7 µF reserve for the boost input</td></tr></table></div>
+<p>Diodes are Schottky, with low drop and fast recovery. High-voltage caps are rated 50 V, and the layout has a special 0.2 mm clearance rule on these nets.</p>
+<h2>The digital side, which you know</h2>
+<p>4-wire SPI, chosen by BS tied to GND. It's write-only: there is no MISO, and the panel signals completion through BUSY on IO18.</p>
+<div class="tw"><table><tr><th>IO</th><th>Signal</th><th>Sleep behaviour</th></tr>
+<tr><td>18</td><td>BUSY</td><td>Input</td></tr><tr><td>19</td><td>RST_N</td><td><button class="p" data-ref="R25">R25</button> 100k holds it high</td></tr>
+<tr><td>21</td><td>CS_N</td><td><button class="p" data-ref="R26">R26</button> 100k holds it high (deselected)</td></tr>
+<tr><td>20, 22, 23</td><td>DC, SCK, MOSI</td><td>Use gpio_hold so the inputs don't float</td></tr></table></div>
+<p>Why this matters: floating CMOS inputs can sit mid-rail and draw extra current in sleep.</p>
+<h3><button class="p" data-ref="J3">J3</button>: the connector</h3>
+<p>A 24-pin 0.5 mm connector with contacts on both sides. The panel's tail wraps around the board edge, which flips it over. A wrong connector type would mirror the pin order, so that detail matters. You still need to test it with the real panel.</p>
+<div id="q12"></div>
+<div data-tb="Explain the boost in two sentences to a friend: why does a voltage higher than the supply appear when the switch opens?"></div>
+</template>
+
+<template id="l13" data-t="Layout: why copper matters" data-p="U6 U7 U1 U2 J1 TH1">
+<p class="goal">The same schematic can succeed or fail depending on layout. This is the part LLMs struggle with most, so review it yourself.</p>
+<h2>Your stack, 4 layers</h2>
+<div class="tw"><table><tr><th>Layer</th><th>Contents</th></tr>
+<tr><td>F.Cu (front)</td><td>All parts, about half the signals, GND pour</td></tr>
+<tr><td>In1.Cu</td><td>Solid GND</td></tr>
+<tr><td>In2.Cu</td><td>+3V3 pour and some GND</td></tr>
+<tr><td>B.Cu (back)</td><td>GND pour, about half the signals (including USB and I2C), J4 pads; the display sits here</td></tr></table></div>
+<p>The 281 vias link these layers.</p>
+<h2>Return current</h2>
+<p>Remember that current flows in loops. At high speed, return current takes the path of lowest <b>impedance</b>: right underneath its signal trace, in the nearest plane. That keeps the loop small. A small loop radiates less and picks up less noise. So <b>don't cut the plane under a fast signal</b>, because the return has to detour, the loop grows and you get an antenna you didn't want. That's why In1 stays solid.</p>
+<h2>Decoupling placement</h2>
+<p>A cap is only useful through a short path. A trace has inductance, which resists the fast current the cap exists to provide. So: cap by the pin, ground via right beside it.</p>
+<h2>Heat</h2>
+<p>Copper is the board's radiator. <button class="p" data-ref="U6">U6</button>'s pad has 5 vias to carry heat to inner copper, and <button class="p" data-ref="U7">U7</button>'s ground is solid-connected for the same reason. The price of heat is that <button class="p" data-ref="U2">U2</button>'s island and <button class="p" data-ref="TH1">TH1</button> can both be affected, and this is still unmeasured.</p>
+<h2>Trace width and vias</h2>
+<p>Width sets resistance and heat. Power traces are wider and multiple vias share current. The thin traces on the sensor bridge are deliberate, as they conduct less heat, and sensors draw so little that their resistance doesn't matter.</p>
+<h2>Physical design</h2>
+<ul><li><b>Keep-outs:</b> no copper below the antenna.</li>
+<li><b>Panel:</b> 5 mm rails on left and right only, since parts overhang the top and bottom. Cut the tabs rather than bending them, so nearby parts and tracks don't crack.</li>
+<li><b>ENIG finish:</b> flat gold pads for the tiny leadless parts.</li></ul>
+<h2>Checks, and what they miss</h2>
+<div class="tw"><table><tr><th>Check</th><th>Catches</th><th>Misses</th></tr>
+<tr><td>ERC</td><td>Unconnected pins, conflicting outputs</td><td>A valid but wrong circuit</td></tr>
+<tr><td>DRC</td><td>Shorts, spacing, manufacturing limits, schematic mismatch</td><td>Poor return paths, heat, noise</td></tr>
+<tr><td><code>tools/check_net.py</code></td><td>Connections differing from intended</td><td>A wrong intention</td></tr>
+<tr><td>Real board</td><td>Everything</td><td>Nothing, but it's costly</td></tr></table></div>
+<div class="box"><h3>Exercise in KiCad</h3><ol><li>Open the PCB Editor. Press <code>Alt+3</code> for the 3D view.</li><li>Turn layers on and off, and find where <code>USB_D+</code> runs.</li><li>Highlight <code>VSYS</code> and follow it from U6 to U7.</li><li>Find the SHT40 moat, and find its four bridge traces.</li></ol></div>
+<div id="q13"></div>
+<div data-tb="Explain why a slot in the ground plane under a fast signal can cause problems even though the DC connection still works."></div>
+</template>
+
+<template id="l14" data-t="Bring-up: first power" data-p="TP1 TP2 TP3 TP4 TP5 R13">
+<p class="goal">This is where understanding stops being theory. Predict first, then measure.</p>
+<p>Bring up one block at a time, and don't move on until the current one behaves. You only need a multimeter to start. A USB power meter that shows current is a cheap, useful extra.</p>
+<h2>The order</h2>
+<ol><li><b>Inspect.</b> Compare with the assembly drawing. Check D1, D5 and D6 and the IC pin-1 marks.</li>
+<li><b>Before any power,</b> measure resistance from VBUS, VSYS and +3V3 to GND. A near-zero reading is a short, so stop.</li>
+<li><b>USB, no battery.</b> Check the sheet below. Don't test Wi-Fi yet.</li>
+<li><b>Flash a blink.</b> Use each RGB colour.</li>
+<li><b>I2C scan.</b> Expect 0x19, 0x36, 0x44, 0x46.</li>
+<li><b>Buttons.</b> Read each, and test wake.</li>
+<li><b>Battery.</b> Check polarity with a meter first, then charge while you stay nearby.</li>
+<li><b>Display.</b> Fit the panel, and test a full refresh.</li>
+<li><b>Sleep current.</b> Replace R13 with an ammeter.</li>
+<li><b>Heat.</b> Measure U6 and the cell with a thermocouple during a full charge.</li></ol>
+<div class="box"><h3>Your prediction sheet</h3><p class="small">Fill in your prediction <b>before</b> revealing mine. When boards arrive, add measurements. It saves in this browser.</p><div id="w-sheet"></div></div>
+<h2>Fault → first suspect</h2>
+<div class="tw"><table><tr><th>Symptom</th><th>Look at</th></tr>
+<tr><td>Dead on C-to-C, fine on A-to-C</td><td>R1, R2, CC soldering</td></tr>
+<tr><td>Green off, VBUS 0 V</td><td>Cable, J1 soldering</td></tr>
+<tr><td>VBUS good, VSYS 0 V</td><td>U6, its soldering, or a short on VSYS</td></tr>
+<tr><td>VSYS good, +3V3 0 V</td><td>U7, R13, or a short on +3V3</td></tr>
+<tr><td>Not on USB, no serial port</td><td>D+/D− path, EN, IO9 held low</td></tr>
+<tr><td>Red LED flashing at 2 Hz</td><td>Timer fault; replug USB and look at the cell</td></tr>
+<tr><td>Red never on after replugging USB, cell not full</td><td>TH1 outside its window, R9, R10, cell connection</td></tr>
+<tr><td>Boards differ, same fault not on both</td><td>Assembly, not design</td></tr>
+<tr><td>Both boards same fault</td><td>Design</td></tr></table></div>
+<div id="q14"></div>
+<div data-tb="Write your own checklist for the first 15 minutes with a new board, in the order you'd do it and why."></div>
+</template>
+
+<template id="l15" data-t="Final exam" data-p="">
+<p class="goal">No widgets. Scenarios like real debugging, using everything you've learned.</p>
+<div id="q15"></div>
+<h2>The real exam: explain it without notes</h2>
+<p class="small">Tick each only when you can say it aloud with nothing open. The honest measure is whether a friend who asks "why?" twice gets a real answer.</p>
+<div id="w-final"></div>
+<div data-tb="Your final write-up: explain the whole board in one page, as if for someone joining the project. Then ask an LLM or a friend to attack it. Every question you can't answer is your next thing to learn."></div>
+<div class="box"><h3>Export your notes</h3><p class="small">Copy all your teach-backs, predictions and measurements as Markdown. Notes live only in this browser, so copy them out regularly. You could keep them in <code>docs/how-it-works.md</code>.</p><button class="btn" id="exp">Copy notes</button> <span class="small" id="exs"></span><textarea id="expo" readonly style="display:none;margin-top:8px" aria-label="Your notes"></textarea></div>
+</template>
+
+<template id="l16" data-t="Every part: board map" data-p="">
+<p class="goal">Every reference on the board. Click a part or search to see where it is and what it does.</p>
+<input type="search" id="s" placeholder="Search: R9, charge, I2C…" style="width:100%" aria-label="Search parts">
+<div id="map" style="max-width:420px;margin:12px auto"></div>
+<p class="small mt" style="text-align:center">Front view from the parts side. Top edge is the antenna. J4 is on the back.</p>
+<div id="sel" class="box" style="display:none"></div>
+<div class="tw"><table id="pt"></table></div>
+</template>
+
+<script>
+const BOARD=[["D3",15.5,23.8,4.2,1.2,0],["R31",5.48,36.12,0.64,1.56,0],["C12",15.54,11.24,0.62,1.52,0],["U5",5.51,12.45,1.78,2.31,0],["U2",12.6,3.25,1.1,1.9,0],["C7",39.04,28.24,0.62,1.52,0],["R18",20.28,9.22,0.64,1.56,0],["D4",15.5,26.4,4.2,1.2,0],["R6",29.02,41.38,1.56,0.64,0],["R26",23.82,19.28,1.56,0.64,0],["Q2",0.92,12.75,3.35,2.5,0],["TP1",13.5,33.8,1.0,1.0,0],["R4",30.22,37.08,1.56,0.64,0],["J2",1.4,1.98,5.2,8.45,0],["R3",11.98,36.42,0.64,1.56,0],["R11",1.82,11.38,1.56,0.64,0],["C23",23.38,22.03,2.45,0.95,0],["R13",37.93,33.18,0.95,2.45,0],["TP4",8.8,38.8,1.0,1.0,0],["U8",18.75,31.6,2.5,3.6,0],["R5",30.22,38.18,1.56,0.64,0],["U4",19.05,5.56,1.9,1.88,0],["D6",31.3,43.25,3.5,1.05,0],["R29",4.18,26.72,0.64,1.56,0],["C22",23.38,20.43,2.45,0.95,0],["C8",21.75,0.78,2.9,1.45,0],["C18",20.38,24.12,2.45,0.95,0],["ASSY1",20.64,19.6,1.0,1.0,0],["R16",35.82,11.88,1.56,0.64,0],["H2",1.7,40.2,2.2,2.2,0],["R32",33.88,41.32,0.64,1.56,0],["R24",33.82,11.88,1.56,0.64,0],["U1",26.3,0.3,12.6,10.6,0],["D2",21.2,18.9,1.2,4.2,0],["C29",6.24,34.59,1.52,0.62,0],["R34",30.2,30.61,0.64,1.56,0],["R14",4.18,19.72,0.64,1.56,0],["R27",19.62,2.38,1.56,0.64,0],["TP2",35.0,32.0,1.0,1.0,0],["R25",23.82,18.23,1.56,0.64,0],["R8",23.62,30.28,1.56,0.64,0],["Q1",23.62,13.55,1.75,2.7,0],["C20",20.38,25.73,2.45,0.95,0],["C11",12.39,2.19,1.52,0.62,0],["SW1",1.28,18.38,2.54,4.25,0],["R2",21.98,33.52,0.64,1.56,0],["U7",34.8,28.35,3.6,2.5,0],["R30",5.48,29.12,0.64,1.56,0],["D5",25.6,43.35,2.4,0.95,0],["D1",28.6,43.35,2.4,0.95,0],["C6",32.84,30.24,1.52,0.62,0],["C28",6.24,27.59,1.52,0.62,0],["U6",29.12,32.62,3.75,3.75,0],["R19",24.48,10.62,0.95,2.45,0],["C21",23.38,16.78,2.45,0.95,0],["C24",23.38,23.62,2.45,0.95,0],["R22",31.78,40.52,0.64,1.56,0],["C4",26.08,34.03,2.45,0.95,0],["TP3",9.5,33.1,1.0,1.0,0],["R20",22.88,10.62,0.95,2.45,0],["TP5",8.8,42.1,1.0,1.0,0],["C3",33.47,34.03,2.45,0.95,0],["SW3",1.28,32.38,2.54,4.25,0],["TH1",18.78,29.12,2.45,0.95,0],["SW2",1.28,25.38,2.54,4.25,0],["C25",23.38,25.23,2.45,0.95,0],["R15",24.02,6.28,1.56,0.64,0],["ASSY2",19.5,28.5,1.0,1.0,0],["C9",24.04,2.89,1.52,0.62,0],["C2",31.28,29.62,0.95,2.45,0],["H1",36.1,40.2,2.2,2.2,0],["R28",5.48,22.12,0.64,1.56,0],["C1",13.09,36.44,0.62,1.52,0],["R9",29.22,30.62,0.64,1.56,0],["R21",26.02,41.38,1.56,0.64,0],["R33",32.83,41.02,0.64,1.56,0],["J1",15.18,36.68,9.64,6.62,0],["C10",24.04,7.49,1.52,0.62,0],["U3",12.6,11.1,1.8,1.8,0],["C16",36.12,35.78,0.95,2.45,0],["L1",16.9,14.65,4.6,3.9,0],["C26",23.38,26.83,2.45,0.95,0],["C19",18.28,18.95,1.45,2.9,0],["C27",6.24,20.59,1.52,0.62,0],["C13",13.19,14.09,0.62,1.52,0],["R12",9.28,12.82,0.64,1.56,0],["C14",19.24,3.59,1.52,0.62,0],["R10",33.43,31.42,0.64,1.56,0],["C15",22.29,6.74,0.62,1.52,0],["R1",17.38,33.52,0.64,1.56,0],["R7",27.88,37.22,0.64,1.56,0],["C5",8.09,12.84,0.62,1.52,0],["J3",26.68,11.85,4.74,16.6,0],["R17",21.33,9.22,0.64,1.56,0],["C17",14.88,15.15,1.45,2.9,0],["J4",30.5,0.35,6.08,3.54,1]];
+const PARTS=[
+["U1",9,"ESP32-C6-MINI-1-N4: MCU, radio, 4 MB flash and antenna"],["U2",10,"SHT40 temperature and humidity, 0x44, on the moated island"],["U3",10,"BMP580 pressure, 0x46"],["U4",10,"LIS2DW12 accelerometer, 0x19, motion wake on IO3"],["U5",7,"MAX17048 fuel gauge, 0x36, wired to VBAT"],["U6",6,"BQ24073 charger and power path"],["U7",8,"RT9080 3.3 V LDO, about 2 µA quiescent"],["U8",5,"USBLC6 ESD protection on D+, D−"],
+["J1",5,"USB-C socket"],["J2",7,"Battery connector, pin 2 = +"],["J3",12,"24-pin FPC connector for the e-paper"],["J4",9,"Back-side pogo pads for recovery: VREF, GND, EN, IO9, TXD0, RXD0"],
+["L1",12,"47 µH boost inductor"],["Q1",12,"Boost switch MOSFET"],["Q2",7,"Low-side N-FET: blocks a reversed cell"],
+["D1",11,"Red CHG LED, driven by U6 CHG"],["D2",12,"Boost diode to PREVGH"],["D3",12,"Charge-pump diode to GND"],["D4",12,"Charge-pump diode to PREVGL"],["D5",11,"Green PWR LED on VBUS"],["D6",11,"RGB user LED, common anode, active low"],
+["SW1",11,"UP button on IO2, can wake"],["SW2",11,"OK button on IO5, can wake"],["SW3",11,"DN button on IO9, polled, also BOOT"],
+["TH1",7,"10k NTC for battery temperature, on U6 TS"],
+["R1",5,"5.1k CC1 pull-down: marks the board as a USB-C sink"],["R2",5,"5.1k CC2 pull-down"],["R3",5,"0 Ω USB shield to GND"],["R4",6,"100k from VBUS, top of EN1 divider"],["R5",6,"100k to GND, bottom of EN1 divider"],["R6",11,"2k for red CHG LED"],["R7",6,"100k pull-up on USB_PGOOD_N"],["R8",7,"DNP 10k TS fallback, fakes 25 °C"],["R9",6,"3.3k ISET, 270 mA charge current"],["R10",6,"3.3k ILIM, must be present for charging"],["R11",7,"100k from VBAT to Q2 gate"],["R12",7,"100k pull-up on BAT_ALRT_N"],["R13",8,"0 Ω link, LDO_OUT to +3V3; ammeter goes here"],["R14",11,"100k pull-up for UP button"],["R15",9,"10k EN pull-up; 10 ms with C10"],["R16",9,"10k pull-up on IO8 strap"],["R17",10,"10k I2C SDA pull-up"],["R18",10,"10k I2C SCL pull-up"],["R19",12,"1M keeps Q1 gate low"],["R20",12,"2.2 Ω boost current sense"],["R21",11,"2k for green PWR LED"],["R22",11,"470 Ω for blue LED"],["R24",9,"10k pull-up on IO9 strap and DN button"],["R25",12,"100k pull-up on EPD reset"],["R26",12,"100k pull-up on EPD chip select"],["R27",9,"1k feed for J4 VREF, sense only"],["R28",11,"100 Ω series for UP button"],["R29",11,"100k pull-up for OK button"],["R30",11,"100 Ω series for OK button"],["R31",11,"100 Ω series for DN button"],["R32",11,"1k for red LED"],["R33",11,"1k for green LED"],["R34",6,"68k TMR, sets safety timers"],
+["C1",5,"DNP 4.7 nF shield option for a metal case"],["C2",5,"1 µF 50 V, U6 IN"],["C3",6,"10 µF, U6 OUT on VSYS"],["C4",6,"10 µF, U6 BAT"],["C5",7,"100 nF, U5 decoupling on VBAT"],["C6",8,"1 µF, U7 input"],["C7",8,"10 µF, U7 output, kept with LDO when R13 is out"],["C8",9,"22 µF bulk at U1"],["C9",9,"100 nF at U1"],["C10",9,"1 µF on EN; 10 ms with R15"],["C11",10,"100 nF at U2, on the island"],["C12",10,"100 nF at U3"],["C13",10,"100 nF at U3"],["C14",10,"100 nF at U4"],["C15",10,"100 nF at U4"],["C16",8,"10 µF bulk on +3V3"],["C17",12,"4.7 µF, on +3V3 near L1, boost input"],["C18",12,"1 µF on PREVGH"],["C19",12,"4.7 µF charge-pump coupling cap"],["C20",12,"1 µF on PREVGL"],["C21",12,"1 µF on VSH2"],["C22",12,"1 µF on +3V3 near J3"],["C23",12,"1 µF on panel core VDD"],["C24",12,"1 µF on VSH1"],["C25",12,"1 µF on VSL"],["C26",12,"1 µF on VCOM"],["C27",11,"100 nF debounce, UP"],["C28",11,"100 nF debounce, OK"],["C29",11,"100 nF debounce, DN"],
+["TP1",4,"Test pad VBUS"],["TP2",4,"Test pad VSYS"],["TP3",14,"Test pad GND"],["TP4",4,"Test pad VBAT"],["TP5",4,"Test pad +3V3"],
+["H1",13,"M2 mounting hole"],["H2",13,"M2 mounting hole"]];
+const Q={
+1:[["A GPIO reads 3.3 V relative to GND. Which statement is right?",["It has 3.3 V stored in it","It sits 3.3 V above the reference point","It always supplies 3.3 mA","Voltage flows out of it"],1,"Voltage is a difference between two points. How much current flows depends on what's connected."],
+["D1 runs from 4.4 V through 2 kΩ, with Vf about 1.8 V. What's its current?",["0.9 mA","1.3 mA","2.2 mA","13 mA"],1,"(4.4 − 1.8) / 2000 = 1.3 mA. The resistor only sees the voltage left over after the LED."],
+["Doubling current through a fixed resistor changes its heat by:",["No change","×2","×4","×½"],2,"P = I²R, since V also doubles. Heat rises fast with current, which is why this board charges slowly."]],
+2:[["A 100 nF cap beside a chip's power pin is mostly for:",["Filtering I2C","Supplying fast current bursts locally","Setting clock speed","Storing data"],1,"It's a tiny local energy reserve. The current's too fast to arrive through long traces."],
+["R14 is 100k and C27 is 100 nF. What's τ?",["10 µs","1 ms","10 ms","100 ms"],2,"100,000 × 0.0000001 = 0.01 s."],
+["Open-drain output, let go, with no pull-up. The line:",["Goes high","Goes low","Floats undefined","Oscillates"],2,"Open-drain can only pull low. Something else must supply the high."]],
+3:[["Two pins in different corners both labelled VSYS are:",["Unrelated","Connected","Connected only if a wire is drawn","An error"],1,"A label makes them the same net."],
+["For worst-case design, you use:",["Typical","Absolute max","Min and max","The first page"],2,"Typical is what you usually get. Your design must work across the range."],
+["Absolute maximum ratings mean:",["Safe to run there","Exceeding them may cause damage","Typical conditions","Power limits only"],1,"Use the recommended operating conditions for normal running."],
+["R8 is marked DNP. On the assembled board:",["It's 10k","It's 0 Ω","There's an empty footprint","It's a fuse"],2,"Do not populate: the pads exist with no part."]],
+4:[["USB in, battery fitted. VSYS is about:",["3.3 V","VBAT","4.4 V","5 V"],2,"U6 regulates OUT to 4.4 V on USB."],
+["USB out. +3V3 on a 3.1 V battery, asleep, is about:",["3.3 V","3.1 V","4.4 V","0 V"],1,"The LDO can't step up, so at tiny loads its output follows its input."],
+["USB in, 350 mA system load, charger set to 270 mA. Charging current becomes about:",["270 mA","150 mA","500 mA","0 mA"],1,"Input limit about 500 mA minus 350 mA for the load, or a little less at the low end of the limit's 450–500 mA range. System load has priority."],
+["How does firmware know USB is in?",["Reads VBUS by ADC","USB_PGOOD_N low on IO1","Reads +3V3","It can't"],1,"U6's open-drain PGOOD pulls IO1 low."]],
+5:[["Removing R1 and R2 most likely causes:",["USB data failure only","No 5 V from a C-to-C charger","Battery damage","Nothing"],1,"Sources wait to see 5.1k on CC before turning on VBUS."],
+["U8 protects mainly against:",["Reversed battery","Static discharge on data lines","Overcharging","Wi-Fi noise"],1,"It steers fast spikes to rails."],
+["The green LED is on. That proves:",["3.3 V is good","VBUS has power","Firmware runs","Battery charging"],1,"D5 hangs directly off VBUS. It says nothing about the rest."]],
+6:[["You change R9 to 6.8k. Charge current becomes about:",["130 mA","270 mA","550 mA","890 mA"],0,"890 / 6800 ≈ 131 mA. Larger resistor, less current."],
+["ILIM is unused in USB500 mode. Can you remove R10?",["Yes, saves a part","No, open ILIM disables all charging","Only with a battery","Only on USB-C"],1,"It's right in the pin table. Read warnings like this."],
+["Charging from 5 V at 3.7 V, 270 mA. U6's heat is about:",["0.1 W","0.35 W","1.0 W","1.35 W"],1,"(5 − 3.7) × 0.27 = 0.35 W."],
+["Red LED flashes at 2 Hz. Most likely:",["Normal charging","Charge complete","Safety timer fault","Low firmware"],2,"The datasheet: CHG flashes about 2 Hz on a fault."]],
+7:[["A reversed cell is fitted, USB unplugged. Q2 is:",["On, shorting it","Off, blocking current","Burning out","Irrelevant"],1,"Gate is below source, and body diode blocks too."],
+["TH1 reads 50 °C during charging. U6:",["Speeds up","Pauses charging","Ignores it","Disconnects USB"],1,"Hot limit is about 47 °C nominal; it resumes under about 44.7 °C."],
+["BAT_ALRT_N stays low during deep sleep. Effect:",["Nothing","33 µA waste and immediate wake if IO0 is in the wake mask","Damages U5","Battery charges"],1,"3.3 V / 100k = 33 µA, and active-low wake fires immediately."]],
+8:[["U7 at 4.4 V in, 200 mA out. Its heat is about:",["0.22 W","0.66 W","0.88 W","1.1 W"],0,"(4.4 − 3.3) × 0.2 = 0.22 W."],
+["R13 is removed with no ammeter. What happens?",["Nothing","+3V3 loses power","VSYS loses power","USB stops charging"],1,"It's the only link from LDO_OUT to +3V3."],
+["Average 200 µA, 1200 mAh. Runtime is about:",["25 days","8 months","7 years","70 years"],1,"1200 / 0.2 = 6000 h ≈ 250 days."]],
+9:[["C10 changes to 10 µF, R15 unchanged. EN delay is:",["1 ms","10 ms","100 ms","Unchanged"],2,"10k × 10 µF = 100 ms. Startup is slower but it still works."],
+["You hold DN at power-up. Why does the chip enter download mode?",["USB command","IO9 is low when straps are sampled","Firmware detects it","Battery logic"],1,"Strap pins are latched at reset."],
+["Why is the accelerometer interrupt on IO3 rather than IO18?",["IO18 is broken","LP pins (IO0–7) can wake from deep sleep via ext1","IO3 is faster","Any pin would do"],1,"Hardware pin choice comes from the sleep architecture."],
+["Why overhang the antenna past the board edge?",["Looks better","Copper nearby detunes it","Saves copper","Easier soldering"],1,"Espressif recommends it: no ground below the antenna."]],
+10:[["Sleep firmware leaves SDA low with 10k pull-up. Extra current?",["3.3 µA","33 µA","330 µA","3.3 mA"],2,"3.3 V / 10k = 330 µA."],
+["Why is the bus at 100 kHz, not 400 kHz?",["Sensors can't do 400","10k pull-ups make the rise too slow for 400 kHz","ESP32 limit","Saves flash"],1,"tr ≈ 0.85RC. With about 50 pF, that's about 420 ns, past the 300 ns limit."],
+["CSB on U3 is tied to +3V3 because:",["Chip power","It selects I2C mode","It sets the address","Reset"],1,"Pulling CSB low would select SPI."],
+["Why the slot around U2?",["Strength","It blocks heat conducted through the board","Antenna","Humidity leaks"],1,"Temperature sensors read their own temperature."]],
+11:[["Why does SW1 have its own 100 Ω?",["Sets brightness","Limits current spikes and ESD into IO2","Sets wake time","Pull-up"],1,"Press would otherwise short C27 directly."],
+["D6 blue is on when IO14 is:",["High","Low","Floating","Any"],1,"Common anode on +3V3, GPIO sinks."],
+["D5 draws how much on battery?",["0 mA","1.2 mA","1.5 mA","20 mA"],0,"It's powered only from VBUS, which is at 0 V or, with the D+ leak from lesson 5, too low to light it noticeably."]],
+12:[["The boost switch has just opened. The inductor:",["Stops current instantly","Forces current onward, raising the node","Stores more energy","Shorts to GND"],1,"Inductor current can't change instantly."],
+["R19 exists because:",["Limits current","A floating gate could turn Q1 on","Adds gain","Filters SPI"],1,"A gate is a tiny capacitor, so without a defined level it can drift."],
+["How is the negative rail produced?",["Battery reversed","C19 flips the swing via D3 and D4","An IC on the board","The LDO"],1,"Charge pump: D3 charges C19, then D4 transfers it below ground."],
+["With no MISO, you know refresh has ended by:",["Timer only","BUSY on IO18","Reading a register","USB"],1,"The panel signals through BUSY."]],
+13:[["At high speed, return current mostly flows:",["Shortest path through any layer","Right beneath the signal trace","Through the battery","Along the board edge"],1,"Lowest impedance means smallest loop."],
+["DRC passes with 0 errors. That proves:",["Board works","Files match rules you set","Wi-Fi range","Heat is fine"],1,"It's a rule check, not a circuit test."],
+["Why are the SHT40 bridge traces thin?",["Saves copper","Less heat conduction","Higher speed","Manufacturing limit"],1,"And the sensor's tiny current doesn't need width."]],
+14:[["Resistance from +3V3 to GND reads about 0 Ω before power. You:",["Plug in USB and watch","Stop and find the short","Fit the battery","Reflash"],1,"Measuring first protects the rest."],
+["USB in: TP1 5 V, TP2 4.4 V, TP5 0 V. First suspects?",["USB cable","U7 and R13, or a short on +3V3","Battery","SHT40"],1,"Follow the chain: the last good point is VSYS."],
+["Both boards have the same fault. That suggests:",["Solder defect","Design mistake","Bad luck","Cable"],1,"Assembly defects are random; design faults repeat."]],
+15:[["USB in. D5 lit, TP2 4.4 V, TP5 3.3 V, no serial port. You hold DN and replug, and still nothing. Best next check?",["BMP580","D+/D− continuity at U8 and IO12/13, and EN","Battery","R9"],1,"Power is good, so follow data and reset."],
+["I2C scan finds nothing at all, while the chip runs fine. First suspect?",["One sensor","SDA/SCL pull-ups, R17, R18, or a line held low","Battery","Antenna"],1,"A whole-bus failure points to what's common."],
+["Sleep current reads 350 µA, and you expected about 20 µA. Your first guess is:",["Bad LDO","A line held low through a 10k pull-up","Bad cell","Too much Wi-Fi"],1,"3.3 V / 10k = 330 µA is suspiciously close. Numbers point to causes."],
+["Battery won't charge in a cold garage. USB is fine. Likely:",["Fault in U6","TS cold limit of about 3.5 °C working as designed","R9 failed","Bad cable"],1,"Correct behaviour, not a fault."],
+["Charging suddenly pauses during hot weather, then resumes. Likely:",["TH1 near hot limit","Firmware","Timer","USB"],0,"Board heat may reach TH1 in a warm room. It's an unmeasured risk flagged in the README."],
+["Wi-Fi resets the board at 3.45 V on battery, but not on USB. Likely:",["Antenna","Cell sag plus LDO dropout during bursts, leaving too little margin on +3V3","Bad I2C","Wrong SSID"],1,"The cell sags under the burst while dropout grows, and USB avoids both. Firmware should block Wi-Fi below about 3.55 V."],
+["You swap R9 to 1k for faster charging. What's wrong?",["Nothing","890 mA exceeds the 500 mA input limit, and heat rises sharply","Timer only","Wrong LED"],1,"The input limit caps it, the cell would see far above its gentle rate, and heat multiplies. Think through the whole system."],
+["Panel shows nothing, BUSY stuck high. Boost node isn't switching. First check?",["SHT40","Q1, L1, R19, R20 and J3 seating","Battery plug","USB"],1,"Start with the connector, then the boost parts."]]
+};
+const FINAL=["Power path in all states, with voltages","Every U6 pin and why it's wired that way","How Q2 blocks a reversed battery, and its limits","TH1's window, and the maths behind it","Why LDO, what dropout means, what R13 is for","Boot: EN delay, strap pins, recovery","Why each wake source is on IO0–IO5","Why 10k I2C pull-ups mean 100 kHz, and 330 µA","Button RC timings, and why 100R plus 100k","How the boost makes positive and negative rails","Why a solid ground plane matters, and return current","Why U2 is on an island","What JLC checks, and what only you can check","Your bring-up order, and why"];
+const SHEET=[["TP1 VBUS, USB in","about 5 V"],["TP2 VSYS, USB in","about 4.4 V"],["TP5 +3V3, USB in","about 3.3 V"],["TP4 VBAT, USB in, no cell","Not a clean value: don't rely on it"],["TP2 VSYS, battery only, cell at 3.7 V","just under 3.7 V"],["TP5 +3V3, battery only, cell at 3.7 V","about 3.3 V"],["TP1 VBUS, battery only","about 0 V, or near 2.7 V if D+ leaks"],["IO1 USB_PGOOD_N, USB in","low"],["Charge current at mid charge","241–295 mA"],["Sleep current through R13","Depends on firmware. This path misses U7's 2 µA, U5's 3–23 µA and U6's 4–6 µA, which the battery also supplies"],["U6 temperature during charging","Not known: this is why you measure it"]];
+</script>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+if(!getComputedStyle(document.documentElement).getPropertyValue('--background').trim())document.documentElement.classList.add('standalone');
+const KEY='ull-pocket-learn-v1';let S={};try{S=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+S.q=S.q||{};S.tb=S.tb||{};S.sh=S.sh||{};S.fin=S.fin||{};
+const LS=$$('template').map(t=>({id:+t.id.slice(1),t:t.dataset.t,p:(t.dataset.p||'').split(' ').filter(Boolean)}));
+let cur=0;
+const fmt=(v,d=2)=>Number(v).toFixed(d);
+function isDone(i){const q=Q[i];if(!q)return i===0||i===16?!!S['seen'+i]:false;return q.every((_,k)=>S.q[i+'_'+k]===true)}
+function nav(){$('#lst').innerHTML=LS.map(l=>`<button data-i="${l.id}" class="${l.id===cur?'on':''} ${isDone(l.id)?'done':''}" title="${l.t}" aria-label="${l.t}"><span class="n">${l.id===16?'▦':l.id}</span><span class="t">${l.t}</span></button>`).join('');
+$$('#lst button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+const n=LS.filter(l=>Q[l.id]),d=n.filter(l=>isDone(l.id)).length;$('#bar').style.width=(100*d/n.length)+'%';$('#prog').textContent=`${d} of ${n.length} lessons passed`}
+function miniMap(refs,big){const hl=new Set(refs);const fps=BOARD.filter(b=>!b[0].startsWith('ASSY')&&!b[5]);
+return `<svg viewBox="-1 -6.5 42 52" ${big?'':'class="mini"'} role="img" aria-label="Board map"><rect x="0" y="0" width="40" height="44.5" rx="1" fill="none" stroke="var(--mut)" stroke-width=".25"/><rect x="26.8" y="-5.4" width="11.6" height="5.4" fill="none" stroke="var(--line)" stroke-width=".2" stroke-dasharray=".6 .6"/>${fps.map(b=>`<rect class="fp ${hl.has(b[0])?'hl':''}" data-ref="${b[0]}" x="${b[1]}" y="${b[2]}" width="${b[3]}" height="${b[4]}" rx=".15"><title>${b[0]}</title></rect>`).join('')}${big?fps.filter(b=>b[3]>3||b[4]>3).map(b=>`<text x="${b[1]+b[3]/2}" y="${b[2]+b[4]/2+.5}" font-size="1.5" text-anchor="middle" style="pointer-events:none">${b[0]}</text>`).join(''):''}</svg>`}
+function go(i,ref){cur=i;S['seen'+i]=1;save();try{history.replaceState(null,'','#'+i)}catch(e){}
+const l=LS.find(x=>x.id===i),t=$('#l'+i);const m=$('#main');m.innerHTML=`<h1>${i===16?'':i+'. '}${l.t}</h1>`;
+if(l.p.length){m.insertAdjacentHTML('beforeend',miniMap(l.p))}
+m.appendChild(t.content.cloneNode(true));
+const pv=i>0?LS[i-1]:null,nx=LS[i+1];m.insertAdjacentHTML('beforeend',`<div class="pn clr">${pv?`<button class="btn" data-go="${pv.id}">← ${pv.t}</button>`:'<span></span>'}${nx?`<button class="btn" data-go="${nx.id}">${nx.t} →</button>`:''}</div>`);
+const qd=$('#q'+i);if(qd)renderQ(i,qd);
+$$('[data-tb]',m).forEach(d=>{const k='l'+i;d.className='box';d.innerHTML=`<h3>Teach-back</h3><p>${d.dataset.tb}</p><textarea aria-label="Your explanation" placeholder="In your own words…">${(S.tb[k]||'').replace(/</g,'&lt;')}</textarea>`;$('textarea',d).oninput=e=>{S.tb[k]=e.target.value;save()}});
+WID[i]&&WID[i]();nav();window.scrollTo&&window.scrollTo(0,0);if(ref)selectPart(ref)}
+function renderQ(i,d){d.innerHTML='<h2>Check yourself</h2>';Q[i].forEach((q,k)=>{const b=document.createElement('div');b.className='q';const id=i+'_'+k;b.innerHTML=`<b>${q[0]}</b>`+q[1].map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')+'<div class="why"></div>';
+const mark=(j)=>{$$('button',b).forEach(x=>x.classList.remove('y','n'));const c=j===q[2];$$('button',b)[j].classList.add(c?'y':'n');$('.why',b).innerHTML=c?`<span class="okt">Right.</span> ${q[3]}`:'<span class="badt">Not quite.</span> Try again, and think it through before you pick.'};
+$$('button',b).forEach(x=>x.onclick=()=>{const j=+x.dataset.j;mark(j);if(j===q[2]){S.q[id]=true;save();nav()}});if(S.q[id]===true)mark(q[2]);d.appendChild(b)})}
+document.addEventListener('click',e=>{const r=e.target.closest('[data-ref]');if(r){if(cur===16)selectPart(r.dataset.ref);else go(16,r.dataset.ref);return}const g=e.target.closest('[data-go]');if(g)go(+g.dataset.go)});
+function selectPart(ref){const p=PARTS.find(x=>x[0]===ref);$$('#map .fp').forEach(f=>f.classList.toggle('hl',f.dataset.ref===ref));const s=$('#sel');if(!p||!s)return;s.style.display='';const onBack=(BOARD.find(b=>b[0]===ref)||[])[5];s.innerHTML=`<b class="m">${p[0]}</b> ${p[2]}${onBack?' (back side)':''}<p><button class="btn" data-go="${p[1]}">Open lesson ${p[1]}: ${LS[p[1]].t}</button></p>`}
+function setup(el,html,fn){el.innerHTML=html;$$('input,select',el).forEach(i=>i.oninput=fn);fn()}
+const WID={
+1(){const P=[["D5 green",5,2.6,2000],["D1 red",4.4,1.8,2000],["D6 red",3.3,1.8,1000],["D6 green",3.3,2.6,1000],["D6 blue",3.3,2.6,470]];
+setup($('#w-led'),`<div>${P.map((p,i)=>`<button class="btn" data-pr="${i}">${p[0]}</button>`).join('')}</div><label>Supply <span id="a"></span></label><input id="v" type="range" min="2" max="5.5" step=".1" value="3.3"><label>LED voltage Vf <span id="b"></span></label><input id="f" type="range" min="1.5" max="3.4" step=".1" value="1.8"><label>Resistor <span id="c"></span></label><input id="r" type="range" min="100" max="5000" step="10" value="1000"><div class="out" id="o"></div>`,fn);
+function fn(){const V=+$('#v').value,F=+$('#f').value,R=+$('#r').value;$('#a').textContent=V+' V';$('#b').textContent=F+' V';$('#c').textContent=R+' Ω';const I=Math.max(0,(V-F)/R);$('#o').innerHTML=`I = (${V} − ${F}) / ${R} = <b>${fmt(I*1000)} mA</b><br>Heat in the resistor = ${fmt((V-F)*I*1000,1)} mW<br>${V<=F?'<span class=badt>Supply below Vf: the LED stays off.</span>':I*1000>10?'<span class=wrnt>Bright, but costly for a battery board.</span>':'<span class=okt>Modest: visible on a board like this.</span>'}`}
+$$('[data-pr]').forEach(b=>b.onclick=()=>{const p=P[+b.dataset.pr];$('#v').value=p[1];$('#f').value=p[2];$('#r').value=p[3];fn()})},
+4(){let usb=true,bat=true;const el=$('#w-pow');el.innerHTML=`<div><button class="btn" id="tu">USB</button><button class="btn" id="tb">Battery</button> <select id="ld" aria-label="Load"><option value="0.02">Deep sleep, about 20 µA (est.)</option><option value="30" selected>Awake, about 30 mA (est.)</option><option value="350">Wi-Fi burst, about 350 mA (est.)</option></select></div><label>Battery voltage <span id="vl"></span></label><input id="vb" type="range" min="2.8" max="4.2" step=".05" value="3.7">
+<svg viewBox="0 0 640 170" style="margin-top:8px" role="img" aria-label="Power path"><g font-size="13"><rect class="nd" id="nU" x="5" y="25" width="85" height="44" rx="5"/><text x="47" y="44" text-anchor="middle">USB</text><text id="tV" x="47" y="60" text-anchor="middle" font-size="12"></text>
+<rect class="nd on" x="140" y="25" width="85" height="44" rx="5"/><text x="182" y="52" text-anchor="middle">U6</text>
+<rect class="nd" id="nB" x="140" y="115" width="85" height="44" rx="5"/><text x="182" y="134" text-anchor="middle">Battery</text><text id="tB" x="182" y="150" text-anchor="middle" font-size="12"></text>
+<rect class="nd" x="285" y="25" width="85" height="44" rx="5"/><text x="327" y="52" text-anchor="middle">U7</text>
+<rect class="nd" x="430" y="25" width="85" height="44" rx="5"/><text x="472" y="44" text-anchor="middle">ESP32</text><text id="t3" x="472" y="60" text-anchor="middle" font-size="12"></text>
+<text id="tS" x="255" y="18" text-anchor="middle" font-size="12"></text><text x="400" y="18" text-anchor="middle" font-size="12">+3V3</text>
+<rect id="lG" x="540" y="30" width="12" height="12" rx="2"/><text x="558" y="41" font-size="12">D5 green</text><rect id="lR" x="540" y="52" width="12" height="12" rx="2"/><text x="558" y="63" font-size="12">D1 red</text></g>
+<path id="w1" class="wire" d="M90 47H140"/><path id="w2" class="wire" d="M225 47H285"/><path id="w3" class="wire" d="M370 47H430"/><path id="w4" class="wire" d="M182 69V115"/></svg><div class="out" id="po"></div>`;
+const fn=()=>{const v=+$('#vb').value,lm=+$('#ld').value,A=lm/1000;$('#vl').textContent=fmt(v)+' V';let vs=0,ch=0,note=[];
+if(usb){vs=4.4;if(bat){ch=v<3?27:v>=4.2?0:Math.min(270,Math.max(0,500-lm));if(v<3)note.push('Below 3.0 V: pre-charge at about 27 mA.');else if(v>=4.2)note.push('Cell full: charging ends.');else if(ch<270)note.push(`Load takes priority: input limit 500 mA − ${lm} mA leaves ${fmt(ch,0)} mA for charging.`)}else note.push('No cell: the board runs from USB, but a Wi-Fi burst leaves little margin over the input limit.')}else if(bat){vs=v-A*.05}
+const v3=vs>0?Math.min(3.3,vs-A*.52):0;
+if(!usb&&bat){if(v3<2.995)note.push('<span class=badt>+3V3 is below the ESP32 minimum of 3.0 V. Expect brownout.</span>');else if(v3<3.28)note.push('<span class=wrnt>The LDO is in dropout: +3V3 is following the battery down.</span>')}
+if(!usb&&!bat)note.push('No source: everything is off.');
+const li=(id,on,c)=>{const e=$(id);e.setAttribute('fill',on?c:'none');e.setAttribute('stroke','var(--mut)')};li('#lG',usb,'#2fb56b');li('#lR',ch>0,'#e04b3a');
+const w=(id,on,cl='live',back)=>{$(id).setAttribute('class','wire'+(on?' '+cl:'')+(back?' back':''))};w('#w1',usb);w('#w2',vs>0);w('#w3',v3>0,v3<2.995?'hot':'live');w('#w4',(usb&&ch>0)||(!usb&&bat),'live',!usb);
+$('#tu').className='btn'+(usb?' on':'');$('#tb').className='btn'+(bat?' on':'');$('#tV').textContent=usb?'5 V':'0 V';$('#tB').textContent=bat?fmt(v)+' V':'none';$('#t3').textContent=fmt(v3)+' V';$('#tS').textContent='VSYS '+fmt(vs)+' V';
+$('#po').innerHTML=`VSYS ${fmt(vs)} V · +3V3 ${fmt(v3)} V · charge ${fmt(ch,0)} mA · USB_PGOOD_N ${usb?'low':'high'}<br>${note.join('<br>')}<br><span class="mt small">Model: LDO dropout scaled from 0.31 V at 600 mA, U6 battery path about 50 mΩ.</span>`};
+$('#tu').onclick=()=>{usb=!usb;fn()};$('#tb').onclick=()=>{bat=!bat;fn()};$('#vb').oninput=fn;$('#ld').oninput=fn;fn()},
+7(){setup($('#w-ntc'),`<label>Cell temperature <span id="a"></span></label><input id="t" type="range" min="-10" max="60" value="25"><div class="out" id="o"></div>`,()=>{const T=+$('#t').value,R=10000*Math.exp(3950*(1/(T+273.15)-1/298.15)),V=75e-6*R;$('#a').textContent=T+' °C';const st=V>2.1?'<span class=badt>Too cold (above 2.1 V): charging paused</span>':V<.3?'<span class=badt>Too hot (below 0.30 V): charging paused</span>':'<span class=okt>In window: charging allowed</span>';$('#o').innerHTML=`R = 10k × exp(3950 × (1/T − 1/298.15)) = ${fmt(R/1000,1)} kΩ<br>V(TS) = 75 µA × R = ${fmt(V)} V<br>${st}<br><span class="mt small">Nominal window 3.5–47.2 °C. After a trip it resumes between 6.5 and 44.7 °C. Part tolerances move these trip points by a few degrees.</span>`})},
+10(){setup($('#w-i2c'),`<label>Pull-up <span id="a"></span></label><input id="r" type="range" min="1000" max="100000" step="500" value="10000"><label>Bus capacitance <span id="b"></span> <span class="est">50 pF is an est.</span></label><input id="c" type="range" min="20" max="300" step="5" value="50"><div class="out" id="o"></div>`,()=>{const R=+$('#r').value,C=+$('#c').value;$('#a').textContent=(R/1000)+' kΩ';$('#b').textContent=C+' pF';const tr=.8473*R*C*1e-3,I=3.3/R*1e6,ok=(x)=>x?'<span class=okt>meets</span>':'<span class=badt>fails</span>';$('#o').innerHTML=`Rise time ≈ 0.85 × R × C = ${fmt(tr,0)} ns<br>100 kHz (max 1000 ns): ${ok(tr<=1000)} · 400 kHz (max 300 ns): ${ok(tr<=300)}<br>Current while a line is low: ${fmt(I,0)} µA`})},
+11(){setup($('#w-rc'),`<label>Pull-up R <span id="a"></span></label><input id="r" type="range" min="3" max="6" step=".1" value="5"><label>Capacitor C <span id="b"></span></label><input id="c" type="range" min="10" max="1000" step="10" value="100"><svg id="pl" viewBox="0 0 600 150" style="margin-top:8px" role="img" aria-label="RC curve"></svg><div class="out" id="o"></div>`,()=>{const R=Math.round(Math.pow(10,+$('#r').value)),C=+$('#c').value;$('#a').textContent=R>=1e6?fmt(R/1e6,2)+' MΩ':fmt(R/1000,1)+' kΩ';$('#b').textContent=C+' nF';const tau=R*C*1e-9;const pts=[];for(let i=0;i<=60;i++){const t=i/60*.05;pts.push(`${40+i*9},${130-120*(1-Math.exp(-t/tau))}`)}
+$('#pl').innerHTML=`<path class="wire" d="M40 130H580M40 10V130"/><path d="M40 ${130-120*.75}H580" stroke="var(--warn)" stroke-dasharray="4 4"/><text x="44" y="${130-120*.75-4}" font-size="12">logic high about 75%</text><polyline fill="none" stroke="var(--acc)" stroke-width="3" points="${pts.join(' ')}"/><text x="560" y="146" font-size="12" text-anchor="end">50 ms</text><text x="44" y="146" font-size="12">0</text>`;
+const T=tau*1000;$('#o').innerHTML=`τ = R × C = ${fmt(T,T<1?3:1)} ms · reads high after about ${fmt(T*1.39,T<1?3:1)} ms · settled after 5τ = ${fmt(T*5,T<1?3:1)} ms<br>${T>30?'<span class=wrnt>Slow: the button would feel laggy on release.</span>':T<1?'<span class=wrnt>Fast: contact bounce may pass through.</span>':'<span class=okt>Good range for a button.</span>'}`})},
+12(){const PH=[["Switch on","Q1 turns on. The SW node drops to near GND. Current ramps up through L1, about 70 mA per µs, and energy builds in its magnetic field. Meanwhile C19's left side falls, pulling its right side below ground, so D4 conducts and charges C20 negative.",{a:1,g:1,n:1}],["Switch off","Q1 turns off. L1 forces its current onward, so SW flies up until D2 conducts and charges C18. That is PREVGH, well above 3.3 V. C19's left side also rises, and D3 clamps its right side near GND, so C19 refills.",{a:1,p:1,c:1}],["Regulate","The controller on the panel repeats this quickly, watching RESE (R20) for peak current. From PREVGH and PREVGL it makes its exact drive rails, VSH1, VSH2, VSL and VCOM, stored in C24, C21, C25, C26.",{r:1}]];let i=0;const el=$('#w-boost');
+el.innerHTML=`<div>${PH.map((p,k)=>`<button class="btn" data-ph="${k}">${k+1}. ${p[0]}</button>`).join('')}</div><svg viewBox="0 0 640 210" style="margin-top:8px" role="img" aria-label="Boost circuit"><g font-size="13"><text x="8" y="44">+3V3</text><text x="115" y="34">L1</text><text x="228" y="32">SW</text><text x="212" y="96">Q1</text><text x="208" y="168">R20</text><text x="330" y="34">D2</text><text x="425" y="44">PREVGH</text><text x="310" y="108">C19</text><text x="420" y="84">D3 → GND</text><text x="470" y="124">D4</text><text x="525" y="124">PREVGL</text><text x="225" y="204">GND</text></g>
+<path id="b1" class="wire" d="M50 40H240"/><path id="b2" class="wire" d="M240 40V190"/><path id="b3" class="wire" d="M240 40H420"/><path id="b4" class="wire" d="M240 112H370"/><path id="b5" class="wire" d="M370 112V80H415"/><path id="b6" class="wire" d="M370 112H520"/></svg><p id="ptx"></p>`;
+const sh=()=>{const p=PH[i][2];const L=(id,on,cl='live',bk)=>$(id).setAttribute('class','wire'+(on?' '+cl:'')+(bk?' back':''));L('#b1',p.a);L('#b2',p.g);L('#b3',p.p,'hot');L('#b4',p.n||p.c);L('#b5',p.c);L('#b6',p.n,'live',1);if(p.r){['#b1','#b2','#b3','#b4','#b5','#b6'].forEach(x=>L(x,1))}$$('[data-ph]',el).forEach((b,k)=>b.className='btn'+(k===i?' on':''));$('#ptx').textContent=PH[i][1]};
+$$('[data-ph]',el).forEach(b=>b.onclick=()=>{i=+b.dataset.ph;sh()});sh()},
+14(){$('#w-sheet').innerHTML=`<div class="tw"><table><tr><th>Measurement</th><th>You predict</th><th>Measured</th><th></th></tr>${SHEET.map((s,i)=>`<tr><td>${s[0]}</td><td><input type="text" data-k="p${i}" size="9" aria-label="Your prediction"></td><td><input type="text" data-k="m${i}" size="9" aria-label="Measured"></td><td><button class="btn" data-sh="${i}">Reveal</button><div class="small mt" id="sh${i}"></div></td></tr>`).join('')}</table></div>`;$$('#w-sheet input').forEach(x=>{x.value=S.sh[x.dataset.k]||'';x.oninput=()=>{S.sh[x.dataset.k]=x.value;save()}});$$('[data-sh]').forEach(b=>b.onclick=()=>{$('#sh'+b.dataset.sh).textContent=SHEET[+b.dataset.sh][1]})},
+15(){$('#w-final').innerHTML=FINAL.map((f,i)=>`<label style="display:flex;gap:8px;font-size:15px"><input type="checkbox" data-f="${i}" ${S.fin[i]?'checked':''}> ${f}</label>`).join('');$$('[data-f]').forEach(x=>x.onchange=()=>{S.fin[x.dataset.f]=x.checked;save()});
+$('#exp').onclick=()=>{let t='# ull-pocket: my notes\n\n';LS.forEach(l=>{if(S.tb['l'+l.id])t+=`## ${l.id}. ${l.t}\n\n${S.tb['l'+l.id]}\n\n`});t+='## Bring-up sheet\n\n| Measurement | Predicted | Measured |\n|---|---|---|\n';SHEET.forEach((s,i)=>t+=`| ${s[0]} | ${S.sh['p'+i]||''} | ${S.sh['m'+i]||''} |\n`);const o=$('#expo');o.style.display='';o.value=t;o.select();try{navigator.clipboard.writeText(t).then(()=>{$('#exs').textContent='Copied.'},()=>{$('#exs').textContent='Select the text and copy it.'})}catch(e){$('#exs').textContent='Select the text and copy it.'}}},
+16(){$('#map').innerHTML=miniMap([],true);const rows=(f)=>PARTS.filter(f).map(p=>`<tr><td><button class="p" data-ref="${p[0]}">${p[0]}</button></td><td>${p[2]}</td><td><button class="btn" data-go="${p[1]}">Lesson ${p[1]}</button></td></tr>`).join('');const pt=$('#pt');pt.innerHTML='<tr><th>Ref</th><th>What it does</th><th></th></tr>'+rows(()=>1);$('#s').oninput=e=>{const v=e.target.value.toLowerCase();pt.innerHTML='<tr><th>Ref</th><th>What it does</th><th></th></tr>'+rows(p=>(p[0]+' '+p[2]).toLowerCase().includes(v));const hits=new Set(PARTS.filter(p=>v&&(p[0]+' '+p[2]).toLowerCase().includes(v)).map(p=>p[0]));$$('#map .fp').forEach(f=>f.classList.toggle('hl',hits.has(f.dataset.ref)))}}
+};
+const h=parseInt(location.hash.slice(1));go(Number.isInteger(h)&&h>=0&&h<LS.length?h:0);
+</script></body></html>
