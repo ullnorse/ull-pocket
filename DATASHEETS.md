@@ -25,3 +25,4 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 | TH1 | NTC 10k B3950 0603 | C279936 | [LCSC](https://www.lcsc.com/datasheet/C279936.pdf) |
 | SW1-SW3 | TS24CA | C393942 | [LCSC](https://www.lcsc.com/datasheet/C393942.pdf) |
 | - | GDEY0154D67 e-paper panel (bought separately) | - | [Good Display](https://www.good-display.com/product/388.html) |
+| - | SSD1681, controller inside the panel | - | [Adafruit copy](https://cdn-learn.adafruit.com/assets/assets/000/099/573/original/SSD1681.pdf) |

@@ -198,9 +198,9 @@ input[type=text]{width:100%;min-width:64px}
 <p>CC stands for Configuration Channel. These pull-downs tell a USB-C source "a device that wants power is here". A proper USB-C charger won't apply 5 V without seeing them. Each CC pin needs its own resistor. Skip them and a C-to-C cable can leave the board dead, even though an old A-to-C cable works. That's a famous beginner's mistake.</p>
 <h3><button class="p" data-ref="U8">U8</button>: ESD protection</h3>
 <p>Touching a USB connector can inject a kilovolt-scale spike. U8 contains fast diodes that steer D+ and D− spikes into VBUS or GND before they reach the ESP32. It only works if it's physically close to the connector, and it is.</p>
-<div class="note"><b>A subtle side effect.</b> U8's diodes link D+ to VBUS (from the README; the local datasheet has no internal diagram). On battery, the ESP32's D+ pull-up can leak through them and lift unplugged VBUS to about 2.7 V. The README asks you to measure <button class="p" data-ref="TP1">TP1</button> for this and, if it's there, turn off the pull-up before sleeping.</div>
+<div class="note"><b>A subtle side effect.</b> U8 has a diode from each data line up to VBUS (pin 5; the diagram is on page 1 of its datasheet). On battery, the ESP32's D+ pull-up can leak through them and lift unplugged VBUS to about 2.7 V. The README asks you to measure <button class="p" data-ref="TP1">TP1</button> for this and, if it's there, turn off the pull-up before sleeping.</div>
 <h3>D+ and D−</h3>
-<p>They go straight to IO13 and IO12, the ESP32's built-in USB, which is why you need no separate USB-serial chip. It's a differential pair: the receiver reads the difference, so noise on both cancels out. Layout targets about 90 Ω; this board comes to about 86 Ω by calculation. Espressif suggests leaving room for 22–33 Ω series resistors, which this board doesn't have. It's a low-risk trade-off on such a short run, but it's worth knowing.</p>
+<p>They go straight to IO13 and IO12, the ESP32's built-in USB, which is why you need no separate USB-serial chip. It's a differential pair: the receiver reads the difference, so noise on both cancels out. Layout targets about 90 Ω; this board comes to about 86 Ω by calculation. Espressif's schematic checklist recommends reserving 22–33 Ω series resistors and unpopulated capacitors to ground, close to the chip. This board has neither. I'd rate that low risk on such a short run <span class="est">est.</span>, but it's worth knowing.</p>
 <h3><button class="p" data-ref="R3">R3</button>, <button class="p" data-ref="C1">C1</button>: shield</h3>
 <p>The connector's metal shell connects to ground through the 0 Ω R3. C1 is unfitted and exists only as an option for a metal case.</p>
 <h3><button class="p" data-ref="C2">C2</button>, <button class="p" data-ref="D5">D5</button>, <button class="p" data-ref="R21">R21</button></h3>
@@ -281,7 +281,7 @@ input[type=text]{width:100%;min-width:64px}
 <h3><button class="p" data-ref="R13">R13</button>: the measurement link</h3>
 <p>This 0 Ω link is the only feed from <code>LDO_OUT</code> to <code>+3V3</code>. Remove it, connect an ammeter across its pads, and you can measure the real sleep current of everything on 3.3 V. This matters most for your embedded work: it shows whether firmware really sleeps. Start on the meter's mA range and use µA only once the chip is asleep: a wake-up burst through a µA range can sag +3V3 and reset the chip, or blow the meter's fuse.</p>
 <p>EN on U7 connects to VSYS, so the LDO is on whenever there's power. <b>The board has no off switch.</b> "Off" just means asleep, which is why every microamp counts. U5, U6 and U7 alone take roughly 10–30 µA from the cell. A 1200 mAh cell at 20 µA would last about 7 years on paper; self-discharge would run it down first. At 200 µA, it's about 8 months.</p>
-<div class="note warn"><b>Don't feed 3.3 V from a programmer with no battery fitted.</b> Forcing voltage into the LDO's output can back-feed it. That's why J4's pin 1 is a sense-only line through 1 kΩ.</div>
+<div class="note warn"><b>Don't feed 3.3 V from a programmer with no battery fitted.</b> The RT9080's absolute maximum lets VOUT sit only 0.3 V above VIN, and with no battery VIN has no supply. That's why J4's pin 1 is a sense-only line through 1 kΩ.</div>
 <div id="q8"></div>
 <div data-tb="Explain why this design chose an LDO, and what would make you change to a switching regulator."></div>
 </template>
@@ -364,7 +364,7 @@ input[type=text]{width:100%;min-width:64px}
 
 <template id="l12" data-t="E-paper and the boost" data-p="J3 L1 Q1 D2 D3 D4 R19 R20 C17 C18 C19 C20 C21 C22 C23 C24 C25 C26 R25 R26">
 <p class="goal">The hardest analog on your board: how 3.3 V becomes tens of volts, both positive and negative.</p>
-<p>E-paper moves charged pigments with an electric field, so an image stays with no power. But moving them needs high voltages of both polarities, on the order of ±15–20 V <span class="est">from memory of the SSD1681, not in your PDFs</span>. The SSD1681 controller on the panel handles most of it, but needs a few parts on your board. Those parts are copied from the panel maker's reference circuit.</p>
+<p>E-paper moves charged pigments with an electric field, so an image stays with no power. But moving them needs high voltages of both polarities, up to about ±20 V. The SSD1681 datasheet lists gate drive VGH of +10 to +20 V, a matching negative VGL, and source drive up to +17 V and −17 V. The SSD1681 controller on the panel handles most of it, but needs a few parts on your board. Those parts are copied from the panel maker's reference circuit.</p>
 <h2>Step through the boost</h2>
 <div class="box"><div id="w-boost"></div></div>
 <h3>The key idea</h3>
