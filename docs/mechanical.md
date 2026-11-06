@@ -12,9 +12,9 @@ Coordinates below: KiCad top view (F side), origin at board top-left (KiCad 100,
 | Double-sided tape | 0.15 mm |
 | PCB, B side bare, F side has all parts | 1.6 mm |
 | Battery shelf (case rib or foam) | 3.5 mm |
-| 503040 LiPo | 5.0 mm (allow +0.5 mm swell) |
+| 103040 LiPo | 10.0 mm (allow +0.5 mm swell) |
 
-That is about 11.3 mm before case walls.
+That is about 16.3 mm before case walls.
 
 ## E-paper panel
 
@@ -50,10 +50,10 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 
 ## Battery
 
-- 503040 cell, 600 mAh, 40 mm along x, from y 14 to 44.
+- 103040 cell, 1200 mAh, 40 mm along x, from y 14 to 44.
 - It lies over the F side on a 3.5 mm shelf.
 - Parts under the shelf are at most 3.25 mm tall (USB-C 3.25, L1 3.0, J3 2.0, module 2.4).
-- J2 (DEALON PH-2PWB, JST-PH compatible SMD, 5.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, at the left board edge (rev 0.7: turned 180 degrees so the plug no longer points at the SHT40 island). A mated PH plug sticks out about 0.5 mm past the left edge at y 3-9, and its leads leave to the left; the case needs a pocket there for the plug and the lead bend.
+- J2 (DEALON 1.25-2PWB, 1.25 mm SMD, 3.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, about 1.1 mm in from the left board edge at y 3-9. The plug and its lead bend use the case pocket left of the board (3.2 mm deep); check it against the real plug.
 - The cell's lead end is at -x. Leave about 40 mm of lead.
 - J2 is marked + (pin 2, VBAT) and - (pin 1, BAT-) on silkscreen.
 

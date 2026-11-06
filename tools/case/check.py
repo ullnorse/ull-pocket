@@ -42,7 +42,7 @@ for name in ("front_shell", "back_cover", "button_1", "button_2", "button_3"):
     cells = defaultdict(int)
     for i in range(n):
         x, y, z = pts.GetPoint(i)
-        if abs(z) < 0.02 or abs(z - 5.1) < 0.02:      # PCB seat, battery on its rails
+        if abs(z) < 0.02 or abs(z - 5.1) < 0.03:      # PCB seat, battery on its rails (kicad-cli places the model 0.021 low)
             continue
         cells[(round(x), round(-y), round(z, 1))] += 1
     if cells:

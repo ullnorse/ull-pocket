@@ -14,7 +14,7 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 | U7 | RT9080-33GJ5 | C841192 | [Richtek](https://www.richtek.com/assets/product_file/RT9080/DS9080-05.pdf) |
 | U8 | USBLC6-2SC6 | C2687116 | [ST](https://www.st.com/resource/en/datasheet/usblc6-2.pdf) |
 | J1 | TYPE-C-31-M-12 | C165948 | [LCSC](https://www.lcsc.com/datasheet/C165948.pdf) |
-| J2 | PH-2PWB (JST-PH compatible) | C2905019 | [LCSC](https://www.lcsc.com/datasheet/C2905019.pdf) |
+| J2 | 1.25-2PWB (PicoBlade series) | C2905009 | [LCSC](https://www.lcsc.com/datasheet/C2905009.pdf) |
 | J3 | FPC-05FB-24PH20 | C2856831 | [LCSC](https://www.lcsc.com/datasheet/C2856831.pdf) |
 | Q1 | SI1308EDL | C469327 | [Vishay](https://www.vishay.com/docs/63399/si1308edl.pdf) |
 | Q2 | AO3400A | C20917 | [LCSC](https://www.lcsc.com/datasheet/C20917.pdf) |

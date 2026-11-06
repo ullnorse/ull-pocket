@@ -1,6 +1,6 @@
 # ull-pocket
 
-A pocket environment meter and learning board: ESP32-C6, temperature/humidity, pressure and motion sensors, a 1.54" e-paper display and a 600 mAh LiPo. It sleeps most of the time; buttons, motion or a timer wake it, and Wi-Fi only runs when the firmware asks for it.
+A pocket environment meter and learning board: ESP32-C6, temperature/humidity, pressure and motion sensors, a 1.54" e-paper display and a 1200 mAh LiPo. It sleeps most of the time; buttons, motion or a timer wake it, and Wi-Fi only runs when the firmware asks for it.
 
 ![3D render, front](docs/img/iso.png)
 
@@ -12,8 +12,8 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 | Temperature / humidity | Sensirion SHT40, on a moated island away from the heat sources |
 | Pressure | Bosch BMP580 |
 | Motion / wake | ST LIS2DW12 accelerometer |
-| Battery | 600 mAh 1S LiPo (503040), JST-PH 2.0; MAX17048 fuel gauge; low-side reverse-polarity FET |
-| Charging | TI BQ24073 power path, ~270 mA from USB-C |
+| Battery | 1200 mAh 1S LiPo (103040), 1.25 mm plug; MAX17048 fuel gauge; low-side reverse-polarity FET |
+| Charging | TI BQ24073 power path, ~405 mA from USB-C |
 | 3.3 V | Richtek RT9080 LDO, ~2 uA quiescent |
 | Display | Good Display GDEY0154D67, 200x200 black/white e-paper, SSD1681, bought separately |
 | Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep; DN doubles as BOOT) |
@@ -52,7 +52,7 @@ Order the **panel**: one board with 5 mm rails on the left and right (tooling ho
 2. Enable PCB assembly (top side) and upload `ull-pocket-r0.8-panel-bom.csv` and `ull-pocket-r0.8-panel-cpl.csv`.
 3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)."
 4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
-5. Buy separately: the e-paper panel (GDEY0154D67), a 503040 LiPo with a protection board (check its plug polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
+5. Buy separately: the e-paper panel (GDEY0154D67), a 103040 LiPo with a protection board and 1.25 mm plug (check that it mates with J2 and its polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 
 ## Programming
 

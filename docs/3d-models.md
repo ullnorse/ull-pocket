@@ -17,14 +17,14 @@ Each part's 3D model was compared with the manufacturer's package drawing: body 
 | D1, D5 | XL-1606 side-view LED | 1.7 x 1.1 footprint, 0.6 tall, lying flat | same | Fixed: model stood 1.1 tall. Lens sticks out 0.3-0.4 mm past the bottom edge |
 | D6 | MHS110FRGBCT RGB side-view LED | 3.2 x 1.5 (base 0.5 + dome R1.0), 1.0 tall | 3.2 x 1.5 x 1.0, EasyEDA-derived `LED_MHS110FRGBCT_ee.wrl`, rotated 180 in the footprint; dome 0.65 past the bottom edge | OK |
 | J1 | HRO TYPE-C-31-M-12 | mouth 0.6 past the edge | 0.6 | Fixed: model was 0.78 mm too far out (pegs missed their holes) |
-| J2 | DEALON PH-2PWB | 7.95 x 7.6 x 5.6 | JST S2B-PH-SM4-TB 7.9 x 7.6 x 5.5 | OK (JST-compatible body, 0.1 mm lower) |
+| J2 | DEALON 1.25-2PWB | 7.5 x 5.25 x 3.6 | Molex 53261-0271 | same land, model not measured against the DEALON part |
 | J3 | FPC-05FB-24PH20 | body over the pads | same | Fixed: model was 1.7 mm toward the slot |
 | SW1-SW3 | TS24CA | sits on the board, actuator 0.22 past the edge | same | Fixed: model was sunk 0.8 mm into the board |
 | L1 | FNR4030S 47 uH | 4 x 4 x 3.0 | 4 x 4 x 3.0 | Fixed: was the 2.6 mm FNR4026S |
 | TH1 | NTC 0603 | 1.6 x 0.8 x 0.8 | 0.8 | Fixed: used the 0.45 mm resistor model |
 | R, C | 0402 / 0603 / 0805 | per value | | OK (MLCC thickness codes checked per value) |
 | ASSY1 | GDEY0154D67 panel | 37.32 x 31.8 x 1.0, AA 27 x 27 | same | OK |
-| ASSY2 | 503040 LiPo | 40 x 30 x 5 | same | OK |
+| ASSY2 | 103040 LiPo | 40 x 30 x 10 | same | listing size, measure the real cell |
 
 ## Open: LED polarity vs lens direction
 

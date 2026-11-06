@@ -3,7 +3,7 @@ windows, SHT40 vent, battery rails) + snap-on back cover + 3 button plungers.
 
 Coordinates follow docs/mechanical.md: x right, y down from the board's top-left corner (top view, F
 side), z up from the PCB's B side (display side) towards the battery. The display faces -z.
-Placeholder sizes for the display and battery: re-measure the real parts and edit DISPLAY/BATTERY.
+Placeholder sizes for the display, battery and J2 plug: re-measure the real parts and edit DISPLAY/BATTERY.
 
 Run with CadQuery: ~/.venvs/cad/bin/python tools/case/case.py  -> build/case/*.step, *.stl
 """
@@ -18,7 +18,7 @@ PCB_W, PCB_H, PCB_T = 40.0, 44.5, 1.6
 HOLES = [(2.8, 41.3), (37.2, 41.3)]
 DISPLAY = dict(x0=2.48, x1=39.80, y0=4.2, y1=36.0, t=1.0, tape=0.15,   # glass, GDEY0154D67
                va=(4.53, 32.23, 6.25, 33.95))                         # viewing area, datasheet p.6
-BATTERY = dict(x0=0.0, x1=40.0, y0=14.0, y1=44.0, t=5.5, shelf=3.5)    # 503040, +0.5 swell
+BATTERY = dict(x0=0.0, x1=40.0, y0=14.0, y1=44.0, t=10.5, shelf=3.5)   # 103040, +0.5 swell
 BUTTONS_Y = [20.5, 27.5, 34.5]       # TS24CA actuator tip at x -0.2, centre 0.9 above F
 BTN_Z = PCB_T + 0.9
 USB = dict(x=20.0, z=PCB_T + 1.63, w=8.94, h=3.26)                    # TYPE-C-31-M-12 mouth
@@ -29,7 +29,7 @@ VENT_X = (11.0, 17.0)                # SHT40 island, top wall, F side
 # ---- case --------------------------------------------------------------------------------------
 WALL, FRONT, BACK = 1.6, 1.8, 1.2
 GAP_GLASS = 0.1                      # glass to bezel
-IN_X = (-2.4, 41.6)                  # J2 plug + lead pocket left, FPC bend right
+IN_X = (-3.2, 41.6)                  # J2 plug + lead pocket left, FPC bend right
 IN_Y = (-5.7, 45.4)                  # antenna overhang 5.4 top, D6 dome 0.65 bottom
 Z_IN0 = -(DISPLAY["tape"] + DISPLAY["t"] + GAP_GLASS)                 # front wall inner face
 Z_IN1 = PCB_T + BATTERY["shelf"] + BATTERY["t"] + 0.2                 # back cover inner face

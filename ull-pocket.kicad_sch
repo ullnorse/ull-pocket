@@ -8132,7 +8132,7 @@
 		)
 		(uuid "1457d5d8-1da5-54c1-be05-ea61a82976ae")
 	)
-	(text "ICHG = 890/3.3k = 270 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 5 h timer"
+	(text "ICHG = 890/2.2k = 405 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 5 h timer"
 		(exclude_from_sim no)
 		(at 191.77 68.7 0)
 		(effects
@@ -14106,7 +14106,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "PH-2PWB"
+		(property "Value" "1.25-2PWB"
 			(at 257.81 34.29 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14117,7 +14117,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
+		(property "Footprint" "Connector_Molex:Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal"
 			(at 261.62 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -14128,7 +14128,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C2905009.pdf"
 			(at 261.62 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -14139,7 +14139,7 @@
 				)
 			)
 		)
-		(property "Description" "JST PH 2.0 mm 2-pin SMD right-angle (DEALON PH-2PWB, pad-compatible with S2B-PH-SM4-TB)"
+		(property "Description" "1.25 mm 2-pin SMD right-angle battery socket (DEALON 1.25-2PWB, PicoBlade series, Molex 53261 land)"
 			(at 261.62 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -14150,7 +14150,7 @@
 				)
 			)
 		)
-		(property "MPN" "PH-2PWB"
+		(property "MPN" "1.25-2PWB"
 			(at 261.62 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -14172,7 +14172,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2905019"
+		(property "LCSC" "C2905009"
 			(at 261.62 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -21606,7 +21606,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "3.3kR"
+		(property "Value" "2.2kR"
 			(at 148.844 69.469 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21639,7 +21639,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor 3.3k 1% 0402"
+		(property "Description" "Resistor 2.2k 1% 0402"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -21650,7 +21650,7 @@
 				)
 			)
 		)
-		(property "MPN" "0402WGF3301TCE"
+		(property "MPN" "0402WGF2201TCE"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -21672,7 +21672,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25890"
+		(property "LCSC" "C25879"
 			(at 147.32 68.58 0)
 			(hide yes)
 			(show_name no)

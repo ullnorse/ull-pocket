@@ -162,7 +162,7 @@ lines += ["", "## Notes", "",
           "  The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).",
           "- J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm",
           "  between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.",
-          "- J2 (DEALON PH-2PWB): pads 1 and 2 coincide with our footprint, no shift. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by",
+          "- J2 (DEALON 1.25-2PWB): the fit aligns pads 1 and 2; mount pads differ slightly, our land follows the part drawing. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",
           "- Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview."]

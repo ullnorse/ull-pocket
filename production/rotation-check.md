@@ -24,7 +24,7 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 | D5 | LED_XL-1606_SideView | C965863 | (0.81, -0.28) (cathode) | LED-SMD_L1.7-W1.1-R-RD_ORANGE | (-0.75, 0.00) (cathode) | 180 deg | (0.00, -0.28) | 0.06 / 1.11 |
 | D6 | LED_MHS110FRGBCT_SideView | C496820 | (-1.40, 0.20) | LED-ARRAY-SMD_MHS110FRGBCT | (1.40, -0.20) | 180 deg | 0 | 0.00 / 2.00 |
 | J1 | USB_C_Receptacle_HRO_TYPE-C-31-M-12 | C165948 | (-3.25, -4.04) | USB-C_SMD-TYPE-C-31-M-12_1 | (-3.20, -2.47) | 0 deg | (0.00, 1.57) | 0.00 / 2.47 |
-| J2 | JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal | C2905019 | (-1.00, -2.85) | FPC-SMD_2P-P2.00_DEALON_PH-2PWB | (-1.00, -2.85) | 0 deg | 0 | 0.00 / 1.41 |
+| J2 | Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal | C2905009 | (-0.62, -2.40) | CONN-SMD_2P-P1.25_DEALON_1.25-2PWB | (-0.62, -1.27) | 0 deg | (0.00, 1.13) | 0.01 / 0.88 |
 | J3 | FPC-SMD_24P-P0.50_FPC-05FB-24PH20 | C2856831 | (5.75, -1.62) | FPC-SMD_24P-P0.50_FPC-05FB-24PH20 | (5.75, -1.62) | 0 deg | 0 | 0.00 / 11.16 |
 | L1 | IND-SMD_L4.0-W4.0_FNR40XXS | C167888 | (-1.50, 0.00) | IND-SMD_L4.0-W4.0_FNR40XXS | (-1.50, 0.00) | 0 deg | 0 | 0.00 / 2.12 |
 | Q1 | SOT-323_SC-70 | C469327 | (-0.89, -0.65) | SOT-323_L2.0-W1.3-P1.30-LS2.1-BR | (0.80, 0.65) | 180 deg | 0 | 0.12 / 1.59 |
@@ -33,7 +33,8 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
 | R3 | R_0402_1005Metric | C17168 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | R4,R5,R7,R11,R12,R14,R25,R26,R29 | R_0402_1005Metric | C25741 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | R6,R21 | R_0402_1005Metric | C4109 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
-| R9,R10 | R_0402_1005Metric | C25890 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
+| R9 | R_0402_1005Metric | C25879 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
+| R10 | R_0402_1005Metric | C25890 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | R13 | R_0603_1608Metric | C21189 | (-0.82, 0.00) | R0603 | (-0.75, 0.00) | 0 deg | 0 | 0.07 / 1.11 |
 | R15,R16,R17,R18,R24 | R_0402_1005Metric | C25744 | (-0.51, 0.00) | R0402 | (-0.43, 0.00) | 0 deg | 0 | 0.08 / 0.67 |
 | R19 | R_0603_1608Metric | C22935 | (-0.82, 0.00) | R0603 | (-0.75, 0.00) | 0 deg | 0 | 0.07 / 1.11 |
@@ -62,7 +63,7 @@ in the unpolarised sense and need no correction). Origin shifts under 0.1 mm are
   The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).
 - J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm
   between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.
-- J2 (DEALON PH-2PWB): pads 1 and 2 coincide with our footprint, no shift. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by
+- J2 (DEALON 1.25-2PWB): the fit aligns pads 1 and 2; mount pads differ slightly, our land follows the part drawing. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by
   <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).
 - Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.
 - Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview.

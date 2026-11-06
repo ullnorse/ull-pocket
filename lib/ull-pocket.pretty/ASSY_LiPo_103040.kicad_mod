@@ -1,9 +1,9 @@
-(footprint "ASSY_LiPo_503040"
+(footprint "ASSY_LiPo_103040"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.99")
 	(layer "F.Cu")
-	(descr "Assembly reference only: 503040 LiPo (5x30x40 mm) over the F side on a 3.5 mm shelf; lead end at -x. Not a part.")
+	(descr "Assembly reference only: 103040 LiPo (10x30x40 mm) over the F side on a 3.5 mm shelf; lead end at -x. Not a part.")
 	(property "Reference" "REF**"
 		(at 0 0 0)
 		(layer "Dwgs.User")
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "ASSY_LiPo_503040"
+	(property "Value" "ASSY_LiPo_103040"
 		(at 0 0 0)
 		(layer "Dwgs.User")
 		(hide yes)
@@ -107,7 +107,7 @@
 		)
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/ASSY_LiPo_503040.wrl"
+	(model "${KIPRJMOD}/lib/ull-pocket.3dshapes/ASSY_LiPo_103040.wrl"
 		(opacity 0.4500)
 		(offset
 			(xyz 0 0 0)
