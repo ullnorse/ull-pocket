@@ -12,7 +12,7 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 | U5 | MAX17048G+T10 | C2682616 | [Analog Devices](https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17048-MAX17049.pdf) |
 | U6 | BQ24073RGTR | C15220 | [TI](https://www.ti.com/lit/ds/symlink/bq24073.pdf) |
 | U7 | RT9080-33GJ5 | C841192 | [Richtek](https://www.richtek.com/assets/product_file/RT9080/DS9080-05.pdf) |
-| U8 | USBLC6-2SC6 | C2687116 | [ST](https://www.st.com/resource/en/datasheet/usblc6-2.pdf) |
+| U8 | USBLC6-2SC6 (UMW) | C2687116 | [LCSC](https://www.lcsc.com/datasheet/C2687116.pdf) |
 | J1 | TYPE-C-31-M-12 | C165948 | [LCSC](https://www.lcsc.com/datasheet/C165948.pdf) |
 | J2 | 1.25-2PWB (PicoBlade series) | C2905009 | [LCSC](https://www.lcsc.com/datasheet/C2905009.pdf) |
 | J3 | FPC-05FB-24PH20 | C2856831 | [LCSC](https://www.lcsc.com/datasheet/C2856831.pdf) |

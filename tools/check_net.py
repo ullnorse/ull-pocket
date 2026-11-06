@@ -235,7 +235,7 @@ if comps[th]["LCSC"] != "C279936" or "0603" not in comps[th]["fp"]:
 fb = find_part(ts, "GND", "10kR")           # DNP fixed-10k fallback in parallel
 if len(fb) != 1 or flags[fb[0]] != {"dnp", "exclude_from_bom", "exclude_from_pos_files"}:
     bad.append("fallback 10k on TS missing or not DNP + excluded from BOM and placement")
-find_part(net("U6", 16), "GND", "3.3kR")    # ISET
+find_part(net("U6", 16), "GND", "2.2kR")    # ISET
 find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
 find_part(net("U6", 6), "GND", "100kR")     # EN1 divider bottom
@@ -244,7 +244,7 @@ find_part("VSYS", "GND", "10uF/10V")
 find_part("VBAT", "GND", "10uF/10V")
 find_part("VBAT", "GND", "100nF/16V")
 find_part("VSYS", "GND", "1uF/25V")
-find_part("LDO_OUT", "GND", "1uF/25V")   # C7 on the LDO side of the link
+find_part("LDO_OUT", "GND", "10uF/6.3V")   # C7 on the LDO side of the link
 find_part("LDO_OUT", "+3V3", "0R")        # sleep-current link
 gate = net("Q2", 1)
 find_part(gate, "VBAT", "100kR")

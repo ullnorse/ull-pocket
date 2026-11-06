@@ -68,7 +68,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - Its 5.4 mm antenna region overhangs the top board edge, which Espressif recommends.
 - The footprint's 15 mm keep-out falls entirely off the board.
 - Keep case metal, screws and the battery away from the overhang.
-- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, J2 and its leads about 9 mm to the left, and the SHT40 island 10 mm to the left.
+- Distances: the cell is 14 mm away, the panel 4.2 mm below the edge line, J2 and its leads about 20 mm to the left, and the SHT40 island 10 mm to the left.
 - Panelization: the overhanging module needs a cut-out or an open edge in the JLC panel or rail at the top edge. Ask JLC for "components overhang board edge".
 
 ## SHT40 island

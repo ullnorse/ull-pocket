@@ -21,6 +21,8 @@ EXCLUDE_PREFIX = ("TP", "H", "ASSY")
 # EE pad name that is the same *function* as KiCad pad "1" (cathode on the LEDs).
 # C965865's EE symbol numbers anode=1, cathode=2; the datasheet (and our footprint) has 1 = cathode.
 FUNC_PAD1 = {"C965865": "2"}
+# J1: align the shell legs and pegs with their holes; a signal-pad fit (1.57) leaves the pegs 0.15 mm off
+FORCE_T = {"C165948": (0.0, 1.42)}
 T_MIN = 0.1  # ignore origin shifts below this (fit noise from differing pad shapes)
 
 
@@ -100,6 +102,8 @@ for (fp, lcsc), ps in pairs.items():
     pe = pads(sexp.parse(open(eefile).read()))
     pk = ps[0]["pads"]
     d, t, res, res2, n, rename = match(pk, pe, lcsc)
+    if lcsc in FORCE_T:
+        t = FORCE_T[lcsc]
     if math.hypot(*t) < T_MIN:
         t = (0.0, 0.0)
     info[(fp, lcsc)] = dict(delta=d, t=t, res=res, res2=res2, n=n, ee=os.path.basename(eefile)[:-10],
@@ -160,8 +164,8 @@ lines += ["", "## Notes", "",
           "  common anode, as in our footprint; the EE footprint is ours turned 180. Check D1, D5, D6 orientation in",
           "  JLC's placement preview.",
           "  The 0.28 mm y shift is the KiCad pad centre being off the origin (pads are 0.28 mm above the origin).",
-          "- J1: signal pads give a 1.57 mm shift; the shell legs differ by 1.42 mm (KiCad and EE footprints disagree by 0.15 mm",
-          "  between signal and shell pads), the 1.57 mm signal-pad value is used. EE pin 1 shown is pad A1B12.",
+          "- J1: the shell legs give a 1.42 mm shift and are used so the legs and pegs enter their holes; signal pads alone would give 1.57 mm",
+          "  (the land extends past the leads, so they still land). EE pin 1 shown is pad A1B12.",
           "- J2 (DEALON 1.25-2PWB): the fit aligns pads 1 and 2; mount pads differ slightly, our land follows the part drawing. The EE origin is used as the part centre. It differs from the EE pad-bounding-box centre by",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",

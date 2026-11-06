@@ -6846,7 +6846,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(symbol "S2B-PH-SM4-TB"
+	(symbol "Battery-1.25-2PWB"
 		(pin_names
 			(offset 1.016)
 			(hide yes)
@@ -6866,7 +6866,7 @@
 				)
 			)
 		)
-		(property "Value" "S2B-PH-SM4-TB"
+		(property "Value" "1.25-2PWB"
 			(at 1.27 -5.08 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6877,7 +6877,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
+		(property "Footprint" "Connector_Molex:Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6888,7 +6888,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C2905009.pdf"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6899,7 +6899,7 @@
 				)
 			)
 		)
-		(property "Description" "JST PH 2-pin SMD right-angle battery connector"
+		(property "Description" "1.25 mm 2-pin SMD right-angle battery socket (DEALON 1.25-2PWB, PicoBlade series, Molex 53261 land)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6932,7 +6932,7 @@
 				)
 			)
 		)
-		(property "MPN" "S2B-PH-SM4-TB(LF)(SN)"
+		(property "MPN" "1.25-2PWB"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6943,7 +6943,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "JST"
+		(property "Manufacturer" "DEALON"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6954,7 +6954,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C295747"
+		(property "LCSC" "C2905009"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6965,7 +6965,7 @@
 				(hide yes)
 			)
 		)
-		(symbol "S2B-PH-SM4-TB_1_1"
+		(symbol "Battery-1.25-2PWB_1_1"
 			(rectangle
 				(start -1.27 1.27)
 				(end 1.27 -3.81)

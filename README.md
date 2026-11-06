@@ -49,16 +49,27 @@ Order the **panel**: one board with 5 mm rails on the left and right (tooling ho
    - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
    - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
    - panel by customer (1 board per panel), edge rails: none (already in the files)
-2. Enable PCB assembly (top side) and upload `ull-pocket-r0.8-panel-bom.csv` and `ull-pocket-r0.8-panel-cpl.csv`.
+2. Enable PCB assembly (top side, **Standard PCBA**: U1, U3, U4 and the LEDs aren't offered on Economic) and upload `ull-pocket-r0.8-panel-bom.csv` and `ull-pocket-r0.8-panel-cpl.csv`.
 3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)."
 4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
 5. Buy separately: the e-paper panel (GDEY0154D67), a 103040 LiPo with a protection board and 1.25 mm plug (check that it mates with J2 and its polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
+6. Separate boards from the rails by cutting the tabs, not bending: U1's pads and the VBAT track are about 1 mm from the holes.
+7. Before first USB plug-in, check the cell's polarity. Q2 blocks a reversed cell on battery, but with USB in the charger slowly drains it through Q2.
 
 ## Programming
 
 Plug in USB-C. The ESP32-C6 shows up as a USB serial port and esptool, Arduino or ESP-IDF flash it with no buttons: target `esp32c6` (Arduino: "ESP32C6 Dev Module", USB CDC On Boot enabled).
 
 USB is off while the chip is in deep sleep, so keep the firmware awake while `USB_PGOOD_N` (IO1) is low (cable plugged in).
+
+Firmware rules:
+- Stop at a safe cell voltage: the cell's listing doesn't promise over-discharge protection.
+- Enable the RTC watchdog: EN is only on the back pogo pads, so there's no reset button in the case.
+- On battery, measure TP1 (VBUS). If it sits near 2.7 V, the USB D+ pull-up is leaking through U8: turn the pull-up off before sleep when USB is unplugged.
+- Don't run Wi-Fi validation with no cell: the input limit leaves little margin over TX peaks.
+- Ignore temperature and humidity while charging and until the case cools; measure how long that takes on the first board.
+
+First-board charge test: compare TH1 with a thermocouple on the cell during a full charge. Board heat may reach TH1's 47 C limit in a warm room and pause charging (estimated, not measured). If it does, change R9 to 3.3k: about 270 mA and less heat, but the 4-6 h timer may then stop the charge before the cell is full. CHG flashing at 2 Hz means a timer fault; replug USB to clear it.
 
 **Recovery:** if the firmware crashes, sleeps or disables USB before it can be flashed, unplug USB and the battery, hold **DN** (it is also BOOT, IO9), and plug USB back in. The chip starts in its ROM download mode; flash as usual, then reset by unplugging. The back pogo pads (J4) carry EN, BOOT and UART0 for a pogo fixture.
 

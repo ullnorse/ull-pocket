@@ -1519,7 +1519,7 @@
 				)
 			)
 		)
-		(property "Value" "1uF/25V"
+		(property "Value" "10uF/6.3V"
 			(at 0 1.16 270)
 			(layer "F.Fab")
 			(uuid "f8208590-15e3-4a32-b0b7-fb257516be4d")
@@ -1542,7 +1542,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 1uF 25V X5R 0402"
+		(property "Description" "MLCC 10uF 6.3V X5R 0402"
 			(at 0 0 270)
 			(layer "F.Fab")
 			(hide yes)
@@ -1579,7 +1579,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL05A105KA5NQNC"
+		(property "MPN" "CL05A106MQ5NUNC"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1592,7 +1592,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C52923"
+		(property "LCSC" "C15525"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3455,6 +3455,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -3466,6 +3467,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -3477,6 +3479,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -17185,7 +17188,7 @@
 				)
 			)
 		)
-		(fp_text user "LiPo 503040 600 mAh on 3.5 mm shelf over F side"
+		(fp_text user "LiPo 103040 1200 mAh on 3.5 mm shelf over F side"
 			(at 0 -13.6 0)
 			(layer "Dwgs.User")
 			(uuid "e4cf5c9c-cc50-4269-ac5d-c02a4689e6b5")

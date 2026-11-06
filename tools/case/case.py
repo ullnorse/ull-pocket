@@ -28,7 +28,7 @@ VENT_X = (11.0, 17.0)                # SHT40 island, top wall, F side
 
 # ---- case --------------------------------------------------------------------------------------
 WALL, FRONT, BACK = 1.6, 1.8, 1.2
-GAP_GLASS = 0.1                      # glass to bezel
+GAP_GLASS = 0.25                     # glass to bezel
 IN_X = (-3.2, 41.6)                  # J2 plug + lead pocket left, FPC bend right
 IN_Y = (-5.7, 45.4)                  # antenna overhang 5.4 top, D6 dome 0.65 bottom
 Z_IN0 = -(DISPLAY["tape"] + DISPLAY["t"] + GAP_GLASS)                 # front wall inner face
@@ -96,6 +96,12 @@ def front_shell():
     zs = PCB_T + BATTERY["shelf"]
     s = s.union(box(IN_X[0], 1.0, BATTERY["y0"], BATTERY["y1"], zs - 1.0, zs))
     s = s.union(box(39.0, IN_X[1], BATTERY["y0"], BATTERY["y1"], zs - 1.0, zs))
+    # stops so the cell can't slide off a rail or into J2; the lead pocket stays open at -x, y < 38
+    h, c = 4.0, 0.3
+    s = s.union(box(-c - 1.5, -c, 38.0, 43.0, zs, zs + h))                   # -x
+    s = s.union(box(BATTERY["x1"] + c, IN_X[1], 28.0, 43.0, zs, zs + h))     # +x, clear of the FPC bend
+    s = s.union(box(-c, 1.0, BATTERY["y0"] - c - 1.0, BATTERY["y0"] - c, zs - 1.0, zs + h))   # -y, left
+    s = s.union(box(39.0, IN_X[1], BATTERY["y0"] - c - 1.0, BATTERY["y0"] - c, zs - 1.0, zs + h))  # -y, right
 
     # USB-C: opening for the receptacle, recess outside for the plug overmold
     u = USB
@@ -132,8 +138,8 @@ def back_cover():
     c = c.union(lip)
     # ridges that click into the shell grooves
     for y in (10.0, 32.0):
-        for x0, x1 in ((lx[0] - 0.3, lx[0] + 0.01), (lx[1] - 0.01, lx[1] + 0.3)):
-            c = c.union(xbar(x0, x1, y - 3.6, y + 3.6, Z_IN1 - 1.8, 0.6, 0))
+        for x0, x1 in ((lx[0] - 0.4, lx[0] + 0.01), (lx[1] - 0.01, lx[1] + 0.4)):
+            c = c.union(xbar(x0, x1, y - 3.6, y + 3.6, Z_IN1 - 1.8, 0.6, 0.15))
     # relief slots so the lip flexes at the ridges
     for y in (10.0, 32.0):
         for yy in (y - 4.2, y + 4.2):
@@ -144,9 +150,10 @@ def back_cover():
 
 def plunger(y):
     """Button plunger: cap through the wall, flange inside, nose onto the TS24CA actuator."""
-    p = xbar(OUT_X[0] - 0.6, IN_X[0], y - 1.2, y + 1.2, BTN_Z, 1.6, 0.5)    # shaft + cap
+    # 0.23 gap + 0.15 switch travel = 0.38; the cap stands 0.45 proud, so the wall limits the press
+    p = xbar(OUT_X[0] - 0.45, IN_X[0], y - 1.2, y + 1.2, BTN_Z, 1.6, 0.5)   # shaft + cap
     p = p.union(xbar(IN_X[0], IN_X[0] + 0.8, y - 2.0, y + 2.0, BTN_Z, 2.6, 0))  # flange
-    p = p.union(xbar(IN_X[0] + 0.8, -0.25, y - 1.0, y + 1.0, BTN_Z, 1.2, 0))    # nose, 0.05 gap
+    p = p.union(xbar(IN_X[0] + 0.8, -0.45, y - 1.0, y + 1.0, BTN_Z, 1.2, 0))    # nose; TS24CA tip at x -0.22
     return p
 
 

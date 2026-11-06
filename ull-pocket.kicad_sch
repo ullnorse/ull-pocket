@@ -4345,7 +4345,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "ull-pocket:S2B-PH-SM4-TB"
+		(symbol "ull-pocket:Battery-1.25-2PWB"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -4365,7 +4365,7 @@
 					)
 				)
 			)
-			(property "Value" "S2B-PH-SM4-TB"
+			(property "Value" "1.25-2PWB"
 				(at 1.27 -5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4376,7 +4376,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
+			(property "Footprint" "Connector_Molex:Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4387,7 +4387,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C2905009.pdf"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4398,7 +4398,7 @@
 					)
 				)
 			)
-			(property "Description" "JST PH 2-pin SMD right-angle battery connector"
+			(property "Description" "1.25 mm 2-pin SMD right-angle battery socket (DEALON 1.25-2PWB, PicoBlade series, Molex 53261 land)"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4409,7 +4409,7 @@
 					)
 				)
 			)
-			(property "MPN" "S2B-PH-SM4-TB(LF)(SN)"
+			(property "MPN" "1.25-2PWB"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4420,7 +4420,7 @@
 					)
 				)
 			)
-			(property "Manufacturer" "JST"
+			(property "Manufacturer" "DEALON"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4431,7 +4431,7 @@
 					)
 				)
 			)
-			(property "LCSC" "C295747"
+			(property "LCSC" "C2905009"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4464,7 +4464,7 @@
 					)
 				)
 			)
-			(symbol "S2B-PH-SM4-TB_1_1"
+			(symbol "Battery-1.25-2PWB_1_1"
 				(rectangle
 					(start -1.27 1.27)
 					(end 1.27 -3.81)
@@ -8132,7 +8132,7 @@
 		)
 		(uuid "1457d5d8-1da5-54c1-be05-ea61a82976ae")
 	)
-	(text "ICHG = 890/2.2k = 405 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 5 h timer"
+	(text "ICHG = 890/2.2k = 405 mA\nUSB500: EN1=1, EN2=0\n-> IIN <= 500 mA\nTS: TH1 10k NTC (B3950), R8 10k DNP\nCharge window 3.5..47.2 C (see NOTES)\nTMR open: 4-6 h timer"
 		(exclude_from_sim no)
 		(at 191.77 68.7 0)
 		(effects
@@ -8207,7 +8207,7 @@
 		)
 		(uuid "48ad3633-679f-580d-9ad9-34c759501830")
 	)
-	(text "LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\nD5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\nD6 blue IO14: 470R, Vf 2.6-2.8 @1 mA: 1.1-1.5 mA.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
+	(text "LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\nD5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\nD6 RGB, common anode to +3V3: R IO8 1k, G IO15 1k, B IO14 470R.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
 		(exclude_from_sim no)
 		(at 326.38 191.61 0)
 		(effects
@@ -14085,7 +14085,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:S2B-PH-SM4-TB")
+		(lib_id "ull-pocket:Battery-1.25-2PWB")
 		(at 261.62 33.02 180)
 		(unit 1)
 		(body_style 1)
@@ -28989,7 +28989,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF/25V"
+		(property "Value" "10uF/6.3V"
 			(at 392.684 33.909 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29022,7 +29022,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 1uF 25V X5R 0402"
+		(property "Description" "MLCC 10uF 6.3V X5R 0402"
 			(at 391.16 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -29033,7 +29033,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL05A105KA5NQNC"
+		(property "MPN" "CL05A106MQ5NUNC"
 			(at 391.16 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -29055,7 +29055,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C52923"
+		(property "LCSC" "C15525"
 			(at 391.16 33.02 0)
 			(hide yes)
 			(show_name no)

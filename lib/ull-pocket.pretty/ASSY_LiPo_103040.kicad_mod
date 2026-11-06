@@ -95,7 +95,7 @@
 			)
 		)
 	)
-	(fp_text user "LiPo 503040 600 mAh on 3.5 mm shelf over F side"
+	(fp_text user "LiPo 103040 1200 mAh on 3.5 mm shelf over F side"
 		(at 0 -13.6 0)
 		(layer "Dwgs.User")
 		(uuid "7a4b3eaf-8d52-4fe8-81d7-eebd54eb62f0")
