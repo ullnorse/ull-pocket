@@ -84,7 +84,7 @@ All values [F] https://jlcpcb.com/capabilities/Capabilities unless noted.
 7. Polarity: pin-1 dot at IC corner outside the body, cathode bar/"+" for diodes, LEDs, tantalums, battery connector "+"/"-" marks and the JST pin-1 mark. USB-C and JST outline in silk. Use the 3D viewer to check what is hidden by the package.
 8. Connector labels: label every pin of J-connectors with function (3V3, GND, SDA...). For the battery connector: "BAT +" and "-" next to pins. For the e-paper FPC: "EPD" + pin 1 marker.
 9. Test points: label in silk (TP3V3, TPGND...). Switch labels: "BOOT", "RST", "USER"; LED labels: "CHG", "PWR".
-10. Board name + rev + date: e.g. "ull-pocket v1.0 2026-11" on the board in 1.0-1.2 mm text; put it on the bottom if the top is dense. If JLC adds an order number, use their "Specify a location" (a 5x5 mm silk block labelled "JLCJLCJLCJLC") or choose "Remove order number" (extra fee). https://jlcpcb.com/help/article/ [R]
+10. Board name + rev + date (this board: name only, by choice): e.g. "ull-pocket v1.0 2026-11" on the board in 1.0-1.2 mm text; put it on the bottom if the top is dense. If JLC adds an order number, use their "Specify a location" (a 5x5 mm silk block labelled "JLCJLCJLCJLC") or choose "Remove order number" (extra fee). https://jlcpcb.com/help/article/ [R]
 11. Logo as silkscreen bitmap: keep features >= 0.15 mm; verify with Gerber viewer. Prefer logo on bare-board area, not on copper.
 12. Aesthetics: align text to a 0.5 mm grid; consistent sizes; group with box outlines (0.15-0.2 mm lines); mark mounting holes; add a cross/arrow to show sensor vent/antenna side; keep the antenna area free of silk.
 13. Bottom silk is mirrored automatically; place bottom text on B.SilkS, never flipped by hand.
@@ -145,3 +145,12 @@ Not done:
 - Teardrops: KiCad has no script interface for them. In pcbnew: Edit > Edit Teardrops (defaults), refill zones (B), run DRC, then regenerate the production files. Optional: the vias already meet JLC's limits.
 - Vias in U6's thermal pad are not filled: some solder wicks into them. TI's layout shows vias in the pad; JLC fills vias only at extra cost.
 - Gaps listed above: MINI-1 keep-out from the datasheet figure, BQ24073 section 12 layout text, Sensirion SHT3x design guide.
+
+## Rev 0.9 review fixes (2026-11-09)
+
+- BMP580 INT resets active-low, open-drain and disabled (INT_CONFIG 0x35); the schematic note said active-high. Added R35 100k pull-up on BARO_INT.
+- U8 pin 5 moved from VBUS to +3V3, so the D+ pull-up can't back-feed VBUS on battery.
+- VBUS from J1 to U6 IN moved from In2 (0.5 oz) to B.Cu (1 oz) at 0.5 mm; the C2-to-pin-13 stub is 0.5 mm where pin 14 allows.
+- Two more GND vias under U7 pin 2. C3/C4 are now 10 uF 25 V 0805 (C15850).
+- J2 + / - marks moved to the connector mouth; three back-silk texts under the display removed. Silkscreen carries no revision or date.
+- BQ24073 /CE stays on GND: every module GPIO is used, and the free UART0 pins (IO16/17) are the J4 recovery port.

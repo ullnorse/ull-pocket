@@ -1,10 +1,10 @@
-# ull-pocket parts, rev 0.8 (2026-11-03) (stock checked on JLCPCB via pcbparts.dev, 2026-10-28; LEDs 2026-10-29)
+# ull-pocket parts, rev 0.9 (2026-11-09) (stock checked on JLCPCB via pcbparts.dev, 2026-10-28; LEDs 2026-10-29)
 
 | Ref | Function | Part | LCSC | Package | Note |
 |---|---|---|---|---|---|
 | U1 | MCU + Wi-Fi/BLE/802.15.4 | ESP32-C6-MINI-1-N4 | C5736265 | 16.6x13.2 module, PCB antenna | 4 MB flash, -40..85 C (rev 0.7: was the 105 C -H4 C6553337, 569 in stock); antenna at board edge with keep-out |
 | U2 | Temp / RH | SHT40-AD1B | C2909890 | DFN-4 1.5x1.5, P0.8 (`ull-pocket:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x`, 4 pads) | I2C 0x44; on the moated, thermally isolated island at the top edge, joined by thin bridge tracks; C11 decoupling sits on the island; the centre pad is not used (Sensirion allows it floating). Replaces SHT31-DIS-B2.5kS C80862 (rev 0.8) |
-| U3 | Pressure | BMP580 | C22391138 | LGA-10 2x2, P0.5 (`ull-pocket:Bosch_LGA-10_2x2mm_P0.5mm_BMP580`) | I2C 0x46 (SDO to GND), CSB to +3V3 for I2C mode. Replaces BMP585 C18184976 (rev 0.8); the BMP585 mask-opening/keepout rule area is gone. Set INT polarity (INT_CONFIG int_pol) to active-low in firmware |
+| U3 | Pressure | BMP580 | C22391138 | LGA-10 2x2, P0.5 (`ull-pocket:Bosch_LGA-10_2x2mm_P0.5mm_BMP580`) | I2C 0x46 (SDO to GND), CSB to +3V3 for I2C mode. Replaces BMP585 C18184976 (rev 0.8); the BMP585 mask-opening/keepout rule area is gone. INT resets active-low, open-drain, disabled (INT_CONFIG 0x14 = 0x35, datasheet p.53); R35 100k pulls BARO_INT high. Keep it open-drain, active-low in firmware |
 | U4 | Accelerometer | LIS2DW12TR | C189624 | LGA-12 2x2, P0.5 (stock `Package_LGA:LGA-12_2x2mm_P0.5mm`) | I2C 0x19 (SA0 and CS to +3V3); INT1 to ACC_INT1 (LP GPIO) for wake. INT1 is push-pull active-high by default: set CTRL3 H_LACTIVE for active-low. Replaces LIS3DHTR C15134 (rev 0.8) |
 | U5 | Fuel gauge | MAX17048G+T10 | C2682616 | DFN-8 2x2 | |
 | U6 | Li-ion charger, power path | BQ24073RGTR | C15220 | VQFN-16 3x3, EP 1.68 (stock `VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm`) | 4.4 V OUT regulation; replaces BQ24074 (17 in stock) |
@@ -22,10 +22,12 @@
 | R9 | U6 ISET, charge current | 0402WGF3301TCE 3.3k 1% | C25890 | 0402 | 890/3.3k = 270 mA (241 mA min); chosen for low heat |
 | R34 | U6 TMR, safety timer | 0402WGF6802TCE 68k 1% | C36871 | 0402 | 10 x KTMR x 68k = 6.8-11.3 h fast charge, 41-68 min pre-charge; outlasts a full 270 mA charge |
 | C8 | U1 3V3 bulk | CL21A226MAQNNNE 22uF/25V X5R | C45783 | 0805 | basic, 4.05M in stock |
+| C3, C4 | U6 OUT (VSYS) and BAT caps | CL21A106KAYNNNE 10uF/25V X5R | C15850 | 0805 | basic, 8.7M in stock (2026-11-09); was 10uF/10V 0603 until rev 0.9: the 0805 keeps more capacitance at 4.2-4.4 V bias. The 16 V C1713 is an extended part, so not used |
 | C19 | E-paper boost coupling cap | CL21A475KBQNNNE 4.7uF/50V X5R | C98192 | 0805 | extended, 366k in stock |
 | R25, R26 | 100k pull-ups to +3V3 on EPD_RST_N, EPD_CS_N (panel idle in sleep) | 0402WGF1003TCE | C25741 | 0402 | basic |
+| R35 | 100k pull-up to +3V3 on BARO_INT (IO4), for the BMP580's open-drain INT | 0402WGF1003TCE | C25741 | 0402 | basic; IO4 is the MTMS strap, which only picks the SDIO sampling edge, so a pull-up is harmless (ESP32-C6 datasheet Table 3-1, p.33) |
 | R24 | IO9 (BOOT strap) 10k pull-up to +3V3; also the SW3 (DN) pull-up, net BTN3_N | 0402WGF1002TCE | C25744 | 0402 | basic |
-| U8 | USB ESD | USBLC6-2SC6 | C2687116 | SOT-23-6 | |
+| U8 | USB ESD | USBLC6-2SC6 | C2687116 | SOT-23-6 | pin 5 (VBUS rail of the diode array) on +3V3, not VBUS (rev 0.9): the D+ pull-up can't back-feed VBUS through the upper diode on battery. D+/D- stay below 3.6 V, under 3.3 V + Vf, so the diodes stay off in normal use. VBUS keeps C2 1uF/50V; the BQ24073 IN is rated to 28 V |
 | J1 | USB-C | TYPE-C-31-M-12 | C165948 | 16-pin SMD | 5.1k CC pull-downs |
 | J2 | Battery | 1.25-2PWB (DEALON) | C2905009 | 1.25 mm 2P SMD, right angle | extended; 174k in stock, $0.03; JLC series PicoBlade (MX 1.25), 1 A, 3.6 mm tall, -25..+85 C. Footprint: Molex 53261 land, same pad layout as the DEALON drawing. Sized for the 103040 cell's "PH-1.25" plug; confirm that plug mates before ordering. Pin 2 = BAT+, pin 1 = BAT- (via Q2); confirm the cell's polarity with a multimeter. Mouth faces the left board edge, "-" above it, "+" below |
 | J3 | E-paper FPC | FPC-05FB-24PH20 | C2856831 | 24P 0.5 mm, back flip, dual contact, H2.0 | panel tail wraps round the board edge so its fingers (display side) face away from the PCB; FPC-05F-24PH20 (C2856805) is bottom-contact and would mirror the pin order. Straight map: J3 pin n = panel pin n. See docs/mechanical.md |
@@ -44,11 +46,11 @@
 
 LEDs D1 and D5 share footprint `ull-pocket:LED_XL-1606_SideView` (datasheet land pattern 2x 0.77x0.95 mm, pad 1 = cathode). The emitting face sits 0.1 mm inside the bottom board edge (pads 0.2 mm from the edge, custom DRC rule); D6 (RGB) uses its own footprint and overhangs the edge 0.65 mm. The case needs a window or light pipe at each LED.
 
-Firmware GPIO notes (rev 0.8): ext1 deep-sleep wake mask is IO0-IO5 (BAT_ALRT_N, USB_PGOOD_N, BTN_N UP, ACC_INT1, BARO_INT, BTN2_N OK), all active-low once the LIS2DW12 (CTRL3 H_LACTIVE) and BMP580 (INT_CONFIG int_pol) interrupt polarities are set. BTN3_N (DN, IO9) is not an LP GPIO: poll it while awake. DN is also BOOT: held while the chip resets or powers up (unplug USB and battery, hold DN, plug USB in), it starts the ROM download mode for recovery flashing. Buttons read low when pressed. LED_USER is RGB, common anode, active-low: IO8 red, IO15 green, IO14 blue. IO15 is also a JTAG-source strap, read only when the JTAG-select eFuse is burned (default: don't care).
+Firmware GPIO notes (rev 0.9): ext1 deep-sleep wake mask is IO0-IO5 (BAT_ALRT_N, USB_PGOOD_N, BTN_N UP, ACC_INT1, BARO_INT, BTN2_N OK), all active-low once the LIS2DW12 polarity is set (CTRL3 H_LACTIVE); the BMP580 INT is active-low open-drain from reset, with R35 as its pull-up. BTN3_N (DN, IO9) is not an LP GPIO: poll it while awake. DN is also BOOT: held while the chip resets or powers up (unplug USB and battery, hold DN, plug USB in), it starts the ROM download mode for recovery flashing. Buttons read low when pressed. LED_USER is RGB, common anode, active-low: IO8 red, IO15 green, IO14 blue. IO15 is also a JTAG-source strap, read only when the JTAG-select eFuse is burned (default: don't care).
 
 Firmware rules from the rev 0.7 review:
 - Wake sources: USB_PGOOD_N (IO1) stays low while USB is plugged in, and BAT_ALRT_N (IO0) stays low until the MAX17048 alert is cleared. Wake on IO1 going high while USB is present (or leave it out of the mask), and clear the alert before sleeping, otherwise the chip wakes at once. Clearing it also stops 33 uA in R12.
-- BARO_INT (IO4) floats until the BMP580 interrupt is enabled (disabled at power-up): configure it push-pull, active low, before arming ext1.
+- BARO_INT (IO4): leave the BMP580 INT open-drain, active-low (its reset setting) and enable it (INT_CONFIG int_en) before arming ext1. R35 holds the line high while it is off.
 - Hold DC, SCK and MOSI (IO20/22/23) in deep sleep (gpio_hold_en + deep-sleep hold) so the powered SSD1681 inputs don't float.
 - Never leave I2C (IO6/IO7) low in sleep: 330 uA per line. Run the bus at 100 kHz: the 10k pull-ups are too slow for 400 kHz.
 - Battery: block Wi-Fi below about 3.55 V (MAX17048 reading) and set the gauge's voltage alert to put the chip into deep sleep; below that the LDO drops out during Wi-Fi bursts.

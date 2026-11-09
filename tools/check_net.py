@@ -128,7 +128,7 @@ same(("J1", "A6"), ("J1", "B6"), ("U8", 1), ("U8", 6), ("U1", 18))
 same(("J1", "A7"), ("J1", "B7"), ("U8", 3), ("U8", 4), ("U1", 17))
 expect("J1", "A6", "USB_D+")
 expect("J1", "A7", "USB_D-")
-expect("U8", 5, "VBUS")
+expect("U8", 5, "+3V3")   # ESD rail on +3V3: the D+ pull-up cannot back-feed VBUS
 expect("U8", 2, "GND")
 nc("J1", "A8")
 nc("J1", "B8")
@@ -199,6 +199,7 @@ find_part("BTN2_N", "GND", "100nF/16V")         # debounce with R30
 find_part("BTN3_N", "GND", "100nF/16V")         # debounce with R31; pull-up is R24 (IO9 strap)
 find_part("BAT_ALRT_N", "+3V3", "100kR")
 find_part("USB_PGOOD_N", "+3V3", "100kR")
+find_part("BARO_INT", "+3V3", "100kR")    # BMP580 INT is open-drain after reset
 find_part(net("U1", 8), "+3V3", "10kR")
 find_part("BTN3_N", "+3V3", "10kR")             # IO9 BOOT strap pull-up = SW3 pull-up (DN held at reset -> download mode)
 if parts_on("BTN3_N", "R") != ["R24", "R31"]:
@@ -240,8 +241,10 @@ find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
 find_part(net("U6", 6), "GND", "100kR")     # EN1 divider bottom
 find_part("VBUS", "GND", "1uF/50V")
-find_part("VSYS", "GND", "10uF/10V")
-find_part("VBAT", "GND", "10uF/10V")
+for n in ("VSYS", "VBAT"):   # C3, C4: 0805 25 V, keeps capacitance under DC bias
+    c = find_part(n, "GND", "10uF/25V")
+    if c and "0805" not in comps[c[0]]["fp"]:
+        bad.append(c[0] + " should be 0805")
 find_part("VBAT", "GND", "100nF/16V")
 find_part("VSYS", "GND", "1uF/25V")
 find_part("LDO_OUT", "GND", "10uF/6.3V")   # C7 on the LDO side of the link

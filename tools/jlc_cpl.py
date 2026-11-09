@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sexp
 
 pcb_path, ee_dir, out_dir = sys.argv[1:4]
-name = sys.argv[4] if len(sys.argv) > 4 else "ull-pocket-r0.8"
+name = sys.argv[4] if len(sys.argv) > 4 else "ull-pocket-r0.9"
 EXCLUDE_PREFIX = ("TP", "H", "ASSY")
 # EE pad name that is the same *function* as KiCad pad "1" (cathode on the LEDs).
 # C965865's EE symbol numbers anode=1, cathode=2; the datasheet (and our footprint) has 1 = cathode.
@@ -170,7 +170,7 @@ lines += ["", "## Notes", "",
           "  <= 0.15 mm everywhere except SW1 (0.30 mm), so the origin-vs-centre ambiguity is at most 0.3 mm (SW1).",
           "- Coordinates are in the Gerber frame (absolute page coordinates, y up), the same frame as the Gerber and drill files.",
           "- Not verifiable offline: JLC's own assembly DB can differ from the EasyEDA footprint. Confirm the placement preview."]
-if name == "ull-pocket-r0.8":
+if name == "ull-pocket-r0.9":
     open(os.path.join(out_dir, "rotation-check.md"), "w").write("\n".join(lines) + "\n")
 print(len(rows), "CPL rows,", len(groups), "BOM lines")
 nz = [(k, i) for k, i in info.items() if i["delta"] or i["t"] != (0.0, 0.0)]

@@ -8093,7 +8093,7 @@
 		)
 		(uuid "07b27e6c-9b38-558a-b4aa-529ae5d60271")
 	)
-	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 drives\nLED_G (strap only if JTAG_SEL burned)."
+	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 drives\nLED_G (strap only if JTAG_SEL burned).\nR35: 100k to +3V3 on BARO_INT (open-drain)."
 		(exclude_from_sim no)
 		(at 244.38 231.61 0)
 		(effects
@@ -8268,7 +8268,7 @@
 		)
 		(uuid "80b9b413-073b-5858-989a-61aaae2da513")
 	)
-	(text "WAKE POLARITY (ext1, one level)\nACC_INT1, BARO_INT: active-high by default.\nBTN_N, BTN2_N, BAT_ALRT_N, USB_PGOOD_N:\nactive-low. Set LIS2DW12 H_LACTIVE and\nBMP580 int_pol to active-low so one ext1\nlevel wakes all. BTN3_N (IO9) is polled."
+	(text "WAKE POLARITY (ext1, one level)\nACC_INT1: push-pull, active-high by default;\nset LIS2DW12 H_LACTIVE. BARO_INT: BMP580 resets\nactive-low, open-drain, INT disabled; R35 100k\npulls IO4 high. BTN_N, BTN2_N, BAT_ALRT_N,\nUSB_PGOOD_N: active-low. BTN3_N (IO9) is polled."
 		(exclude_from_sim no)
 		(at 161.92 191.61 0)
 		(effects
@@ -15683,7 +15683,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "10uF/10V"
+		(property "Value" "10uF/25V"
 			(at 194.056 44.069 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15694,7 +15694,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 195.58 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -15716,7 +15716,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 10uF 10V X5R 0603"
+		(property "Description" "MLCC 10uF 25V X5R 0805"
 			(at 195.58 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -15727,7 +15727,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10A106KP8NNNC"
+		(property "MPN" "CL21A106KAYNNNE"
 			(at 195.58 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -15749,7 +15749,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C19702"
+		(property "LCSC" "C15850"
 			(at 195.58 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -23053,7 +23053,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF/10V"
+		(property "Value" "10uF/25V"
 			(at 192.024 33.909 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23064,7 +23064,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 190.5 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23086,7 +23086,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 10uF 10V X5R 0603"
+		(property "Description" "MLCC 10uF 25V X5R 0805"
 			(at 190.5 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23097,7 +23097,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10A106KP8NNNC"
+		(property "MPN" "CL21A106KAYNNNE"
 			(at 190.5 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23119,7 +23119,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C19702"
+		(property "LCSC" "C15850"
 			(at 190.5 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -23796,7 +23796,7 @@
 		)
 	)
 	(symbol
-		(lib_id "ull-pocket:VBUS")
+		(lib_id "ull-pocket:+3V3")
 		(at 83.82 48.26 0)
 		(unit 1)
 		(body_style 1)
@@ -23817,7 +23817,7 @@
 				)
 			)
 		)
-		(property "Value" "VBUS"
+		(property "Value" "+3V3"
 			(at 83.82 44.704 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -29956,6 +29956,218 @@
 				)
 			)
 		)
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 278.13 124.46 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3ecc88b3-dd5c-4eeb-9796-7b526530a6c6")
+		(property "Reference" "R35"
+			(at 279.654 122.301 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100kR"
+			(at 279.654 124.079 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 100k 1% 0402"
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1003TCE"
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 278.13 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "077447b7-6780-4e06-bb73-9bcf8d78df2b")
+		)
+		(pin "2"
+			(uuid "879ac337-2e89-4828-b605-d3c3f14cedef")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 265.43 127) (xy 278.13 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c0ccfd3-f9f3-40ce-9a34-3e7f7448e142")
+	)
+	(symbol
+		(lib_id "ull-pocket:+3V3")
+		(at 278.13 121.92 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ab4fb012-5686-4be8-9170-1d19a06290b3")
+		(property "Reference" "#PWR102"
+			(at 278.13 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 278.13 118.364 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 278.13 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 278.13 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3 V system rail (RT9080 output)"
+			(at 278.13 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5c0cdb47-231a-428c-833c-abc1a23b40f5")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR102")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "U8 pin 5 on +3V3, not VBUS: the D+\npull-up cannot back-feed VBUS.\nD+/D- < 3.6 V, below 3.3 V + Vf."
+		(exclude_from_sim no)
+		(at 41.91 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "ea2d3f80-d80b-4c2b-babc-5e5b7b4ab0ac")
 	)
 	(sheet_instances
 		(path "/"

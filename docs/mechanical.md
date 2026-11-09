@@ -45,6 +45,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - J3 is XUNPU FPC-05FB-24PH20 (LCSC C2856831): back flip, dual contact, 2.0 mm high.
 - The original FPC-05F-24PH20 (C2856805) is bottom-contact (前翻下接). Its pin order would also come out mirrored (finger 1 on pad 24).
 - On FPC-05FB, pin 1 is at the opposite end, so J3 pin n = panel pin n, straight through. Pin 1 is at the top (y 14.4).
+- Checked against the XUNPU drawing (LCSC C2856831, p.1): back flip, double-sided contact, so the contact side doesn't matter; pin 1 end, 0.5 mm pitch, mount pads 14.6 mm apart and 2.0 x 1.8 mm all match the footprint.
 - J3 sits at (28.9, 20.15), rotated 90 degrees, with its slot facing the right edge. The FPC goes in about 2.8 mm.
 - Tail length (+/-0.3 mm) and the panel position use up this margin. Check the fit with a real panel before routing is frozen.
 
@@ -55,7 +56,7 @@ After the wrap, the fingers face away from the PCB. J3 must therefore contact fr
 - Parts under the shelf are at most 3.25 mm tall (USB-C 3.25, L1 3.0, J3 2.0, module 2.4).
 - J2 (DEALON 1.25-2PWB, 1.25 mm SMD, 3.6 mm tall) is outside the cell outline, at top-left. Its opening faces -x, about 1.1 mm in from the left board edge at y 3-9. The plug and its lead bend use the case pocket left of the board (3.2 mm deep); check it against the real plug.
 - The cell's lead end is at -x. Leave about 40 mm of lead.
-- J2 is marked + (pin 2, VBAT) and - (pin 1, BAT-) on silkscreen.
+- J2 is marked on silkscreen at its mouth on the left edge: - (pin 1, BAT-) just above the body at (0.9, 3.3), + (pin 2, VBAT) just below it at (0.9, 9.1).
 
 ## TH1 (battery NTC)
 

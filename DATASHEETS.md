@@ -15,7 +15,7 @@ Manufacturer datasheets are not stored in this repo. Download them from the link
 | U8 | USBLC6-2SC6 (UMW) | C2687116 | [LCSC](https://www.lcsc.com/datasheet/C2687116.pdf) |
 | J1 | TYPE-C-31-M-12 | C165948 | [LCSC](https://www.lcsc.com/datasheet/C165948.pdf) |
 | J2 | 1.25-2PWB (PicoBlade series) | C2905009 | [LCSC](https://www.lcsc.com/datasheet/C2905009.pdf) |
-| J3 | FPC-05FB-24PH20 | C2856831 | [LCSC](https://www.lcsc.com/datasheet/C2856831.pdf) |
+| J3 | FPC-05FB-24PH20 | C2856831 | [LCSC](https://datasheet.lcsc.com/datasheet/pdf/e480b0871d0881a4ae70dd94a2979182.pdf?productCode=C2856831) (XUNPU drawing; page 1 shows pin 1 and the back-flip, dual-contact build) |
 | Q1 | SI1308EDL | C469327 | [Vishay](https://www.vishay.com/docs/63399/si1308edl.pdf) |
 | Q2 | AO3400A | C20917 | [LCSC](https://www.lcsc.com/datasheet/C20917.pdf) |
 | D1, D5 | XL-1606 side-view LEDs | C965860, C965863 | [LCSC](https://www.lcsc.com/datasheet/C965863.pdf) |
