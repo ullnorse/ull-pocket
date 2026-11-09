@@ -70,6 +70,11 @@ Firmware rules:
 - Don't run Wi-Fi validation with no cell: the input limit leaves little margin over TX peaks.
 - Ignore temperature and humidity while charging and until the case cools; measure how long that takes on the first board.
 
+First-board power-up:
+1. Power up without the panel. Check +3V3 at TP5.
+2. Unpower the board, plug the panel in, and check continuity from GND (TP3) to the panel's VSS finger, the 17th from the pin-1 end. It must beep: a reversed tail would put about 20 V on the wrong panel pins.
+3. Only then power up with the panel.
+
 First-board charge test: compare TH1 with a thermocouple on the cell during a full charge. Board heat could still reach TH1's 47 C limit in a very warm room and pause charging (estimated, not measured). CHG flashing at 2 Hz means a timer fault; replug USB to clear it.
 
 **Recovery:** if the firmware crashes, sleeps or disables USB before it can be flashed, unplug USB and the battery, hold **DN** (it is also BOOT, IO9), and plug USB back in. The chip starts in its ROM download mode; flash as usual, then reset by unplugging. The back pogo pads (J4) carry EN, BOOT and UART0 for a pogo fixture.
