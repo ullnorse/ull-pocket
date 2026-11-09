@@ -17,7 +17,7 @@ A pocket environment meter and learning board: ESP32-C6, temperature/humidity, p
 | 3.3 V | Richtek RT9080 LDO, ~2 uA quiescent |
 | Display | Good Display GDEY0154D67, 200x200 black/white e-paper, SSD1681, bought separately |
 | Input | 3 side buttons UP / OK / DN (UP and OK wake from deep sleep; DN doubles as BOOT) |
-| LEDs | Power (green), charge (red), user (RGB), side-view at the bottom edge |
+| LEDs | Power (green), charge (red), user (red/blue), side-view at the bottom edge |
 | Programming | USB-C (native USB Serial/JTAG) or 2x3 pogo pads on the back |
 
 Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the front; the panel sits on the back.
@@ -66,6 +66,7 @@ USB is off while the chip is in deep sleep, so keep the firmware awake while `US
 Firmware rules:
 - Stop at a safe cell voltage: the cell's listing doesn't promise over-discharge protection.
 - Enable the RTC watchdog: EN is only on the back pogo pads, so there's no reset button in the case.
+- IO15 (CHG_DIS) high pauses charging. In deep sleep, hold it low or leave it as an input so R36 keeps charging on.
 - Don't run Wi-Fi validation with no cell: the input limit leaves little margin over TX peaks.
 - Ignore temperature and humidity while charging and until the case cools; measure how long that takes on the first board.
 

@@ -66,7 +66,7 @@ def nc(ref, pin):
 
 
 # ---------------- ESP32-C6 GPIO map
-ESP = {"8": "EN", "23": "BTN3_N", "22": "LED_R", "30": "RXD0", "31": "TXD0", "20": "LED_G", "17": "USB_D-", "18": "USB_D+",
+ESP = {"8": "EN", "23": "BTN3_N", "22": "LED_R", "30": "RXD0", "31": "TXD0", "20": "CHG_DIS", "17": "USB_D-", "18": "USB_D+",
        "12": "BAT_ALRT_N", "13": "USB_PGOOD_N", "5": "BTN_N", "6": "ACC_INT1", "9": "BARO_INT", "10": "BTN2_N",
        "15": "I2C_SDA", "16": "I2C_SCL", "19": "LED_B", "24": "EPD_BUSY", "25": "EPD_RST_N",
        "26": "EPD_DC", "27": "EPD_CS_N", "28": "EPD_SCK", "29": "EPD_MOSI", "3": "+3V3", "1": "GND"}
@@ -137,8 +137,9 @@ for p in (10, 11):
     expect("U6", p, "VSYS")
 for p in (2, 3):
     expect("U6", p, "VBAT")
-for p in (8, 17, 4, 5, 15):
-    expect("U6", p, "GND")       # VSS, EP, /CE, EN2, TD
+for p in (8, 17, 5, 15):
+    expect("U6", p, "GND")       # VSS, EP, EN2, TD
+expect("U6", 4, "CHG_DIS")       # /CE on IO15: high pauses charging
 expect("U6", 7, "USB_PGOOD_N")
 expect("U7", 1, "VSYS")
 expect("U7", 3, "VSYS")
@@ -239,6 +240,7 @@ find_part(net("U6", 16), "GND", "3.3kR")    # ISET
 find_part(net("U6", 14), "GND", "68kR")     # TMR: timer outlasts a 270 mA charge
 find_part(net("U6", 12), "GND", "3.3kR")    # ILIM
 find_part(net("U6", 6), "VBUS", "100kR")    # EN1 divider top
+find_part("CHG_DIS", "GND", "100kR")    # keeps charging on through reset and when IO15 floats
 find_part(net("U6", 6), "GND", "100kR")     # EN1 divider bottom
 find_part("VBUS", "GND", "1uF/50V")
 for n in ("VSYS", "VBAT"):   # C3, C4: 0805 25 V, keeps capacitance under DC bias
@@ -276,8 +278,10 @@ assert comps["D6"]["LCSC"] == "C496820"  # MHS110FRGBCT side-view RGB
 for r_, l_ in (("D1", "C965860"), ("D5", "C965863")):
     assert comps[r_]["LCSC"] == l_, r_
 expect("D6", 1, "+3V3")
-for pin, nm, val in ((4, "LED_R", "1kR"), (3, "LED_G", "1kR"), (2, "LED_B", "470R")):
+for pin, nm, val in ((4, "LED_R", "1kR"), (2, "LED_B", "470R")):
     find_part(nm, net("D6", pin), val)
+nc("D6", 3)    # green unused since rev 0.9: IO15 went to CHG_DIS
+assert "R33" not in comps, "R33 retired in rev 0.9"
 # no addressable LEDs
 for r, c in comps.items():
     if "WS2812" in c["value"].upper() or "SK6812" in c["value"].upper():

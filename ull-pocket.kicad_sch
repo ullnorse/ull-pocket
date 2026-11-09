@@ -8093,9 +8093,9 @@
 		)
 		(uuid "07b27e6c-9b38-558a-b4aa-529ae5d60271")
 	)
-	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN). IO15 drives\nLED_G (strap only if JTAG_SEL burned).\nR35: 100k to +3V3 on BARO_INT (open-drain)."
+	(text "PULL-UPS / PULL-DOWNS\nEPD_CS_N, EPD_RST_N: 100k to +3V3 keep the\npanel idle while the MCU sleeps.\nR24: 10k to +3V3 on IO9 (BOOT strap),\nalso the pull-up of SW3 (DN).\nR35: 100k to +3V3 on BARO_INT (open-drain).\nR36: 100k to GND on CHG_DIS (IO15 -> U6 /CE)\nkeeps charging on; IO15 strap needs JTAG_SEL."
 		(exclude_from_sim no)
-		(at 244.38 231.61 0)
+		(at 244.38 228.6 0)
 		(effects
 			(font
 				(size 1.65 1.65)
@@ -8207,7 +8207,7 @@
 		)
 		(uuid "48ad3633-679f-580d-9ad9-34c759501830")
 	)
-	(text "LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\nD5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\nD6 RGB, common anode to +3V3: R IO8 1k, G IO15 1k, B IO14 470R.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
+	(text "LEDS: XL-1606 side-view, bottom edge (1.1-1.5 mA)\nD5 green: VBUS-2k, (5.0-2.6)/2k = 1.2 mA.\n   Lit with USB present, 0 on battery.\nD1 red CHG: VSYS(4.4)-2k, Vf 1.8: 1.3 mA.\nD6 RGB, common anode to +3V3: R IO8 1k, B IO14 470R; G unused.\nSilkscreen: D5 PWR, D1 CHG, D6 USR.\nNo addressable LEDs: idle current."
 		(exclude_from_sim no)
 		(at 326.38 191.61 0)
 		(effects
@@ -8401,7 +8401,7 @@
 		)
 		(uuid "e4b4f331-9310-5611-8a7e-479a42a469cb")
 	)
-	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 LED_R (strap)\nIO14 LED_B\nIO15 LED_G\nIO9 BTN3_N (DN/BOOT)"
+	(text "LP GPIO (IO0-IO5 ext1 wake):\nIO0 BAT_ALRT_N\nIO1 USB_PGOOD_N\nIO2 BTN_N (UP)\nIO3 ACC_INT1\nIO4 BARO_INT\nIO5 BTN2_N (OK)\nIO6/7 LP_I2C\nIO8 LED_R (strap)\nIO14 LED_B\nIO15 CHG_DIS (U6 /CE)\nIO9 BTN3_N (DN/BOOT)"
 		(exclude_from_sim no)
 		(at 15.24 93.36 0)
 		(effects
@@ -8412,7 +8412,7 @@
 		)
 		(uuid "f0663de0-14b5-5ee9-9801-425eb6c311fc")
 	)
-	(text "Common anode on +3V3; GPIO low = on.\nR 1k ~1.5 mA, G 1k ~0.7 mA, B 470R ~1.5 mA\nIO8 high at reset (R16): red stays off,\nstrap unaffected. Silk: PWR, CHG, USR"
+	(text "Common anode on +3V3; GPIO low = on.\nR 1k ~1.5 mA, B 470R ~1.5 mA, G unused\nIO8 high at reset (R16): red stays off,\nstrap unaffected. Silk: PWR, CHG, USR"
 		(exclude_from_sim no)
 		(at 355.6 160.02 0)
 		(effects
@@ -8500,12 +8500,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1c9a6924-57a4-547a-9ee9-f3edd82ada46")
-	)
-	(junction
-		(at 129.54 45.72)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1ef76dd0-f0e3-5cd3-8656-fe8e74f3116f")
 	)
 	(junction
 		(at 339.09 109.22)
@@ -10960,16 +10954,6 @@
 			(type default)
 		)
 		(uuid "f75fa4f2-3c44-5ce4-9838-b087fe96e884")
-	)
-	(wire
-		(pts
-			(xy 132.08 45.72) (xy 129.54 45.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fa46d2ac-c8b1-5505-b1fd-48d1cfb5e9be")
 	)
 	(wire
 		(pts
@@ -29406,138 +29390,6 @@
 	)
 	(wire
 		(pts
-			(xy 378.46 144.78) (xy 381 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7789fb05-9f2b-4471-af61-0186087359cd")
-	)
-	(symbol
-		(lib_id "ull-pocket:R_Small_US")
-		(at 383.54 144.78 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e443db7f-a05b-43b1-af69-75f948d4928e")
-		(property "Reference" "R33"
-			(at 385.28 147.066 270)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1kR"
-			(at 385.28 148.844 270)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor 1k 1% 0402"
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "0402WGF1001TCE"
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C11702"
-			(at 383.54 144.78 270)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "c5c12bbe-80a8-4ced-a4a3-a2e9d732d7d3")
-		)
-		(pin "2"
-			(uuid "1c53909a-0848-4acd-922f-079a53763528")
-		)
-		(instances
-			(project "ull-pocket"
-				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
-					(reference "R33")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(label "LED_G"
-		(at 386.08 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "10becb2f-26d4-4592-a5c3-6d028b27452f")
-	)
-	(wire
-		(pts
 			(xy 378.46 152.4) (xy 381 152.4)
 		)
 		(stroke
@@ -29745,7 +29597,7 @@
 			)
 		)
 	)
-	(label "LED_G"
+	(label "CHG_DIS"
 		(at 55.88 137.16 180)
 		(effects
 			(font
@@ -29967,7 +29819,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "3ecc88b3-dd5c-4eeb-9796-7b526530a6c6")
+		(uuid "425e708b-f6a7-45da-8090-be74fc6bc3d6")
 		(property "Reference" "R35"
 			(at 279.654 122.301 0)
 			(show_name no)
@@ -30057,10 +29909,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "077447b7-6780-4e06-bb73-9bcf8d78df2b")
+			(uuid "f44b16ca-5d3a-489f-a1ea-2dec2eff8031")
 		)
 		(pin "2"
-			(uuid "879ac337-2e89-4828-b605-d3c3f14cedef")
+			(uuid "2d7d7b0f-2a81-4ea7-94b4-2626b179f01d")
 		)
 		(instances
 			(project "ull-pocket"
@@ -30079,7 +29931,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2c0ccfd3-f9f3-40ce-9a34-3e7f7448e142")
+		(uuid "d2aad26f-b0e3-4709-a895-736b82451c7e")
 	)
 	(symbol
 		(lib_id "ull-pocket:+3V3")
@@ -30091,7 +29943,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "ab4fb012-5686-4be8-9170-1d19a06290b3")
+		(uuid "573b039c-2051-4f1f-8f63-715febfb5091")
 		(property "Reference" "#PWR102"
 			(at 278.13 125.73 0)
 			(hide yes)
@@ -30147,7 +29999,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5c0cdb47-231a-428c-833c-abc1a23b40f5")
+			(uuid "6377dfbe-1fe2-4e0f-8993-761cf6211a92")
 		)
 		(instances
 			(project "ull-pocket"
@@ -30167,7 +30019,249 @@
 			)
 			(justify left top)
 		)
-		(uuid "ea2d3f80-d80b-4c2b-babc-5e5b7b4ab0ac")
+		(uuid "6f274ab6-e63e-4ffd-97e8-05f004bf841c")
+	)
+	(wire
+		(pts
+			(xy 132.08 45.72) (xy 124.46 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7aa1ff35-56a4-4f1f-acf3-57e8aea6cf10")
+	)
+	(wire
+		(pts
+			(xy 124.46 45.72) (xy 124.46 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7eeca72e-6bad-482b-82eb-9cb5d02c98d8")
+	)
+	(wire
+		(pts
+			(xy 124.46 53.34) (xy 116.84 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c037f79e-c20b-4a46-8d31-05f89212f3a6")
+	)
+	(junction
+		(at 124.46 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e6ae3230-144e-4a02-aeda-a426449ee340")
+	)
+	(label "CHG_DIS"
+		(at 116.84 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "44b5f0fd-59f4-4bcf-a8b7-f9b57f6dcbad")
+	)
+	(symbol
+		(lib_id "ull-pocket:R_Small_US")
+		(at 124.46 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a6374318-d7b4-49c6-bef1-6a2bdc6d0445")
+		(property "Reference" "R36"
+			(at 125.984 53.721 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100kR"
+			(at 125.984 55.499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor 100k 1% 0402"
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1003TCE"
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25741"
+			(at 124.46 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6e54b6f3-f345-456a-8564-63c4a7bcda36")
+		)
+		(pin "2"
+			(uuid "1131dbc9-0f70-430c-91e7-11580a6ea667")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "R36")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ull-pocket:GND")
+		(at 124.46 58.42 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e57187c7-1375-47a0-8487-d2c3c087c87d")
+		(property "Reference" "#PWR103"
+			(at 124.46 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 124.46 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 124.46 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 124.46 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1cd7943b-4087-43fa-b004-8c0a85622778")
+		)
+		(instances
+			(project "ull-pocket"
+				(path "/46ec7b9e-7ce4-471b-b2a3-117ade628de1"
+					(reference "#PWR103")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(no_connect
+		(at 378.46 144.78)
+		(uuid "efccfce6-d865-464d-ab4c-3acc8168c70e")
 	)
 	(sheet_instances
 		(path "/"

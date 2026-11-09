@@ -153,4 +153,4 @@ Not done:
 - VBUS from J1 to U6 IN moved from In2 (0.5 oz) to B.Cu (1 oz) at 0.5 mm; the C2-to-pin-13 stub is 0.5 mm where pin 14 allows.
 - Two more GND vias under U7 pin 2. C3/C4 are now 10 uF 25 V 0805 (C15850).
 - J2 + / - marks moved to the connector mouth; three back-silk texts under the display removed. Silkscreen carries no revision or date.
-- BQ24073 /CE stays on GND: every module GPIO is used, and the free UART0 pins (IO16/17) are the J4 recovery port.
+- BQ24073 /CE moves from GND to IO15 (net CHG_DIS, high pauses charging) with R36 100k pull-down; IO15 came from the green USR LED channel, so the USR LED is red and blue only. IO15 resets as an input with no pull (ESP32-C6 datasheet Table 2-1, p.17).

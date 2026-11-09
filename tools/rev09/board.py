@@ -8,6 +8,9 @@
 - C3/C4 at 0805 nudged out of U6's courtyard.
 - R35 BARO_INT pull-up next to the BARO_INT via, plus a GND via for the pour island it closes off.
 - Two more GND vias under U7, either side of the pin-2 via.
+- CHG_DIS: IO15 (was LED_G) drives U6 /CE (pin 4, was GND). The old LED_G run is reused from U1 down to y 115,
+  hops over LED_B on F.Cu, runs down the B.Cu channel between USB_PGOOD_N and LED_B into the VBUS loop and comes up
+  at pin 4. R36 100k pull-down sits under pin 4. R33 and the D6 green tracks go; D6 pad 3 is left unconnected.
 - J2 polarity marks at the connector mouth; back-silk texts under the display glass removed.
 """
 import os
@@ -153,6 +156,36 @@ B.via("GND", 115.0, 112.45)          # R35's tracks close off the U3/C12 GND pou
 for y in (128.9, 130.3):
     B.via("GND", 136.6, y, d=0.45, h=0.2)
     B.track("GND", [(136.6, 129.6), (136.6, y)], w=0.3)
+
+# ---------------------------------------------------------------- CHG_DIS: IO15 -> U6 /CE
+b.Remove(b.FindFootprintByReference("R33"))
+for seg in [((133.15, 142.31), (133.15, 142.9)), ((133.15, 142.9), (133.45, 143.2)), ((133.45, 143.2), (133.45, 143.5)),
+            ((134.45, 140.95), (133.15, 140.95)), ((133.15, 140.95), (133.15, 141.29)), ((134.45, 112.85), (134.45, 140.95))]:
+    B.drop_track(*seg[0], *seg[1])
+B.drop_via(134.45, 140.95)
+chg = netinfo("/CHG_DIS")
+for t in b.GetTracks():
+    if t.GetNetname() == "/LED_G":     # U1 pin 20 to its via and the B.Cu jog: kept, renamed
+        t.SetNet(chg)
+assert b.FindNet("/LED_G") is None or not [t for t in b.GetTracks() if t.GetNetname() == "/LED_G"]
+B.track("/CHG_DIS", [(134.45, 112.85), (134.45, 114.35), (133.6, 115.2)], layer=pcbnew.B_Cu)
+B.via("/CHG_DIS", 133.6, 115.2, d=0.45, h=0.2)
+B.track("/CHG_DIS", [(133.6, 115.2), (131.6, 115.2)])                     # F.Cu over LED_B
+B.via("/CHG_DIS", 131.6, 115.2, d=0.45, h=0.2)
+B.track("/CHG_DIS", [(131.6, 115.2), (131.6, 126.6), (130.99, 127.21), (130.99, 131.6), (129.6, 132.99), (129.6, 135.95)],
+        layer=pcbnew.B_Cu)
+# pin 4 leaves GND: its EP link and GND via go, a CHG_DIS via takes the via's place
+B.drop_track(129.537, 135.25, 130.4, 135.25)
+B.drop_track(129.537, 135.25, 129.537, 135.945)
+B.drop_via(129.5375, 135.945)
+B.via("/CHG_DIS", 129.6, 135.95, d=0.45, h=0.2)
+B.track("/CHG_DIS", [(129.537, 135.25), (129.6, 135.95)], w=0.2)
+B.fp("R36", 129.55, 137.7, 270)
+r36 = b.FindFootprintByReference("R36")
+q1, q2 = (r36.FindPadByNumber(n).GetPosition() for n in ("1", "2"))
+assert mm(q1.y) < mm(q2.y) and r36.FindPadByNumber("1").GetNetname() == "/CHG_DIS"
+B.track("/CHG_DIS", [(mm(q1.x), mm(q1.y)), (129.6, 135.95)], w=0.2)
+# pad 2 (GND) joins the F.Cu GND pour, as R5 pad 2 next to it does
 
 # ---------------------------------------------------------------- silk
 for d in list(b.GetDrawings()):
