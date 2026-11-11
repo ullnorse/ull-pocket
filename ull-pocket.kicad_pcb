@@ -23658,6 +23658,19 @@
 		)
 		(embedded_fonts no)
 	)
+	(gr_text "ullnorse"
+		(at 104.5 118.95 0)
+		(layer "F.SilkS")
+		(uuid "86f2eb61-a31e-4735-aa64-e8db570a944e")
+		(effects
+			(font
+				(face "Lato Heavy")
+				(size 1.45 1.45)
+				(thickness 0.2)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_circle
 		(center 102.8 141.3)
 		(end 104.5 141.3)
@@ -24083,15 +24096,15 @@
 			)
 		)
 	)
-	(gr_text "ull-pocket"
+	(gr_text "ullnorse"
 		(at 130.4 140.4 0)
 		(layer "B.SilkS")
 		(uuid "503e4947-62c4-4b0b-bc01-2122d4e3082b")
 		(effects
 			(font
-				(size 1.2 1.2)
-				(thickness 0.24)
-				(bold yes)
+				(face "Lato Heavy")
+				(size 1.7 1.7)
+				(thickness 0.2)
 			)
 			(justify mirror)
 		)
