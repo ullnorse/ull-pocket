@@ -1,4 +1,7 @@
-"""ull-pocket case, draft 1: front shell (display window, PCB bosses, button plungers, USB-C, LED
+"""SUPERSEDED: the case is now built by the FreeCAD scripts in mech/ (mech/front_shell.py etc.), which also
+fix the loose left battery stop. Kept for reference only.
+
+ull-pocket case, draft 1: front shell (display window, PCB bosses, button plungers, USB-C, LED
 windows, SHT40 vent, battery rails) + snap-on back cover + 3 button plungers.
 
 Coordinates follow docs/mechanical.md: x right, y down from the board's top-left corner (top view, F
