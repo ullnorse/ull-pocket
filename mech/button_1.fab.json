@@ -1,0 +1,19 @@
+{
+  "kind": "3dp",
+  "name": "Button 1",
+  "source": "button_1.step",
+  "qty": 1,
+  "order": false,
+  "options": {
+    "process": "mjf",
+    "material": "pa12",
+    "color": "black"
+  },
+  "features": {
+    "volume_cm3": 0.0204,
+    "area_cm2": 0.585,
+    "size_x_mm": 4.8,
+    "size_y_mm": 4.0,
+    "size_z_mm": 2.6
+  }
+}
