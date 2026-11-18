@@ -18,4 +18,4 @@ s += box(W - 0.15, W, Y0, Y1, 0, H, "0.85 0.75 0.4")                         # t
 s += box(-0.65, 0.65, Y1, Y1 + 0.05, 0, H, "0.85 0.9 0.95", 0.2)            # lens base
 s += box(-0.6, 0.6, Y1 + 0.05, L, 0.02, H - 0.02, "0.85 0.9 0.95", 0.2)       # lens
 s += box(0.30, 0.42, Y0 - 0.01, Y0, 0.05, H - 0.05, "0.2 0.8 0.3")             # cathode mark, back face
-open(os.path.join(os.path.dirname(__file__), "..", "lib", "ull-pocket.3dshapes", "LED_XL-1606_SideView.wrl"), "w").write(s)
+open(os.path.join(os.path.dirname(__file__), "..", "boards", "ull-pocket", "lib", "ull-pocket.3dshapes", "LED_XL-1606_SideView.wrl"), "w").write(s)

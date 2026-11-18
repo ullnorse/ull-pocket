@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from sexp import find, findall, parse, walk  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-LIB = os.path.join(ROOT, "lib", "ull-pocket.kicad_sym")
+LIB = os.path.join(ROOT, "boards", "ull-pocket", "lib", "ull-pocket.kicad_sym")
 EE = os.path.join(ROOT, "build", "ee", "ee.kicad_sym")
 FPSTD = "/usr/share/kicad/footprints"
 
@@ -63,7 +63,7 @@ def symbols(path):
 
 def fp_pads(fp):
     lib, name = fp.split(":")
-    base = os.path.join(ROOT, "lib", "ull-pocket.pretty") if lib == "ull-pocket" else os.path.join(FPSTD, lib + ".pretty")
+    base = os.path.join(ROOT, "boards", "ull-pocket", "lib", "ull-pocket.pretty") if lib == "ull-pocket" else os.path.join(FPSTD, lib + ".pretty")
     t = parse(open(os.path.join(base, name + ".kicad_mod")).read())
     return {str(p[1]) for p in findall(t, "pad") if str(p[1]) != ""}
 

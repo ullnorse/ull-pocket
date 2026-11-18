@@ -26,14 +26,15 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 | Path | Contents |
 |---|---|
-| `ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
-| `lib/` | Project symbols, footprints and 3D models |
-| `production/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.9-*`) and the assembly panel (`ull-pocket-r0.9-panel-*`, made by `tools/panelize.sh`) |
+| `boards/ull-pocket/ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
+| `boards/ull-pocket/lib/` | Project symbols, footprints and 3D models |
+| `mfg/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.9-*`) and the assembly panel (`ull-pocket-r0.9-panel-*`, made by `tools/panelize.sh`) |
+| `mech/` | Case draft (front shell, back cover, button plungers): FreeCAD scripts and STEP files |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
 | `docs/3d-models.md` | 3D models checked against the datasheets |
-| `production/ull-pocket-r0.9-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
+| `mfg/ull-pocket-r0.9-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
 | `docs/learn.html` | Interactive course: understand every part of the board, from zero |
 | `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
 | `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
@@ -44,7 +45,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs, made by `tools/panelize.sh` (needs KiKit). The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
 
-1. Upload `production/ull-pocket-r0.9-panel-gerbers.zip` to JLCPCB and set:
+1. Upload `mfg/ull-pocket-r0.9-panel-gerbers.zip` to JLCPCB and set:
    - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
    - surface finish **ENIG** (the LGA/QFN/DFN parts need a flat finish; HASL is the default)
    - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
@@ -52,7 +53,7 @@ Order the **panel**: one board with 5 mm rails on the left and right (tooling ho
    - panel by customer (1 board per panel), edge rails: none (already in the files)
 2. Enable PCB assembly (top side, **Standard PCBA**: U1, U3, U4 and the LEDs aren't offered on Economic) and upload `ull-pocket-r0.9-panel-bom.csv` and `ull-pocket-r0.9-panel-cpl.csv`.
 3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)."
-4. Check the part rotations in JLC's preview against `production/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
+4. Check the part rotations in JLC's preview against `mfg/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
 5. Buy separately: the e-paper panel (GDEY0154D67), a 103040 LiPo with a protection board and 1.25 mm plug (check that it mates with J2 and its polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
 6. Separate boards from the rails by cutting the tabs, not bending: U1's pads and the VBAT track are about 1 mm from the holes.
 7. Before first USB plug-in, check the cell's polarity. Q2 blocks a reversed cell on battery, but with USB in the charger slowly drains it through Q2.
@@ -105,32 +106,32 @@ or use **Code → Download ZIP** on GitHub and unzip it.
 
 ### 3. Open the project
 
-Open `ull-pocket.kicad_pro` (double-click it, or **File → Open Project** in KiCad). From the project window:
+Open `boards/ull-pocket/ull-pocket.kicad_pro` (double-click it, or **File → Open Project** in KiCad). From the project window:
 
 - **Schematic Editor** shows the schematic (one A3 sheet).
 - **PCB Editor** shows the board. **View → 3D Viewer** (Alt+3) shows the assembled board.
 
-No library setup is needed. The project's own symbols, footprints and 3D models are in `lib/` and are registered by the project-level `sym-lib-table` and `fp-lib-table` (paths are relative, via `${KIPRJMOD}`). Everything else comes from KiCad's standard libraries.
+No library setup is needed. The project's own symbols, footprints and 3D models are in `boards/ull-pocket/lib/` and are registered by the project-level `sym-lib-table` and `fp-lib-table` (paths are relative, via `${KIPRJMOD}`). Everything else comes from KiCad's standard libraries.
 
 Keep the folder structure intact: KiCad finds `lib/` relative to the `.kicad_pro` file. If footprints or 3D models show as missing, check **Preferences → Manage Footprint Libraries → Project Specific Libraries** lists `ull-pocket` and that the folder was not moved.
 
 ### 4. Editing
 
 - **Board:** edit freely in the PCB Editor. Run **Inspect → Design Rules Checker** before ordering. Custom rules are in `ull-pocket.kicad_dru` (side-LED edge clearance, e-paper high-voltage clearance, the thin traces on the SHT40 island, U6 thermal vias). Expect 3 harmless "footprint does not match library" warnings (C12, U1, J1) for parts edited on purpose.
-- **Schematic and symbols:** edit them in the Schematic Editor and Symbol Editor. The project's symbols are in `lib/ull-pocket.kicad_sym`.
+- **Schematic and symbols:** edit them in the Schematic Editor and Symbol Editor. The project's symbols are in `boards/ull-pocket/lib/ull-pocket.kicad_sym`.
 - After a schematic change, update the board with **Tools → Update PCB from Schematic** (F8) in the PCB Editor.
 
 ### 5. Regenerating production files
 
-In KiCad: **File → Fabrication Outputs** (Gerbers, drill files, component placement). The JLCPCB-formatted files in `production/` are made by scripts, on Linux with KiCad 10 and Python 3:
+In KiCad: **File → Fabrication Outputs** (Gerbers, drill files, component placement). The JLCPCB-formatted files in `mfg/` are made by scripts, on Linux with KiCad 10 and Python 3:
 
 ```sh
-sh tools/jlc_export.sh                     # Gerbers + drill files -> production/*-gerbers.zip
-python3 tools/jlc_cpl.py ull-pocket.kicad_pcb <easyeda-cache> production   # BOM + CPL with JLC rotations
+sh tools/jlc_export.sh                     # Gerbers + drill files -> mfg/*-gerbers.zip
+python3 tools/jlc_cpl.py boards/ull-pocket/ull-pocket.kicad_pcb <easyeda-cache> mfg   # BOM + CPL with JLC rotations
 sh tools/panelize.sh                       # assembly panel -> build/panel/ull-pocket-panel.kicad_pcb (pipx install kikit)
 sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.9-panel
-python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> production ull-pocket-r0.9-panel
-python3 tools/silk/assembly.py ull-pocket.kicad_pcb production/ull-pocket-r0.9-assembly.pdf
+python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> mfg ull-pocket-r0.9-panel
+python3 tools/silk/assembly.py boards/ull-pocket/ull-pocket.kicad_pcb mfg/ull-pocket-r0.9-assembly.pdf
 sh tools/check_sch.sh                      # ERC, netlist checks, pin/pad checks, schematic PDF + PNG
 sh tools/render3d.sh                       # 3D renders -> build/render3d/
 ```

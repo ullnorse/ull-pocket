@@ -15,7 +15,7 @@ from OCP.TopExp import TopExp_Explorer
 from OCP.TopAbs import TopAbs_FACE
 from OCP.TopoDS import TopoDS
 
-L = Path(__file__).resolve().parents[2] / "lib/ull-pocket.3dshapes"
+L = Path(__file__).resolve().parents[2] / "boards/ull-pocket/lib/ull-pocket.3dshapes"
 METAL = (0.62, 0.64, 0.66, 0.25, 0.25)
 PLASTIC = (0.07, 0.07, 0.08, 0.3, 0.3)
 PCB = (0.05, 0.06, 0.07, 0.3, 0.4)

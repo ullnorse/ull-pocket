@@ -6,10 +6,10 @@ KC=${KICAD_CLI:-kicad-cli}
 O=build/render3d
 T=$O/src
 rm -rf $O && mkdir -p $T
-cp ull-pocket.kicad_pro ull-pocket.kicad_dru fp-lib-table sym-lib-table $T/
-ln -s "$PWD/lib" $T/lib
+cp boards/ull-pocket/ull-pocket.kicad_pro boards/ull-pocket/ull-pocket.kicad_dru boards/ull-pocket/fp-lib-table boards/ull-pocket/sym-lib-table $T/
+ln -s "$PWD/boards/ull-pocket/lib" $T/lib
 # hide the models of the ASSY_* reference footprints
-python3 - ull-pocket.kicad_pcb $T/ull-pocket.kicad_pcb <<'PY'
+python3 - boards/ull-pocket/ull-pocket.kicad_pcb $T/ull-pocket.kicad_pcb <<'PY'
 import re, sys
 s = open(sys.argv[1]).read()
 out, i = [], 0

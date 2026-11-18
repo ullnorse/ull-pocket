@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")/.."
 KC=${KICAD_CLI:-kicad-cli}
-PCB=ull-pocket.kicad_pcb
+PCB=boards/ull-pocket/ull-pocket.kicad_pcb
 O=build/layout
 rm -rf $O && mkdir -p $O
 svg() { # name layers [extra]

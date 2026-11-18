@@ -9,7 +9,7 @@ import vtk
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 D = os.path.join(ROOT, "build", "case")
 BOARD = os.path.join(D, "board_full.stl")
-subprocess.run(["kicad-cli", "pcb", "export", "stl", "-f", "-o", BOARD, os.path.join(ROOT, "ull-pocket.kicad_pcb")],
+subprocess.run(["kicad-cli", "pcb", "export", "stl", "-f", "-o", BOARD, os.path.join(ROOT, "boards", "ull-pocket", "ull-pocket.kicad_pcb")],
                check=True, capture_output=True)
 
 

@@ -6,10 +6,10 @@ set -e
 cd "$(dirname "$0")/.."
 D=build/panel
 rm -rf $D && mkdir -p $D/src
-cp ull-pocket.kicad_pro ull-pocket.kicad_dru fp-lib-table sym-lib-table $D/src/
-ln -s "$PWD/lib" $D/src/lib
+cp boards/ull-pocket/ull-pocket.kicad_pro boards/ull-pocket/ull-pocket.kicad_dru boards/ull-pocket/fp-lib-table boards/ull-pocket/sym-lib-table $D/src/
+ln -s "$PWD/boards/ull-pocket/lib" $D/src/lib
 KIKIT_FP=$(dirname "$(readlink -f ~/.local/bin/kikit)")/../lib/python3*/site-packages/kikit/resources/kikit.pretty
-python3 - ull-pocket.kicad_pcb $D/src/ull-pocket.kicad_pcb $KIKIT_FP <<'PY'
+python3 - boards/ull-pocket/ull-pocket.kicad_pcb $D/src/ull-pocket.kicad_pcb $KIKIT_FP <<'PY'
 import sys, pcbnew
 b = pcbnew.LoadBoard(sys.argv[1])
 # Tab positions must match TABS in tools/route/tab_keepouts.py (no copper pour behind the mouse bites).
