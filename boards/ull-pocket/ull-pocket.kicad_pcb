@@ -9,8 +9,8 @@
 	(paper "A4")
 	(title_block
 		(title "ull-pocket: pocket environment meter")
-		(date "2026-11-03")
-		(rev "0.8")
+		(date "2026-11-19")
+		(rev "0.10")
 		(company "American Embedded")
 		(comment 1 "4-layer 1.6 mm, ENIG, JLCPCB PCBA (top side)")
 	)
@@ -766,7 +766,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "a2024c82-6280-49f7-8323-7042f1abe47a")
+			(uuid "97441399-4a90-4b50-8436-c026be0f0e97")
 			(effects
 				(font
 					(size 1 1)
@@ -779,19 +779,6 @@
 			(layer "F.SilkS")
 			(hide yes)
 			(uuid "05afe663-a031-49bb-94e2-bb35e9f4ea47")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Manufacturer" "Samsung Electro-Mechanics"
-			(at 0 0 270)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "97441399-4a90-4b50-8436-c026be0f0e97")
 			(effects
 				(font
 					(size 1 1)
@@ -8039,14 +8026,14 @@
 		(layer "F.Cu")
 		(uuid "44ee440c-6b45-47f2-a15e-b77c90128c11")
 		(transform
-			(translate 108.2 103.6)
+			(translate 108.2 104.5)
 			(rotate 0)
 			(scale 1 1)
 		)
 		(descr "Fiducial, circular marking, 1mm bare copper, 2mm soldermask opening (Level A)")
 		(tags "fiducial")
 		(property "Reference" "FID1"
-			(at 2.17 14.45 0)
+			(at 2.17 13.55 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "6d62c417-6e7e-45cb-b8f7-19f0f2807fed")
@@ -8058,7 +8045,7 @@
 			)
 		)
 		(property "Value" "Fiducial_1mm_Mask2mm"
-			(at 2.17 18.35 0)
+			(at 2.17 17.45 0)
 			(layer "F.Fab")
 			(uuid "ad67cb60-e5ed-497b-9198-e4ebc26c9783")
 			(effects
@@ -8069,7 +8056,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 2.17 16.4 0)
+			(at 2.17 15.5 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ff3c5a60-55a8-4c00-909d-88c302d57955")
@@ -8080,7 +8067,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 2.17 16.4 0)
+			(at 2.17 15.5 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d13bcf81-56a4-45d4-8c17-f4405828efc1")
@@ -8094,7 +8081,7 @@
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "f3c50388-be9d-4fe0-88b6-d03f3b785570")
+			(uuid "45c036aa-170e-41ef-aa77-6435edc97baf")
 			(effects
 				(font
 					(size 1 1)
@@ -8409,7 +8396,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "bf233d62-caba-4440-98d4-b352bfe65751")
+			(uuid "86808b3f-4f94-42b2-9cc9-42927466059a")
 			(effects
 				(font
 					(size 1 1)
@@ -8423,19 +8410,6 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "80776a95-93c8-4a24-9591-416ceffbc1d3")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "MPN" "ESP32-C6-MINI-1-N4"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "86808b3f-4f94-42b2-9cc9-42927466059a")
 			(effects
 				(font
 					(size 1 1)
@@ -19144,7 +19118,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "59b9979c-3cb2-4ac5-9361-3d0e4da653d5")
+			(uuid "c4b84b8e-b1ae-4a3e-870a-5454fafe0a71")
 			(effects
 				(font
 					(size 1 1)
@@ -19158,19 +19132,6 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ee6420e3-1fce-479d-b21c-6c7b33d43e36")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "MPN" "TYPE-C-31-M-12"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "c4b84b8e-b1ae-4a3e-870a-5454fafe0a71")
 			(effects
 				(font
 					(size 1 1)
