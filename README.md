@@ -26,15 +26,15 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 | Path | Contents |
 |---|---|
-| `boards/ull-pocket/ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
+| `boards/ull-pocket/ull-pocket.kicad_pro` | KiCad project (schematic + board), rev 0.10, saved by Backplane's KiCad |
 | `boards/ull-pocket/lib/` | Project symbols, footprints and 3D models |
-| `mfg/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.9-*`) and the assembly panel (`ull-pocket-r0.9-panel-*`) |
+| `mfg/` | Rev 0.9 fabrication outputs, kept for reference: single board (`ull-pocket-r0.9-*`) and the old assembly panel (`ull-pocket-r0.9-panel-*`). Rev 0.10 files are exported when the board is ordered |
 | `mech/` | Case draft (front shell, back cover, button plungers): FreeCAD scripts and STEP files |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
 | `docs/mechanical.md` | Outline, keep-outs, panel, battery and button positions for a case |
 | `docs/3d-models.md` | 3D models checked against the datasheets |
-| `mfg/ull-pocket-r0.9-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
+| `mfg/ull-pocket-r0.9-assembly.pdf` | Assembly drawing (rev 0.9, before the fiducials): every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
 | `docs/learn.html` | Interactive course: understand every part of the board, from zero |
 | `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
 
@@ -42,20 +42,24 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 
 ## Ordering
 
-Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs. The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
+The board is ordered through Backplane (the **Buy it** button), which exports the fabrication files from `boards/ull-pocket/` and gets the quote. Board options are in `boards/ull-pocket/ull-pocket.fab.json`: 4 layers, 1.6 mm, stackup JLC04161H-3313, **ENIG** (the LGA/QFN/DFN parts need a flat finish), green, vias down to 0.2 / 0.45 mm.
 
-1. Upload `mfg/ull-pocket-r0.9-panel-gerbers.zip` to JLCPCB and set:
-   - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
-   - surface finish **ENIG** (the LGA/QFN/DFN parts need a flat finish; HASL is the default)
-   - min via hole / diameter **0.2 / 0.45 mm**; via covering: tented
-   - order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen)
-   - panel by customer (1 board per panel), edge rails: none (already in the files)
-2. Enable PCB assembly (top side, **Standard PCBA**: U1, U3, U4 and the LEDs aren't offered on Economic) and upload `ull-pocket-r0.9-panel-bom.csv` and `ull-pocket-r0.9-panel-cpl.csv`.
-3. Add a remark: "Customer panel with left/right rails and mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)."
-4. Check the part rotations in JLC's preview against `mfg/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
-5. Buy separately: the e-paper panel (GDEY0154D67), a 103040 LiPo with a protection board and 1.25 mm plug (check that it mates with J2 and its polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
-6. Separate boards from the rails by cutting the tabs, not bending: U1's pads and the VBAT track are about 1 mm from the holes.
-7. Before first USB plug-in, check the cell's polarity. Q2 blocks a reversed cell on battery, but with USB in the charger slowly drains it through Q2.
+What the fab's assembly needs (JLCPCB's published capabilities and help pages, read 2026-11-19):
+
+- **Standard PCBA is required.** U1, U3, U4 and D1 are listed as Standard-only, and one such part moves the whole order to Standard.
+- **Standard PCBA takes boards or panels from 70 x 70 mm**, and needs edge rails and fiducials. This board is 40 x 44.5 mm. For a smaller board the fab adds 5 mm process rails on two sides by default (V-cut, delivered attached unless asked otherwise).
+- **Rails can only go on the left and right.** Parts overhang the other edges: ESP32 module antenna 5.4 mm (top), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom). The side buttons overhang the left edge by 0.2 mm. Copper is 0.3 mm from the left and right edges, under the 0.4 mm the fab asks for next to a V-cut, so rails joined with mouse-bite tabs are the safe choice.
+- **Fiducials** FID1-FID3 are on the board (1 mm copper, 2 mm opening). Rails need their own fiducials and tooling holes.
+
+So either order a customer panel that reaches 70 x 70 mm with left/right rails on mouse-bite tabs, or order the bare board with this remark and let the fab's engineers add the rails: "Rails on the left and right edges only, joined with mouse bites. Components overhang the board edge: ESP32 module antenna 5.4 mm (top edge), USB-C 0.6 mm, D1/D5 LEDs 0.4 mm and RGB D6 0.65 mm (bottom edge), side buttons 0.2 mm (left edge)." The rev 0.9 panel in `mfg/` (one board, 5 mm rails, about 54 x 44.5 mm) is under the 70 x 70 mm minimum.
+
+Also:
+
+1. Order number: **specify a position** (the `JLCJLCJLCJLC` text on the front silkscreen).
+2. Check the part rotations in the fab's preview against `mfg/rotation-check.md`, and D1/D5/D6 against `docs/3d-models.md` (lens toward the board edge, cathode on pad 1).
+3. Buy separately: the e-paper panel (GDEY0154D67), a 103040 LiPo with a protection board and 1.25 mm plug (check that it mates with J2 and its polarity: pin 2 = +), and a 3 mm thermal gap pad for TH1 (see `docs/mechanical.md`).
+4. Separate boards from the rails by cutting the tabs, not bending: U1's pads and the VBAT track are about 1 mm from the edge.
+5. Before first USB plug-in, check the cell's polarity. Q2 blocks a reversed cell on battery, but with USB in the charger slowly drains it through Q2.
 
 ## Programming
 
@@ -81,19 +85,11 @@ First-board charge test: compare TH1 with a thermocouple on the cell during a fu
 
 ## Opening in KiCad
 
-### 1. Install KiCad 10
+### 1. KiCad version
 
-Download KiCad 10.0 or newer from [kicad.org/download](https://www.kicad.org/download/) and use the default install, which includes the standard symbol, footprint and 3D-model libraries. KiCad 9 and older cannot open these files.
+From rev 0.10 the board and schematic are saved by Backplane's KiCad (10.99), in a file format newer than KiCad 10.0 writes. Open them from Backplane (**Open in KiCad**), or with a KiCad build at least as new. KiCad 10.0 and older report the files as made by a newer version.
 
-- **Windows / macOS:** run the installer.
-- **Ubuntu / Debian:**
-  ```sh
-  sudo add-apt-repository ppa:kicad/kicad-10.0-releases
-  sudo apt install kicad kicad-footprints kicad-symbols kicad-packages3d
-  ```
-  `kicad-packages3d` is needed for the 3D viewer.
-
-On the very first start KiCad asks how to configure the global library tables: choose **Copy default global library table**.
+The last revision in KiCad 10.0 format is rev 0.9: check out commit `9e9c569` to open it with a stock KiCad 10 install from [kicad.org/download](https://www.kicad.org/download/).
 
 ### 2. Get the files
 
