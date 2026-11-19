@@ -966,13 +966,16 @@
   "schematic": {
     "annotate_start_num": 0,
     "annotation": {
+      "increment_pasted_suffix": true,
       "method": 0,
+      "reused_sheet_suffixes": false,
       "sort_order": 0
     },
     "bom_export_filename": "${PROJECTNAME}.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
+      "include_byte_order_mark": false,
       "keep_line_breaks": false,
       "keep_tabs": false,
       "name": "CSV",
@@ -1069,6 +1072,7 @@
             "show": true
           }
         ],
+        "filter_scope": "reference",
         "filter_string": "",
         "group_symbols": true,
         "include_excluded_from_bom": true,
@@ -1164,6 +1168,7 @@
             "show": false
           }
         ],
+        "filter_scope": "reference",
         "filter_string": "",
         "group_symbols": true,
         "include_excluded_from_bom": true,
@@ -1260,6 +1265,7 @@
           "show": true
         }
       ],
+      "filter_scope": "reference",
       "filter_string": "",
       "group_symbols": true,
       "include_excluded_from_bom": true,
@@ -1268,6 +1274,20 @@
       "sort_field": "Value"
     },
     "bus_aliases": null,
+    "compare_symbols": {
+      "dnp_flags": false,
+      "exclude_from_board_flags": true,
+      "exclude_from_bom_flags": false,
+      "exclude_from_position_file_flags": true,
+      "extra_fields": false,
+      "field_positions": false,
+      "field_styles": false,
+      "field_texts": true,
+      "field_visibilities": false,
+      "missing_fields": true,
+      "pin_alt_function_definitions": true,
+      "pin_name_number_visibilities": false
+    },
     "connection_grid_size": 50.0,
     "drawing": {
       "dashed_lines_dash_length_ratio": 12.0,
@@ -1289,6 +1309,7 @@
       "operating_point_overlay_v_range": "~V",
       "overbar_offset_ratio": 1.23,
       "pin_symbol_size": 25.0,
+      "show_dnp_markers": true,
       "text_offset_ratio": 0.15
     },
     "legacy_lib_dir": "",
