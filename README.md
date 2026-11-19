@@ -28,7 +28,7 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 |---|---|
 | `boards/ull-pocket/ull-pocket.kicad_pro` | KiCad 10 project (schematic + board) |
 | `boards/ull-pocket/lib/` | Project symbols, footprints and 3D models |
-| `mfg/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.9-*`) and the assembly panel (`ull-pocket-r0.9-panel-*`, made by `tools/panelize.sh`) |
+| `mfg/` | JLCPCB Gerbers, BOM and CPL: single board (`ull-pocket-r0.9-*`) and the assembly panel (`ull-pocket-r0.9-panel-*`) |
 | `mech/` | Case draft (front shell, back cover, button plungers): FreeCAD scripts and STEP files |
 | `PARTS.md` | Parts list with LCSC numbers and design notes |
 | `DATASHEETS.md` | Datasheet links |
@@ -37,13 +37,12 @@ Board: 40 x 44.5 mm, 4 layers, 1.6 mm (JLC04161H-3313 stackup), all parts on the
 | `mfg/ull-pocket-r0.9-assembly.pdf` | Assembly drawing: every part with its reference. The silkscreen labels ICs, connectors, buttons, LEDs and test points only; look resistors and capacitors up here |
 | `docs/learn.html` | Interactive course: understand every part of the board, from zero |
 | `docs/best-practices.md` | Schematic, layout, DFM and silkscreen checklist with sources, and how this board was checked against it |
-| `tools/` | Checks and exports: ERC and netlist checks, JLC export, renders (`tools/archive/` holds the retired schematic generator) |
 
 ![Schematic](docs/img/schematic.png)
 
 ## Ordering
 
-Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs, made by `tools/panelize.sh` (needs KiKit). The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
+Order the **panel**: one board with 5 mm rails on the left and right (tooling holes and fiducials) and mouse-bite tabs. The rails are only left and right because parts overhang the top and bottom edges; JLC's own rails could collide with them.
 
 1. Upload `mfg/ull-pocket-r0.9-panel-gerbers.zip` to JLCPCB and set:
    - 4 layers, 1.6 mm, stackup JLC04161H-3313, impedance control not needed
@@ -123,20 +122,7 @@ Keep the folder structure intact: KiCad finds `lib/` relative to the `.kicad_pro
 
 ### 5. Regenerating production files
 
-In KiCad: **File → Fabrication Outputs** (Gerbers, drill files, component placement). The JLCPCB-formatted files in `mfg/` are made by scripts, on Linux with KiCad 10 and Python 3:
-
-```sh
-sh tools/jlc_export.sh                     # Gerbers + drill files -> mfg/*-gerbers.zip
-python3 tools/jlc_cpl.py boards/ull-pocket/ull-pocket.kicad_pcb <easyeda-cache> mfg   # BOM + CPL with JLC rotations
-sh tools/panelize.sh                       # assembly panel -> build/panel/ull-pocket-panel.kicad_pcb (pipx install kikit)
-sh tools/jlc_export.sh build/panel/ull-pocket-panel.kicad_pcb ull-pocket-r0.9-panel
-python3 tools/jlc_cpl.py build/panel/ull-pocket-panel.kicad_pcb <easyeda-cache> mfg ull-pocket-r0.9-panel
-python3 tools/silk/assembly.py boards/ull-pocket/ull-pocket.kicad_pcb mfg/ull-pocket-r0.9-assembly.pdf
-sh tools/check_sch.sh                      # ERC, netlist checks, pin/pad checks, schematic PDF + PNG
-sh tools/render3d.sh                       # 3D renders -> build/render3d/
-```
-
-`jlc_cpl.py` compares each footprint with JLC's own (EasyEDA) footprint to get placement rotations; fetch those once per LCSC part with `easyeda2kicad --footprint --lcsc_id=Cxxx --output=<easyeda-cache>/Cxxx/lib` (`pip install easyeda2kicad`). `check_sch.sh` also needs `rsvg-convert` (`sudo apt install librsvg2-bin`). `tools/check_net.py` encodes the intended connections; update it when you change the circuit on purpose.
+This project is developed with Backplane: its checks, exports and panelization produce the files in `mfg/`. Without it, KiCad's **File → Fabrication Outputs** makes Gerbers, drill files and the placement file.
 
 ## License
 

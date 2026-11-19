@@ -1,6 +1,6 @@
 """ull-pocket case: shared dimensions and helpers for the FreeCAD part scripts in mech/.
 
-Ported from tools/case/case.py (CadQuery, draft 1). Same names, same values, same frame:
+Ported from the retired CadQuery draft 1 (case.py). Same names, same values, same frame:
   x right and y down from the board's top-left corner (KiCad 100,100), top view on the F side;
   a board y maps to FreeCAD -y, exactly as case.py does, so every part sits in assembly position;
   z up from the PCB's B side (display side, z 0) towards the battery (F side at z 1.6).

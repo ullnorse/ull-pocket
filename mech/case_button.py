@@ -1,5 +1,5 @@
 """ull-pocket button plunger, shared by button_1.py, button_2.py and button_3.py.
-Port of tools/case/case.py plunger(); dimensions live in case_params.py.
+Port of the retired CadQuery draft (case.py) plunger(); dimensions live in case_params.py.
 """
 from case_params import *  # noqa: F401,F403
 import case_params as cp

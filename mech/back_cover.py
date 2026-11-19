@@ -1,6 +1,6 @@
 """ull-pocket back cover: snap-on lid with an inner lip, ridges that click into the shell's
 grooves, and relief slots so the lip flexes at the ridges.
-Port of tools/case/case.py back_cover(); dimensions live in case_params.py.
+Port of the retired CadQuery draft (case.py) back_cover(); dimensions live in case_params.py.
 Run: QT_QPA_PLATFORM=offscreen timeout 300 /snap/bin/freecad.cmd mech/back_cover.py
 """
 import os

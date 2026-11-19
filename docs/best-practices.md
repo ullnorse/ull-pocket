@@ -102,7 +102,7 @@ Tools:
 - Research: DRCY (multi-agent schematic review, fetches datasheets, checks pin by pin; on AllSpice Hub) https://www.themoonlight.io/review/drcy-agentic-hardware-design-reviews ; Pinscope (netlist+BOM+datasheet with deterministic checks); arXiv 2603.15672 / 2606.01188 (generate-execute-repair loop for schematics).
 
 Recommended workflow for this repo:
-1. Keep the design as text (KiCad S-expressions, scripts in tools/) under git; LLM edits are diffs you can review. Never let an LLM edit the board by clicking.
+1. Keep the design as text (KiCad S-expressions) under git; LLM edits are diffs you can review. Never let an LLM edit the board by clicking.
 2. Ground every claim in a local datasheet: datasheets/ + DATASHEETS.md. Prompt: "Quote the datasheet page/table that supports each pin, voltage, address, and value. If you can't quote it, say UNVERIFIED."
 3. Extract netlist (kicad-cli sch export netlist) and BOM to text; give the LLM netlist + datasheet and ask for a pin-by-pin table: pin, function per datasheet, net, verdict. This is the DRCY/Pinscope pattern.
 4. Separate roles: one pass generates, a second fresh-context pass reviews without seeing the first's reasoning. Anchoring on your hypothesis inflates agreement.

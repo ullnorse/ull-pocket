@@ -1,6 +1,6 @@
 """ull-pocket front shell: display window, PCB bosses and ledges, battery rails and stops,
 USB-C, LED windows, SHT40 vent, button plunger holes, snap grooves, pry notch.
-Port of tools/case/case.py front_shell(); dimensions live in case_params.py.
+Port of the retired CadQuery draft (case.py) front_shell(); dimensions live in case_params.py.
 Run: QT_QPA_PLATFORM=offscreen timeout 300 /snap/bin/freecad.cmd mech/front_shell.py
 """
 import os
