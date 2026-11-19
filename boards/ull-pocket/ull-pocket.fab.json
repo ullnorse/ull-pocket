@@ -1,0 +1,18 @@
+{
+  "kind": "pcb",
+  "name": "ull-pocket main board",
+  "source": "ull-pocket.kicad_pcb",
+  "qty": 5,
+  "options": {
+    "layers": 4,
+    "thickness_mm": 1.6,
+    "color": "green",
+    "finish": "enig",
+    "copper_oz": 1
+  },
+  "features": {
+    "width_mm": 40.0,
+    "height_mm": 44.5,
+    "min_drill_mm": 0.2
+  }
+}

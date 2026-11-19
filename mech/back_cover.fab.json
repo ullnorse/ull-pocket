@@ -1,0 +1,19 @@
+{
+  "kind": "3dp",
+  "name": "Back cover",
+  "source": "back_cover.step",
+  "qty": 1,
+  "order": false,
+  "options": {
+    "process": "mjf",
+    "material": "pa12",
+    "color": "black"
+  },
+  "features": {
+    "volume_cm3": 3.6262,
+    "area_cm2": 65.037,
+    "size_x_mm": 54.3,
+    "size_y_mm": 48.0,
+    "size_z_mm": 4.2
+  }
+}

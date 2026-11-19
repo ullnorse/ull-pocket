@@ -1,0 +1,19 @@
+{
+  "kind": "3dp",
+  "name": "Front shell",
+  "source": "front_shell.step",
+  "qty": 1,
+  "order": false,
+  "options": {
+    "process": "mjf",
+    "material": "pa12",
+    "color": "black"
+  },
+  "features": {
+    "volume_cm3": 8.6121,
+    "area_cm2": 114.363,
+    "size_x_mm": 54.3,
+    "size_y_mm": 48.0,
+    "size_z_mm": 19.0
+  }
+}
