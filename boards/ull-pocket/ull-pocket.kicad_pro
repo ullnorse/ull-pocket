@@ -392,7 +392,7 @@
       "mpn": "",
       "net_names": "",
       "ref_des": "",
-      "sch_revision": "",
+      "sch_revision": "0.8",
       "sections": ""
     },
     "layer_pairs": [],
@@ -1318,7 +1318,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "kicad-embed://AmericanEmbedded.kicad_wks",
+    "page_layout_descr_file": "",
     "plot_directory": "",
     "reuse_designators": true,
     "space_save_all_events": true,
@@ -1334,7 +1334,7 @@
       {
         "filename": "ull-pocket.kicad_sch",
         "name": "ull-pocket",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "46ec7b9e-7ce4-471b-b2a3-117ade628de1"
       }
     ],
     "used_designators": "",
@@ -1343,7 +1343,7 @@
   "sheets": [
     [
       "46ec7b9e-7ce4-471b-b2a3-117ade628de1",
-      "Root"
+      "ull-pocket"
     ]
   ],
   "text_variables": {},
