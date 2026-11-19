@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "ull-pocket: pocket environment meter")
-		(date "2026-11-03")
-		(rev "0.8")
+		(date "2026-11-19")
+		(rev "0.10")
 		(company "American Embedded")
 		(comment 1 "ESP32-C6, SHT40, BMP580, LIS2DW12, MAX17048, 1.54in e-paper")
 	)
