@@ -117,7 +117,7 @@ Keep the folder structure intact: KiCad finds `lib/` relative to the `.kicad_pro
 
 ### 4. Editing
 
-- **Board:** edit freely in the PCB Editor. Run **Inspect → Design Rules Checker** before ordering. Custom rules are in `ull-pocket.kicad_dru` (side-LED edge clearance, e-paper high-voltage clearance, the thin traces on the SHT40 island, U6 thermal vias). Expect 3 harmless "footprint does not match library" warnings (C12, U1, J1) for parts edited on purpose.
+- **Board:** edit freely in the PCB Editor. Run **Inspect → Design Rules Checker** before ordering. Custom rules are in `ull-pocket.kicad_dru` (side-LED edge clearance, e-paper high-voltage clearance, the thin traces on the SHT40 island, U6 thermal vias). DRC runs clean: the footprints edited on purpose (C12, U1, J1) live in the project library with an `_ull-pocket` suffix, and FID1-FID3 are board-only assembly fiducials.
 - **Schematic and symbols:** edit them in the Schematic Editor and Symbol Editor. The project's symbols are in `boards/ull-pocket/lib/ull-pocket.kicad_sym`.
 - After a schematic change, update the board with **Tools → Update PCB from Schematic** (F8) in the PCB Editor.
 
