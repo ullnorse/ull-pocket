@@ -6,6 +6,7 @@
 2. Every project symbol with a footprint: set of symbol pin numbers == set of
    footprint pad numbers (ignoring unnumbered NPTH pads).
 """
+import glob
 import os
 import re
 import sys
@@ -16,7 +17,9 @@ from sexp import find, findall, parse, walk  # noqa: E402
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 LIB = os.path.join(ROOT, "boards", "ull-pocket", "lib", "ull-pocket.kicad_sym")
 EE = os.path.join(ROOT, "build", "ee", "ee.kicad_sym")
-FPSTD = "/usr/share/kicad/footprints"
+# stock libraries: Backplane's bundled KiCad (newest), else a system install
+FPSTD = (sorted(glob.glob(os.path.expanduser("~/.backplane/hub/kicad/*/share/kicad/footprints")))
+         or ["/usr/share/kicad/footprints"])[-1]
 
 # project symbol -> easyeda symbol name
 EEMAP = {
