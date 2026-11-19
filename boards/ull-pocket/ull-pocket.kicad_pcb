@@ -8026,14 +8026,14 @@
 		(layer "F.Cu")
 		(uuid "44ee440c-6b45-47f2-a15e-b77c90128c11")
 		(transform
-			(translate 108.2 104.5)
+			(translate 108.2 103.6)
 			(rotate 0)
 			(scale 1 1)
 		)
 		(descr "Fiducial, circular marking, 1mm bare copper, 2mm soldermask opening (Level A)")
 		(tags "fiducial")
 		(property "Reference" "FID1"
-			(at 2.17 13.55 0)
+			(at 2.17 14.45 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "6d62c417-6e7e-45cb-b8f7-19f0f2807fed")
@@ -8045,7 +8045,7 @@
 			)
 		)
 		(property "Value" "Fiducial_1mm_Mask2mm"
-			(at 2.17 17.45 0)
+			(at 2.17 18.35 0)
 			(layer "F.Fab")
 			(uuid "ad67cb60-e5ed-497b-9198-e4ebc26c9783")
 			(effects
@@ -8056,7 +8056,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 2.17 15.5 0)
+			(at 2.17 16.4 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ff3c5a60-55a8-4c00-909d-88c302d57955")
@@ -8067,7 +8067,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 2.17 15.5 0)
+			(at 2.17 16.4 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d13bcf81-56a4-45d4-8c17-f4405828efc1")
@@ -8081,7 +8081,7 @@
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "45c036aa-170e-41ef-aa77-6435edc97baf")
+			(uuid "dce50b1f-f3a2-42f2-9b70-4a0994923b77")
 			(effects
 				(font
 					(size 1 1)
