@@ -12609,7 +12609,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL21A226MAQNNNE"
+		(property "MPN" "CL21A226MAYNNNE"
 			(at 124.46 104.14 0)
 			(hide yes)
 			(show_name no)
@@ -12631,7 +12631,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C45783"
+		(property "LCSC" "C602037"
 			(at 124.46 104.14 0)
 			(hide yes)
 			(show_name no)
