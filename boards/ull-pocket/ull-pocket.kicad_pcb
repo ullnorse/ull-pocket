@@ -704,7 +704,7 @@
 			)
 		)
 	)
-	(footprint "ull-pocket:C_0402_1005Metric_ull-pocket"
+	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "052ec220-fcec-4694-9e16-d9ee3a8a7361")
 		(transform
@@ -757,6 +757,18 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
+			(at 0 0 270)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "d161c42c-d978-4f74-81e8-0a186128ee70")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -826,7 +838,17 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "c4af54da-1ed8-43fa-9f2d-ae9c79d94bee")
+			(uuid "152e60a2-506f-447e-8ec8-83beadf5c4e3")
+		)
+		(fp_line
+			(start -0.107836 0.36)
+			(end 0.107836 0.36)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "604349b4-c09a-4bde-99e6-9c7bab5f7fd1")
 		)
 		(fp_rect
 			(start -0.91 0.46)
@@ -837,7 +859,7 @@
 			)
 			(fill no)
 			(layer "F.CrtYd")
-			(uuid "04b67289-c704-4d4b-8c05-39d4342d30e6")
+			(uuid "7ca82126-af22-4e62-baaa-9fb9abef9dcd")
 		)
 		(fp_rect
 			(start -0.5 0.25)
@@ -848,12 +870,12 @@
 			)
 			(fill no)
 			(layer "F.Fab")
-			(uuid "78386683-f811-459d-abfe-4fcdd018d5fa")
+			(uuid "0a218a34-b7f9-4990-be00-2d00d7121088")
 		)
 		(fp_text user "${REFERENCE}"
 			(at 0 0 270)
 			(layer "F.Fab")
-			(uuid "1cee36b5-6be0-4bf2-865a-9d40c25755de")
+			(uuid "49d997d3-876a-4aae-afad-a98578d4a93c")
 			(effects
 				(font
 					(size 0.25 0.25)
@@ -867,7 +889,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "+3V3")
-			(uuid "656338b3-dc50-4be2-89db-bb0c4442f2c7")
+			(uuid "51333fdf-c527-4a79-8b67-354f82649b69")
 		)
 		(pad "2" smd roundrect
 			(at 0.48 0 270)
@@ -875,7 +897,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "GND")
-			(uuid "ae1a0d82-306c-48b0-9e7b-a3f95328aa42")
+			(uuid "9e7ef308-ca50-418d-81bf-5c9037f1b492")
 		)
 		(embedded_fonts no)
 		(model "${KICAD10_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0402_1005Metric.step"
