@@ -765,7 +765,7 @@
 			(at 0 0 270)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "d161c42c-d978-4f74-81e8-0a186128ee70")
+			(uuid "05afe663-a031-49bb-94e2-bb35e9f4ea47")
 			(effects
 				(font
 					(size 1 1)
@@ -779,18 +779,6 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "97441399-4a90-4b50-8436-c026be0f0e97")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 270)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "05afe663-a031-49bb-94e2-bb35e9f4ea47")
 			(effects
 				(font
 					(size 1 1)
@@ -7002,6 +6990,19 @@
 				)
 			)
 		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2877a76f-1cf6-4299-a527-52451282c665")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
 			(at 0 0 180)
 			(layer "F.SilkS")
@@ -7027,7 +7028,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL21A226MAQNNNE"
+		(property "MPN" "CL21A226MAYNNNE"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7040,7 +7041,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C45783"
+		(property "LCSC" "C602037"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
