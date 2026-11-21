@@ -23523,7 +23523,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ull-pocket:C_0402_1005Metric_ull-pocket"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 265.43 109.22 0)
 			(hide yes)
 			(show_name no)
