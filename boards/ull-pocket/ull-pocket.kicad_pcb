@@ -195,6 +195,7 @@
 		(property "Reference" "D3"
 			(at -3.55 0 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "31f9b206-0599-44a0-987e-60a5de2d9048")
 			(effects
 				(font
@@ -911,6 +912,7 @@
 		(property "Reference" "U5"
 			(at 0.569401 2.125036 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "45337d41-f3bb-422d-b417-25becda8db2f")
 			(effects
 				(font
@@ -1945,6 +1947,7 @@
 		(property "Reference" "D4"
 			(at -1.425 2.01 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "9ab0731e-49cb-4691-86f3-adbd1796f014")
 			(effects
 				(font
@@ -2668,6 +2671,7 @@
 		(property "Reference" "Q2"
 			(at 0 2.56 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "e3af0cf2-e911-40ea-a36a-20c1f9e3e8b7")
 			(effects
 				(font
@@ -3220,7 +3224,7 @@
 			(layer "F.CrtYd")
 			(uuid "0005960d-5657-45dc-9033-2f0b430c21f2")
 		)
-		(fp_text user "${REFERENCE} VBUS"
+		(fp_text user "VBUS"
 			(at 0.019 -4.796001 90)
 			(layer "F.SilkS")
 			(uuid "97587974-bdb7-4996-82e2-b2e140ac7d48")
@@ -5199,7 +5203,7 @@
 			(layer "F.CrtYd")
 			(uuid "aa3171b1-00d5-4e1e-bfbc-750b091c09d1")
 		)
-		(fp_text user "${REFERENCE}\nVBAT"
+		(fp_text user "VBAT"
 			(at -0.95 0 0)
 			(layer "F.SilkS")
 			(uuid "1990cd39-1062-4b86-9022-e2f557d2039e")
@@ -5246,6 +5250,7 @@
 		(property "Reference" "U8"
 			(at -2.043 2.136 90)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "49922a66-aec3-42ea-b977-ec9f6216bb7c")
 			(effects
 				(font
@@ -5844,6 +5849,7 @@
 		(property "Reference" "U4"
 			(at -1.99 -2.39 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "a43eb770-986e-4c88-90f8-6c80bd7f6da9")
 			(effects
 				(font
@@ -8368,6 +8374,7 @@
 		(property "Reference" "U1"
 			(at -4.1 0 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "2b14246d-478e-4905-87eb-5906c413856d")
 			(effects
 				(font
@@ -10355,6 +10362,7 @@
 		(property "Reference" "TP2"
 			(at 2.487 -0.08 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "a6bb05b2-d775-4ca7-b238-d499a9bd8b92")
 			(effects
 				(font
@@ -10917,6 +10925,7 @@
 		(property "Reference" "Q1"
 			(at 1.475001 2.251667 90)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "a6a3942d-2d80-4164-b4ef-0d6ab9507234")
 			(effects
 				(font
@@ -12392,6 +12401,7 @@
 		(property "Reference" "U7"
 			(at 0 -2.56 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "e71b1c49-c864-4797-a5fe-72f68a0f8d74")
 			(effects
 				(font
@@ -13936,6 +13946,7 @@
 		(property "Reference" "U6"
 			(at -2.965 1.739 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "3dcec618-e9bf-4a7e-88e7-790db695a1be")
 			(effects
 				(font
@@ -15499,7 +15510,7 @@
 			(layer "F.CrtYd")
 			(uuid "5d6983f2-b8b9-49fb-9d28-27d01f6c90b1")
 		)
-		(fp_text user "${REFERENCE} GND"
+		(fp_text user "GND"
 			(at -0.198001 -1.681 0)
 			(layer "F.SilkS")
 			(uuid "52645ed7-35fb-46c6-a84d-89cc5428729c")
@@ -15876,7 +15887,7 @@
 			(layer "F.CrtYd")
 			(uuid "dbaeda6a-a5a1-47d4-8b88-faedfd0c5ea5")
 		)
-		(fp_text user "${REFERENCE}\n+3V3"
+		(fp_text user "+3V3"
 			(at -0.95 0 0)
 			(layer "F.SilkS")
 			(uuid "f27fbadf-b7cf-4278-a9b5-95b5de638935")
@@ -16404,6 +16415,7 @@
 		(property "Reference" "TH1"
 			(at -2.791 0.310001 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "3bc76478-63c8-47e3-a544-bbf2dd1b3452")
 			(effects
 				(font
@@ -19261,7 +19273,7 @@
 			(layer "F.Fab")
 			(uuid "8d137330-d6e4-4aad-aaba-86a267e61410")
 		)
-		(fp_text user "${REFERENCE}\nUSB-C"
+		(fp_text user "USB-C"
 			(at -7.4 -0.15 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -19694,6 +19706,7 @@
 		(property "Reference" "U3"
 			(at -2.73 0 270)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "177c0f54-7cd4-4d06-ac6e-611403660c98")
 			(effects
 				(font
@@ -20194,6 +20207,7 @@
 		(property "Reference" "L1"
 			(at 0.23 -2.98 0)
 			(layer "F.SilkS")
+			(hide yes)
 			(uuid "4af1d2ea-4ccf-4dae-8892-a7348dea05bc")
 			(effects
 				(font
@@ -23021,7 +23035,7 @@
 			(layer "F.CrtYd")
 			(uuid "d1c32b35-be0e-4292-a8bd-389e9b831a1c")
 		)
-		(fp_text user "${REFERENCE} EPD"
+		(fp_text user "EPD"
 			(at 0.028 4.801 90)
 			(layer "F.SilkS")
 			(uuid "2d5e2572-0fed-4509-9b35-0acbe92250ee")
@@ -24652,7 +24666,7 @@
 			)
 		)
 	)
-	(gr_text "J2 BAT"
+	(gr_text "BAT"
 		(at 105.4 100.95 0)
 		(layer "F.SilkS")
 		(uuid "eed0fc2c-8ce5-4ace-93bc-f3dc93dabae2")
