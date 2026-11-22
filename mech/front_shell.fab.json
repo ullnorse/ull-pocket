@@ -5,15 +5,15 @@
   "qty": 1,
   "order": false,
   "options": {
-    "process": "mjf",
-    "material": "pa12",
+    "process": "fdm",
+    "material": "pla",
     "color": "black"
   },
   "features": {
-    "volume_cm3": 8.6121,
-    "area_cm2": 114.363,
+    "volume_cm3": 8.5133,
+    "area_cm2": 110.177,
     "size_x_mm": 54.3,
-    "size_y_mm": 48.0,
+    "size_y_mm": 48.4,
     "size_z_mm": 19.0
   }
 }

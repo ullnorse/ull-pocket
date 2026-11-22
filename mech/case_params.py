@@ -38,18 +38,28 @@ LEDS = [(26.8, PCB_T + 0.3, 1.2, 1.2), (29.8, PCB_T + 0.3, 1.2, 1.2),  # D5, D1:
 VENT_X = (11.0, 17.0)                # SHT40 island, top wall, F side
 
 # ---- case --------------------------------------------------------------------------------------
-WALL, FRONT, BACK = 1.6, 1.8, 1.2
+# Sized for a home filament printer: 0.4 mm nozzle, 0.2 mm layers, PLA or PETG, no supports.
+# Print the front shell display-face down and the back cover outer-face down; buttons lie flat.
+WALL, FRONT, BACK = 1.6, 1.8, 1.6    # 4 perimeters; BACK takes the screw-head counterbore
 GAP_GLASS = 0.25                     # glass to bezel
-IN_X = (-3.2, 41.6)                  # J2 plug + lead pocket left, FPC bend right
+IN_X = (-3.6, 41.6)                  # J2 plug + lead pocket and cover-screw bosses left, FPC bend right
 IN_Y = (-5.7, 45.4)                  # antenna overhang 5.4 top, D6 dome 0.65 bottom
 Z_IN0 = -(DISPLAY["tape"] + DISPLAY["t"] + GAP_GLASS)                 # front wall inner face
 Z_IN1 = PCB_T + BATTERY["shelf"] + BATTERY["t"] + 0.2                 # back cover inner face
 Z_OUT0, Z_OUT1 = Z_IN0 - FRONT, Z_IN1 + BACK
 OUT_X = (IN_X[0] - WALL, IN_X[1] + WALL)
 OUT_Y = (IN_Y[0] - WALL, IN_Y[1] + WALL)
-R_OUT = 3.0
-CLR = 0.15                           # sliding fit
-LIP_T, LIP_H = 1.0, 3.0
+R_OUT = 4.0
+EDGE_CHAMFER = 0.8                   # 45 degree edge on both outer faces (a fillet on the bed curls)
+CLR = 0.25                           # sliding fit for a filament printer
+LIP_T, LIP_H = 0.8, 3.0              # 2 perimeters
+# cover fixing: two M2 x 6 self-tapping screws on the left, a hinge ridge in a groove on the right
+SCREWS = [(-1.9, -4.0), (-1.9, 43.7)]            # boss axes, in the left pocket's corners
+BOSS_D, PILOT_D, PILOT_DEPTH = 3.4, 1.7, 8.0
+SCREW_CLEAR_D, HEAD_D, HEAD_DEPTH = 2.3, 4.2, 0.8
+HINGE_Y = (10.0, 32.0)               # ridge centres along the right wall
+HINGE_HALF = 4.0                     # ridge half length; the groove is 0.5 longer each end
+BTN_HOLE = 0.3                       # gap round a button shaft in its wall hole
 
 # ---- colours (r, g, b 0..1) ----------------------------------------------------------------------
 HOUSING_COLOR = (0.20, 0.20, 0.22)   # dark grey printed plastic
@@ -96,6 +106,21 @@ def ybar(x0, x1, y0, y1, zc, h, r):
 def xbar(x0, x1, y0, y1, zc, h, r):
     b = box(x0, x1, y0, y1, zc - h / 2, zc + h / 2)
     return b.makeFillet(r, _parallel_edges(b, "x")) if r else b
+
+
+def prism_xz(pts, y0, y1):
+    """Polygon given as (x, z) points, extruded along board y from y0 to y1."""
+    v = [App.Vector(x, -y1, z) for x, z in pts]
+    face = Part.Face(Part.makePolygon(v + [v[0]]))
+    return face.extrude(App.Vector(0, y1 - y0, 0))
+
+
+def chamfer_face_edges(shape, side, d):
+    """45 degree chamfer on every edge of the planar face at the z extreme (prints clean on the bed)."""
+    zs = [f.CenterOfMass.z for f in shape.Faces]
+    z = min(zs) if side == "<Z" else max(zs)
+    face = [f for f in shape.Faces if abs(f.CenterOfMass.z - z) < TOL][0]
+    return shape.makeChamfer(d, face.Edges)
 
 
 def fillet_face_edges(shape, side, r):
@@ -147,7 +172,7 @@ def write_fab(name, title, shape):
     fab.update({"kind": "3dp", "name": fab.get("name", title), "source": name + ".step"})
     fab.setdefault("qty", 1)
     fab.setdefault("order", False)
-    fab.setdefault("options", {"process": "mjf", "material": "pa12", "color": "black"})
+    fab.setdefault("options", {"process": "fdm", "material": "pla", "color": "black"})
     fab["features"] = measure(shape)
     with open(path, "w") as f:
         json.dump(fab, f, indent=2)

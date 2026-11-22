@@ -1,6 +1,8 @@
-"""ull-pocket front shell: display window, PCB bosses and ledges, battery rails and stops,
-USB-C, LED windows, SHT40 vent, button plunger holes, snap grooves, pry notch.
-Port of the retired CadQuery draft (case.py) front_shell(); dimensions live in case_params.py.
+"""ull-pocket front shell: display window, PCB bosses and ledges, USB-C, LED windows, SHT40 vent,
+button holes, two cover-screw bosses on the left, hinge grooves on the right, pry notch.
+For a filament printer: print it display-face down, no supports. Everything inside rises from the
+floor or a wall; the battery sits in the back cover, so no rail hangs over the board and the
+board drops straight in. Dimensions live in case_params.py.
 Run: QT_QPA_PLATFORM=offscreen timeout 300 /snap/bin/freecad.cmd mech/front_shell.py
 """
 import os
@@ -16,7 +18,7 @@ NAME = "front_shell"
 
 
 def front_shell():
-    s = fillet_face_edges(rbox(*OUT_X, *OUT_Y, Z_OUT0, Z_IN1, R_OUT), "<Z", 1.0)
+    s = chamfer_face_edges(rbox(*OUT_X, *OUT_Y, Z_OUT0, Z_IN1, R_OUT), "<Z", EDGE_CHAMFER)
     s = s.cut(rbox(*IN_X, *IN_Y, Z_IN0, Z_IN1 + 1, R_OUT - WALL))
 
     # display window over the viewing area, 0.25 margin, chamfered outward
@@ -42,17 +44,11 @@ def front_shell():
     for x in (15.68, 24.32):
         s = s.cut(box(x - 1.1, x + 1.1, 36.8, 43.8, Z_IN0 - 0.8, Z_IN0 + 0.01))
 
-    # battery rails (left and right walls), top at the shelf height
-    zs = PCB_T + BATTERY["shelf"]
-    # the left rail starts under the -y stop so that stop is joined to the shell (it was a loose block)
-    s = s.fuse(box(IN_X[0], 1.0, BATTERY["y0"] - 1.3, BATTERY["y1"], zs - 1.0, zs))
-    s = s.fuse(box(39.0, IN_X[1], BATTERY["y0"], BATTERY["y1"], zs - 1.0, zs))
-    # stops so the cell can't slide off a rail or into J2; the lead pocket stays open at -x, y < 38
-    h, c = 4.0, 0.3
-    s = s.fuse(box(-c - 1.5, -c, 38.0, 43.0, zs, zs + h))                   # -x
-    s = s.fuse(box(BATTERY["x1"] + c, IN_X[1], 28.0, 43.0, zs, zs + h))     # +x, clear of the FPC bend
-    s = s.fuse(box(-c, 1.0, BATTERY["y0"] - c - 1.0, BATTERY["y0"] - c, zs - 1.0, zs + h))   # -y, left
-    s = s.fuse(box(39.0, IN_X[1], BATTERY["y0"] - c - 1.0, BATTERY["y0"] - c, zs - 1.0, zs + h))  # -y, right
+    # cover-screw bosses, floor to the cover's inner face, fused into the left corners
+    for x, y in SCREWS:
+        s = s.fuse(cyl(x, y, Z_IN0, Z_IN1, BOSS_D))
+        s = s.fuse(box(IN_X[0], x, y - BOSS_D / 2, y + BOSS_D / 2, Z_IN0, Z_IN1))
+        s = s.cut(cyl(x, y, Z_IN1 - PILOT_DEPTH, Z_IN1 + 0.01, PILOT_D))
 
     # USB-C: opening for the receptacle, recess outside for the plug overmold
     u = USB
@@ -61,19 +57,24 @@ def front_shell():
     s = s.cut(ybar(u["x"] - 5.5, u["x"] + 5.5, IN_Y[1] + 0.1, OUT_Y[1] + 1, u["z"], 6.6, 2.5))
     # LED windows
     for x, z, w, h in LEDS:
+        w, h = w + 0.4, h + 0.4          # small holes close up on a filament printer
         s = s.cut(ybar(x - w / 2, x + w / 2, IN_Y[1] - 1, OUT_Y[1] + 1, z, h, min(w, h) / 2 - 0.01))
     # SHT40 vent: slots in the top wall on the F side
-    for i in range(4):
-        x = VENT_X[0] + 0.6 + i * 1.6
-        s = s.cut(ybar(x, x + 0.8, OUT_Y[0] - 1, IN_Y[0] + 1, PCB_T + 1.9, 3.0, 0.39))
-    # button plunger holes
+    for i in range(3):
+        x = VENT_X[0] + 0.4 + i * 2.0
+        s = s.cut(ybar(x, x + 1.2, OUT_Y[0] - 1, IN_Y[0] + 1, PCB_T + 1.9, 3.0, 0.59))
+    # button holes: the shaft section plus BTN_HOLE all round
+    import case_button as cb
     for y in BUTTONS_Y:
-        s = s.cut(xbar(OUT_X[0] - 1, IN_X[0] + 1, y - 1.4, y + 1.4, BTN_Z, 2.0, 0.6))
+        s = s.cut(box(OUT_X[0] - 1, IN_X[0] + 1, y - cb.SHAFT_W / 2 - BTN_HOLE, y + cb.SHAFT_W / 2 + BTN_HOLE,
+                      cb.Z0 - BTN_HOLE, cb.Z0 + cb.SHAFT_H + BTN_HOLE))
 
-    # snap grooves for the back cover's lip ridges (left and right walls)
-    for y in (10.0, 32.0):
-        for x0, x1 in ((IN_X[0] - 0.4, IN_X[0] + 0.1), (IN_X[1] - 0.1, IN_X[1] + 0.4)):
-            s = s.cut(box(x0, x1, y - 4.0, y + 4.0, Z_IN1 - 2.2, Z_IN1 - 1.4))
+    # hinge grooves in the right wall for the cover's ridges; the ceiling slopes 45 degrees so it prints
+    zr = Z_IN1 - 1.8
+    for y in HINGE_Y:
+        s = s.cut(prism_xz([(IN_X[1] - 0.05, zr - 0.6), (IN_X[1] + 0.55, zr - 0.6),
+                            (IN_X[1] + 0.55, zr + 0.05), (IN_X[1] - 0.05, zr + 0.65)],
+                           y - HINGE_HALF - 0.5, y + HINGE_HALF + 0.5))
     # pry notch at the bottom edge
     s = s.cut(box(30.0, 36.0, OUT_Y[1] - 0.8, OUT_Y[1] + 1, Z_IN1 - 0.8, Z_IN1 + 1))
     return clean(s)
