@@ -1,8 +1,11 @@
-"""ull-pocket back cover: screws down on the left, hinges on a ridge in the shell's right wall.
+"""ull-pocket back cover: snaps on, no screws. Ridges on its lip click into grooves in the
+shell's left and right walls; the walls bow out to let them pass.
 For a filament printer: print it outer-face down, no supports. The battery is stuck to the
 inside with double-sided tape, between the lip and two locating ribs, so it hangs 3.5 mm above
 the board's parts. Dimensions live in case_params.py.
-Fit it: hook the right edge's ridges into the shell's grooves, swing the left edge down, two screws.
+A finger reaches down to the board's bare top edge and keeps the board seated on its pegs.
+Fit it: press it straight on until both sides click. Open it with a fingernail or a coin in the
+notch at the bottom edge.
 Run: QT_QPA_PLATFORM=offscreen timeout 300 /snap/bin/freecad.cmd mech/back_cover.py
 """
 import os
@@ -24,26 +27,23 @@ def back_cover():
     lip = rbox(*lx, *ly, Z_IN1 - LIP_H, Z_IN1, R_OUT - WALL - CLR)
     lip = lip.cut(rbox(lx[0] + LIP_T, lx[1] - LIP_T, ly[0] + LIP_T, ly[1] - LIP_T,
                        Z_IN1 - LIP_H - 1, Z_IN1 + 0.01, R_OUT - WALL - CLR - LIP_T))
-    # the lip stops short of the shell's screw bosses
-    for x, y in SCREWS:
-        lip = lip.cut(box(IN_X[0] - 1, x + BOSS_D / 2 + 0.4, y - BOSS_D / 2 - 0.4, y + BOSS_D / 2 + 0.4,
-                          Z_IN1 - LIP_H - 1, Z_IN1))
     c = c.fuse(lip)
-    # hinge ridges on the right lip; the face towards the bed slopes 45 degrees so it prints
+    # snap ridges on the left and right lip: the face towards the bed slopes 45 degrees so it
+    # prints, the leading face is a long ramp so the cover presses on easily
     zr = Z_IN1 - 1.8
-    for y in HINGE_Y:
-        c = c.fuse(prism_xz([(lx[1] - 0.01, zr + 0.75), (lx[1] + 0.65, zr + 0.1),
-                             (lx[1] + 0.65, zr - 0.2), (lx[1] - 0.01, zr - 0.5)],
-                            y - HINGE_HALF, y + HINGE_HALF))
+    for y in SNAP_Y:
+        for xl, d in ((lx[1], 1), (lx[0], -1)):
+            c = c.fuse(prism_xz([(xl - 0.01 * d, zr + SNAP_IN + 0.1), (xl + SNAP_IN * d, zr + 0.1),
+                                 (xl + SNAP_IN * d, zr - 0.2), (xl - 0.01 * d, zr - 0.2 - SNAP_IN)],
+                                y - SNAP_HALF, y + SNAP_HALF))
+    # hold-down finger onto the board's bare top edge (clear of R27 and C8), 0.15 above the board
+    hx0, hx1, hy0, hy1 = HOLD
+    c = c.fuse(box(hx0, hx1, hy0, hy1, PCB_T + 0.15, Z_IN1))
     # battery locating ribs: the lip stops the cell at +x and +y, these at -x and -y.
     # The -x rib leaves y 14..33 open for the cell's leads on their way to J2.
     b = BATTERY
     c = c.fuse(box(-1.6, -0.4, 34.0, 42.0, Z_IN1 - RIB_H, Z_IN1))
     c = c.fuse(box(8.0, 32.0, b["y0"] - 1.6, b["y0"] - 0.4, Z_IN1 - RIB_H, Z_IN1))
-    # screw holes with a counterbore for the head
-    for x, y in SCREWS:
-        c = c.cut(cyl(x, y, Z_IN1 - 0.01, Z_OUT1 + 0.01, SCREW_CLEAR_D))
-        c = c.cut(cyl(x, y, Z_OUT1 - HEAD_DEPTH, Z_OUT1 + 0.01, HEAD_D))
     return clean(c)
 
 

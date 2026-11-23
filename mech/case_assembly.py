@@ -64,7 +64,7 @@ def check_holes(board, shell, log):
                 and abs(f.Surface.Radius - 1.1) < 0.01
                 and (App.Vector(f.Surface.Center.x, f.Surface.Center.y, 0) - want).Length < 0.5]
         boss = [f for f in shell.Faces if f.Surface.TypeId == "Part::GeomCylinder"
-                and abs(f.Surface.Radius - 1.7) < 0.01
+                and abs(f.Surface.Radius - 1.7) < 0.01 and f.BoundBox.ZMax < 0.01
                 and (App.Vector(f.Surface.Center.x, f.Surface.Center.y, 0) - want).Length < 0.5]
         if not hole or not boss:
             log.write("holes: (%.1f, %.1f) hole found %d, boss found %d\n" % (x, y, len(hole), len(boss)))
@@ -110,12 +110,7 @@ def build(log):
     cover = Part.read(os.path.join(cp.MECH, "back_cover.step"))
     for nm, s in (("front_shell", shell), ("back_cover", cover)):
         log.write("interference board/%s: %.4f mm3\n" % (nm, board_shape.common(s).Volume))
-    # the cover's screw holes must sit on the shell's screw bosses, and the parts must not overlap
     log.write("interference front_shell/back_cover: %.4f mm3\n" % shell.common(cover).Volume)
-    for x, y in cp.SCREWS:
-        log.write("cover screw (%.1f, %.1f): boss %s, cover hole %s\n" % (
-            x, y, not shell.isInside(App.Vector(x, -y, cp.Z_IN1 - 1), 1e-6, True),
-            not cover.isInside(App.Vector(x, -y, cp.Z_IN1 + 0.5), 1e-6, True)))
     tops = [o for o in doc.Objects if not o.InList]
     cp.save_doc(doc, os.path.join(cp.MECH, NAME + ".FCStd"))
     ImportGui.export(tops, os.path.join(cp.MECH, NAME + ".step"))

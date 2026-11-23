@@ -1,5 +1,6 @@
 """ull-pocket front shell: display window, PCB bosses and ledges, USB-C, LED windows, SHT40 vent,
-button holes, two cover-screw bosses on the left, hinge grooves on the right, pry notch.
+button holes, snap grooves in the left and right walls, pry notch. No screws: the board sits
+on two pegs through its mounting holes and the cover snaps on.
 For a filament printer: print it display-face down, no supports. Everything inside rises from the
 floor or a wall; the battery sits in the back cover, so no rail hangs over the board and the
 board drops straight in. Dimensions live in case_params.py.
@@ -31,10 +32,11 @@ def front_shell():
                         True, True)
     s = s.cut(win)
 
-    # PCB supports up to the B side (z 0): bosses with M2 pilot holes, ledges on bare edges
+    # PCB supports up to the B side (z 0): bosses carrying a locating peg, ledges on bare edges
     for x, y in HOLES:
         s = s.fuse(cyl(x, y, Z_IN0, 0, 3.4))
-        s = s.cut(cyl(x, y, Z_OUT0 + 0.5, 0.01, 1.6))
+        s = s.fuse(cyl(x, y, 0, PCB_T + PEG_H - 0.5, PEG_D))
+        s = s.fuse(Part.makeCone(PEG_D / 2, PEG_D / 2 - 0.5, 0.5, App.Vector(x, -y, PCB_T + PEG_H - 0.5)))
     s = s.fuse(box(IN_X[0], 1.2, 0.0, 2.2, Z_IN0, 0))                      # top-left, clear of the moat
     s = s.fuse(box(IN_X[0], 1.2, 37.5, 44.5, Z_IN0, 0))                    # left chin
     s = s.fuse(box(18.5, 26.0, -0.01, 1.0, Z_IN0, 0))                      # top edge, clear of J4 pads
@@ -43,12 +45,6 @@ def front_shell():
     # J1 shell-leg solder tails poke through the B side
     for x in (15.68, 24.32):
         s = s.cut(box(x - 1.1, x + 1.1, 36.8, 43.8, Z_IN0 - 0.8, Z_IN0 + 0.01))
-
-    # cover-screw bosses, floor to the cover's inner face, fused into the left corners
-    for x, y in SCREWS:
-        s = s.fuse(cyl(x, y, Z_IN0, Z_IN1, BOSS_D))
-        s = s.fuse(box(IN_X[0], x, y - BOSS_D / 2, y + BOSS_D / 2, Z_IN0, Z_IN1))
-        s = s.cut(cyl(x, y, Z_IN1 - PILOT_DEPTH, Z_IN1 + 0.01, PILOT_D))
 
     # USB-C: opening for the receptacle, recess outside for the plug overmold
     u = USB
@@ -69,12 +65,14 @@ def front_shell():
         s = s.cut(box(OUT_X[0] - 1, IN_X[0] + 1, y - cb.SHAFT_W / 2 - BTN_HOLE, y + cb.SHAFT_W / 2 + BTN_HOLE,
                       cb.Z0 - BTN_HOLE, cb.Z0 + cb.SHAFT_H + BTN_HOLE))
 
-    # hinge grooves in the right wall for the cover's ridges; the ceiling slopes 45 degrees so it prints
+    # snap grooves in the left and right walls for the cover's ridges; the ceiling slopes 45 degrees
+    # so it prints
     zr = Z_IN1 - 1.8
-    for y in HINGE_Y:
-        s = s.cut(prism_xz([(IN_X[1] - 0.05, zr - 0.6), (IN_X[1] + 0.55, zr - 0.6),
-                            (IN_X[1] + 0.55, zr + 0.05), (IN_X[1] - 0.05, zr + 0.65)],
-                           y - HINGE_HALF - 0.5, y + HINGE_HALF + 0.5))
+    for y in SNAP_Y:
+        for xw, d in ((IN_X[1], 1), (IN_X[0], -1)):
+            s = s.cut(prism_xz([(xw - 0.05 * d, zr - 0.6), (xw + 0.55 * d, zr - 0.6),
+                                (xw + 0.55 * d, zr + 0.05), (xw - 0.05 * d, zr + 0.65)],
+                               y - SNAP_HALF - 0.5, y + SNAP_HALF + 0.5))
     # pry notch at the bottom edge
     s = s.cut(box(30.0, 36.0, OUT_Y[1] - 0.8, OUT_Y[1] + 1, Z_IN1 - 0.8, Z_IN1 + 1))
     return clean(s)

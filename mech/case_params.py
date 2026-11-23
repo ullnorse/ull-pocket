@@ -40,9 +40,9 @@ VENT_X = (11.0, 17.0)                # SHT40 island, top wall, F side
 # ---- case --------------------------------------------------------------------------------------
 # Sized for a home filament printer: 0.4 mm nozzle, 0.2 mm layers, PLA or PETG, no supports.
 # Print the front shell display-face down and the back cover outer-face down; buttons lie flat.
-WALL, FRONT, BACK = 1.6, 1.8, 1.6    # 4 perimeters; BACK takes the screw-head counterbore
+WALL, FRONT, BACK = 1.6, 1.8, 1.2    # 4 perimeters in the walls
 GAP_GLASS = 0.25                     # glass to bezel
-IN_X = (-3.6, 41.6)                  # J2 plug + lead pocket and cover-screw bosses left, FPC bend right
+IN_X = (-3.6, 41.6)                  # J2 plug + lead pocket left, FPC bend right
 IN_Y = (-5.7, 45.4)                  # antenna overhang 5.4 top, D6 dome 0.65 bottom
 Z_IN0 = -(DISPLAY["tape"] + DISPLAY["t"] + GAP_GLASS)                 # front wall inner face
 Z_IN1 = PCB_T + BATTERY["shelf"] + BATTERY["t"] + 0.2                 # back cover inner face
@@ -53,12 +53,14 @@ R_OUT = 4.0
 EDGE_CHAMFER = 0.8                   # 45 degree edge on both outer faces (a fillet on the bed curls)
 CLR = 0.25                           # sliding fit for a filament printer
 LIP_T, LIP_H = 0.8, 3.0              # 2 perimeters
-# cover fixing: two M2 x 6 self-tapping screws on the left, a hinge ridge in a groove on the right
-SCREWS = [(-1.9, -4.0), (-1.9, 43.7)]            # boss axes, in the left pocket's corners
-BOSS_D, PILOT_D, PILOT_DEPTH = 3.4, 1.7, 8.0
-SCREW_CLEAR_D, HEAD_D, HEAD_DEPTH = 2.3, 4.2, 0.8
-HINGE_Y = (10.0, 32.0)               # ridge centres along the right wall
-HINGE_HALF = 4.0                     # ridge half length; the groove is 0.5 longer each end
+# No screws anywhere. The cover snaps on: ridges on its lip click into grooves in the left and
+# right walls, and the walls themselves are the spring (they bow out about 0.4 mm), so nothing
+# thin has to bend. The board sits on two pegs through its mounting holes.
+SNAP_Y = (10.0, 32.0)                # ridge centres along the left and right walls
+SNAP_HALF = 4.0                      # ridge half length; the groove is 0.5 longer each end
+SNAP_IN = 0.65                       # ridge height off the lip: 0.4 into the groove after CLR
+PEG_D, PEG_H = 2.0, 1.2              # board locating pegs in the 2.2 mm holes, height above the F side
+HOLD = (18.0, 20.6, 0.3, 1.9)        # cover finger onto the board's bare top edge: x0, x1, y0, y1
 BTN_HOLE = 0.3                       # gap round a button shaft in its wall hole
 
 # ---- colours (r, g, b 0..1) ----------------------------------------------------------------------
