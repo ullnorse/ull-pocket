@@ -9,3 +9,4 @@ _autosave-*
 __pycache__/
 .history/
 datasheets/
+firmware/target/

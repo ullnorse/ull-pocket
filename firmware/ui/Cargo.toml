@@ -1,0 +1,16 @@
+[package]
+name = "pocket-ui"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "ull-pocket screens drawn into a 200x200 1-bit frame buffer. no_std."
+
+[lints]
+workspace = true
+
+[dependencies]
+embedded-graphics.workspace = true
+heapless.workspace = true
+pocket-logic = { path = "../logic" }
+u8g2-fonts.workspace = true
